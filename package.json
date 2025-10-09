@@ -1,0 +1,45 @@
+{
+    "$schema": "https://json.schemastore.org/package.json",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "prepare": "husky install",
+        "lint": "eslint resources/js --ext .js,.vue",
+        "format": "prettier --write \"resources/**/*.{js,vue,json}\""
+    },
+    "lint-staged": {
+        "*.php": [
+            "./vendor/bin/pint"
+        ],
+        "*.{js,vue}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md}": [
+            "prettier --write"
+        ]
+    },
+    "devDependencies": {
+        "@inertiajs/vue3": "^2.0.0",
+        "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/vite": "^4.0.0",
+        "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/eslint-config-prettier": "^10.2.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.11.0",
+        "concurrently": "^9.0.1",
+        "eslint": "^9.37.0",
+        "eslint-plugin-vue": "^10.5.0",
+        "husky": "^9.1.7",
+        "laravel-vite-plugin": "^2.0.0",
+        "lint-staged": "^16.2.3",
+        "postcss": "^8.4.31",
+        "prettier": "^3.6.2",
+        "tailwindcss": "^3.2.1",
+        "vite": "^7.0.7",
+        "vue": "^3.4.0",
+        "vue-eslint-parser": "^10.2.0"
+    }
+}
