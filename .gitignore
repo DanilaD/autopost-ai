@@ -1,0 +1,86 @@
+# Environment & Configuration
+.env
+.env.*
+!.env.example
+!.env.testing
+.phpactor.json
+/auth.json
+
+# Dependencies
+/node_modules
+/vendor
+
+# Build Artifacts
+/public/build
+/public/hot
+/public/storage
+
+# Storage & Cache
+*.log
+/storage/*.key
+/storage/pail
+/storage/framework/cache/**
+/storage/framework/sessions/**
+/storage/framework/testing/**
+/storage/framework/views/*.php
+/storage/logs/*.log
+
+# Database
+/database/*.sqlite
+/database/*.sqlite-journal
+*.sqlite
+*.sqlite-journal
+
+# Testing & Coverage
+.phpunit.result.cache
+/.phpunit.cache
+/coverage
+/.pest
+
+# Linting & Formatting
+.eslintcache
+.prettier-cache
+
+# IDE & Editors
+/.fleet
+/.idea
+/.nova
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/extensions.json
+/.zed
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Docker & Sail
+docker-compose.override.yml
+/.sail
+
+# Laravel Specific
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# Package Managers (keep lock files, ignore others)
+.pnpm-debug.log
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Stripe/Cashier (test mode keys in .env only)
+# No specific files, but documented here
+
+# Misc
+.ackrc
+.vimrc
