@@ -41,5 +41,8 @@
         "vite": "^7.0.7",
         "vue": "^3.4.0",
         "vue-eslint-parser": "^10.2.0"
+    },
+    "dependencies": {
+        "vue-i18n": "^9.14.5"
     }
 }
