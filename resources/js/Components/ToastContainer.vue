@@ -7,7 +7,7 @@ const { toasts, removeToast } = useToast()
 
 <template>
     <!-- Toast Container -->
-    <div class="fixed top-0 right-0 z-50 p-4 pointer-events-none">
+    <div class="fixed top-0 right-0 z-[9999] p-4 pointer-events-none">
         <div class="space-y-3 pointer-events-auto">
             <Toast
                 v-for="toast in toasts"
