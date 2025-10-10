@@ -4,7 +4,7 @@ import { Head, usePage, Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { t, tm } = useI18n()
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
@@ -18,17 +18,17 @@ const greeting = computed(() => {
 
 // Get a random welcome message from the array
 // Uses Math.random() to select a different message each time the component loads
+// tm() returns the raw translation message (array in this case), while t() returns formatted string
 const welcomeMessage = computed(() => {
-    const messages = t('dashboard.welcome_messages')
+    const messages = tm('dashboard.welcome_messages')
+
     if (Array.isArray(messages) && messages.length > 0) {
         const randomIndex = Math.floor(Math.random() * messages.length)
         return messages[randomIndex]
     }
+
     // Fallback to first message if something goes wrong
-    return (
-        messages[0] ||
-        "Welcome to Autopost AI. Let's make something amazing today."
-    )
+    return "Welcome to Autopost AI. Let's make something amazing today."
 })
 </script>
 
