@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -73,5 +74,21 @@ class Company extends Model
         $pivot = $this->users()->where('user_id', $user->id)->first()?->pivot;
 
         return $pivot?->role;
+    }
+
+    /**
+     * Get all Instagram accounts for the company.
+     */
+    public function instagramAccounts(): HasMany
+    {
+        return $this->hasMany(InstagramAccount::class);
+    }
+
+    /**
+     * Get active Instagram accounts for the company.
+     */
+    public function activeInstagramAccounts(): HasMany
+    {
+        return $this->hasMany(InstagramAccount::class)->where('status', 'active');
     }
 }
