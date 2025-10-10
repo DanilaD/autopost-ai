@@ -11,4 +11,5 @@ return [
     'password' => 'Password',
     'remember_me' => 'Remember me',
     'forgot_password' => 'Forgot your password?',
+    'secure_auth' => 'Secure authentication powered by Autopost AI',
 ];

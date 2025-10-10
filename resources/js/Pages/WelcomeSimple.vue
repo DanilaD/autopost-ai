@@ -351,7 +351,7 @@ watch(
 
             <!-- Footer -->
             <div class="text-center text-sm text-gray-500">
-                <p>Secure authentication powered by Autopost AI</p>
+                <p>{{ t('auth.secure_auth') }}</p>
             </div>
         </div>
     </div>

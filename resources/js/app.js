@@ -23,6 +23,7 @@ const messages = {
             password: 'Password',
             remember_me: 'Remember me',
             forgot_password: 'Forgot your password?',
+            secure_auth: 'Secure authentication powered by Autopost AI',
         },
     },
     ru: {
@@ -37,6 +38,7 @@ const messages = {
             password: 'Пароль',
             remember_me: 'Запомнить меня',
             forgot_password: 'Забыли пароль?',
+            secure_auth: 'Безопасная аутентификация от Autopost AI',
         },
     },
     es: {
@@ -51,6 +53,7 @@ const messages = {
             password: 'Contraseña',
             remember_me: 'Recuérdame',
             forgot_password: '¿Olvidaste tu contraseña?',
+            secure_auth: 'Autenticación segura con Autopost AI',
         },
     },
 }
