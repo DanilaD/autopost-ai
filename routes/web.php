@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Locale switcher (available to everyone)
+Route::post('/locale', \App\Http\Controllers\LocaleController::class)->name('locale.change');
+
 // Instagram routes
 Route::middleware(['auth', 'verified'])->prefix('instagram')->name('instagram.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'index'])->name('index');

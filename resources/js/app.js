@@ -55,16 +55,21 @@ const messages = {
     },
 }
 
-// Get locale from URL
-const getLocaleFromUrl = () => {
+// Get locale (will be updated from Inertia page props)
+const getInitialLocale = () => {
+    // Try URL first
     const path = window.location.pathname
-    const locale = path.split('/')[1]
-    return ['en', 'ru', 'es'].includes(locale) ? locale : 'en'
+    const urlLocale = path.split('/')[1]
+    if (['en', 'ru', 'es'].includes(urlLocale)) {
+        return urlLocale
+    }
+    // Default to English
+    return 'en'
 }
 
 const i18n = createI18n({
     legacy: false,
-    locale: getLocaleFromUrl(),
+    locale: getInitialLocale(),
     fallbackLocale: 'en',
     messages,
 })
@@ -77,11 +82,17 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue')
         ),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .use(i18n)
-            .mount(el)
+
+        // Sync i18n locale with Inertia page props
+        if (props.initialPage?.props?.locale) {
+            i18n.global.locale.value = props.initialPage.props.locale
+        }
+
+        return app.mount(el)
     },
     progress: {
         color: '#4B5563',
