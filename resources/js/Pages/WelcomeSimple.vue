@@ -1,7 +1,7 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 
 const props = defineProps({
     email: String,
@@ -12,6 +12,10 @@ const props = defineProps({
 const { t } = useI18n()
 
 const currentStep = ref(props.mode || 'email')
+
+// Refs for autofocus
+const loginPasswordInput = ref(null)
+const registerNameInput = ref(null)
 
 const emailForm = useForm({
     email: props.email || '',
@@ -67,6 +71,15 @@ watch(
     (newMode) => {
         if (newMode) {
             currentStep.value = newMode
+
+            // Focus the appropriate input after DOM update
+            nextTick(() => {
+                if (newMode === 'login' && loginPasswordInput.value) {
+                    loginPasswordInput.value.focus()
+                } else if (newMode === 'register' && registerNameInput.value) {
+                    registerNameInput.value.focus()
+                }
+            })
         }
     },
     { immediate: true }
@@ -157,10 +170,10 @@ watch(
                         <label for="name" class="sr-only">Name</label>
                         <input
                             id="name"
+                            ref="registerNameInput"
                             v-model="registerForm.name"
                             type="text"
                             required
-                            autofocus
                             class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             placeholder="Full Name"
                         />
@@ -268,10 +281,10 @@ watch(
                         </label>
                         <input
                             id="login-password"
+                            ref="loginPasswordInput"
                             v-model="loginForm.password"
                             type="password"
                             required
-                            autofocus
                             class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             :placeholder="t('auth.password')"
                         />
@@ -300,6 +313,15 @@ watch(
                                 {{ t('auth.remember_me') }}
                             </span>
                         </label>
+
+                        <div class="text-sm">
+                            <Link
+                                :href="route('password.request')"
+                                class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                            >
+                                {{ t('auth.forgot_password') }}
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
