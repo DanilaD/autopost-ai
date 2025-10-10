@@ -1,5 +1,6 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import LanguageSelector from '@/Components/LanguageSelector.vue'
 import { Link } from '@inertiajs/vue3'
 </script>
 
@@ -7,6 +8,11 @@ import { Link } from '@inertiajs/vue3'
     <div
         class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
     >
+        <!-- Language Selector - Top Right -->
+        <div class="absolute top-4 right-4">
+            <LanguageSelector />
+        </div>
+
         <div>
             <Link href="/">
                 <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />

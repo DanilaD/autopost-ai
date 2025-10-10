@@ -2,6 +2,7 @@
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { ref, computed, watch, nextTick } from 'vue'
+import LanguageSelector from '@/Components/LanguageSelector.vue'
 
 const props = defineProps({
     email: String,
@@ -102,8 +103,13 @@ watch(
     <Head :title="t('auth.welcome_back')" />
 
     <div
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100"
+        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative"
     >
+        <!-- Language Selector - Top Right -->
+        <div class="absolute top-4 right-4">
+            <LanguageSelector />
+        </div>
+
         <div
             class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg"
         >
