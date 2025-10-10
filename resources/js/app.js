@@ -9,6 +9,19 @@ import { createI18n } from 'vue-i18n'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
+// Sync LocalStorage locale preference to cookie (so server can read it)
+// This is better than using cookies for storage because:
+// 1. LocalStorage doesn't send data with every request (better performance)
+// 2. We only use the cookie to pass the value to the server
+// 3. Primary storage is still LocalStorage (browser-side)
+if (typeof window !== 'undefined' && window.localStorage) {
+    const preferredLocale = window.localStorage.getItem('preferred_locale')
+    if (preferredLocale) {
+        // Set cookie with 1 year expiry
+        document.cookie = `preferred_locale=${preferredLocale}; path=/; max-age=31536000; SameSite=Lax`
+    }
+}
+
 // I18n messages
 const messages = {
     en: {

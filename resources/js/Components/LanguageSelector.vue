@@ -20,6 +20,11 @@ const currentLanguage = computed(() => {
 })
 
 const changeLanguage = (locale) => {
+    // Store in LocalStorage for guests (persists across sessions)
+    if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('preferred_locale', locale)
+    }
+
     router.post(
         route('locale.change'),
         { locale },
