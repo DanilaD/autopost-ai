@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Log;
  */
 class InstagramService
 {
-    protected string $clientId;
+    protected ?string $clientId;
 
-    protected string $clientSecret;
+    protected ?string $clientSecret;
 
-    protected string $redirectUri;
+    protected ?string $redirectUri;
 
     protected string $graphApiUrl = 'https://graph.instagram.com';
 
@@ -32,6 +32,14 @@ class InstagramService
         $this->clientId = config('services.instagram.client_id');
         $this->clientSecret = config('services.instagram.client_secret');
         $this->redirectUri = config('services.instagram.redirect_uri');
+
+        // Validate Instagram credentials are configured
+        if (! $this->clientId || ! $this->clientSecret || ! $this->redirectUri) {
+            throw new \RuntimeException(
+                'Instagram API credentials not configured. '.
+                'Please add INSTAGRAM_CLIENT_ID, INSTAGRAM_CLIENT_SECRET, and INSTAGRAM_REDIRECT_URI to your .env file.'
+            );
+        }
     }
 
     /**
