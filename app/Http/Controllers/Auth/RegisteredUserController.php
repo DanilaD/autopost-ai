@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
         return redirect(route('dashboard', absolute: false))
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Welcome to Autopost AI! Your account has been created successfully.',
+                'message' => __('auth.register_success'),
             ]);
     }
 }

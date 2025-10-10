@@ -47,7 +47,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route('dashboard', absolute: false))
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Welcome back! You have successfully logged in.',
+                'message' => __('auth.login_success'),
             ]);
     }
 
