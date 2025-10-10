@@ -1,7 +1,7 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const props = defineProps({
     email: String,
@@ -61,10 +61,28 @@ const goBack = () => {
     loginForm.reset()
 }
 
-// Auto-switch to register/login mode if provided
-if (props.mode) {
-    currentStep.value = props.mode
-}
+// Watch for prop changes and update form data
+watch(
+    () => props.mode,
+    (newMode) => {
+        if (newMode) {
+            currentStep.value = newMode
+        }
+    },
+    { immediate: true }
+)
+
+watch(
+    () => props.email,
+    (newEmail) => {
+        if (newEmail) {
+            emailForm.email = newEmail
+            registerForm.email = newEmail
+            loginForm.email = newEmail
+        }
+    },
+    { immediate: true }
+)
 </script>
 
 <template>
