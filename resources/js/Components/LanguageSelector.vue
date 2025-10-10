@@ -7,9 +7,9 @@ const currentLocale = computed(() => page.props.locale || 'en')
 const showDropdown = ref(false)
 
 const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧', nativeName: 'English' },
-    { code: 'ru', name: 'Russian', flag: '🇷🇺', nativeName: 'Русский' },
-    { code: 'es', name: 'Spanish', flag: '🇪🇸', nativeName: 'Español' },
+    { code: 'en', name: 'English', nativeName: 'English' },
+    { code: 'ru', name: 'Russian', nativeName: 'Русский' },
+    { code: 'es', name: 'Spanish', nativeName: 'Español' },
 ]
 
 const currentLanguage = computed(() => {
@@ -59,10 +59,20 @@ if (typeof window !== 'undefined') {
             class="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             @click="toggleDropdown"
         >
-            <span class="text-lg">{{ currentLanguage.flag }}</span>
-            <span class="hidden sm:inline">{{
-                currentLanguage.nativeName
-            }}</span>
+            <svg
+                class="h-5 w-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+                />
+            </svg>
+            <span>{{ currentLanguage.nativeName }}</span>
             <svg
                 class="-mr-1 h-5 w-5 text-gray-400"
                 viewBox="0 0 20 20"
@@ -98,14 +108,13 @@ if (typeof window !== 'undefined') {
                         :key="language.code"
                         type="button"
                         :class="[
-                            'flex w-full items-center gap-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900',
+                            'flex w-full items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900',
                             currentLocale === language.code
                                 ? 'bg-gray-50 font-semibold'
                                 : '',
                         ]"
                         @click="changeLanguage(language.code)"
                     >
-                        <span class="text-lg">{{ language.flag }}</span>
                         <span class="flex-1 text-left">{{
                             language.nativeName
                         }}</span>
