@@ -9,15 +9,31 @@ use Illuminate\Http\Request;
 
 class InstagramOAuthController extends Controller
 {
-    public function __construct(
-        protected InstagramService $instagramService
-    ) {}
+    protected ?InstagramService $instagramService = null;
+
+    public function __construct()
+    {
+        try {
+            $this->instagramService = app(InstagramService::class);
+        } catch (\RuntimeException $e) {
+            $this->instagramService = null;
+        }
+    }
 
     /**
      * Redirect to Instagram OAuth authorization page
      */
     public function redirect(): RedirectResponse
     {
+        // Check if Instagram is configured
+        if (! $this->instagramService) {
+            return redirect()->route('instagram.index')
+                ->with('toast', [
+                    'type' => 'error',
+                    'message' => 'Instagram integration is not configured yet. Please contact your administrator.',
+                ]);
+        }
+
         $authUrl = $this->instagramService->getAuthorizationUrl();
 
         return redirect($authUrl);
@@ -28,6 +44,15 @@ class InstagramOAuthController extends Controller
      */
     public function callback(Request $request): RedirectResponse
     {
+        // Check if Instagram is configured
+        if (! $this->instagramService) {
+            return redirect()->route('instagram.index')
+                ->with('toast', [
+                    'type' => 'error',
+                    'message' => 'Instagram integration is not configured yet. Please contact your administrator.',
+                ]);
+        }
+
         // Check for errors
         if ($request->has('error')) {
             return redirect()->route('instagram.index')

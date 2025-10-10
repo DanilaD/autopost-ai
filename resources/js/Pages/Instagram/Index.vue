@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useToast } from '@/composables/useToast'
+import { onMounted } from 'vue'
 
 const props = defineProps({
     accounts: {
@@ -12,9 +13,20 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    configError: {
+        type: String,
+        default: null,
+    },
 })
 
 const toast = useToast()
+
+// Show configuration error if Instagram is not set up
+onMounted(() => {
+    if (props.configError) {
+        toast.addToast(props.configError, 'error', 10000) // Show for 10 seconds
+    }
+})
 
 const disconnectAccount = (account) => {
     if (

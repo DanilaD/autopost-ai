@@ -12,15 +12,36 @@ use Inertia\Response;
 
 class InstagramAccountController extends Controller
 {
-    public function __construct(
-        protected InstagramService $instagramService
-    ) {}
+    protected ?InstagramService $instagramService = null;
+
+    protected bool $instagramConfigured = true;
+
+    protected ?string $configError = null;
+
+    public function __construct()
+    {
+        try {
+            $this->instagramService = app(InstagramService::class);
+        } catch (\RuntimeException $e) {
+            $this->instagramConfigured = false;
+            $this->configError = 'Instagram integration is not configured yet. Please contact your administrator to set up Instagram API credentials.';
+        }
+    }
 
     /**
      * Display list of Instagram accounts
      */
     public function index(Request $request): Response
     {
+        // Check if Instagram is configured
+        if (! $this->instagramConfigured) {
+            return Inertia::render('Instagram/Index', [
+                'accounts' => [],
+                'hasCompany' => (bool) $request->user()->currentCompany,
+                'configError' => $this->configError,
+            ]);
+        }
+
         $user = $request->user();
         $company = $user->currentCompany;
 
@@ -56,6 +77,15 @@ class InstagramAccountController extends Controller
      */
     public function disconnect(Request $request, InstagramAccount $account): RedirectResponse
     {
+        // Check if Instagram is configured
+        if (! $this->instagramConfigured) {
+            return redirect()->route('instagram.index')
+                ->with('toast', [
+                    'type' => 'error',
+                    'message' => $this->configError,
+                ]);
+        }
+
         // Check if user has access to this account
         $user = $request->user();
         $company = $user->currentCompany;
@@ -83,6 +113,15 @@ class InstagramAccountController extends Controller
      */
     public function sync(Request $request, InstagramAccount $account): RedirectResponse
     {
+        // Check if Instagram is configured
+        if (! $this->instagramConfigured) {
+            return redirect()->route('instagram.index')
+                ->with('toast', [
+                    'type' => 'error',
+                    'message' => $this->configError,
+                ]);
+        }
+
         // Check if user has access to this account
         $user = $request->user();
         $company = $user->currentCompany;
