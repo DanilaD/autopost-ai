@@ -30,7 +30,7 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Instagram integration is not configured yet. Please contact your administrator.',
+                    'message' => __('instagram.not_configured'),
                 ]);
         }
 
@@ -49,7 +49,7 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Instagram integration is not configured yet. Please contact your administrator.',
+                    'message' => __('instagram.not_configured'),
                 ]);
         }
 
@@ -58,7 +58,7 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Instagram connection was cancelled or failed.',
+                    'message' => __('instagram.connection_failed'),
                 ]);
         }
 
@@ -68,7 +68,7 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Authorization code not received from Instagram.',
+                    'message' => __('instagram.connection_failed'),
                 ]);
         }
 
@@ -80,7 +80,7 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'No active company found. Please select or create a company first.',
+                    'message' => __('instagram.no_active_company'),
                 ]);
         }
 
@@ -91,14 +91,14 @@ class InstagramOAuthController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Failed to connect Instagram account. Please try again.',
+                    'message' => __('instagram.connection_failed'),
                 ]);
         }
 
         return redirect()->route('instagram.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => "Instagram account @{$account->username} connected successfully!",
+                'message' => __('instagram.connected_success'),
             ]);
     }
 }

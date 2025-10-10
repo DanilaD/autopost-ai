@@ -24,7 +24,7 @@ class InstagramAccountController extends Controller
             $this->instagramService = app(InstagramService::class);
         } catch (\RuntimeException $e) {
             $this->instagramConfigured = false;
-            $this->configError = 'Instagram integration is not configured yet. Please contact your administrator to set up Instagram API credentials.';
+            $this->configError = __('instagram.not_configured');
         }
     }
 
@@ -104,7 +104,7 @@ class InstagramAccountController extends Controller
         return redirect()->route('instagram.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => "Instagram account @{$username} disconnected successfully.",
+                'message' => __('instagram.disconnected_success'),
             ]);
     }
 
@@ -140,14 +140,14 @@ class InstagramAccountController extends Controller
             return redirect()->route('instagram.index')
                 ->with('toast', [
                     'type' => 'success',
-                    'message' => "Account @{$account->username} synced successfully.",
+                    'message' => __('instagram.synced_success'),
                 ]);
         }
 
         return redirect()->route('instagram.index')
             ->with('toast', [
                 'type' => 'error',
-                'message' => 'Failed to sync account. Please try again.',
+                'message' => __('instagram.sync_failed'),
             ]);
     }
 }

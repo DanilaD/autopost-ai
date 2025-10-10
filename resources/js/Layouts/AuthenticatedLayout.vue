@@ -9,7 +9,9 @@ import ToastContainer from '@/Components/ToastContainer.vue'
 import LanguageSelector from '@/Components/LanguageSelector.vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import { useToast } from '@/composables/useToast'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const showingNavigationDropdown = ref(false)
 const page = usePage()
 const toast = useToast()
@@ -51,7 +53,7 @@ onMounted(() => {
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    {{ t('menu.dashboard') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -93,14 +95,14 @@ onMounted(() => {
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            Profile
+                                            {{ t('menu.profile') }}
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            {{ t('menu.logout') }}
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -163,7 +165,7 @@ onMounted(() => {
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            {{ t('menu.dashboard') }}
                         </ResponsiveNavLink>
                     </div>
 
@@ -180,14 +182,14 @@ onMounted(() => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                {{ t('menu.profile') }}
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                {{ t('menu.logout') }}
                             </ResponsiveNavLink>
                         </div>
                     </div>

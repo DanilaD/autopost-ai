@@ -57,6 +57,24 @@ const messages = {
                 'Schedule and publish content across your Instagram accounts.',
             coming_soon: 'Coming Soon',
         },
+        menu: {
+            dashboard: 'Dashboard',
+            profile: 'Profile',
+            logout: 'Log Out',
+            instagram: 'Instagram',
+            instagram_accounts: 'Instagram Accounts',
+        },
+        instagram: {
+            title: 'Instagram Accounts',
+            no_accounts: 'No Instagram accounts connected yet',
+            connect_description:
+                'Connect your Instagram account to start automating your content publishing.',
+            connect_button: 'Connect Instagram Account',
+            not_configured:
+                'Instagram integration is not configured yet. Please contact your administrator to set up Instagram API credentials.',
+            no_active_company:
+                'You need to have an active company to connect Instagram accounts. Please create or select a company first.',
+        },
     },
     ru: {
         auth: {
@@ -91,6 +109,24 @@ const messages = {
                 'Планируйте и публикуйте контент в ваших аккаунтах Instagram.',
             coming_soon: 'Скоро',
         },
+        menu: {
+            dashboard: 'Панель управления',
+            profile: 'Профиль',
+            logout: 'Выйти',
+            instagram: 'Instagram',
+            instagram_accounts: 'Аккаунты Instagram',
+        },
+        instagram: {
+            title: 'Аккаунты Instagram',
+            no_accounts: 'Аккаунты Instagram еще не подключены',
+            connect_description:
+                'Подключите свой аккаунт Instagram, чтобы начать автоматизацию публикации контента.',
+            connect_button: 'Подключить аккаунт Instagram',
+            not_configured:
+                'Интеграция с Instagram еще не настроена. Пожалуйста, свяжитесь с администратором для настройки учетных данных Instagram API.',
+            no_active_company:
+                'Для подключения аккаунтов Instagram необходима активная компания. Пожалуйста, создайте или выберите компанию.',
+        },
     },
     es: {
         auth: {
@@ -124,6 +160,24 @@ const messages = {
             create_post_desc:
                 'Programa y publica contenido en tus cuentas de Instagram.',
             coming_soon: 'Próximamente',
+        },
+        menu: {
+            dashboard: 'Panel de control',
+            profile: 'Perfil',
+            logout: 'Cerrar sesión',
+            instagram: 'Instagram',
+            instagram_accounts: 'Cuentas de Instagram',
+        },
+        instagram: {
+            title: 'Cuentas de Instagram',
+            no_accounts: 'Aún no hay cuentas de Instagram conectadas',
+            connect_description:
+                'Conecta tu cuenta de Instagram para comenzar a automatizar la publicación de contenido.',
+            connect_button: 'Conectar cuenta de Instagram',
+            not_configured:
+                'La integración con Instagram aún no está configurada. Por favor, contacta con tu administrador para configurar las credenciales de la API de Instagram.',
+            no_active_company:
+                'Necesitas tener una empresa activa para conectar cuentas de Instagram. Por favor, crea o selecciona una empresa primero.',
         },
     },
 }
