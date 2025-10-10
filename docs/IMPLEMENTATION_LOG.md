@@ -12,8 +12,8 @@
 
 #### Step 5: Email-First Authentication with Inline Forms
 
-**Duration:** ~1 hour  
-**Status:** ✅ Complete and Tested
+**Duration:** ~2 hours  
+**Status:** ✅ Complete, Tested, and Working in Production
 
 **What was implemented:**
 
@@ -21,6 +21,7 @@
 - Email entry → Inline registration or login form
 - Inquiry tracking for non-existent emails (marketing intelligence)
 - No page redirects - smooth SPA experience
+- Vue watchers for reactive prop updates
 
 **User Flow:**
 
@@ -42,6 +43,7 @@
 - `app/Http/Controllers/Auth/EmailCheckController.php` - Email check logic
 - `resources/js/Pages/WelcomeSimple.vue` - Single-page auth component
 - `routes/web.php` - Session-based flow routes
+- `.env` - Fixed APP_URL to match Valet domain
 
 **Technical Features:**
 
@@ -49,8 +51,30 @@
 - Session-based state management (email, mode, message)
 - Three form states: email, register, login
 - Vue 3 Composition API with reactive refs
+- **Vue watchers for prop reactivity** (critical for Inertia redirects)
 - Beautiful gradient UI with Tailwind CSS
 - Proper error handling and validation
+
+**Critical Bug Fixed:**
+
+**Issue:** When Inertia redirects back to same page with different props, Vue refs initialized from props don't automatically update.
+
+**Solution:** Added Vue `watch()` for reactive prop changes:
+
+```javascript
+watch(
+    () => props.mode,
+    (newMode) => {
+        if (newMode) currentStep.value = newMode
+    },
+    { immediate: true }
+)
+```
+
+**Configuration Updates:**
+
+- Updated `APP_URL` from `http://localhost` to `https://autopost-ai.test` (Valet compatibility)
+- Cleared all Laravel caches (config, routes, views)
 
 **Test Results:**
 
@@ -59,12 +83,61 @@
 ✅ Frontend built successfully
 ✅ Email check flow tested in Tinker
 ✅ Inquiry creation verified
+✅ Tested in browser at https://autopost-ai.test
+✅ Email → Register flow working
+✅ Email → Login flow working
 ```
 
 **Git Commits:**
 
 - `3b75668` - feat: add email-first authentication welcome page
 - `42af66d` - feat: improve email-first flow with inline auth forms
+- `6023126` - docs: update implementation log with inline auth forms
+- `ca40605` - fix: add Vue watchers for reactive prop changes in auth flow
+
+---
+
+## Lessons Learned
+
+### 🎓 Critical: Vue Watchers with Inertia.js
+
+**Problem Pattern:**
+When using Inertia.js to redirect back to the same Vue component with different props, refs initialized from props don't automatically update.
+
+**Example Scenario:**
+
+1. User submits email on WelcomeSimple page
+2. Backend checks email existence
+3. Backend redirects back to WelcomeSimple with `mode: 'register'` or `mode: 'login'`
+4. Component receives new props but UI doesn't update
+
+**Wrong Approach:**
+
+```javascript
+const currentStep = ref(props.mode || 'email')
+// This initializes once but never updates when props.mode changes
+```
+
+**Correct Approach:**
+
+```javascript
+const currentStep = ref(props.mode || 'email')
+
+watch(
+    () => props.mode,
+    (newMode) => {
+        if (newMode) currentStep.value = newMode
+    },
+    { immediate: true }
+)
+```
+
+**Rule:** Always use Vue `watch()` when:
+
+- Building multi-step forms with Inertia
+- Redirecting back to same page with different props
+- Props control UI state (showing different form steps)
+- Need reactive updates from backend-driven state changes
 
 ---
 
