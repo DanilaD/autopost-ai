@@ -15,6 +15,21 @@ const greeting = computed(() => {
     if (hour < 18) return t('dashboard.greeting_afternoon')
     return t('dashboard.greeting_evening')
 })
+
+// Get a random welcome message from the array
+// Uses Math.random() to select a different message each time the component loads
+const welcomeMessage = computed(() => {
+    const messages = t('dashboard.welcome_messages')
+    if (Array.isArray(messages) && messages.length > 0) {
+        const randomIndex = Math.floor(Math.random() * messages.length)
+        return messages[randomIndex]
+    }
+    // Fallback to first message if something goes wrong
+    return (
+        messages[0] ||
+        "Welcome to Autopost AI. Let's make something amazing today."
+    )
+})
 </script>
 
 <template>
@@ -22,7 +37,9 @@ const greeting = computed(() => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
+            >
                 {{ t('dashboard.title') }}
             </h2>
         </template>
@@ -38,7 +55,7 @@ const greeting = computed(() => {
                             {{ greeting }}, {{ user.name }}! 👋
                         </h3>
                         <p class="mt-2 text-indigo-100">
-                            {{ t('dashboard.welcome_message') }}
+                            {{ welcomeMessage }}
                         </p>
                     </div>
                 </div>
@@ -47,12 +64,12 @@ const greeting = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <!-- Instagram Accounts -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-indigo-500 rounded-md p-3"
+                                    class="flex-shrink-0 bg-indigo-500 rounded-md p-3 dark:bg-indigo-600"
                                 >
                                     <svg
                                         class="h-6 w-6 text-white"
@@ -71,7 +88,7 @@ const greeting = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-gray-500 truncate"
+                                            class="text-sm font-medium text-gray-500 truncate dark:text-gray-400"
                                         >
                                             {{
                                                 t(
@@ -81,7 +98,7 @@ const greeting = computed(() => {
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-gray-900"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 0
                                             </div>
@@ -94,12 +111,12 @@ const greeting = computed(() => {
 
                     <!-- Scheduled Posts -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-green-500 rounded-md p-3"
+                                    class="flex-shrink-0 bg-green-500 rounded-md p-3 dark:bg-green-600"
                                 >
                                     <svg
                                         class="h-6 w-6 text-white"
@@ -118,13 +135,13 @@ const greeting = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-gray-500 truncate"
+                                            class="text-sm font-medium text-gray-500 truncate dark:text-gray-400"
                                         >
                                             {{ t('dashboard.scheduled_posts') }}
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-gray-900"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 0
                                             </div>
@@ -137,12 +154,12 @@ const greeting = computed(() => {
 
                     <!-- Credits -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-yellow-500 rounded-md p-3"
+                                    class="flex-shrink-0 bg-yellow-500 rounded-md p-3 dark:bg-yellow-600"
                                 >
                                     <svg
                                         class="h-6 w-6 text-white"
@@ -161,13 +178,13 @@ const greeting = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-gray-500 truncate"
+                                            class="text-sm font-medium text-gray-500 truncate dark:text-gray-400"
                                         >
                                             {{ t('dashboard.wallet_balance') }}
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-gray-900"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 $0.00
                                             </div>
@@ -183,15 +200,15 @@ const greeting = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <!-- Connect Instagram -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
                                 <div
-                                    class="flex-shrink-0 bg-pink-100 rounded-lg p-3"
+                                    class="flex-shrink-0 bg-pink-100 rounded-lg p-3 dark:bg-pink-900/30"
                                 >
                                     <svg
-                                        class="h-8 w-8 text-pink-600"
+                                        class="h-8 w-8 text-pink-600 dark:text-pink-400"
                                         fill="currentColor"
                                         viewBox="0 0 24 24"
                                     >
@@ -202,11 +219,13 @@ const greeting = computed(() => {
                                 </div>
                                 <div class="flex-1">
                                     <h3
-                                        class="text-lg font-semibold text-gray-900"
+                                        class="text-lg font-semibold text-gray-900 dark:text-gray-100"
                                     >
                                         {{ t('dashboard.connect_instagram') }}
                                     </h3>
-                                    <p class="mt-1 text-sm text-gray-500">
+                                    <p
+                                        class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                                    >
                                         {{
                                             t(
                                                 'dashboard.connect_instagram_desc'
@@ -226,15 +245,15 @@ const greeting = computed(() => {
 
                     <!-- Create Post -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
                                 <div
-                                    class="flex-shrink-0 bg-blue-100 rounded-lg p-3"
+                                    class="flex-shrink-0 bg-blue-100 rounded-lg p-3 dark:bg-blue-900/30"
                                 >
                                     <svg
-                                        class="h-8 w-8 text-blue-600"
+                                        class="h-8 w-8 text-blue-600 dark:text-blue-400"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -249,11 +268,13 @@ const greeting = computed(() => {
                                 </div>
                                 <div class="flex-1">
                                     <h3
-                                        class="text-lg font-semibold text-gray-900"
+                                        class="text-lg font-semibold text-gray-900 dark:text-gray-100"
                                     >
                                         {{ t('dashboard.create_post') }}
                                     </h3>
-                                    <p class="mt-1 text-sm text-gray-500">
+                                    <p
+                                        class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                                    >
                                         {{ t('dashboard.create_post_desc') }}
                                     </p>
                                     <button
@@ -269,10 +290,12 @@ const greeting = computed(() => {
                 </div>
 
                 <!-- Empty State -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div
+                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800"
+                >
                     <div class="p-12 text-center">
                         <svg
-                            class="mx-auto h-12 w-12 text-gray-400"
+                            class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -284,10 +307,14 @@ const greeting = computed(() => {
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                             />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900">
+                        <h3
+                            class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                        >
                             No posts yet
                         </h3>
-                        <p class="mt-1 text-sm text-gray-500">
+                        <p
+                            class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                        >
                             Get started by connecting your Instagram account and
                             creating your first post.
                         </p>

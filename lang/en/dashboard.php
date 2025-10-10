@@ -7,7 +7,16 @@ return [
         'afternoon' => 'Good afternoon',
         'evening' => 'Good evening',
     ],
-    'welcome_message' => "Welcome to Autopost AI. Let's make something amazing today.",
+    // Rotating welcome messages - randomly displayed on dashboard
+    'welcome_messages' => [
+        "Welcome to Autopost AI. Let's make something amazing today.",
+        "Ready to automate your social media? Let's get started!",
+        "Your content deserves to shine. Let's make it happen.",
+        'Time to turn your ideas into engaging posts.',
+        'Great content starts here. What will you create today?',
+        "Let's grow your Instagram presence together.",
+        'Welcome back! Your audience is waiting for your next post.',
+    ],
     'stats' => [
         'instagram_accounts' => 'Instagram Accounts',
         'scheduled_posts' => 'Scheduled Posts',
