@@ -46,6 +46,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard', absolute: false))
+            ->with('toast', [
+                'type' => 'success',
+                'message' => 'Welcome to Autopost AI! Your account has been created successfully.',
+            ]);
     }
 }

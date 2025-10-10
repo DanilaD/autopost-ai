@@ -1,6 +1,18 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
+
+// Get current time for greeting
+const greeting = computed(() => {
+    const hour = new Date().getHours()
+    if (hour < 12) return 'Good morning'
+    if (hour < 18) return 'Good afternoon'
+    return 'Good evening'
+})
 </script>
 
 <template>
@@ -14,9 +26,265 @@ import { Head } from '@inertiajs/vue3'
         </template>
 
         <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
+                <!-- Welcome Card -->
+                <div
+                    class="overflow-hidden bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg sm:rounded-lg"
+                >
+                    <div class="p-8 text-white">
+                        <h3 class="text-2xl font-bold">
+                            {{ greeting }}, {{ user.name }}! 👋
+                        </h3>
+                        <p class="mt-2 text-indigo-100">
+                            Welcome to Autopost AI. Let's make something amazing
+                            today.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <!-- Instagram Accounts -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div
+                                    class="flex-shrink-0 bg-indigo-500 rounded-md p-3"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-white"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt
+                                            class="text-sm font-medium text-gray-500 truncate"
+                                        >
+                                            Instagram Accounts
+                                        </dt>
+                                        <dd>
+                                            <div
+                                                class="text-lg font-medium text-gray-900"
+                                            >
+                                                0
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scheduled Posts -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div
+                                    class="flex-shrink-0 bg-green-500 rounded-md p-3"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-white"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt
+                                            class="text-sm font-medium text-gray-500 truncate"
+                                        >
+                                            Scheduled Posts
+                                        </dt>
+                                        <dd>
+                                            <div
+                                                class="text-lg font-medium text-gray-900"
+                                            >
+                                                0
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credits -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div
+                                    class="flex-shrink-0 bg-yellow-500 rounded-md p-3"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-white"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt
+                                            class="text-sm font-medium text-gray-500 truncate"
+                                        >
+                                            Wallet Balance
+                                        </dt>
+                                        <dd>
+                                            <div
+                                                class="text-lg font-medium text-gray-900"
+                                            >
+                                                $0.00
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Cards -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <!-- Connect Instagram -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-start space-x-4">
+                                <div
+                                    class="flex-shrink-0 bg-pink-100 rounded-lg p-3"
+                                >
+                                    <svg
+                                        class="h-8 w-8 text-pink-600"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3
+                                        class="text-lg font-semibold text-gray-900"
+                                    >
+                                        Connect Instagram
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-500">
+                                        Link your Instagram account to start
+                                        creating and scheduling posts.
+                                    </p>
+                                    <button
+                                        class="mt-4 inline-flex items-center px-4 py-2 bg-pink-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-pink-700 active:bg-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                        disabled
+                                    >
+                                        Coming Soon
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Create Post -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-start space-x-4">
+                                <div
+                                    class="flex-shrink-0 bg-blue-100 rounded-lg p-3"
+                                >
+                                    <svg
+                                        class="h-8 w-8 text-blue-600"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3
+                                        class="text-lg font-semibold text-gray-900"
+                                    >
+                                        Create a Post
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-500">
+                                        Design and schedule your next Instagram
+                                        post with AI-powered suggestions.
+                                    </p>
+                                    <button
+                                        class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                        disabled
+                                    >
+                                        Coming Soon
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-12 text-center">
+                        <svg
+                            class="mx-auto h-12 w-12 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">
+                            No posts yet
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Get started by connecting your Instagram account and
+                            creating your first post.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

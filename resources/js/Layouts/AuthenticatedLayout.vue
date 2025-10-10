@@ -1,17 +1,32 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import NavLink from '@/Components/NavLink.vue'
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
-import { Link } from '@inertiajs/vue3'
+import ToastContainer from '@/Components/ToastContainer.vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import { useToast } from '@/composables/useToast'
 
 const showingNavigationDropdown = ref(false)
+const page = usePage()
+const toast = useToast()
+
+// Show toast from session flash data
+onMounted(() => {
+    const toastData = page.props.toast
+    if (toastData) {
+        toast.addToast(toastData.message, toastData.type || 'success')
+    }
+})
 </script>
 
 <template>
     <div>
+        <!-- Toast Notifications -->
+        <ToastContainer />
+
         <div class="min-h-screen bg-gray-100">
             <nav class="border-b border-gray-100 bg-white">
                 <!-- Primary Navigation Menu -->
