@@ -41,4 +41,34 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Create an admin user
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email' => 'admin@test.com',
+        ]);
+    }
+
+    /**
+     * Create a regular user
+     */
+    public function regularUser(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email' => 'user@test.com',
+        ]);
+    }
+
+    /**
+     * Create a network manager
+     */
+    public function networkManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email' => 'network@test.com',
+        ]);
+    }
 }
