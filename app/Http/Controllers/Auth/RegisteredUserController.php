@@ -36,10 +36,15 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Get current locale from session/LocalStorage to preserve language preference
+        $currentLocale = app()->getLocale();
+        $locale = in_array($currentLocale, ['en', 'ru', 'es']) ? $currentLocale : 'en';
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'locale' => $locale, // Save the language they were using before registration
         ]);
 
         event(new Registered($user));

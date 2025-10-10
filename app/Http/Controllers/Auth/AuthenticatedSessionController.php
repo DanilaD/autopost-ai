@@ -33,6 +33,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Preserve language preference from guest session to authenticated user
+        $user = $request->user();
+
+        // If user doesn't have a saved locale, use the current session/LocalStorage locale
+        if (! $user->locale) {
+            $currentLocale = app()->getLocale();
+            if (in_array($currentLocale, ['en', 'ru', 'es'])) {
+                $user->update(['locale' => $currentLocale]);
+            }
+        }
+
         return redirect()->intended(route('dashboard', absolute: false))
             ->with('toast', [
                 'type' => 'success',

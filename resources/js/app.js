@@ -38,6 +38,25 @@ const messages = {
             forgot_password: 'Forgot your password?',
             secure_auth: 'Secure authentication powered by Autopost AI',
         },
+        dashboard: {
+            title: 'Dashboard',
+            greeting_morning: 'Good morning',
+            greeting_afternoon: 'Good afternoon',
+            greeting_evening: 'Good evening',
+            welcome_message:
+                "Welcome to Autopost AI. Let's make something amazing today.",
+            instagram_accounts: 'Instagram Accounts',
+            scheduled_posts: 'Scheduled Posts',
+            wallet_balance: 'Wallet Balance',
+            connect_instagram: 'Connect Instagram',
+            connect_instagram_desc:
+                'Link your Instagram account to start automating your content.',
+            connect_now: 'Connect Now',
+            create_post: 'Create Post',
+            create_post_desc:
+                'Schedule and publish content across your Instagram accounts.',
+            coming_soon: 'Coming Soon',
+        },
     },
     ru: {
         auth: {
@@ -53,6 +72,25 @@ const messages = {
             forgot_password: 'Забыли пароль?',
             secure_auth: 'Безопасная аутентификация от Autopost AI',
         },
+        dashboard: {
+            title: 'Панель управления',
+            greeting_morning: 'Доброе утро',
+            greeting_afternoon: 'Добрый день',
+            greeting_evening: 'Добрый вечер',
+            welcome_message:
+                'Добро пожаловать в Autopost AI. Давайте создадим что-то удивительное сегодня.',
+            instagram_accounts: 'Аккаунты Instagram',
+            scheduled_posts: 'Запланированные публикации',
+            wallet_balance: 'Баланс кошелька',
+            connect_instagram: 'Подключить Instagram',
+            connect_instagram_desc:
+                'Свяжите свой аккаунт Instagram, чтобы начать автоматизацию контента.',
+            connect_now: 'Подключить сейчас',
+            create_post: 'Создать публикацию',
+            create_post_desc:
+                'Планируйте и публикуйте контент в ваших аккаунтах Instagram.',
+            coming_soon: 'Скоро',
+        },
     },
     es: {
         auth: {
@@ -67,6 +105,25 @@ const messages = {
             remember_me: 'Recuérdame',
             forgot_password: '¿Olvidaste tu contraseña?',
             secure_auth: 'Autenticación segura con Autopost AI',
+        },
+        dashboard: {
+            title: 'Panel de control',
+            greeting_morning: 'Buenos días',
+            greeting_afternoon: 'Buenas tardes',
+            greeting_evening: 'Buenas noches',
+            welcome_message:
+                'Bienvenido a Autopost AI. Hagamos algo increíble hoy.',
+            instagram_accounts: 'Cuentas de Instagram',
+            scheduled_posts: 'Publicaciones programadas',
+            wallet_balance: 'Saldo de la cartera',
+            connect_instagram: 'Conectar Instagram',
+            connect_instagram_desc:
+                'Vincula tu cuenta de Instagram para comenzar a automatizar tu contenido.',
+            connect_now: 'Conectar ahora',
+            create_post: 'Crear publicación',
+            create_post_desc:
+                'Programa y publica contenido en tus cuentas de Instagram.',
+            coming_soon: 'Próximamente',
         },
     },
 }

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('locale', 5)->default('en')->after('remember_token');
+            $table->string('locale', 5)->nullable()->default('en')->after('remember_token');
             $table->index('locale');
         });
     }

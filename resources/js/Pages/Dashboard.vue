@@ -1,27 +1,29 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { Head, usePage } from '@inertiajs/vue3'
+import { Head, usePage, Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
 // Get current time for greeting
 const greeting = computed(() => {
     const hour = new Date().getHours()
-    if (hour < 12) return 'Good morning'
-    if (hour < 18) return 'Good afternoon'
-    return 'Good evening'
+    if (hour < 12) return t('dashboard.greeting_morning')
+    if (hour < 18) return t('dashboard.greeting_afternoon')
+    return t('dashboard.greeting_evening')
 })
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="t('dashboard.title')" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Dashboard
+                {{ t('dashboard.title') }}
             </h2>
         </template>
 
@@ -36,8 +38,7 @@ const greeting = computed(() => {
                             {{ greeting }}, {{ user.name }}! 👋
                         </h3>
                         <p class="mt-2 text-indigo-100">
-                            Welcome to Autopost AI. Let's make something amazing
-                            today.
+                            {{ t('dashboard.welcome_message') }}
                         </p>
                     </div>
                 </div>
@@ -72,7 +73,11 @@ const greeting = computed(() => {
                                         <dt
                                             class="text-sm font-medium text-gray-500 truncate"
                                         >
-                                            Instagram Accounts
+                                            {{
+                                                t(
+                                                    'dashboard.instagram_accounts'
+                                                )
+                                            }}
                                         </dt>
                                         <dd>
                                             <div
@@ -115,7 +120,7 @@ const greeting = computed(() => {
                                         <dt
                                             class="text-sm font-medium text-gray-500 truncate"
                                         >
-                                            Scheduled Posts
+                                            {{ t('dashboard.scheduled_posts') }}
                                         </dt>
                                         <dd>
                                             <div
@@ -158,7 +163,7 @@ const greeting = computed(() => {
                                         <dt
                                             class="text-sm font-medium text-gray-500 truncate"
                                         >
-                                            Wallet Balance
+                                            {{ t('dashboard.wallet_balance') }}
                                         </dt>
                                         <dd>
                                             <div
@@ -199,17 +204,20 @@ const greeting = computed(() => {
                                     <h3
                                         class="text-lg font-semibold text-gray-900"
                                     >
-                                        Connect Instagram
+                                        {{ t('dashboard.connect_instagram') }}
                                     </h3>
                                     <p class="mt-1 text-sm text-gray-500">
-                                        Link your Instagram account to start
-                                        creating and scheduling posts.
+                                        {{
+                                            t(
+                                                'dashboard.connect_instagram_desc'
+                                            )
+                                        }}
                                     </p>
                                     <Link
                                         :href="route('instagram.index')"
                                         class="mt-4 inline-flex items-center px-4 py-2 bg-pink-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-pink-700 active:bg-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                     >
-                                        Connect Now
+                                        {{ t('dashboard.connect_now') }}
                                     </Link>
                                 </div>
                             </div>
@@ -243,17 +251,16 @@ const greeting = computed(() => {
                                     <h3
                                         class="text-lg font-semibold text-gray-900"
                                     >
-                                        Create a Post
+                                        {{ t('dashboard.create_post') }}
                                     </h3>
                                     <p class="mt-1 text-sm text-gray-500">
-                                        Design and schedule your next Instagram
-                                        post with AI-powered suggestions.
+                                        {{ t('dashboard.create_post_desc') }}
                                     </p>
                                     <button
                                         class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                         disabled
                                     >
-                                        Coming Soon
+                                        {{ t('dashboard.coming_soon') }}
                                     </button>
                                 </div>
                             </div>
