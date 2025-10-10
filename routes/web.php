@@ -7,7 +7,11 @@ use Inertia\Inertia;
 
 // Welcome page - email-first entry
 Route::get('/', function () {
-    return Inertia::render('WelcomeSimple');
+    return Inertia::render('WelcomeSimple', [
+        'email' => session('email'),
+        'mode' => session('mode'), // 'register' or 'login'
+        'message' => session('message'),
+    ]);
 })->middleware('guest')->name('home');
 
 // Email check route

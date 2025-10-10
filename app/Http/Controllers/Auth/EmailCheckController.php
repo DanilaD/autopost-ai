@@ -47,13 +47,17 @@ class EmailCheckController extends Controller
                 'created_at' => now(),
             ]);
 
-            // Redirect to registration with email pre-filled
-            return redirect()->route('register', ['email' => $email])
+            // Return to home with registration mode
+            return redirect()->route('home')
+                ->with('email', $email)
+                ->with('mode', 'register')
                 ->with('message', __('auth.new_here'));
         }
 
-        // User exists - redirect to login with email
-        return redirect()->route('login', ['email' => $email])
+        // User exists - return to home with login mode
+        return redirect()->route('home')
+            ->with('email', $email)
+            ->with('mode', 'login')
             ->with('message', __('auth.welcome_back'));
     }
 }
