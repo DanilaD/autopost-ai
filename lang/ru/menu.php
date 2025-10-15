@@ -3,6 +3,7 @@
 return [
     // Main navigation
     'dashboard' => 'Панель управления',
+    'posts' => 'Публикации',
     'profile' => 'Профиль',
     'logout' => 'Выйти',
 

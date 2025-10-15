@@ -26,9 +26,10 @@ return [
         'connect_instagram' => 'Connect Instagram',
         'connect_instagram_desc' => 'Link your Instagram account to start automating your content.',
         'connect_now' => 'Connect Now',
+        // Create Post action (coming soon)
         'create_post' => 'Create Post',
         'create_post_desc' => 'Schedule and publish content across your Instagram accounts.',
-        'coming_soon' => 'Coming Soon',
+        'coming_soon' => 'COMING SOON',
     ],
     'empty_state' => [
         'no_posts' => 'No posts yet',

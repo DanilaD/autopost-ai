@@ -83,6 +83,13 @@ onMounted(() => {
                                     {{ t('menu.dashboard') }}
                                 </NavLink>
 
+                                <NavLink
+                                    :href="route('posts.index')"
+                                    :active="route().current('posts.*')"
+                                >
+                                    {{ t('menu.posts') }}
+                                </NavLink>
+
                                 <!-- Admin Navigation -->
                                 <template
                                     v-if="$page.props.auth.user?.is_admin"
@@ -227,6 +234,13 @@ onMounted(() => {
                             :active="route().current('dashboard')"
                         >
                             {{ t('menu.dashboard') }}
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('posts.index')"
+                            :active="route().current('posts.*')"
+                        >
+                            {{ t('menu.posts') }}
                         </ResponsiveNavLink>
 
                         <!-- Admin Navigation (Mobile) -->

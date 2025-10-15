@@ -100,6 +100,19 @@ yarn-error.log
 .npm
 .yarn-integrity
 
+# Vite cache
+node_modules/.vite
+.vite
+
+# Development shell scripts (one-off cleanup scripts)
+*.sh
+!scripts/*.sh
+!check-instagram-config.sh
+!restore-local-config.sh
+!share-app.sh
+!update-ngrok-url.sh
+!final-summary.sh
+
 # Coverage reports
 coverage/
 .nyc_output

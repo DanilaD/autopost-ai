@@ -1,0 +1,164 @@
+<?php
+
+return [
+    // General
+    'title' => 'Управление публикациями',
+    'caption' => 'Подпись',
+    'type' => 'Тип',
+    'status' => 'Статус',
+    'scheduled_at' => 'Запланировано на',
+    'published_at' => 'Опубликовано',
+    'created_at' => 'Создано',
+    'updated_at' => 'Обновлено',
+    'media' => 'Медиа',
+    'instagram_account' => 'Аккаунт Instagram',
+    'order' => 'Порядок',
+
+    // Post Types
+    'type' => [
+        'feed' => 'Публикация в ленте',
+        'reel' => 'Reels',
+        'story' => 'История',
+        'carousel' => 'Карусель',
+        'feed_description' => 'Обычная публикация, которая появляется в вашей ленте',
+        'reel_description' => 'Короткое видео, которое появляется в Reels',
+        'story_description' => 'Временная публикация, которая исчезает через 24 часа',
+        'carousel_description' => 'Публикация с несколькими изображениями или видео',
+    ],
+
+    // Post Status
+    'status' => [
+        'draft' => 'Черновик',
+        'scheduled' => 'Запланировано',
+        'publishing' => 'Публикуется',
+        'published' => 'Опубликовано',
+        'failed' => 'Ошибка',
+    ],
+
+    // Messages
+    'created_successfully' => 'Публикация успешно создана',
+    'updated_successfully' => 'Публикация успешно обновлена',
+    'deleted_successfully' => 'Публикация успешно удалена',
+    'scheduled_successfully' => 'Публикация успешно запланирована',
+    'create_failed' => 'Не удалось создать публикацию',
+    'update_failed' => 'Не удалось обновить публикацию',
+    'delete_failed' => 'Не удалось удалить публикацию',
+    'schedule_failed' => 'Не удалось запланировать публикацию',
+
+    // Validation Messages
+    'instagram_account_required' => 'Требуется аккаунт Instagram',
+    'instagram_account_not_found' => 'Аккаунт Instagram не найден',
+    'instagram_account_access_denied' => 'У вас нет доступа к этому аккаунту Instagram',
+    'type_required' => 'Требуется тип публикации',
+    'invalid_type' => 'Неверный тип публикации',
+    'caption_too_long' => 'Подпись не должна превышать 2200 символов',
+    'scheduled_time_must_be_future' => 'Запланированное время должно быть в будущем',
+    'media_required' => 'Требуется хотя бы один медиафайл',
+    'at_least_one_media' => 'Требуется хотя бы один медиафайл',
+    'too_many_media' => 'Слишком много медиафайлов. Максимум :max разрешено для публикаций типа :type',
+    'media_type_required' => 'Требуется тип медиа',
+    'invalid_media_type' => 'Неверный тип медиа',
+    'invalid_media_type_for_post' => 'Неверный тип медиа :media_type для публикаций типа :post_type',
+    'file_required' => 'Требуется файл',
+    'invalid_file_type' => 'Неверный тип файла. Разрешенные типы: JPEG, PNG, GIF, WebP, MP4, MOV, AVI',
+    'file_too_large' => 'Файл слишком большой. Максимальный размер 100MB',
+    'unsupported_file_type' => 'Неподдерживаемый тип файла',
+    'invalid_image_file' => 'Неверный файл изображения',
+    'invalid_video_file' => 'Неверный файл видео',
+
+    // Business Rules
+    'cannot_edit_published' => 'Нельзя редактировать опубликованные публикации',
+    'cannot_delete_published' => 'Нельзя удалять опубликованные публикации',
+    'cannot_schedule_published' => 'Нельзя планировать опубликованные публикации',
+    'media_required_for_scheduling' => 'Медиа требуется для планирования',
+
+    // Actions
+    'create_post' => 'Создать публикацию',
+    'edit_post' => 'Редактировать публикацию',
+    'delete_post' => 'Удалить публикацию',
+    'schedule_post' => 'Запланировать публикацию',
+    'publish_now' => 'Опубликовать сейчас',
+    'save_draft' => 'Сохранить черновик',
+    'cancel' => 'Отмена',
+    'save' => 'Сохранить',
+    'delete' => 'Удалить',
+    'view' => 'Просмотр',
+    'edit' => 'Редактировать',
+    'back_to_posts' => 'Назад к публикациям',
+    'creating' => 'Создание...',
+    'optional' => 'Необязательно',
+    'characters' => 'символов',
+    'all_statuses' => 'Все статусы',
+    'all_types' => 'Все типы',
+    'search_posts' => 'Поиск публикаций...',
+    'untitled' => 'Без названия',
+    'no_caption' => 'Без подписи',
+    'select_post_type' => 'Выберите тип публикации',
+    'select_post_type_description' => 'Выберите тип контента, который хотите создать',
+    'select_instagram_account' => 'Выберите аккаунт Instagram',
+    'select_instagram_account_description' => 'Выберите, в какой аккаунт Instagram публиковать',
+    'select_account' => 'Выберите аккаунт',
+    'schedule_for_later' => 'Запланировать на потом',
+    'media_upload_description' => 'Загрузите изображения или видео для вашей публикации',
+    'scheduling_description' => 'Выберите, когда публиковать вашу публикацию',
+
+    // Form Labels
+    'post_details' => 'Детали публикации',
+    'media_upload' => 'Загрузка медиа',
+    'scheduling' => 'Планирование',
+    'preview' => 'Предварительный просмотр',
+    'add_media' => 'Добавить медиа',
+    'remove_media' => 'Удалить медиа',
+    'reorder_media' => 'Изменить порядок медиа',
+    'select_instagram_account' => 'Выберите аккаунт Instagram',
+    'enter_title' => 'Введите заголовок публикации (необязательно)',
+    'enter_caption' => 'Введите подпись к публикации',
+    'select_schedule_time' => 'Выберите время планирования',
+    'publish_immediately' => 'Опубликовать немедленно',
+
+    // Placeholders
+    'title_placeholder' => 'Введите заголовок для вашей публикации...',
+    'caption_placeholder' => 'Напишите подпись для вашей публикации...',
+
+    // Help Text
+    'title_help' => 'Заголовок для вашей публикации (необязательно)',
+    'caption_help' => 'Напишите подпись для вашей публикации. Вы можете использовать хештеги и упоминания.',
+    'media_help' => 'Загрузите изображения или видео для вашей публикации. Перетащите для изменения порядка.',
+    'scheduling_help' => 'Запланируйте публикацию на определенное время.',
+
+    // Statistics
+    'total_posts' => 'Всего публикаций',
+    'draft_posts' => 'Черновики',
+    'scheduled_posts' => 'Запланированные',
+    'published_posts' => 'Опубликованные',
+    'failed_posts' => 'С ошибками',
+
+    // Empty States
+    'no_posts' => 'Пока нет публикаций',
+    'no_posts_description' => 'Создайте свою первую публикацию, чтобы начать',
+    'no_drafts' => 'Нет черновиков',
+    'no_scheduled' => 'Нет запланированных публикаций',
+    'no_published' => 'Нет опубликованных публикаций',
+
+    // Media
+    'media' => [
+        'image' => 'Изображение',
+        'video' => 'Видео',
+        'upload' => 'Загрузить',
+        'drag_drop' => 'Перетащите файлы сюда',
+        'or_click' => 'или нажмите для выбора',
+        'or_drag_drop' => 'или перетащите',
+        'file_size' => 'Размер файла',
+        'dimensions' => 'Размеры',
+        'duration' => 'Длительность',
+        'remove' => 'Удалить',
+        'reorder' => 'Изменить порядок',
+        'supported_formats' => 'PNG, JPG, GIF, WebP, MP4, MOV, AVI до 100MB',
+        'add_more' => 'Добавить еще файлы',
+        'existing' => 'Существующий',
+        'uploading' => 'Загрузка...',
+        'too_many_files' => 'Слишком много файлов. Максимум :max файлов разрешено.',
+        'file_too_large' => 'Файл :name слишком большой. Максимальный размер :max.',
+        'invalid_file_type' => 'Файл :name имеет неверный тип :type.',
+    ],
+];

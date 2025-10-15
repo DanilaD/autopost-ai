@@ -1,0 +1,164 @@
+<?php
+
+return [
+    // General
+    'title' => 'Post Management',
+    'caption' => 'Caption',
+    'type' => 'Type',
+    'status' => 'Status',
+    'scheduled_at' => 'Scheduled At',
+    'published_at' => 'Published At',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'media' => 'Media',
+    'instagram_account' => 'Instagram Account',
+    'order' => 'Order',
+
+    // Post Types
+    'type' => [
+        'feed' => 'Feed Post',
+        'reel' => 'Reel',
+        'story' => 'Story',
+        'carousel' => 'Carousel',
+        'feed_description' => 'A regular post that appears in your feed',
+        'reel_description' => 'A short video that appears in Reels',
+        'story_description' => 'A temporary post that disappears after 24 hours',
+        'carousel_description' => 'A post with multiple images or videos',
+    ],
+
+    // Post Status
+    'status' => [
+        'draft' => 'Draft',
+        'scheduled' => 'Scheduled',
+        'publishing' => 'Publishing',
+        'published' => 'Published',
+        'failed' => 'Failed',
+    ],
+
+    // Messages
+    'created_successfully' => 'Post created successfully',
+    'updated_successfully' => 'Post updated successfully',
+    'deleted_successfully' => 'Post deleted successfully',
+    'scheduled_successfully' => 'Post scheduled successfully',
+    'create_failed' => 'Failed to create post',
+    'update_failed' => 'Failed to update post',
+    'delete_failed' => 'Failed to delete post',
+    'schedule_failed' => 'Failed to schedule post',
+
+    // Validation Messages
+    'instagram_account_required' => 'Instagram account is required',
+    'instagram_account_not_found' => 'Instagram account not found',
+    'instagram_account_access_denied' => 'You do not have access to this Instagram account',
+    'type_required' => 'Post type is required',
+    'invalid_type' => 'Invalid post type',
+    'caption_too_long' => 'Caption must not exceed 2200 characters',
+    'scheduled_time_must_be_future' => 'Scheduled time must be in the future',
+    'media_required' => 'At least one media file is required',
+    'at_least_one_media' => 'At least one media file is required',
+    'too_many_media' => 'Too many media files. Maximum :max allowed for :type posts',
+    'media_type_required' => 'Media type is required',
+    'invalid_media_type' => 'Invalid media type',
+    'invalid_media_type_for_post' => 'Invalid media type :media_type for :post_type posts',
+    'file_required' => 'File is required',
+    'invalid_file_type' => 'Invalid file type. Allowed types: JPEG, PNG, GIF, WebP, MP4, MOV, AVI',
+    'file_too_large' => 'File is too large. Maximum size is 100MB',
+    'unsupported_file_type' => 'Unsupported file type',
+    'invalid_image_file' => 'Invalid image file',
+    'invalid_video_file' => 'Invalid video file',
+
+    // Business Rules
+    'cannot_edit_published' => 'Cannot edit published posts',
+    'cannot_delete_published' => 'Cannot delete published posts',
+    'cannot_schedule_published' => 'Cannot schedule published posts',
+    'media_required_for_scheduling' => 'Media is required for scheduling',
+
+    // Actions
+    'create_post' => 'Create Post',
+    'edit_post' => 'Edit Post',
+    'delete_post' => 'Delete Post',
+    'schedule_post' => 'Schedule Post',
+    'publish_now' => 'Publish Now',
+    'save_draft' => 'Save Draft',
+    'cancel' => 'Cancel',
+    'save' => 'Save',
+    'delete' => 'Delete',
+    'view' => 'View',
+    'edit' => 'Edit',
+    'back_to_posts' => 'Back to Posts',
+    'creating' => 'Creating...',
+    'optional' => 'Optional',
+    'characters' => 'characters',
+    'all_statuses' => 'All Statuses',
+    'all_types' => 'All Types',
+    'search_posts' => 'Search posts...',
+    'untitled' => 'Untitled',
+    'no_caption' => 'No caption',
+    'select_post_type' => 'Select Post Type',
+    'select_post_type_description' => 'Choose the type of content you want to create',
+    'select_instagram_account' => 'Select Instagram Account',
+    'select_instagram_account_description' => 'Choose which Instagram account to post to',
+    'select_account' => 'Select an account',
+    'schedule_for_later' => 'Schedule for later',
+    'media_upload_description' => 'Upload images or videos for your post',
+    'scheduling_description' => 'Choose when to publish your post',
+
+    // Form Labels
+    'post_details' => 'Post Details',
+    'media_upload' => 'Media Upload',
+    'scheduling' => 'Scheduling',
+    'preview' => 'Preview',
+    'add_media' => 'Add Media',
+    'remove_media' => 'Remove Media',
+    'reorder_media' => 'Reorder Media',
+    'select_instagram_account' => 'Select Instagram Account',
+    'enter_title' => 'Enter post title (optional)',
+    'enter_caption' => 'Enter post caption',
+    'select_schedule_time' => 'Select schedule time',
+    'publish_immediately' => 'Publish immediately',
+
+    // Placeholders
+    'title_placeholder' => 'Enter a title for your post...',
+    'caption_placeholder' => 'Write a caption for your post...',
+
+    // Help Text
+    'title_help' => 'A title for your post (optional)',
+    'caption_help' => 'Write a caption for your post. You can use hashtags and mentions.',
+    'media_help' => 'Upload images or videos for your post. Drag and drop to reorder.',
+    'scheduling_help' => 'Schedule your post to be published at a specific time.',
+
+    // Statistics
+    'total_posts' => 'Total Posts',
+    'draft_posts' => 'Draft Posts',
+    'scheduled_posts' => 'Scheduled Posts',
+    'published_posts' => 'Published Posts',
+    'failed_posts' => 'Failed Posts',
+
+    // Empty States
+    'no_posts' => 'No posts yet',
+    'no_posts_description' => 'Create your first post to get started',
+    'no_drafts' => 'No draft posts',
+    'no_scheduled' => 'No scheduled posts',
+    'no_published' => 'No published posts',
+
+    // Media
+    'media' => [
+        'image' => 'Image',
+        'video' => 'Video',
+        'upload' => 'Upload',
+        'drag_drop' => 'Drag and drop files here',
+        'or_click' => 'or click to select',
+        'or_drag_drop' => 'or drag and drop',
+        'file_size' => 'File size',
+        'dimensions' => 'Dimensions',
+        'duration' => 'Duration',
+        'remove' => 'Remove',
+        'reorder' => 'Reorder',
+        'supported_formats' => 'PNG, JPG, GIF, WebP, MP4, MOV, AVI up to 100MB',
+        'add_more' => 'Add more files',
+        'existing' => 'Existing',
+        'uploading' => 'Uploading...',
+        'too_many_files' => 'Too many files. Maximum :max files allowed.',
+        'file_too_large' => 'File :name is too large. Maximum size is :max.',
+        'invalid_file_type' => 'File :name has invalid type :type.',
+    ],
+];

@@ -224,7 +224,9 @@ const welcomeMessage = computed(() => {
                 </div>
 
                 <!-- Action Cards -->
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div
+                    class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                >
                     <!-- Connect Instagram -->
                     <div
                         class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
@@ -297,19 +299,23 @@ const welcomeMessage = computed(() => {
                                     <h3
                                         class="text-lg font-semibold text-gray-900 dark:text-gray-100"
                                     >
-                                        {{ t('dashboard.create_post') }}
+                                        {{ t('dashboard.actions.create_post') }}
                                     </h3>
                                     <p
                                         class="mt-1 text-sm text-gray-500 dark:text-gray-400"
                                     >
-                                        {{ t('dashboard.create_post_desc') }}
+                                        {{
+                                            t(
+                                                'dashboard.actions.create_post_desc'
+                                            )
+                                        }}
                                     </p>
-                                    <button
+                                    <Link
+                                        :href="route('posts.create')"
                                         class="mt-4 inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition ease-in-out duration-150 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-                                        disabled
                                     >
-                                        {{ t('dashboard.coming_soon') }}
-                                    </button>
+                                        {{ t('dashboard.actions.create_post') }}
+                                    </Link>
                                 </div>
                             </div>
                         </div>

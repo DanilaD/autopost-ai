@@ -247,7 +247,10 @@ const truncate = (str, length = 50) => {
                             route-name="admin.inquiries.index"
                         />
                     </div>
-                    <PrimaryButton @click="exportInquiries">
+                    <button
+                        class="inline-flex items-center rounded-sm border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 transition duration-200 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                        @click="exportInquiries"
+                    >
                         <svg
                             class="-ms-1 me-2 h-5 w-5"
                             fill="none"
@@ -262,7 +265,7 @@ const truncate = (str, length = 50) => {
                             />
                         </svg>
                         {{ t('admin.inquiries.export_button') }}
-                    </PrimaryButton>
+                    </button>
                 </div>
 
                 <!-- Inquiries Table -->
@@ -300,7 +303,7 @@ const truncate = (str, length = 50) => {
                                     <th
                                         class="bg-gray-50 px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-700 dark:bg-gray-700 dark:text-gray-300"
                                     >
-                                        {{ t('admin.inquiries.delete') }}
+                                        {{ t('admin.users.actions') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -341,22 +344,26 @@ const truncate = (str, length = 50) => {
                                     <td
                                         class="whitespace-nowrap px-6 py-4 text-right text-sm"
                                     >
-                                        <DangerButton
+                                        <button
                                             :disabled="deleting === inquiry.id"
-                                            class="text-xs"
+                                            class="text-red-600 hover:text-red-500 dark:text-red-400 disabled:opacity-50"
+                                            :title="t('admin.inquiries.delete')"
                                             @click="deleteInquiry(inquiry.id)"
                                         >
-                                            <span
-                                                v-if="deleting === inquiry.id"
+                                            <svg
+                                                class="h-4 w-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
                                             >
-                                                {{ t('admin.loading') }}
-                                            </span>
-                                            <span v-else>
-                                                {{
-                                                    t('admin.inquiries.delete')
-                                                }}
-                                            </span>
-                                        </DangerButton>
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                />
+                                            </svg>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr
