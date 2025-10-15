@@ -37,9 +37,7 @@ const user = computed(() => page.props.auth.user)
 
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
-            >
+            <h2 class="text-xl font-semibold leading-tight text-md-on-surface">
                 {{ t('profile.title') }}
             </h2>
         </template>
@@ -61,16 +59,14 @@ const user = computed(() => page.props.auth.user)
 
                         <!-- User Info -->
                         <div class="flex-1">
-                            <h1
-                                class="text-2xl font-bold text-gray-900 dark:text-white"
-                            >
+                            <h1 class="text-2xl font-bold text-md-on-surface">
                                 {{ user.name }}
                             </h1>
-                            <p class="text-gray-600 dark:text-gray-400">
+                            <p class="text-md-on-surface-variant">
                                 {{ user.email }}
                             </p>
                             <div
-                                class="mt-2 flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400"
+                                class="mt-2 flex items-center space-x-4 text-sm text-md-on-surface-variant"
                             >
                                 <span class="flex items-center">
                                     <svg
@@ -120,14 +116,10 @@ const user = computed(() => page.props.auth.user)
                     class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
                 >
                     <header class="mb-4">
-                        <h2
-                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
-                        >
+                        <h2 class="text-lg font-medium text-md-on-surface">
                             {{ t('profile.company.title') }}
                         </h2>
-                        <p
-                            class="mt-1 text-sm text-gray-600 dark:text-gray-400"
-                        >
+                        <p class="mt-1 text-sm text-md-on-surface-variant">
                             {{ t('profile.company.description') }}
                         </p>
                     </header>
@@ -138,11 +130,11 @@ const user = computed(() => page.props.auth.user)
                 <!-- No Company Message -->
                 <div
                     v-else
-                    class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6"
+                    class="bg-md-warning-container border border-md-warning rounded-md p-6"
                 >
                     <div class="flex items-center">
                         <svg
-                            class="w-5 h-5 text-yellow-400 mr-2"
+                            class="w-5 h-5 text-md-warning mr-2"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                         >
@@ -152,7 +144,7 @@ const user = computed(() => page.props.auth.user)
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                        <p class="text-sm text-md-on-warning-container">
                             {{ t('profile.company.no_company') }}
                         </p>
                     </div>
