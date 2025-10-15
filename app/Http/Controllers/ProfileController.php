@@ -28,7 +28,7 @@ class ProfileController extends Controller
             $companyStats = [
                 'instagram_accounts_count' => $company->instagramAccounts()->count(),
                 'team_members_count' => $company->users()->count(),
-                'user_role' => $company->getUserRole($user)?->value,
+                'user_role' => $company->getUserRole($user),
             ];
         }
 
