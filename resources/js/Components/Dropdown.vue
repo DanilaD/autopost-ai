@@ -12,7 +12,8 @@ const props = defineProps({
     },
     contentClasses: {
         type: String,
-        default: 'py-1 bg-md-surface-container',
+        default:
+            'py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-gray-700',
     },
 })
 

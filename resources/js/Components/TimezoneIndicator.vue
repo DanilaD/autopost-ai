@@ -119,13 +119,13 @@ const gmtOffset = computed(() => {
         <!-- Timezone Badge Button -->
         <Link
             :href="route('profile.edit')"
-            class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-600 transition duration-150 ease-in-out hover:text-gray-800 focus:outline-none dark:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-200"
             :title="t('timezone.click_to_change')"
             preserve-scroll
         >
             <!-- Clock Icon -->
             <svg
-                class="h-4 w-4 text-gray-500 transition-colors group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200"
+                class="h-4 w-4 text-gray-500 transition-colors dark:text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -140,7 +140,7 @@ const gmtOffset = computed(() => {
             </svg>
 
             <!-- Timezone Abbreviation -->
-            <span class="font-semibold">{{ timezoneAbbreviation }}</span>
+            <span class="font-semibold ms-px">{{ timezoneAbbreviation }}</span>
         </Link>
 
         <!-- Tooltip on hover (separate from link) -->

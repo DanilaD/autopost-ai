@@ -82,16 +82,53 @@ const exportInquiries = () => {
     })
 }
 
+import { usePage } from '@inertiajs/vue3'
+import { formatInTimezone } from '@/composables/useTimezone.js'
+const page = usePage()
+
+const getUserTimezone = () => {
+    try {
+        return page.props?.auth?.user?.timezone || 'UTC'
+    } catch (e) {
+        return 'UTC'
+    }
+}
+
 const formatDate = (dateString) => {
     if (!dateString) return 'N/A'
-    const date = new Date(dateString)
-    return new Intl.DateTimeFormat('default', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    }).format(date)
+    const tz = getUserTimezone()
+
+    // Determine if the date is today in the user's timezone
+    try {
+        const parsed = new Date(dateString)
+        const dayOfParsed = parsed.toLocaleDateString(undefined, {
+            timeZone: tz,
+        })
+        const dayOfNow = new Date().toLocaleDateString(undefined, {
+            timeZone: tz,
+        })
+
+        if (dayOfParsed === dayOfNow) {
+            // Show only time for today's entries
+            return formatInTimezone(dateString, tz, {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+            })
+        }
+
+        // Otherwise show date + time
+        return formatInTimezone(dateString, tz, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        })
+    } catch (e) {
+        return dateString
+    }
 }
 
 const truncate = (str, length = 50) => {
@@ -294,7 +331,12 @@ const truncate = (str, length = 50) => {
                                     <td
                                         class="whitespace-nowrap px-6 py-4 text-sm text-md-on-surface-variant"
                                     >
-                                        {{ formatDate(inquiry.created_at) }}
+                                        {{
+                                            formatDate(
+                                                inquiry.created_at_display ||
+                                                    inquiry.created_at
+                                            )
+                                        }}
                                     </td>
                                     <td
                                         class="whitespace-nowrap px-6 py-4 text-right text-sm"

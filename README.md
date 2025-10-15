@@ -217,6 +217,18 @@ autopost-ai/
 ├── public/
 │   └── build/               # Compiled assets (gitignored)
 └── storage/                 # Application storage (gitignored)
+
+## 🔧 Scripts
+
+Reusable helper scripts live under `scripts/`:
+
+- `scripts/update-ngrok-url.sh`: update local share URL in config
+- `scripts/restore-local-config.sh`: restore local config from backups
+- `scripts/share-app.sh`: helper to share app URL
+- `scripts/check-instagram-config.sh`: validate required env/config for Instagram
+- `scripts/install-git-hooks.sh`, `scripts/pre-commit-check.sh`: git hooks and pre-commit checks
+
+Note: one-off cleanup scripts used during UI migration were removed after completion.
 ```
 
 ## 🔧 Configuration

@@ -1,3 +1,20 @@
+## v1.1 (2025-10-15)
+
+### Server-side normalization for inquiries
+
+- For the admin inquiries list, we now normalize `created_at` on the server to the signed-in user's profile timezone and expose it as `created_at_display`.
+- The frontend prefers `created_at_display` and falls back to the raw `created_at` only if needed.
+- Rationale: database timestamps are stored in UTC; normalizing on the server avoids client parsing inconsistencies and ensures consistency in lists/exports.
+
+### Client-side fallback
+
+- The `formatInTimezone(date, tz)` helper treats naive strings like `YYYY-MM-DD HH:MM:SS` as UTC (by appending `Z` for parsing) before formatting in the target timezone.
+- For inquiries created "today" (based on the user's timezone), we display only the time; otherwise we show date + time.
+
+### Last login
+
+- We added a login listener that sets `users.last_login_at` upon successful login, so the admin users list can accurately display "Last Login" (shows "Today", N days ago, or a short date).
+
 # Timezone Implementation Summary
 
 **Date:** October 10, 2025  

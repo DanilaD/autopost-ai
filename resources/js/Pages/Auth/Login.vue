@@ -2,6 +2,7 @@
 import LanguageSelector from '@/Components/LanguageSelector.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 
 const { t } = useI18n()
 
@@ -25,6 +26,40 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     })
 }
+
+// Render throttle message ("Too many attempts") as small red text
+const isThrottleStatus = computed(() => {
+    if (!('status' in $props) || !$props.status) return false
+    try {
+        const s = String($props.status).toLowerCase()
+        return (
+            s.includes('too many') ||
+            s.includes('attempts') ||
+            s.includes('throttle')
+        )
+    } catch (e) {
+        return false
+    }
+})
+
+// Detect throttle error coming from validation errors (common Laravel behavior)
+const hasThrottleError = computed(() => {
+    try {
+        const errors = /** @type {any} */ ($page).props?.errors || {}
+        const emailErr = String(errors.email || '').toLowerCase()
+        const genericErr = Object.values(errors)
+            .map((e) => String(e).toLowerCase())
+            .join(' | ')
+        return (
+            emailErr.includes('too many') ||
+            emailErr.includes('attempts') ||
+            emailErr.includes('throttle') ||
+            genericErr.includes('too many attempts')
+        )
+    } catch (_) {
+        return false
+    }
+})
 </script>
 
 <template>
@@ -61,30 +96,52 @@ const submit = () => {
                     $page.props.errors &&
                     Object.keys($page.props.errors).length > 0
                 "
-                class="rounded-md bg-red-50 dark:bg-red-900/20 p-4"
             >
-                <div class="text-sm text-red-800 dark:text-red-200">
-                    <ul class="list-disc list-inside space-y-1">
-                        <li
-                            v-for="(error, field) in $page.props.errors"
-                            :key="field"
-                        >
-                            {{ error }}
-                        </li>
-                    </ul>
+                <!-- Throttle shown as small red text -->
+                <p
+                    v-if="hasThrottleError"
+                    class="mt-2 text-sm text-red-600 dark:text-red-400"
+                >
+                    {{
+                        $page.props.errors.email ||
+                        Object.values($page.props.errors)[0]
+                    }}
+                </p>
+                <!-- Other validation errors in banner -->
+                <div v-else class="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
+                    <div class="text-sm text-red-800 dark:text-red-200">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li
+                                v-for="(error, field) in $page.props.errors"
+                                :key="field"
+                            >
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- Status Message -->
-            <div
-                v-if="status"
-                class="rounded-md bg-pattern-success-container p-4 text-center"
-            >
+            <!-- Status / Throttle Message -->
+            <div v-if="status">
+                <!-- If throttle-like message, render as small red inline text -->
                 <p
-                    class="text-sm font-medium text-pattern-on-success-container"
+                    v-if="isThrottleStatus"
+                    class="mt-2 text-sm text-red-600 dark:text-red-400"
                 >
                     {{ status }}
                 </p>
+                <!-- Otherwise render as previous success/info banner -->
+                <div
+                    v-else
+                    class="rounded-md bg-green-50 dark:bg-green-900/20 p-4 text-center"
+                >
+                    <p
+                        class="text-sm font-medium text-green-800 dark:text-green-200"
+                    >
+                        {{ status }}
+                    </p>
+                </div>
             </div>
 
             <!-- Login Form -->

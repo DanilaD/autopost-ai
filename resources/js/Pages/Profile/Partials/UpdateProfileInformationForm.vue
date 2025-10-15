@@ -84,18 +84,18 @@ onMounted(() => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-md-on-surface">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ t('profile.information.title') }}
             </h2>
 
-            <p class="mt-1 text-sm text-md-on-surface-variant">
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 {{ t('profile.information.description') }}
             </p>
 
             <div
-                class="mt-3 p-3 bg-md-primary-container border border-md-primary rounded-md"
+                class="mt-3 rounded-md border border-indigo-200 bg-indigo-50 p-3 dark:border-indigo-700 dark:bg-indigo-900/20"
             >
-                <p class="text-sm text-md-on-primary-container">
+                <p class="text-sm text-indigo-800 dark:text-indigo-200">
                     <svg
                         class="w-4 h-4 inline mr-1"
                         fill="currentColor"
@@ -171,13 +171,13 @@ onMounted(() => {
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-md-on-surface">
+                <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
                     {{ t('profile.information.unverified_email') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-md-primary underline hover:text-md-primary-container focus:outline-none focus:ring-2 focus:ring-md-primary focus:ring-offset-2"
+                        class="rounded-md text-sm text-indigo-600 underline hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-indigo-400 dark:hover:text-indigo-300 dark:focus:ring-offset-gray-900"
                     >
                         {{ t('profile.information.resend_verification') }}
                     </Link>

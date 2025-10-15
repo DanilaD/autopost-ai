@@ -39,11 +39,11 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-md-on-surface">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ t('profile.password.title') }}
             </h2>
 
-            <p class="mt-1 text-sm text-md-on-surface-variant">
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 {{ t('profile.password.description') }}
             </p>
         </header>

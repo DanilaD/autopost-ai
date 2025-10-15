@@ -160,7 +160,7 @@ const getStatusText = (account) => {
                     <div
                         v-for="account in accounts"
                         :key="account.id"
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md"
+                        class="overflow-hidden rounded-md bg-white shadow dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start justify-between">
@@ -278,7 +278,7 @@ const getStatusText = (account) => {
                 <!-- Empty State -->
                 <div
                     v-if="accounts.length === 0 && hasCompany"
-                    class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md"
+                    class="overflow-hidden rounded-md bg-white shadow dark:bg-gray-800"
                 >
                     <div class="p-12 text-center">
                         <svg

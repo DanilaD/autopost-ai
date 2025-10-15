@@ -408,7 +408,149 @@ if [ "$LARGE_FILES_FOUND" = false ]; then
 fi
 
 ###############################################################################
-# 8. Summary
+# 8. Site Pattern / Dark Mode / Timezone / i18n Audits
+###############################################################################
+
+print_header "8. Site Pattern / Dark Mode / Timezone / i18n Audits"
+
+# i18n parity: ensure same files exist across en/es/ru when any lang files staged
+if [ "$LANG_COUNT" -gt 0 ]; then
+  print_info "Checking i18n file parity (en/es/ru) for staged files..."
+  for lang_file in $STAGED_LANG_FILES; do
+    REL_PATH=$(echo "$lang_file" | sed 's|lang/[^/]*/||')
+    for lang in en es ru; do
+      CHECK_PATH="lang/$lang/$REL_PATH"
+      if [ ! -f "$CHECK_PATH" ]; then
+        print_error "Missing translation file: $CHECK_PATH"
+      fi
+    done
+  done
+fi
+
+# Dark-mode audit: flag lines adding bg-white or text-black without dark: fallback
+if [ "$VUE_COUNT" -gt 0 ]; then
+  print_info "Auditing staged Vue files for dark-mode unsafe classes..."
+  for vf in $STAGED_VUE_FILES; do
+    if grep -n "bg-white" "$vf" | grep -v "dark:" >/dev/null 2>&1; then
+      print_warning "Dark-mode: bg-white without dark: fallback in $vf"
+    fi
+    if grep -n "text-black" "$vf" | grep -v "dark:" >/dev/null 2>&1; then
+      print_warning "Dark-mode: text-black without dark: fallback in $vf"
+    fi
+  done
+fi
+
+# Timezone audit: prefer server-normalized fields (e.g., created_at_display)
+if [ "$VUE_COUNT" -gt 0 ]; then
+  print_info "Auditing timezone usage in staged Vue pages..."
+  for vf in $STAGED_VUE_FILES; do
+    if echo "$vf" | grep -q "/Pages/"; then
+      if grep -q "created_at[^_]" "$vf" && ! grep -q "created_at_display" "$vf"; then
+        print_warning "Timezone: $vf uses created_at directly. Prefer server-normalized created_at_display or formatInTimezone()"
+      fi
+    fi
+  done
+fi
+
+# Dead/unused code (JS): run eslint with stricter unused checks on staged JS/Vue
+if [ "$VUE_COUNT" -gt 0 ] || [ "$JS_COUNT" -gt 0 ]; then
+  print_info "Running ESLint unused checks (no-unused-vars/components)..."
+  ALL_JS_FILES="$STAGED_VUE_FILES $STAGED_JS_FILES"
+  if npm run lint -- $ALL_JS_FILES --rule "no-unused-vars:error" 2>/dev/null; then
+    print_success "No unused variables detected in staged JS/Vue"
+  else
+    print_warning "ESLint reported unused variables/components"
+  fi
+fi
+
+# Pattern conformance: block inline style attributes in Vue
+if [ "$VUE_COUNT" -gt 0 ]; then
+  for vf in $STAGED_VUE_FILES; do
+    if grep -q "style=\"" "$vf"; then
+      print_error "Inline style attribute found in $vf (use classes/components instead)"
+    fi
+  done
+fi
+
+# Frontend hard-code audit: discourage magic hex colors and hardcoded external URLs
+if [ "$VUE_COUNT" -gt 0 ]; then
+  for vf in $STAGED_VUE_FILES; do
+    if grep -Eqi "#[0-9a-fA-F]{3,6}" "$vf"; then
+      print_warning "Hardcoded hex color detected in $vf (prefer Tailwind classes or design tokens)"
+    fi
+    if grep -Eq "https?://" "$vf"; then
+      if ! grep -Eq "route\(|this\\.\$inertia|this\\.\$router" "$vf"; then
+        print_warning "Hardcoded external URL in $vf (prefer route()/config-driven URLs)"
+      fi
+    fi
+  done
+fi
+
+# Reuse guidance: flag very long class attributes (consider extracting components/utilities)
+if [ "$VUE_COUNT" -gt 0 ]; then
+  for vf in $STAGED_VUE_FILES; do
+    # Lines with class="..." longer than 200 chars
+    if awk '/class="/ { if (length($0) > 200) { print; exit 0 } }' "$vf" >/dev/null; then
+      print_warning "Very long class attribute in $vf (consider a reusable component or utility class)"
+    fi
+  done
+fi
+
+###############################################################################
+# 9. Architecture Guards (Controllers/Services/Repositories/Models/Enums)
+###############################################################################
+
+print_header "9. Architecture Guards"
+
+# Helper: iterate staged PHP files by path prefix
+for file in $STAGED_PHP_FILES; do
+  # Controllers should be thin: no DB calls or direct model persistence
+  if echo "$file" | grep -q "^app/Http/Controllers/"; then
+    if grep -qE "DB::|->save\(|->create\(|->update\(|->delete\(|::create\(|::update\(|::delete\(" "$file"; then
+      print_warning "Controller uses DB/Model persistence directly: $file (move to Service/Repository)"
+    fi
+    if grep -q "\\$request->validate(" "$file"; then
+      print_warning "Controller inline validation found: $file (prefer FormRequest)"
+    fi
+    if ! grep -q "use App\\Services\\" "$file"; then
+      print_warning "Controller may not delegate to a Service: $file (ensure business logic in Service)"
+    fi
+  fi
+
+  # Services should not query DB directly; require Repository usage
+  if echo "$file" | grep -q "^app/Services/"; then
+    if grep -qE "DB::|->save\(|::create\(|::update\(|::delete\(|::query\(" "$file"; then
+      print_warning "Service uses DB/Model directly: $file (prefer Repository injection)"
+    fi
+    if ! grep -q "use App\\Repositories\\" "$file" 2>/dev/null; then
+      print_warning "Service missing Repository dependency: $file"
+    fi
+  fi
+
+  # Repositories should avoid business terms
+  if echo "$file" | grep -q "^app/Repositories/"; then
+    if grep -qiE "calculate|policy|rule|pricing|permission" "$file"; then
+      print_warning "Repository contains business-domain terms: $file (move to Service)"
+    fi
+  fi
+
+  # Models restricted to relationships/casts
+  if echo "$file" | grep -q "^app/Models/"; then
+    if grep -qE "DB::|::create\(|::update\(|::delete\(|->save\(" "$file"; then
+      print_warning "Model performs persistence logic: $file (models should expose relationships/casts only)"
+    fi
+  fi
+
+  # Enums: discourage magic role/status strings when Enum exists
+  if echo "$file" | grep -qE "^app/Http/Controllers/|^app/Services/"; then
+    if grep -qE "'admin'|'user'|'network'" "$file" && ! grep -qE "use App\\Enums\\UserRole|UserRole::" "$file"; then
+      print_warning "Magic role strings found without enum usage: $file (use App\\Enums\\UserRole)"
+    fi
+  fi
+done
+
+###############################################################################
+# 10. Summary
 ###############################################################################
 
 print_header "Summary"

@@ -61,12 +61,12 @@ if (typeof window !== 'undefined') {
     <div class="language-selector relative">
         <button
             type="button"
-            class="inline-flex items-center gap-x-1.5 rounded-sm bg-md-surface-container px-3 py-2 text-sm font-medium text-md-on-surface shadow-elevation-1 ring-1 ring-inset ring-md-outline-variant hover:bg-md-surface-container-high focus:outline-none focus:ring-2 focus:ring-md-primary transition-all duration-medium2"
+            class="inline-flex items-center gap-x-1.5 rounded-sm bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow ring-1 ring-inset ring-gray-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-700 dark:hover:bg-gray-700"
             @click="toggleDropdown"
         >
             <span>{{ currentLanguage.nativeName }}</span>
             <svg
-                class="h-4 w-4 text-md-on-surface-variant"
+                class="h-4 w-4 text-gray-500 dark:text-gray-400"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 aria-hidden="true"
@@ -90,7 +90,7 @@ if (typeof window !== 'undefined') {
         >
             <div
                 v-if="showDropdown"
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-md-surface-container shadow-elevation-3 ring-1 ring-md-outline-variant focus:outline-none"
+                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow ring-1 ring-gray-200 focus:outline-none dark:bg-gray-800 dark:ring-gray-700"
                 role="menu"
                 aria-orientation="vertical"
             >
@@ -100,9 +100,9 @@ if (typeof window !== 'undefined') {
                         :key="language.code"
                         type="button"
                         :class="[
-                            'flex w-full items-center justify-between px-4 py-2 text-sm text-md-on-surface hover:bg-md-surface-container-high hover:text-md-on-surface transition-all duration-medium2',
+                            'flex w-full items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all duration-150 dark:text-gray-200 dark:hover:bg-gray-700',
                             currentLocale === language.code
-                                ? 'bg-md-primary-container font-semibold text-md-on-primary-container'
+                                ? 'font-semibold text-indigo-600 dark:text-indigo-400'
                                 : '',
                         ]"
                         @click="changeLanguage(language.code)"

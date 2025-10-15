@@ -49,7 +49,9 @@ const welcomeMessage = computed(() => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-md-on-surface">
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-900 dark:text-gray-100"
+            >
                 {{ t('dashboard.title') }}
             </h2>
         </template>
@@ -74,15 +76,15 @@ const welcomeMessage = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <!-- Instagram Accounts -->
                     <div
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-md-primary rounded-md p-3"
+                                    class="flex-shrink-0 rounded-md bg-indigo-600 p-3 dark:bg-indigo-500"
                                 >
                                     <svg
-                                        class="h-6 w-6 text-md-on-primary"
+                                        class="h-6 w-6 text-white"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -98,7 +100,7 @@ const welcomeMessage = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-md-on-surface-variant truncate"
+                                            class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"
                                         >
                                             {{
                                                 t(
@@ -108,7 +110,7 @@ const welcomeMessage = computed(() => {
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-md-on-surface"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 {{
                                                     props.stats
@@ -124,15 +126,15 @@ const welcomeMessage = computed(() => {
 
                     <!-- Scheduled Posts -->
                     <div
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-md-success rounded-md p-3"
+                                    class="flex-shrink-0 rounded-md bg-green-600 p-3 dark:bg-green-500"
                                 >
                                     <svg
-                                        class="h-6 w-6 text-md-on-success"
+                                        class="h-6 w-6 text-white"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -148,13 +150,13 @@ const welcomeMessage = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-md-on-surface-variant truncate"
+                                            class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"
                                         >
                                             {{ t('dashboard.scheduled_posts') }}
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-md-on-surface"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 {{
                                                     props.stats.scheduled_posts
@@ -169,15 +171,15 @@ const welcomeMessage = computed(() => {
 
                     <!-- Credits -->
                     <div
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div
-                                    class="flex-shrink-0 bg-md-warning rounded-md p-3"
+                                    class="flex-shrink-0 rounded-md bg-yellow-500 p-3 dark:bg-yellow-500"
                                 >
                                     <svg
-                                        class="h-6 w-6 text-md-on-warning"
+                                        class="h-6 w-6 text-black"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -193,13 +195,13 @@ const welcomeMessage = computed(() => {
                                 <div class="ml-5 w-0 flex-1">
                                     <dl>
                                         <dt
-                                            class="text-sm font-medium text-md-on-surface-variant truncate"
+                                            class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"
                                         >
                                             {{ t('dashboard.wallet_balance') }}
                                         </dt>
                                         <dd>
                                             <div
-                                                class="text-lg font-medium text-md-on-surface"
+                                                class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
                                                 ${{
                                                     (
@@ -221,15 +223,15 @@ const welcomeMessage = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <!-- Connect Instagram -->
                     <div
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
                                 <div
-                                    class="flex-shrink-0 bg-pink-100 rounded-lg p-3 dark:bg-pink-900/30"
+                                    class="flex-shrink-0 rounded-lg bg-pink-600 p-3 dark:bg-pink-500"
                                 >
                                     <svg
-                                        class="h-8 w-8 text-pink-600 dark:text-pink-400"
+                                        class="h-8 w-8 text-white"
                                         fill="currentColor"
                                         viewBox="0 0 24 24"
                                     >
@@ -240,7 +242,7 @@ const welcomeMessage = computed(() => {
                                 </div>
                                 <div class="flex-1">
                                     <h3
-                                        class="text-lg font-semibold text-md-on-surface"
+                                        class="text-lg font-semibold text-gray-900 dark:text-gray-100"
                                     >
                                         {{ t('dashboard.connect_instagram') }}
                                     </h3>
@@ -255,7 +257,7 @@ const welcomeMessage = computed(() => {
                                     </p>
                                     <Link
                                         :href="route('instagram.index')"
-                                        class="mt-4 inline-flex items-center px-4 py-2 bg-pink-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-pink-700 active:bg-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                        class="mt-4 inline-flex items-center rounded-md border border-transparent bg-pink-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition ease-in-out duration-150 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                                     >
                                         {{ t('dashboard.connect_now') }}
                                     </Link>
@@ -266,15 +268,15 @@ const welcomeMessage = computed(() => {
 
                     <!-- Create Post -->
                     <div
-                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
                                 <div
-                                    class="flex-shrink-0 bg-blue-100 rounded-lg p-3 dark:bg-blue-900/30"
+                                    class="flex-shrink-0 rounded-lg bg-blue-600 p-3 dark:bg-blue-500"
                                 >
                                     <svg
-                                        class="h-8 w-8 text-blue-600 dark:text-blue-400"
+                                        class="h-8 w-8 text-white"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -289,7 +291,7 @@ const welcomeMessage = computed(() => {
                                 </div>
                                 <div class="flex-1">
                                     <h3
-                                        class="text-lg font-semibold text-md-on-surface"
+                                        class="text-lg font-semibold text-gray-900 dark:text-gray-100"
                                     >
                                         {{ t('dashboard.create_post') }}
                                     </h3>
@@ -299,7 +301,7 @@ const welcomeMessage = computed(() => {
                                         {{ t('dashboard.create_post_desc') }}
                                     </p>
                                     <button
-                                        class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                        class="mt-4 inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition ease-in-out duration-150 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                                         disabled
                                     >
                                         {{ t('dashboard.coming_soon') }}
@@ -312,7 +314,7 @@ const welcomeMessage = computed(() => {
 
                 <!-- Empty State -->
                 <div
-                    class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-lg hover:shadow-elevation-2 transition-shadow duration-medium2"
+                    class="overflow-hidden rounded-lg bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
                 >
                     <div class="p-12 text-center">
                         <svg
@@ -328,7 +330,9 @@ const welcomeMessage = computed(() => {
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                             />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-md-on-surface">
+                        <h3
+                            class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                        >
                             {{ t('dashboard.empty_state.no_posts') }}
                         </h3>
                         <p

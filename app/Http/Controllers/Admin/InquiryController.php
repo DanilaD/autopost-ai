@@ -10,7 +10,7 @@ use Inertia\Response;
 
 /**
  * Controller for managing inquiries (admin only).
- * 
+ *
  * Handles viewing, searching, sorting, and deleting inquiries.
  * All operations require admin privileges.
  */
@@ -25,9 +25,6 @@ class InquiryController extends Controller
 
     /**
      * Display paginated list of inquiries.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request): Response
     {
@@ -38,6 +35,18 @@ class InquiryController extends Controller
             'direction' => $request->input('direction', 'desc'),
             'per_page' => 15,
         ]);
+
+        // Normalize created_at to user's timezone for consistent display
+        $timezone = optional($request->user())->timezone ?: 'UTC';
+        $inquiries->setCollection(
+            $inquiries->getCollection()->transform(function ($inq) use ($timezone) {
+                $inq->created_at_display = optional($inq->created_at)
+                    ? $inq->created_at->copy()->timezone('UTC')->timezone($timezone)->format('Y-m-d H:i:s')
+                    : null;
+
+                return $inq;
+            })
+        );
 
         // Get inquiry statistics
         $stats = $this->inquiryService->getInquiryStats();
@@ -56,7 +65,6 @@ class InquiryController extends Controller
     /**
      * Delete an inquiry.
      *
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
@@ -70,7 +78,7 @@ class InquiryController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to delete inquiry: ' . $e->getMessage(),
+                'message' => 'Failed to delete inquiry: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
@@ -79,7 +87,6 @@ class InquiryController extends Controller
     /**
      * Export inquiries to CSV.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function export(Request $request)
@@ -91,4 +98,3 @@ class InquiryController extends Controller
         ]);
     }
 }
-

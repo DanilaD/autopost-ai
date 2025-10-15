@@ -23,6 +23,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    commonTimezones: {
+        type: Object,
+        required: true,
+    },
     company: {
         type: Object,
         default: null,
@@ -37,7 +41,9 @@ const user = computed(() => page.props.auth.user)
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-md-on-surface">
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-900 dark:text-gray-100"
+            >
                 {{ t('profile.title') }}
             </h2>
         </template>
@@ -45,9 +51,7 @@ const user = computed(() => page.props.auth.user)
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                 <!-- Profile Header with Avatar -->
-                <div
-                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
-                >
+                <div class="rounded-md bg-white p-6 shadow dark:bg-gray-800">
                     <div class="flex items-center space-x-6">
                         <!-- Avatar -->
                         <Avatar
@@ -59,14 +63,16 @@ const user = computed(() => page.props.auth.user)
 
                         <!-- User Info -->
                         <div class="flex-1">
-                            <h1 class="text-2xl font-bold text-md-on-surface">
+                            <h1
+                                class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                            >
                                 {{ user.name }}
                             </h1>
-                            <p class="text-md-on-surface-variant">
+                            <p class="text-gray-600 dark:text-gray-400">
                                 {{ user.email }}
                             </p>
                             <div
-                                class="mt-2 flex items-center space-x-4 text-sm text-md-on-surface-variant"
+                                class="mt-2 flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400"
                             >
                                 <span class="flex items-center">
                                     <svg
@@ -113,13 +119,17 @@ const user = computed(() => page.props.auth.user)
                 <!-- Company Information -->
                 <div
                     v-if="company"
-                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
+                    class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
                 >
                     <header class="mb-4">
-                        <h2 class="text-lg font-medium text-md-on-surface">
+                        <h2
+                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                        >
                             {{ t('profile.company.title') }}
                         </h2>
-                        <p class="mt-1 text-sm text-md-on-surface-variant">
+                        <p
+                            class="mt-1 text-sm text-gray-600 dark:text-gray-400"
+                        >
                             {{ t('profile.company.description') }}
                         </p>
                     </header>
@@ -151,28 +161,23 @@ const user = computed(() => page.props.auth.user)
                 </div>
 
                 <!-- Profile Information Form -->
-                <div
-                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
-                >
+                <div class="rounded-md bg-white p-6 shadow dark:bg-gray-800">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
                         :timezones="timezones"
+                        :common-timezones="commonTimezones"
                         class="max-w-xl"
                     />
                 </div>
 
                 <!-- Update Password Form -->
-                <div
-                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
-                >
+                <div class="rounded-md bg-white p-6 shadow dark:bg-gray-800">
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
                 <!-- Delete Account Form -->
-                <div
-                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
-                >
+                <div class="rounded-md bg-white p-6 shadow dark:bg-gray-800">
                     <DeleteUserForm class="max-w-xl" />
                 </div>
             </div>

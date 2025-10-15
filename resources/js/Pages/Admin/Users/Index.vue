@@ -229,26 +229,30 @@ const openImpersonateModal = async (user) => {
 
 const formatDate = (dateString) => {
     if (!dateString) return t('admin.users.never_logged_in')
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffMs = now - date
-    const diffDays = Math.floor(diffMs / 86400000)
+    const parsed = new Date(dateString)
+    if (isNaN(parsed.getTime())) return dateString
 
-    if (diffDays === 0) {
+    const now = new Date()
+    let diffDays = Math.floor((now.getTime() - parsed.getTime()) / 86400000)
+
+    // Guard against negative offsets due to timezone parsing; treat as today
+    if (diffDays <= 0) {
         return t('admin.inquiries.today')
-    } else if (diffDays === 1) {
-        return '1 day ago'
-    } else if (diffDays < 7) {
-        return `${diffDays} days ago`
-    } else if (diffDays < 30) {
-        return `${Math.floor(diffDays / 7)} weeks ago`
-    } else {
-        return new Intl.DateTimeFormat('default', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        }).format(date)
     }
+    if (diffDays === 1) {
+        return '1 day ago'
+    }
+    if (diffDays < 7) {
+        return `${diffDays} days ago`
+    }
+    if (diffDays < 30) {
+        return `${Math.floor(diffDays / 7)} weeks ago`
+    }
+    return new Intl.DateTimeFormat('default', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    }).format(parsed)
 }
 
 const getRoleBadgeClass = (role) => {
@@ -292,10 +296,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.users.total_users') }}
                             </div>
@@ -312,10 +316,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.users.active_users') }}
                             </div>
@@ -332,10 +336,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.users.suspended_users') }}
                             </div>
@@ -352,10 +356,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.users.new_this_month') }}
                             </div>
@@ -381,7 +385,7 @@ const getStatusBadgeClass = (isSuspended) => {
 
                 <!-- Users Table -->
                 <div
-                    class="overflow-hidden rounded-md bg-md-surface-container shadow-elevation-1"
+                    class="overflow-hidden rounded-md bg-white shadow dark:bg-gray-800"
                 >
                     <div class="overflow-x-auto">
                         <table
@@ -430,7 +434,7 @@ const getStatusBadgeClass = (isSuspended) => {
                                 </tr>
                             </thead>
                             <tbody
-                                class="divide-y divide-md-outline-variant bg-md-surface-container"
+                                class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
                             >
                                 <tr
                                     v-for="user in users.data"

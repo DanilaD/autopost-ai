@@ -1,3 +1,8 @@
+## Timezone-correct displays (2025-10-15)
+
+- Inquiries list: `Created At` is rendered using server-normalized `created_at_display` in the user's profile timezone. If the entry is from today (user timezone), only the time is shown; otherwise date + time.
+- Users list: `Last Login` is updated on successful login via an event listener and displayed relative (Today / N days ago / short date) in the user's timezone.
+
 # Admin Features Documentation
 
 **Project:** Autopost AI  
@@ -16,6 +21,7 @@ Complete administration system for managing inquiries and users. Admin features 
 ## Features Summary
 
 ### 1. Inquiry Management
+
 - View all inquiries with pagination (15 per page)
 - Search inquiries by email
 - Sort by email or creation date
@@ -23,7 +29,8 @@ Complete administration system for managing inquiries and users. Admin features 
 - Export inquiries to CSV
 - Real-time statistics dashboard
 
-### 2. User Management  
+### 2. User Management
+
 - View all users with pagination
 - Search users by name or email
 - Sort by multiple fields
@@ -34,6 +41,7 @@ Complete administration system for managing inquiries and users. Admin features 
 - Filter by status (active/suspended)
 
 ### 3. Impersonation System
+
 - Admin can log in as any regular user
 - Impersonation banner shown while active
 - Automatic session logging for audit
@@ -53,6 +61,7 @@ Admin features are protected by the `EnsureUserIsAdmin` middleware which checks:
 3. Company membership is active
 
 **Permission Checks:**
+
 - `User::isAdminInCurrentCompany()` - Main authorization method
 - Role checked via `company_user` pivot table
 - Non-admins receive HTTP 403 Forbidden
@@ -60,6 +69,7 @@ Admin features are protected by the `EnsureUserIsAdmin` middleware which checks:
 ### Menu Visibility
 
 Admin menu items only appear when:
+
 ```javascript
 $page.props.auth.user?.is_admin === true
 ```
@@ -78,36 +88,43 @@ The `HandleInertiaRequests` middleware injects this property for all authenticat
 ### Features
 
 #### View Inquiries Table
+
 - Displays: email, IP address, user agent, creation date
 - 15 results per page with Laravel pagination
 - Empty state when no inquiries exist
 
 #### Search
+
 - Real-time search by email
 - Debounced input (300ms delay)
 - Preserves pagination state
 - Clear search button
 
 #### Sorting
+
 - Sort by: email, created_at
 - Directions: ascending, descending
 - Click column headers to toggle sort
 - Visual indicators (↑/↓) show current sort
 
 #### Statistics Dashboard
+
 Four stat cards showing:
+
 - **Total Inquiries:** All-time count
 - **Today:** Inquiries from current day
 - **This Week:** Inquiries from current week
 - **This Month:** Inquiries from current month
 
 #### Delete Inquiry
+
 - Confirmation dialog before deletion
 - Immediate removal from database
 - Toast notification on success/error
 - Cannot be undone
 
 #### Export to CSV
+
 - Downloads all inquiries matching current filters
 - Includes: email, IP, user agent, timestamp
 - Filename: `inquiries-YYYY-MM-DD.csv`
@@ -140,7 +157,9 @@ Parameters: search, sort, direction
 ### Features
 
 #### User Table
+
 Displays:
+
 - **Name & Email:** User identity
 - **Role Badge:** Color-coded role (admin/user/network)
 - **Status Badge:** Active (green) or Suspended (red)
@@ -148,12 +167,15 @@ Displays:
 - **Statistics:** Companies, Instagram accounts, posts
 
 #### Search & Filter
+
 - Search by name or email
 - Real-time filtering
 - Preserves sort and pagination
 
 #### Statistics Dashboard
+
 Four stat cards:
+
 - **Total Users:** All users count
 - **Active Users:** Non-suspended users
 - **Suspended Users:** Currently suspended count
@@ -164,12 +186,14 @@ Four stat cards:
 Each user row has 4 action buttons:
 
 **1. Send Password Reset (🔑)**
+
 - Sends Laravel password reset email to user
 - Includes note that admin requested it
 - Confirmation dialog before sending
 - Toast notification on success
 
 **2. Suspend User (🚫)**
+
 - Opens modal requiring suspension reason
 - Reason is mandatory (max 1000 chars)
 - Updates `suspended_at`, `suspended_by`, `suspension_reason`
@@ -178,12 +202,14 @@ Each user row has 4 action buttons:
 - Cannot suspend other admins
 
 **3. Unsuspend User (✅)**
+
 - Confirmation dialog
 - Clears all suspension fields
 - User can immediately log in again
 - Toast notification on success
 
 **4. Impersonate User (🎭)**
+
 - Opens confirmation modal
 - Starts impersonation session
 - Redirects to dashboard as that user
@@ -195,6 +221,7 @@ Each user row has 4 action buttons:
 #### How It Works
 
 When a user is suspended:
+
 1. `suspended_at` set to current timestamp
 2. `suspended_by` set to admin's user ID
 3. `suspension_reason` stores the reason
@@ -261,10 +288,10 @@ Allows admins to view the application as any regular user for support and debugg
 1. Admin clicks impersonate button (🎭) for user
 2. Confirmation modal appears
 3. On confirmation:
-   - Current admin ID saved in session
-   - User logs in as target user
-   - Redirected to dashboard
-   - Yellow banner appears at top
+    - Current admin ID saved in session
+    - User logs in as target user
+    - Redirected to dashboard
+    - Yellow banner appears at top
 
 #### Session Storage
 
@@ -281,6 +308,7 @@ session(['impersonate' => [
 #### Impersonation Banner
 
 Appears at top of all pages while impersonating:
+
 ```
 🎭 You are impersonating: Jane Doe (jane@example.com)
 [Stop Impersonation Button]
@@ -297,6 +325,7 @@ Appears at top of all pages while impersonating:
 ### Security Measures
 
 #### Restrictions
+
 - ❌ Cannot impersonate yourself
 - ❌ Cannot impersonate another admin
 - ❌ Cannot impersonate suspended users
@@ -340,47 +369,55 @@ POST /admin/impersonate/stop
 ### Reusable Components
 
 #### SearchInput.vue
+
 - Debounced search (300ms)
 - Clear button (X)
 - Search icon indicator
 - Preserves query params
 
 **Props:**
+
 - `modelValue`: Current search term
 - `placeholder`: Placeholder text
 - `routeName`: Route to navigate on search
 - `debounce`: Debounce delay (default: 300)
 
 #### SortableHeader.vue
+
 - Clickable table header
 - Visual sort indicators (↑/↓)
 - Active state styling
 - Toggles between asc/desc
 
 **Props:**
+
 - `field`: Field name to sort by
 - `label`: Display label
 - `currentSort`: Current sort field
 - `currentDirection`: Current sort direction
 
 #### Pagination.vue
+
 - Laravel pagination links
 - Previous/Next buttons
 - Page number buttons
 - Responsive design
 
 **Props:**
+
 - `links`: Laravel pagination links array
 
 ### Admin Pages
 
 #### Admin/Inquiries/Index.vue
+
 - Full-featured inquiry management
 - Stats dashboard
 - Search, sort, export
 - Delete with confirmation
 
 #### Admin/Users/Index.vue
+
 - Comprehensive user management
 - All 4 user actions
 - Multiple modals (suspend, impersonate)
@@ -433,6 +470,7 @@ const { t } = useI18n()
 **Location:** `app/Services/InquiryService.php`
 
 **Methods:**
+
 - `getInquiries($filters)` - Paginated inquiry list
 - `searchInquiries($query)` - Search by email
 - `deleteInquiry($id)` - Remove inquiry
@@ -444,6 +482,7 @@ const { t } = useI18n()
 **Location:** `app/Services/UserManagementService.php`
 
 **Methods:**
+
 - `getUsers($filters)` - Paginated user list
 - `sendPasswordResetLink($userId)` - Send reset email
 - `suspendUser($userId, $reason, $admin)` - Suspend account
@@ -456,6 +495,7 @@ const { t } = useI18n()
 **Location:** `app/Services/ImpersonationService.php`
 
 **Methods:**
+
 - `impersonate($admin, $targetUserId)` - Start impersonation
 - `stopImpersonation()` - End impersonation
 - `canImpersonate($admin, $target)` - Permission check
@@ -472,6 +512,7 @@ const { t } = useI18n()
 **Location:** `tests/Feature/Admin/`
 
 **Test Files:**
+
 - `InquiryManagementTest.php` - 8 tests
 - `UserManagementTest.php` - 11 tests
 - `ImpersonationTest.php` - 7 tests
@@ -483,6 +524,7 @@ const { t } = useI18n()
 **Location:** `tests/Unit/Services/`
 
 **Test Files:**
+
 - `InquiryServiceTest.php` - 7 tests
 - `UserManagementServiceTest.php` - 12 tests
 
@@ -506,22 +548,26 @@ php artisan test --filter=admin_can_impersonate_user
 ## Security Best Practices
 
 ### Authorization
+
 - ✅ Middleware on all admin routes
 - ✅ Double-check permissions in controllers
 - ✅ Prevent self-suspension
 - ✅ Prevent admin-to-admin actions
 
 ### Audit Trail
+
 - ✅ All impersonation logged
 - ✅ Suspension tracked with reason
 - ✅ Admin ID stored for accountability
 
 ### Input Validation
+
 - ✅ Suspension reason required
 - ✅ SQL injection prevention in sorting
 - ✅ CSRF protection on all forms
 
 ### Session Management
+
 - ✅ Impersonation auto-expires
 - ✅ Session data properly cleared
 - ✅ No sensitive data in client
@@ -533,21 +579,25 @@ php artisan test --filter=admin_can_impersonate_user
 ### Common Issues
 
 #### "403 Forbidden" When Accessing Admin Pages
+
 - Verify user has ADMIN role: `User::isAdminInCurrentCompany()`
 - Check `current_company_id` is set
 - Verify company membership exists
 
 #### Admin Menu Not Appearing
+
 - Check `$page.props.auth.user.is_admin` in browser console
 - Verify `HandleInertiaRequests` is injecting is_admin prop
 - Clear browser cache
 
 #### Impersonation Not Working
+
 - Check route is `/admin/impersonate/stop` (not protected by admin middleware)
 - Verify session driver is working
 - Check logs for impersonation events
 
 #### Tests Failing
+
 - Run migrations: `php artisan migrate:fresh`
 - Clear config cache: `php artisan config:clear`
 - Check database connection
@@ -557,6 +607,7 @@ php artisan test --filter=admin_can_impersonate_user
 ## Future Enhancements
 
 ### Planned Features
+
 1. **Activity Logging** - Detailed audit log UI
 2. **Bulk Actions** - Suspend multiple users at once
 3. **Advanced Filters** - More filter options
@@ -579,4 +630,3 @@ php artisan test --filter=admin_can_impersonate_user
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Implemented By:** Cursor AI Assistant
-
