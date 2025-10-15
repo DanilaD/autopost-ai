@@ -29,7 +29,7 @@
                         isOpen ? 'rotate-180 transform' : '',
                         disabled
                             ? 'text-gray-400'
-                            : 'text-md-on-surface-variant',
+                            : 'text-gray-500 dark:text-gray-400',
                     ]"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -114,7 +114,7 @@
                     <!-- No Results -->
                     <div
                         v-if="filteredOptions.length === 0"
-                        class="px-3 py-2 text-center text-sm text-md-on-surface-variant"
+                        class="px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400"
                     >
                         No results found
                     </div>

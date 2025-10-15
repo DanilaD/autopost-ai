@@ -60,7 +60,7 @@ const welcomeMessage = computed(() => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                 <!-- Welcome Card -->
                 <div
-                    class="overflow-hidden rounded-md shadow-elevation-3 bg-indigo-600 dark:bg-indigo-500"
+                    class="overflow-hidden rounded-md shadow-lg bg-indigo-600 dark:bg-indigo-500"
                 >
                     <div class="p-8">
                         <h3
@@ -80,7 +80,7 @@ const welcomeMessage = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <!-- Instagram Accounts -->
                     <div
-                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
@@ -130,7 +130,7 @@ const welcomeMessage = computed(() => {
 
                     <!-- Scheduled Posts -->
                     <div
-                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
@@ -175,7 +175,7 @@ const welcomeMessage = computed(() => {
 
                     <!-- Credits -->
                     <div
-                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-center">
@@ -227,7 +227,7 @@ const welcomeMessage = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <!-- Connect Instagram -->
                     <div
-                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
@@ -272,7 +272,7 @@ const welcomeMessage = computed(() => {
 
                     <!-- Create Post -->
                     <div
-                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                        class="overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
@@ -318,7 +318,7 @@ const welcomeMessage = computed(() => {
 
                 <!-- Empty State -->
                 <div
-                    class="overflow-hidden rounded-lg bg-white shadow transition-shadow hover:shadow-elevation-2 dark:bg-gray-800"
+                    class="overflow-hidden rounded-lg bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                 >
                     <div class="p-12 text-center">
                         <svg

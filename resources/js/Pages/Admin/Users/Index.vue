@@ -296,10 +296,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
                             >
                                 {{ t('admin.users.total_users') }}
                             </div>
@@ -316,10 +316,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
                             >
                                 {{ t('admin.users.active_users') }}
                             </div>
@@ -336,10 +336,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
                             >
                                 {{ t('admin.users.suspended_users') }}
                             </div>
@@ -356,10 +356,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
                             >
                                 {{ t('admin.users.new_this_month') }}
                             </div>

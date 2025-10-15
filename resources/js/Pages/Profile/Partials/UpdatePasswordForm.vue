@@ -121,7 +121,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-md-on-surface-variant"
+                        class="text-sm text-gray-500 dark:text-gray-400"
                     >
                         {{ t('profile.password.saved') }}
                     </p>

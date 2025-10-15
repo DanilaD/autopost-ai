@@ -140,11 +140,11 @@ const user = computed(() => page.props.auth.user)
                 <!-- No Company Message -->
                 <div
                     v-else
-                    class="bg-md-warning-container border border-md-warning rounded-md p-6"
+                    class="bg-yellow-50 border border-yellow-200 rounded-md p-6 dark:bg-yellow-900/20 dark:border-yellow-800"
                 >
                     <div class="flex items-center">
                         <svg
-                            class="w-5 h-5 text-md-warning mr-2"
+                            class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                         >
@@ -154,7 +154,7 @@ const user = computed(() => page.props.auth.user)
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <p class="text-sm text-md-on-warning-container">
+                        <p class="text-sm text-yellow-800 dark:text-yellow-200">
                             {{ t('profile.company.no_company') }}
                         </p>
                     </div>

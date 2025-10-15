@@ -185,7 +185,7 @@ onMounted(() => {
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-md-success"
+                    class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
                 >
                     {{ t('profile.information.verification_sent') }}
                 </div>
@@ -204,7 +204,7 @@ onMounted(() => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-md-on-surface-variant"
+                        class="text-sm text-gray-500 dark:text-gray-400"
                     >
                         {{ t('profile.information.saved') }}
                     </p>

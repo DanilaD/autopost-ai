@@ -258,7 +258,7 @@ onMounted(() => {
                                 {{ $page.props.auth.user.name }}
                             </div>
                             <div
-                                class="text-sm font-medium text-md-on-surface-variant"
+                                class="text-sm font-medium text-gray-500 dark:text-gray-400"
                             >
                                 {{ $page.props.auth.user.email }}
                             </div>

@@ -103,7 +103,7 @@ watch(
     <Head :title="t('auth.welcome_back')" />
 
     <div
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-pattern-neutral-100 via-pattern-neutral-200 to-pattern-primary-light dark:from-pattern-neutral-900 dark:via-pattern-neutral-800 dark:to-pattern-primary-dark relative"
+        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 relative"
     >
         <!-- Language Selector - Top Right -->
         <div class="absolute top-4 right-4 z-10">
@@ -115,21 +115,24 @@ watch(
         >
             <!-- Logo/Brand -->
             <div class="text-center">
-                <h1 class="text-4xl font-bold text-pattern-neutral-900">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">
                     Autopost AI
                 </h1>
-                <p v-if="isEmailStep" class="mt-3 text-pattern-neutral-600">
+                <p
+                    v-if="isEmailStep"
+                    class="mt-3 text-gray-600 dark:text-gray-400"
+                >
                     {{ t('auth.enter_email') }}
                 </p>
                 <p
                     v-else-if="isRegisterStep"
-                    class="mt-3 text-pattern-neutral-600"
+                    class="mt-3 text-gray-600 dark:text-gray-400"
                 >
                     {{ message || t('auth.new_here') }}
                 </p>
                 <p
                     v-else-if="isLoginStep"
-                    class="mt-3 text-pattern-neutral-600"
+                    class="mt-3 text-gray-600 dark:text-gray-400"
                 >
                     {{ message || t('auth.welcome_back') }}
                 </p>
@@ -151,12 +154,12 @@ watch(
                         type="email"
                         required
                         autofocus
-                        class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent transition-all duration-200"
+                        class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                         :placeholder="t('auth.email')"
                     />
                     <div
                         v-if="emailForm.errors.email"
-                        class="mt-2 text-sm text-pattern-error"
+                        class="mt-2 text-sm text-red-600 dark:text-red-400"
                     >
                         {{ emailForm.errors.email }}
                     </div>
@@ -188,12 +191,12 @@ watch(
                             v-model="registerForm.name"
                             type="text"
                             required
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             placeholder="Full Name"
                         />
                         <div
                             v-if="registerForm.errors.name"
-                            class="mt-2 text-sm text-pattern-error"
+                            class="mt-2 text-sm text-red-600 dark:text-red-400"
                         >
                             {{ registerForm.errors.name }}
                         </div>
@@ -209,7 +212,7 @@ watch(
                             type="email"
                             required
                             readonly
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 bg-pattern-neutral-200"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                             :placeholder="t('auth.email')"
                         />
                     </div>
@@ -223,12 +226,12 @@ watch(
                             v-model="registerForm.password"
                             type="password"
                             required
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             :placeholder="t('auth.password')"
                         />
                         <div
                             v-if="registerForm.errors.password"
-                            class="mt-2 text-sm text-pattern-error"
+                            class="mt-2 text-sm text-red-600 dark:text-red-400"
                         >
                             {{ registerForm.errors.password }}
                         </div>
@@ -243,7 +246,7 @@ watch(
                             v-model="registerForm.password_confirmation"
                             type="password"
                             required
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             placeholder="Confirm Password"
                         />
                     </div>
@@ -252,7 +255,7 @@ watch(
                 <div class="flex space-x-3">
                     <button
                         type="button"
-                        class="flex-1 py-3 px-4 border border-pattern-neutral-300 text-sm font-medium text-pattern-neutral-700 bg-pattern-neutral-100 hover:bg-pattern-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pattern-primary"
+                        class="flex-1 py-3 px-4 border border-gray-300 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         @click="goBack"
                     >
                         Back
@@ -284,7 +287,7 @@ watch(
                             type="email"
                             required
                             readonly
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 bg-pattern-neutral-200"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                             :placeholder="t('auth.email')"
                         />
                     </div>
@@ -299,18 +302,18 @@ watch(
                             v-model="loginForm.password"
                             type="password"
                             required
-                            class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 placeholder-pattern-neutral-500 text-pattern-neutral-900 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                             :placeholder="t('auth.password')"
                         />
                         <div
                             v-if="loginForm.errors.password"
-                            class="mt-2 text-sm text-pattern-error"
+                            class="mt-2 text-sm text-red-600 dark:text-red-400"
                         >
                             {{ loginForm.errors.password }}
                         </div>
                         <div
                             v-if="loginForm.errors.email"
-                            class="mt-2 text-sm text-pattern-error"
+                            class="mt-2 text-sm text-red-600 dark:text-red-400"
                         >
                             {{ loginForm.errors.email }}
                         </div>
@@ -321,9 +324,11 @@ watch(
                             <input
                                 v-model="loginForm.remember"
                                 type="checkbox"
-                                class="h-4 w-4 text-pattern-primary focus:ring-pattern-primary border-pattern-neutral-300"
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                             />
-                            <span class="ml-2 text-sm text-pattern-neutral-600">
+                            <span
+                                class="ml-2 text-sm text-gray-600 dark:text-gray-400"
+                            >
                                 {{ t('auth.remember_me') }}
                             </span>
                         </label>
@@ -331,7 +336,7 @@ watch(
                         <div class="text-sm">
                             <Link
                                 :href="route('password.request')"
-                                class="font-medium text-pattern-primary hover:text-pattern-primary-light transition-colors"
+                                class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
                             >
                                 {{ t('auth.forgot_password') }}
                             </Link>
@@ -342,7 +347,7 @@ watch(
                 <div class="flex space-x-3">
                     <button
                         type="button"
-                        class="flex-1 py-3 px-4 border border-pattern-neutral-300 text-sm font-medium text-pattern-neutral-700 bg-pattern-neutral-100 hover:bg-pattern-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pattern-primary"
+                        class="flex-1 py-3 px-4 border border-gray-300 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         @click="goBack"
                     >
                         Back
@@ -358,7 +363,7 @@ watch(
             </form>
 
             <!-- Footer -->
-            <div class="text-center text-sm text-pattern-neutral-500">
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400">
                 <p>{{ t('auth.secure_auth') }}</p>
             </div>
         </div>

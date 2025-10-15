@@ -24,7 +24,7 @@ const submit = () => {
     <Head :title="t('auth.forgot_password_title')" />
 
     <div
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-pattern-neutral-100 via-pattern-neutral-200 to-pattern-primary-light dark:from-pattern-neutral-900 dark:via-pattern-neutral-800 dark:to-pattern-primary-dark relative"
+        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 relative"
     >
         <!-- Language Selector - Top Right -->
         <div class="absolute top-4 right-4 z-10">
@@ -36,19 +36,13 @@ const submit = () => {
         >
             <!-- Logo/Brand -->
             <div class="text-center">
-                <h1
-                    class="text-4xl font-bold text-pattern-neutral-900 dark:text-pattern-neutral-100"
-                >
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">
                     Autopost AI
                 </h1>
-                <p
-                    class="mt-3 text-pattern-neutral-600 dark:text-pattern-neutral-400"
-                >
+                <p class="mt-3 text-gray-600 dark:text-gray-400">
                     {{ t('auth.forgot_password_title') }}
                 </p>
-                <p
-                    class="mt-2 text-sm text-pattern-neutral-500 dark:text-pattern-neutral-400"
-                >
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
                     {{ t('auth.forgot_password_description') }}
                 </p>
             </div>
@@ -56,10 +50,10 @@ const submit = () => {
             <!-- Status Message -->
             <div
                 v-if="status"
-                class="rounded-md bg-pattern-success-container p-4 text-center"
+                class="rounded-md bg-green-50 dark:bg-green-900/20 p-4 text-center"
             >
                 <p
-                    class="text-sm font-medium text-pattern-on-success-container"
+                    class="text-sm font-medium text-green-800 dark:text-green-200"
                 >
                     {{ status }}
                 </p>
@@ -78,12 +72,12 @@ const submit = () => {
                         required
                         autofocus
                         autocomplete="username"
-                        class="appearance-none relative block w-full px-4 py-3 border border-pattern-neutral-300 dark:border-pattern-neutral-600 placeholder-pattern-neutral-500 dark:placeholder-pattern-neutral-400 text-pattern-neutral-900 dark:text-pattern-neutral-100 bg-white dark:bg-pattern-neutral-800 focus:outline-none focus:ring-2 focus:ring-pattern-primary focus:border-transparent transition-all duration-200"
+                        class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                         :placeholder="t('auth.email')"
                     />
                     <div
                         v-if="form.errors.email"
-                        class="mt-2 text-sm text-pattern-error"
+                        class="mt-2 text-sm text-red-600 dark:text-red-400"
                     >
                         {{ form.errors.email }}
                     </div>
@@ -93,7 +87,7 @@ const submit = () => {
                 <div class="flex space-x-3">
                     <button
                         type="button"
-                        class="flex-1 py-3 px-4 border border-pattern-neutral-300 dark:border-pattern-neutral-600 text-sm font-medium text-pattern-neutral-700 dark:text-pattern-neutral-300 bg-pattern-neutral-100 dark:bg-pattern-neutral-700 hover:bg-pattern-neutral-200 dark:hover:bg-pattern-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pattern-primary"
+                        class="flex-1 py-3 px-4 border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         @click="$inertia.visit(route('login'))"
                     >
                         {{ t('auth.back') }}
@@ -110,13 +104,11 @@ const submit = () => {
 
             <!-- Back to Login Link -->
             <div class="text-center">
-                <p
-                    class="text-sm text-pattern-neutral-600 dark:text-pattern-neutral-400"
-                >
+                <p class="text-sm text-gray-600 dark:text-gray-400">
                     {{ t('auth.remember_password') }}
                     <Link
                         :href="route('login')"
-                        class="font-medium text-pattern-primary hover:text-pattern-primary-light transition-colors"
+                        class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
                     >
                         {{ t('auth.back_to_login') }}
                     </Link>
@@ -124,9 +116,7 @@ const submit = () => {
             </div>
 
             <!-- Footer -->
-            <div
-                class="text-center text-sm text-pattern-neutral-500 dark:text-pattern-neutral-400"
-            >
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400">
                 <p>{{ t('auth.secure_auth') }}</p>
             </div>
         </div>
