@@ -427,6 +427,44 @@ if [ "$LANG_COUNT" -gt 0 ]; then
   done
 fi
 
+# Gitignore audit: ensure required entries exist and auto-append missing ones
+print_header "8.1 Gitignore Audit"
+
+REQUIRED_GITIGNORE_ENTRIES=(
+  "node_modules/"
+  "vendor/"
+  "storage/"
+  "public/build/"
+  "public/hot"
+  ".DS_Store"
+  "/.env"
+  "/.env.*"
+  "bootstrap/cache/"
+)
+
+GITIGNORE_UPDATED=false
+
+# Create .gitignore if missing
+if [ ! -f .gitignore ]; then
+  print_warning ".gitignore not found. Creating a new one."
+  touch .gitignore
+fi
+
+for entry in "${REQUIRED_GITIGNORE_ENTRIES[@]}"; do
+  if ! grep -qxF "$entry" .gitignore; then
+    echo "$entry" >> .gitignore
+    print_info "Added to .gitignore: $entry"
+    GITIGNORE_UPDATED=true
+  fi
+done
+
+if [ "$GITIGNORE_UPDATED" = true ]; then
+  git add .gitignore >/dev/null 2>&1 || true
+  print_success ".gitignore updated and staged"
+else
+  print_success ".gitignore already contains required entries"
+fi
+
 # Dark-mode audit: flag lines adding bg-white or text-black without dark: fallback
 if [ "$VUE_COUNT" -gt 0 ]; then
   print_info "Auditing staged Vue files for dark-mode unsafe classes..."

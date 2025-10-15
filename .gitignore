@@ -155,3 +155,11 @@ public
 # Temporary folders
 tmp/
 temp/
+node_modules/
+vendor/
+storage/
+public/build/
+public/hot
+/.env
+/.env.*
+bootstrap/cache/
