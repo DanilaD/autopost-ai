@@ -200,27 +200,31 @@ const openImpersonateModal = async (user) => {
 
     processing.value = true
 
-    router.post(route('admin.users.impersonate', user.id), {}, {
-        onSuccess: () => {
-            Swal.fire({
-                title: t('admin.users.success'),
-                text: `${t('admin.users.impersonation_started')}: ${user.name}`,
-                icon: 'success',
-                timer: 2000,
-                showConfirmButton: false,
-            })
-        },
-        onError: () => {
-            Swal.fire({
-                title: t('admin.users.error'),
-                text: t('admin.users.action_failed'),
-                icon: 'error',
-            })
-        },
-        onFinish: () => {
-            processing.value = false
-        },
-    })
+    router.post(
+        route('admin.users.impersonate', user.id),
+        {},
+        {
+            onSuccess: () => {
+                Swal.fire({
+                    title: t('admin.users.success'),
+                    text: `${t('admin.users.impersonation_started')}: ${user.name}`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                })
+            },
+            onError: () => {
+                Swal.fire({
+                    title: t('admin.users.error'),
+                    text: t('admin.users.action_failed'),
+                    icon: 'error',
+                })
+            },
+            onFinish: () => {
+                processing.value = false
+            },
+        }
+    )
 }
 
 const formatDate = (dateString) => {
@@ -251,9 +255,13 @@ const getRoleBadgeClass = (role) => {
     const classes = {
         admin: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
         user: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-        network: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+        network:
+            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
     }
-    return classes[role] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+    return (
+        classes[role] ||
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+    )
 }
 
 const getStatusBadgeClass = (isSuspended) => {
@@ -267,20 +275,22 @@ const getStatusBadgeClass = (isSuspended) => {
     <Head :title="t('admin.users.title')" />
 
     <AuthenticatedLayout>
+        <template #header>
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
+            >
+                {{ t('admin.users.title') }}
+            </h2>
+        </template>
+
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <!-- Header -->
-                <div class="mb-6">
-                    <h2
-                        class="text-2xl font-bold text-gray-900 dark:text-gray-100"
-                    >
-                        {{ t('admin.users.title') }}
-                    </h2>
-                </div>
-
                 <!-- Stats Cards -->
                 <div class="mb-6 flex gap-3 overflow-x-auto md:gap-4">
-                    <Tooltip :text="t('admin.users.tooltip_total_users')" position="top">
+                    <Tooltip
+                        :text="t('admin.users.tooltip_total_users')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -297,7 +307,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.users.tooltip_active_users')" position="top">
+                    <Tooltip
+                        :text="t('admin.users.tooltip_active_users')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -314,7 +327,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.users.tooltip_suspended_users')" position="top">
+                    <Tooltip
+                        :text="t('admin.users.tooltip_suspended_users')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -331,7 +347,10 @@ const getStatusBadgeClass = (isSuspended) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.users.tooltip_new_this_month')" position="top">
+                    <Tooltip
+                        :text="t('admin.users.tooltip_new_this_month')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -434,7 +453,11 @@ const getStatusBadgeClass = (isSuspended) => {
                                         <span
                                             v-if="user.role_in_current_company"
                                             class="inline-flex rounded-full px-2 text-xs font-semibold leading-5"
-                                            :class="getRoleBadgeClass(user.role_in_current_company)"
+                                            :class="
+                                                getRoleBadgeClass(
+                                                    user.role_in_current_company
+                                                )
+                                            "
                                         >
                                             {{ user.role_in_current_company }}
                                         </span>
@@ -450,7 +473,11 @@ const getStatusBadgeClass = (isSuspended) => {
                                     >
                                         <span
                                             class="inline-flex rounded-full px-2 text-xs font-semibold leading-5"
-                                            :class="getStatusBadgeClass(user.is_suspended)"
+                                            :class="
+                                                getStatusBadgeClass(
+                                                    user.is_suspended
+                                                )
+                                            "
                                         >
                                             {{
                                                 user.is_suspended
@@ -468,13 +495,34 @@ const getStatusBadgeClass = (isSuspended) => {
                                         class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400"
                                     >
                                         <div class="flex gap-3">
-                                            <div :title="t('admin.users.companies_count')">
-                                                🏢 {{ user.stats.companies_count }}
+                                            <div
+                                                :title="
+                                                    t(
+                                                        'admin.users.companies_count'
+                                                    )
+                                                "
+                                            >
+                                                🏢
+                                                {{ user.stats.companies_count }}
                                             </div>
-                                            <div :title="t('admin.users.instagram_accounts')">
-                                                📸 {{ user.stats.instagram_accounts_count }}
+                                            <div
+                                                :title="
+                                                    t(
+                                                        'admin.users.instagram_accounts'
+                                                    )
+                                                "
+                                            >
+                                                📸
+                                                {{
+                                                    user.stats
+                                                        .instagram_accounts_count
+                                                }}
                                             </div>
-                                            <div :title="t('admin.users.posts_count')">
+                                            <div
+                                                :title="
+                                                    t('admin.users.posts_count')
+                                                "
+                                            >
                                                 📝 {{ user.stats.posts_count }}
                                             </div>
                                         </div>
@@ -484,36 +532,51 @@ const getStatusBadgeClass = (isSuspended) => {
                                     >
                                         <div class="flex justify-end gap-2">
                                             <button
-                                                @click="sendPasswordReset(user)"
                                                 :disabled="processing"
                                                 class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 disabled:opacity-50"
-                                                :title="t('admin.users.send_password_reset')"
+                                                :title="
+                                                    t(
+                                                        'admin.users.send_password_reset'
+                                                    )
+                                                "
+                                                @click="sendPasswordReset(user)"
                                             >
                                                 🔑
                                             </button>
                                             <button
                                                 v-if="!user.is_suspended"
-                                                @click="openSuspendModal(user)"
                                                 :disabled="processing"
                                                 class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50"
-                                                :title="t('admin.users.suspend')"
+                                                :title="
+                                                    t('admin.users.suspend')
+                                                "
+                                                @click="openSuspendModal(user)"
                                             >
                                                 🚫
                                             </button>
                                             <button
                                                 v-else
-                                                @click="unsuspendUser(user)"
                                                 :disabled="processing"
                                                 class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 disabled:opacity-50"
-                                                :title="t('admin.users.unsuspend')"
+                                                :title="
+                                                    t('admin.users.unsuspend')
+                                                "
+                                                @click="unsuspendUser(user)"
                                             >
                                                 ✅
                                             </button>
                                             <button
-                                                @click="openImpersonateModal(user)"
-                                                :disabled="processing || user.is_suspended"
+                                                :disabled="
+                                                    processing ||
+                                                    user.is_suspended
+                                                "
                                                 class="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300 disabled:opacity-50"
-                                                :title="t('admin.users.impersonate')"
+                                                :title="
+                                                    t('admin.users.impersonate')
+                                                "
+                                                @click="
+                                                    openImpersonateModal(user)
+                                                "
                                             >
                                                 🎭
                                             </button>
@@ -540,7 +603,5 @@ const getStatusBadgeClass = (isSuspended) => {
                 </div>
             </div>
         </div>
-
     </AuthenticatedLayout>
 </template>
-

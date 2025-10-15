@@ -104,20 +104,22 @@ const truncate = (str, length = 50) => {
     <Head :title="t('admin.inquiries.title')" />
 
     <AuthenticatedLayout>
+        <template #header>
+            <h2
+                class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
+            >
+                {{ t('admin.inquiries.title') }}
+            </h2>
+        </template>
+
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <!-- Header -->
-                <div class="mb-6">
-                    <h2
-                        class="text-2xl font-bold text-gray-900 dark:text-gray-100"
-                    >
-                        {{ t('admin.inquiries.title') }}
-                    </h2>
-                </div>
-
                 <!-- Stats Cards -->
                 <div class="mb-6 flex gap-3 overflow-x-auto md:gap-4">
-                    <Tooltip :text="t('admin.inquiries.tooltip_total')" position="top">
+                    <Tooltip
+                        :text="t('admin.inquiries.tooltip_total')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -134,7 +136,10 @@ const truncate = (str, length = 50) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.inquiries.tooltip_today')" position="top">
+                    <Tooltip
+                        :text="t('admin.inquiries.tooltip_today')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -151,7 +156,10 @@ const truncate = (str, length = 50) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.inquiries.tooltip_this_week')" position="top">
+                    <Tooltip
+                        :text="t('admin.inquiries.tooltip_this_week')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -168,7 +176,10 @@ const truncate = (str, length = 50) => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip :text="t('admin.inquiries.tooltip_this_month')" position="top">
+                    <Tooltip
+                        :text="t('admin.inquiries.tooltip_this_month')"
+                        position="top"
+                    >
                         <div
                             class="flex-1 cursor-help rounded-lg bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
                         >
@@ -187,11 +198,15 @@ const truncate = (str, length = 50) => {
                 </div>
 
                 <!-- Search and Export -->
-                <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:justify-between">
+                <div
+                    class="mb-6 flex flex-col gap-4 sm:flex-row sm:justify-between"
+                >
                     <div class="w-full sm:w-96">
                         <SearchInput
                             v-model="search"
-                            :placeholder="t('admin.inquiries.search_placeholder')"
+                            :placeholder="
+                                t('admin.inquiries.search_placeholder')
+                            "
                             route-name="admin.inquiries.index"
                         />
                     </div>
@@ -285,15 +300,19 @@ const truncate = (str, length = 50) => {
                                         class="whitespace-nowrap px-6 py-4 text-right text-sm"
                                     >
                                         <DangerButton
-                                            @click="deleteInquiry(inquiry.id)"
                                             :disabled="deleting === inquiry.id"
                                             class="text-xs"
+                                            @click="deleteInquiry(inquiry.id)"
                                         >
-                                            <span v-if="deleting === inquiry.id">
+                                            <span
+                                                v-if="deleting === inquiry.id"
+                                            >
                                                 {{ t('admin.loading') }}
                                             </span>
                                             <span v-else>
-                                                {{ t('admin.inquiries.delete') }}
+                                                {{
+                                                    t('admin.inquiries.delete')
+                                                }}
                                             </span>
                                         </DangerButton>
                                     </td>
@@ -320,4 +339,3 @@ const truncate = (str, length = 50) => {
         </div>
     </AuthenticatedLayout>
 </template>
-
