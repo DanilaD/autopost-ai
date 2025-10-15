@@ -60,13 +60,15 @@ const welcomeMessage = computed(() => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                 <!-- Welcome Card -->
                 <div
-                    class="overflow-hidden bg-md-primary shadow-elevation-3 rounded-md"
+                    class="overflow-hidden rounded-md shadow-elevation-3 bg-indigo-600 dark:bg-indigo-500"
                 >
-                    <div class="p-8 text-md-on-primary">
-                        <h3 class="text-2xl font-bold">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white">
                             {{ greeting }}, {{ user.name }}! 👋
                         </h3>
-                        <p class="mt-2 text-md-primary-container opacity-90">
+                        <p
+                            class="mt-2 text-indigo-100 opacity-90 dark:text-indigo-200"
+                        >
                             {{ welcomeMessage }}
                         </p>
                     </div>
