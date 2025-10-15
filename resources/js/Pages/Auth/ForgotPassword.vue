@@ -103,7 +103,7 @@ const submit = () => {
                         :disabled="form.processing"
                         class="flex-1 py-3 px-4 border border-transparent text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                     >
-                        {{ t('auth.email_password_reset_link') }}
+                        {{ t('auth.reset') }}
                     </button>
                 </div>
             </form>
@@ -113,7 +113,7 @@ const submit = () => {
                 <p
                     class="text-sm text-pattern-neutral-600 dark:text-pattern-neutral-400"
                 >
-                    Remember your password?
+                    {{ t('auth.remember_password') }}
                     <Link
                         :href="route('login')"
                         class="font-medium text-pattern-primary hover:text-pattern-primary-light transition-colors"
