@@ -34,6 +34,17 @@ Route::middleware('auth')->group(function () {
 // Locale switcher (available to everyone)
 Route::post('/locale', \App\Http\Controllers\LocaleController::class)->name('locale.change');
 
+// Media serving route for private files
+Route::middleware('auth')->get('/media/{path}', function ($path) {
+    $fullPath = storage_path('app/private/'.$path);
+
+    if (! file_exists($fullPath)) {
+        abort(404);
+    }
+
+    return response()->file($fullPath);
+})->where('path', '.*')->name('media.serve');
+
 // Instagram routes
 Route::middleware(['auth', 'verified'])->prefix('instagram')->name('instagram.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'index'])->name('index');
@@ -41,6 +52,19 @@ Route::middleware(['auth', 'verified'])->prefix('instagram')->name('instagram.')
     Route::get('/callback', [\App\Http\Controllers\Instagram\InstagramOAuthController::class, 'callback'])->name('callback');
     Route::post('/{account}/disconnect', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'disconnect'])->name('disconnect');
     Route::post('/{account}/sync', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'sync'])->name('sync');
+});
+
+// Post routes
+Route::middleware(['auth', 'verified'])->prefix('posts')->name('posts.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\PostController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\PostController::class, 'store'])->name('store');
+    Route::get('/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('show');
+    Route::get('/{post}/edit', [\App\Http\Controllers\PostController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [\App\Http\Controllers\PostController::class, 'update'])->name('update');
+    Route::delete('/{post}', [\App\Http\Controllers\PostController::class, 'destroy'])->name('destroy');
+    Route::post('/{post}/schedule', [\App\Http\Controllers\PostController::class, 'schedule'])->name('schedule');
+    Route::get('/stats/overview', [\App\Http\Controllers\PostController::class, 'stats'])->name('stats');
 });
 
 // Admin routes - requires admin role in current company

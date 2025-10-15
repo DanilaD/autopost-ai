@@ -347,9 +347,19 @@ class PostMediaService
             $newStoragePath = "posts/{$newPostId}/{$newFilename}";
 
             try {
-                // Copy the file
+                // Copy the file - check both private and public storage
                 $originalPath = "posts/{$originalMedia->post_id}/{$originalMedia->filename}";
-                $newPath = Storage::disk('public')->copy($originalPath, $newStoragePath);
+                $privatePath = "private/posts/{$originalMedia->post_id}/{$originalMedia->filename}";
+
+                // Try to copy from private storage first (old files), then public storage (new files)
+                if (Storage::disk('local')->exists($privatePath)) {
+                    $newPath = Storage::disk('local')->copy($privatePath, "private/{$newStoragePath}");
+                    $newStoragePath = "private/{$newStoragePath}";
+                } elseif (Storage::disk('public')->exists($originalPath)) {
+                    $newPath = Storage::disk('public')->copy($originalPath, $newStoragePath);
+                } else {
+                    throw new \Exception("Original media file not found: {$originalMedia->filename}");
+                }
 
                 if (! $newPath) {
                     throw new \Exception("Failed to copy media file: {$originalMedia->filename}");
@@ -359,6 +369,7 @@ class PostMediaService
                 $this->mediaRepository->create([
                     'post_id' => $newPostId,
                     'filename' => $newFilename,
+                    'original_filename' => $originalMedia->original_filename,
                     'storage_path' => $newStoragePath,
                     'file_size' => $originalMedia->file_size,
                     'mime_type' => $originalMedia->mime_type,
