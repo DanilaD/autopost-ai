@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### CI Alignment (2025-10-15)
+
+- GitHub Actions workflow `Laravel CI` updated to run local quality gates in CI
+- Runs `scripts/pre-commit-check.sh` (Pint, ESLint, tests, docs/i18n/timezone/architecture)
+- PHP 8.2 + Node 20 + SQLite test DB; Composer and npm caching enabled
+
 #### Development Tools (2025-10-09)
 
 - Git hooks with Husky for code quality enforcement

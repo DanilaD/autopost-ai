@@ -2,7 +2,7 @@
 
 **Project:** Autopost AI - AI-Powered Instagram Content Platform  
 **Last Updated:** October 15, 2025  
-**Version:** 1.5
+**Version:** 1.6
 
 ---
 
@@ -947,15 +947,30 @@ All documentation should include:
 
 ---
 
-**Last Updated:** January 10, 2025  
-**Version:** 1.5  
+**Last Updated:** October 15, 2025  
+**Version:** 1.6  
 **Maintained By:** Development Team
 
 ---
 
 ## 📢 Recent Updates
 
-### October 15, 2025 - Material Design 3 Standardization & Test Fixes 🔧 **LATEST**
+### October 15, 2025 - CI Alignment with Local Quality Gates 🔧 **LATEST**
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ GitHub Actions workflow `Laravel CI` now mirrors local pre-commit checks
+- ✅ Runs `scripts/pre-commit-check.sh` on push/PR (PHP 8.2, Node 20)
+- ✅ Caches Composer and npm; creates SQLite DB for tests
+- ✅ Ensures docs/i18n/timezone/architecture checks run in CI too
+
+**Why:** Single source of truth for quality gates locally and in CI.
+
+---
+
+### October 15, 2025 - Material Design 3 Standardization & Test Fixes 🔧
 
 **Status:** ✅ Complete & Deployed
 

@@ -220,15 +220,21 @@ autopost-ai/
 
 ## 🔧 Scripts
 
-Reusable helper scripts live under `scripts/`:
+Reusable helper scripts live under `scripts/` and are also executed in CI:
 
 - `scripts/update-ngrok-url.sh`: update local share URL in config
 - `scripts/restore-local-config.sh`: restore local config from backups
 - `scripts/share-app.sh`: helper to share app URL
 - `scripts/check-instagram-config.sh`: validate required env/config for Instagram
-- `scripts/install-git-hooks.sh`, `scripts/pre-commit-check.sh`: git hooks and pre-commit checks
+- `scripts/install-git-hooks.sh`, `scripts/pre-commit-check.sh`: git hooks and comprehensive pre-commit checks (run locally and in CI)
 
 Note: one-off cleanup scripts used during UI migration were removed after completion.
+
+### CI Integration
+
+- GitHub Actions workflow `.github/workflows/laravel.yml` runs `scripts/pre-commit-check.sh` on push/PR
+- Environment: PHP 8.2, Node 20, SQLite test database
+- Includes Pint, ESLint, tests, docs/i18n/timezone/architecture validations
 ```
 
 ## 🔧 Configuration
