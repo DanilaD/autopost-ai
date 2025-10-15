@@ -377,7 +377,7 @@ const initializeForm = () => {
                   size: media.file_size || 0,
                   preview: media.storage_path
                       ? media.storage_path.startsWith('private/')
-                          ? `/media/${media.storage_path}`
+                          ? `/media/${media.storage_path.replace('private/', '')}`
                           : `/storage/${media.storage_path}`
                       : null,
                   isExisting: true, // Flag to identify existing media
@@ -390,7 +390,7 @@ const initializeForm = () => {
                     size: media.file_size || 0,
                     preview: media.storage_path
                         ? media.storage_path.startsWith('private/')
-                            ? `/media/${media.storage_path}`
+                            ? `/media/${media.storage_path.replace('private/', '')}`
                             : `/storage/${media.storage_path}`
                         : null,
                     isExisting: true, // Flag to identify existing media
