@@ -167,12 +167,6 @@ const submit = () => {
                     class="text-sm text-pattern-neutral-600 dark:text-pattern-neutral-400"
                 >
                     {{ t('auth.new_here') }}
-                    <Link
-                        :href="route('register')"
-                        class="font-medium text-pattern-primary hover:text-pattern-primary-light transition-colors"
-                    >
-                        {{ t('auth.register') }}
-                    </Link>
                 </p>
             </div>
 
