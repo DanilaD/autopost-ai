@@ -51,7 +51,7 @@ defineProps({
             <!-- Action Buttons -->
             <div class="space-y-4">
                 <Link
-                    :href="route('dashboard')"
+                    :href="route('home')"
                     class="w-full py-3 px-4 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 rounded-md inline-block"
                 >
                     {{ t('errors.go_home') }}
