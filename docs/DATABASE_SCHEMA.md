@@ -1,9 +1,9 @@
 # Database Schema Documentation
 
 **Project:** Autopost AI  
-**Version:** 1.4  
-**Date:** October 10, 2025  
-**Recent Update:** Searchable Timezone Dropdown & Instagram OAuth Fixes
+**Version:** 1.5  
+**Date:** October 15, 2025  
+**Recent Update:** Post Management System with Media Handling & Scheduling
 
 ---
 
@@ -723,6 +723,119 @@ CREATE TABLE content_plans (
 
 ---
 
+### Post Management Tables
+
+#### `posts` ✨ **NEW**
+
+**Purpose:** Complete post management system with media support and scheduling.
+
+```sql
+CREATE TABLE posts (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT UNSIGNED NOT NULL,
+    company_id BIGINT UNSIGNED NOT NULL,
+    instagram_account_id BIGINT UNSIGNED NOT NULL,
+    type ENUM('feed', 'reel', 'story', 'carousel') NOT NULL,
+    status ENUM('draft', 'scheduled', 'published', 'failed') NOT NULL DEFAULT 'draft',
+    title VARCHAR(255) NULL,
+    caption TEXT NULL,
+    scheduled_at TIMESTAMP NULL,
+    published_at TIMESTAMP NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (instagram_account_id) REFERENCES instagram_accounts(id) ON DELETE CASCADE,
+    INDEX idx_user (user_id),
+    INDEX idx_company (company_id),
+    INDEX idx_instagram_account (instagram_account_id),
+    INDEX idx_status (status),
+    INDEX idx_type (type),
+    INDEX idx_scheduled_at (scheduled_at),
+    INDEX idx_published_at (published_at),
+    INDEX idx_user_status (user_id, status),
+    INDEX idx_company_status (company_id, status)
+);
+```
+
+**Relationships:**
+
+- `belongsTo(User)` - Post creator
+- `belongsTo(Company)` - Company context
+- `belongsTo(InstagramAccount)` - Target Instagram account
+- `hasMany(PostMedia)` - Associated media files
+
+**Post Types:**
+
+- `feed` - Standard Instagram feed posts
+- `reel` - Short-form video content
+- `story` - 24-hour temporary content
+- `carousel` - Multiple images/videos in one post
+
+**Post Statuses:**
+
+- `draft` - Work in progress, not scheduled
+- `scheduled` - Scheduled for future publishing
+- `published` - Successfully published to Instagram
+- `failed` - Publishing failed, can be retried
+
+---
+
+#### `post_media` ✨ **NEW**
+
+**Purpose:** Media file management for posts with metadata and ordering.
+
+```sql
+CREATE TABLE post_media (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    post_id BIGINT UNSIGNED NOT NULL,
+    type ENUM('image', 'video') NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+    file_size BIGINT NOT NULL,
+    storage_path VARCHAR(500) NOT NULL,
+    url VARCHAR(500) NULL,
+    order INTEGER DEFAULT 0,
+    metadata JSON NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    INDEX idx_post (post_id),
+    INDEX idx_type (type),
+    INDEX idx_post_order (post_id, order)
+);
+```
+
+**Relationships:**
+
+- `belongsTo(Post)` - Parent post
+- `morphToMany()` - Media relationships
+
+**Metadata JSON Example:**
+
+```json
+{
+    "dimensions": {
+        "width": 1080,
+        "height": 1080
+    },
+    "mime_type": "image/jpeg",
+    "duration": null,
+    "thumbnail": "posts/123/thumbnails/300x300_image.jpg"
+}
+```
+
+**File Storage:**
+
+- **Public Storage:** `/storage/posts/{post_id}/{filename}` - Web-accessible
+- **Private Storage:** `/storage/app/private/posts/{post_id}/{filename}` - Secure
+- **Serving:** Private files served via `/media/{path}` route with authentication
+
+---
+
 ## Indexes
 
 ### Performance-Critical Indexes
@@ -974,11 +1087,10 @@ WHERE failed_at < DATE_SUB(NOW(), INTERVAL 30 DAY);
 **Change Log:**
 
 - `v1.1` - **Instagram Hybrid Ownership Model**
-  - Modified `instagram_accounts` table (added `user_id`, `is_shared`, `ownership_type`)
-  - Added `instagram_account_user` pivot table for sharing
-  - Added `instagram_posts` table for post management
-  - See: [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
-  
+    - Modified `instagram_accounts` table (added `user_id`, `is_shared`, `ownership_type`)
+    - Added `instagram_account_user` pivot table for sharing
+    - Added `instagram_posts` table for post management
+    - See: [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
 - `v1.0` - Initial schema design
 
 - Future: Add analytics tables, notification preferences, audit logs

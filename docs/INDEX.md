@@ -2,7 +2,7 @@
 
 **Project:** Autopost AI - AI-Powered Instagram Content Platform  
 **Last Updated:** October 15, 2025  
-**Version:** 1.7
+**Version:** 1.8
 
 ---
 
@@ -494,6 +494,40 @@ This directory contains comprehensive documentation for the Autopost AI project.
 
 **Status:** ✅ Complete & Current  
 **Estimated Reading Time:** 15-20 minutes
+
+---
+
+### 20. [POST_MANAGEMENT_SYSTEM.md](./POST_MANAGEMENT_SYSTEM.md) 🎯 **NEW**
+
+**Comprehensive post management system with media handling and scheduling.**
+
+**Contains:**
+
+- Complete post management system overview
+- Database schema for posts and post_media tables
+- Model relationships and Eloquent patterns
+- Service layer architecture (PostService, PostMediaService)
+- RESTful API endpoints and controllers
+- Vue.js frontend components (Create, Index, MediaUpload, DateTimePicker)
+- Multi-language support (EN, RU, ES)
+- Security features and authorization
+- Responsive design with dark mode support
+- Testing coverage and deployment guide
+- Performance optimization and troubleshooting
+- Future enhancement roadmap
+
+**Features:**
+
+- Create, edit, copy, and delete posts
+- Media upload and management (images/videos)
+- Post scheduling with date/time picker
+- Multiple post types (feed, reel, story, carousel)
+- Post status management (draft, scheduled, published, failed)
+- Search, filtering, and pagination
+- SweetAlert confirmations and toast notifications
+
+**Status:** ✅ Complete & Production Ready  
+**Estimated Reading Time:** 30-40 minutes
 
 ---
 
