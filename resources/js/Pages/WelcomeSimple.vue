@@ -103,15 +103,15 @@ watch(
     <Head :title="t('auth.welcome_back')" />
 
     <div
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative"
+        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900 relative"
     >
         <!-- Language Selector - Top Right -->
-        <div class="absolute top-4 right-4">
+        <div class="absolute top-4 right-4 z-10">
             <LanguageSelector />
         </div>
 
         <div
-            class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg"
+            class="max-w-md w-full space-y-8 p-10 bg-glass-card shadow-glass-md"
         >
             <!-- Logo/Brand -->
             <div class="text-center">

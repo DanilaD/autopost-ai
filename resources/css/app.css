@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./tokens.css";
+@import "./glass.css";
+
+/* Focus styles for accessibility */
+:focus-visible { 
+  outline: none; 
+}
+
+.focus-ring { 
+  @apply ring-2 ring-accent/60; 
+}
+
+/* Glass Edge specific focus styles */
+.focus-ring-glass {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(110, 86, 207, 0.1);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for glass theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-bg-soft);
+  border-radius: 4px;
+  border: 1px solid var(--glass-border-soft);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glass-bg);
+}

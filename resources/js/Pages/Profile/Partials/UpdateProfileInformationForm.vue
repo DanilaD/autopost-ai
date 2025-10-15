@@ -42,27 +42,31 @@ const timezoneOptions = computed(() => {
     if (!props.timezones || typeof props.timezones !== 'object') {
         return []
     }
-    
+
     let result = []
-    
+
     // Add common timezones first (if available)
     if (props.commonTimezones && typeof props.commonTimezones === 'object') {
-        const commonOptions = Object.entries(props.commonTimezones).map(([value, label]) => ({
-            value,
-            label: `⭐ ${label}` // Add star for common timezones
-        }))
+        const commonOptions = Object.entries(props.commonTimezones).map(
+            ([value, label]) => ({
+                value,
+                label: `⭐ ${label}`, // Add star for common timezones
+            })
+        )
         result = [...commonOptions]
     }
-    
+
     // Convert all timezones to array format
-    const allOptions = Object.entries(props.timezones).map(([value, label]) => ({
-        value,
-        label
-    }))
-    
+    const allOptions = Object.entries(props.timezones).map(
+        ([value, label]) => ({
+            value,
+            label,
+        })
+    )
+
     // Combine common timezones first, then all others
     result = [...result, ...allOptions]
-    
+
     return result
 })
 
@@ -87,6 +91,25 @@ onMounted(() => {
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 {{ t('profile.information.description') }}
             </p>
+
+            <div
+                class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
+            >
+                <p class="text-sm text-blue-800 dark:text-blue-200">
+                    <svg
+                        class="w-4 h-4 inline mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                    {{ t('profile.information.timezone_description') }}
+                </p>
+            </div>
         </header>
 
         <form
@@ -110,7 +133,10 @@ onMounted(() => {
             </div>
 
             <div>
-                <InputLabel for="email" :value="t('profile.information.email')" />
+                <InputLabel
+                    for="email"
+                    :value="t('profile.information.email')"
+                />
 
                 <TextInput
                     id="email"
@@ -125,22 +151,23 @@ onMounted(() => {
             </div>
 
             <div>
-                <InputLabel for="timezone" :value="t('profile.information.timezone')" />
+                <InputLabel
+                    for="timezone"
+                    :value="t('profile.information.timezone')"
+                />
 
                 <SimpleSearchableSelect
                     v-model="form.timezone"
                     :options="timezoneOptions"
                     :placeholder="t('profile.information.timezone')"
-                    :search-placeholder="t('profile.information.search_timezone')"
+                    :search-placeholder="
+                        t('profile.information.search_timezone')
+                    "
                     :error="form.errors.timezone"
                     class="mt-1"
                 />
 
                 <InputError class="mt-2" :message="form.errors.timezone" />
-                
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ t('profile.information.timezone_description') }}
-                </p>
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

@@ -1,0 +1,54 @@
+/* Glass Edge Design System - CSS Tokens */
+
+:root {
+  /* Light Mode Colors */
+  --bg-main: #F8FAFC;
+  --bg-card: rgba(255,255,255,.60);
+  --bg-card-soft: rgba(255,255,255,.45);
+  --txt: #111827;
+  --txt-2: #374151;
+  --txt-3: #6B7280;
+  --accent: #6E56CF;
+  --accent-light: #8B7BFF;
+  --brd-w: rgba(255,255,255,.65);
+  --brd-b: rgba(15,23,42,.10);
+  
+  /* Glass Effects */
+  --glass-bg: rgba(255,255,255,.60);
+  --glass-bg-soft: rgba(255,255,255,.45);
+  --glass-border: rgba(255,255,255,.65);
+  --glass-border-soft: rgba(255,255,255,.45);
+  --glass-shadow: 0 8px 24px rgba(15,23,42,.10);
+  --glass-blur: 16px;
+}
+
+/* Dark Mode Colors */
+.dark {
+  --bg-main: #0F172A;
+  --bg-card: rgba(15,23,42,.60);
+  --bg-card-soft: rgba(15,23,42,.45);
+  --txt: #F8FAFC;
+  --txt-2: #E2E8F0;
+  --txt-3: #94A3B8;
+  --brd-w: rgba(255,255,255,.10);
+  --brd-b: rgba(0,0,0,.20);
+  
+  /* Dark Glass Effects */
+  --glass-bg: rgba(15,23,42,.60);
+  --glass-bg-soft: rgba(15,23,42,.45);
+  --glass-border: rgba(255,255,255,.10);
+  --glass-border-soft: rgba(255,255,255,.05);
+  --glass-shadow: 0 8px 24px rgba(0,0,0,.20);
+}
+
+/* Base Styles */
+html, body { 
+  background: var(--bg-main); 
+  color: var(--txt); 
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}

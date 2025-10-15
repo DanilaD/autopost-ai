@@ -1,0 +1,135 @@
+/* Glass Edge Design System - Glass Effects */
+
+/* Primary Glass Effect */
+.bg-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Soft Glass Effect */
+.bg-glass-soft {
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border-soft);
+  box-shadow: 0 4px 16px rgba(15,23,42,.08);
+}
+
+/* Glass Card with Enhanced Effects */
+.bg-glass-card {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+}
+
+/* Glass Button */
+.btn-glass {
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border-soft);
+  box-shadow: 0 4px 16px rgba(15,23,42,.08);
+  transition: all 0.2s ease;
+}
+
+.btn-glass:hover {
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  transform: translateY(-1px);
+}
+
+/* Glass Input */
+.input-glass {
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border-soft);
+  box-shadow: inset 0 1px 2px rgba(15,23,42,.05);
+}
+
+.input-glass:focus {
+  background: var(--glass-bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 86, 207, 0.1), inset 0 1px 2px rgba(15,23,42,.05);
+}
+
+/* Glass Navigation */
+.nav-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 1px 3px rgba(15,23,42,.08);
+}
+
+/* Glass Modal */
+.modal-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 40px rgba(15,23,42,.14);
+  border-radius: 20px;
+}
+
+/* Glass Toast */
+.toast-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 12px;
+}
+
+/* Glass Dropdown */
+.dropdown-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 12px;
+}
+
+/* Focus Ring for Glass Elements */
+.focus-ring-glass {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(110, 86, 207, 0.1);
+}
+
+/* Glass Edge Specific Utilities */
+.glass-blur-sm { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.glass-blur-md { -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.glass-blur-lg { -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+
+/* Glass Gradients */
+.glass-gradient {
+  background: linear-gradient(135deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,.05) 100%);
+}
+
+.dark .glass-gradient {
+  background: linear-gradient(135deg, rgba(15,23,42,.1) 0%, rgba(15,23,42,.05) 100%);
+}
+
+/* Glass Edge Animations */
+@keyframes glass-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.glass-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+  background-size: 200% 100%;
+  animation: glass-shimmer 2s infinite;
+}
+
+.dark .glass-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+}
