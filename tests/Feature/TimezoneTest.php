@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 /**
  * Test timezone functionality across the application.
- * 
+ *
  * Tests include:
  * - Timezone detection and storage during registration
  * - Timezone updates via profile
@@ -34,7 +34,7 @@ class TimezoneTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        
+
         $user = User::where('email', 'test@example.com')->first();
         $this->assertEquals('America/New_York', $user->timezone);
     }
@@ -52,7 +52,7 @@ class TimezoneTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        
+
         $user = User::where('email', 'test@example.com')->first();
         $this->assertEquals('UTC', $user->timezone);
     }
@@ -111,8 +111,9 @@ class TimezoneTest extends TestCase
             'timezone' => 'Not/A/Real/Timezone',
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors('timezone');
-        
+
         $user->refresh();
         $this->assertEquals('UTC', $user->timezone);
     }
@@ -131,6 +132,7 @@ class TimezoneTest extends TestCase
             'email' => $user->email,
         ]);
 
+        $response->assertStatus(302);
         $response->assertSessionHasErrors('timezone');
     }
 
@@ -139,17 +141,17 @@ class TimezoneTest extends TestCase
      */
     public function test_timezone_service_returns_valid_flat_timezones(): void
     {
-        $service = new TimezoneService();
+        $service = new TimezoneService;
         $timezones = $service->getFlatTimezones();
 
         $this->assertIsArray($timezones);
         $this->assertNotEmpty($timezones);
-        
+
         // Check that common timezones exist
         $this->assertArrayHasKey('UTC', $timezones);
         $this->assertArrayHasKey('America/New_York', $timezones);
         $this->assertArrayHasKey('Europe/London', $timezones);
-        
+
         // Check format of labels
         foreach ($timezones as $identifier => $label) {
             $this->assertIsString($identifier);
@@ -163,17 +165,17 @@ class TimezoneTest extends TestCase
      */
     public function test_timezone_service_returns_grouped_timezones(): void
     {
-        $service = new TimezoneService();
+        $service = new TimezoneService;
         $grouped = $service->getGroupedTimezones();
 
         $this->assertIsArray($grouped);
         $this->assertNotEmpty($grouped);
-        
+
         // Check that main regions exist
         $this->assertArrayHasKey('Europe', $grouped);
         $this->assertArrayHasKey('America', $grouped);
         $this->assertArrayHasKey('Asia', $grouped);
-        
+
         // Check structure
         foreach ($grouped as $region => $timezones) {
             $this->assertIsString($region);
@@ -187,7 +189,7 @@ class TimezoneTest extends TestCase
      */
     public function test_timezone_service_validates_timezones(): void
     {
-        $service = new TimezoneService();
+        $service = new TimezoneService;
 
         // Valid timezones
         $this->assertTrue($service->isValid('UTC'));
@@ -206,11 +208,11 @@ class TimezoneTest extends TestCase
      */
     public function test_timezone_service_gets_offset_hours(): void
     {
-        $service = new TimezoneService();
+        $service = new TimezoneService;
 
         // UTC should be 0
         $this->assertEquals(0, $service->getOffsetHours('UTC'));
-        
+
         // Test a known timezone offset (may vary by DST)
         $offset = $service->getOffsetHours('America/New_York');
         $this->assertIsInt($offset);
@@ -223,12 +225,12 @@ class TimezoneTest extends TestCase
      */
     public function test_timezone_service_returns_common_timezones(): void
     {
-        $service = new TimezoneService();
+        $service = new TimezoneService;
         $common = $service->getCommonTimezones();
 
         $this->assertIsArray($common);
         $this->assertNotEmpty($common);
-        
+
         // Check that expected common timezones are included (USA, Canada, and key cities)
         $this->assertArrayHasKey('UTC', $common);
         $this->assertArrayHasKey('America/New_York', $common);
@@ -239,7 +241,7 @@ class TimezoneTest extends TestCase
         $this->assertArrayHasKey('America/Guayaquil', $common); // Quito
         $this->assertArrayHasKey('Europe/Minsk', $common);
         $this->assertArrayHasKey('Europe/Kiev', $common);
-        
+
         // Common list should be smaller than full list
         $this->assertLessThan(count($service->getFlatTimezones()), count($common));
     }
@@ -257,9 +259,9 @@ class TimezoneTest extends TestCase
         $response = $this->actingAs($user)->get('/dashboard');
 
         $response->assertOk();
-        
+
         // The middleware should have set the timezone
-        // Note: In tests, the config is reset between requests, 
+        // Note: In tests, the config is reset between requests,
         // but we can verify the user has the timezone set
         $this->assertEquals('Europe/London', $user->timezone);
     }
@@ -274,11 +276,9 @@ class TimezoneTest extends TestCase
         $response = $this->actingAs($user)->get('/profile');
 
         $response->assertOk();
-        $response->assertInertia(fn ($page) => 
-            $page->has('timezones')
-                 ->has('timezones.UTC') // Check that UTC timezone exists
-                 ->has('timezones.America/New_York') // Check a common timezone
+        $response->assertInertia(fn ($page) => $page->has('timezones')
+            ->has('timezones.UTC') // Check that UTC timezone exists
+            ->has('timezones.America/New_York') // Check a common timezone
         );
     }
 }
-

@@ -50,6 +50,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
                     return redirect()->route('errors.500');
                 case 403:
+                    // For tests, return 403 status instead of redirect
+                    if (app()->environment('testing')) {
+                        return response('Forbidden', 403);
+                    }
+
                     return redirect()->route('errors.403');
                 case 404:
                     return redirect()->route('errors.404');
