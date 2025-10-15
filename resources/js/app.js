@@ -95,49 +95,74 @@ const messages = {
             connected: 'Connected',
             sync: 'Sync',
             disconnect: 'Disconnect',
-            disconnect_confirm: 'Are you sure you want to disconnect @{username}? You can reconnect it anytime.',
+            disconnect_confirm:
+                'Are you sure you want to disconnect @{username}? You can reconnect it anytime.',
             disconnect_confirm_title: 'Disconnect Instagram Account?',
-            disconnect_confirm_message: 'Are you sure you want to disconnect {username}? You can reconnect it anytime.',
+            disconnect_confirm_message:
+                'Are you sure you want to disconnect {username}? You can reconnect it anytime.',
             disconnect_button: 'Yes, Disconnect',
             disconnect_cancel: 'Cancel',
             status_active: 'Active',
             status_expired: 'Expired',
             status_expiring_soon: 'Expiring Soon',
-            token_warning: 'Your access token will expire soon. Please reconnect this account to continue posting.',
+            token_warning:
+                'Your access token will expire soon. Please reconnect this account to continue posting.',
         },
         profile: {
             title: 'Profile',
             information: {
                 title: 'Profile Information',
-                description: "Update your account's profile information and email address.",
+                description:
+                    "Update your account's profile information and email address.",
                 name: 'Name',
                 email: 'Email',
                 timezone: 'Timezone',
-                timezone_description: 'All dates and times will be displayed in your selected timezone.',
+                timezone_description:
+                    'All dates and times will be displayed in your selected timezone.',
                 search_timezone: 'Search timezones...',
                 common_timezones: '🌟 Quick Select (USA, Canada & Key Cities)',
                 all_timezones: '🌍 All Timezones',
                 unverified_email: 'Your email address is unverified.',
-                resend_verification: 'Click here to re-send the verification email.',
-                verification_sent: 'A new verification link has been sent to your email address.',
+                resend_verification:
+                    'Click here to re-send the verification email.',
+                verification_sent:
+                    'A new verification link has been sent to your email address.',
                 save: 'Save',
                 saved: 'Saved.',
             },
             password: {
                 title: 'Update Password',
-                description: 'Ensure your account is using a long, random password to stay secure.',
+                description:
+                    'Ensure your account is using a long, random password to stay secure.',
                 current_password: 'Current Password',
                 new_password: 'New Password',
                 confirm_password: 'Confirm Password',
                 save: 'Save',
                 saved: 'Saved.',
             },
+            company: {
+                title: 'Company Information',
+                description: 'Your current company and team details.',
+                no_company:
+                    'You are not currently associated with any company.',
+                member_since: 'Member since',
+                role_admin: 'Administrator',
+                role_user: 'User',
+                role_network: 'Network Manager',
+                member_singular: 'Team Member',
+                member_plural: 'Team Members',
+                instagram_account_singular: 'Instagram Account',
+                instagram_account_plural: 'Instagram Accounts',
+                manage_accounts: 'Manage Instagram Accounts',
+            },
             delete: {
                 title: 'Delete Account',
-                description: 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
+                description:
+                    'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
                 button: 'Delete Account',
                 confirm_title: 'Are you sure you want to delete your account?',
-                confirm_description: 'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
+                confirm_description:
+                    'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
                 password: 'Password',
                 password_placeholder: 'Password',
                 cancel: 'Cancel',
@@ -169,13 +194,15 @@ const messages = {
                 this_week: 'This Week',
                 this_month: 'This Month',
                 delete_confirm_title: 'Delete Inquiry?',
-                delete_confirm_message: 'This action cannot be undone. The inquiry will be permanently deleted.',
+                delete_confirm_message:
+                    'This action cannot be undone. The inquiry will be permanently deleted.',
                 confirm_delete: 'Yes, delete it',
                 cancel: 'Cancel',
                 deleted_success: 'Deleted!',
                 deleted_message: 'Inquiry has been deleted successfully.',
                 delete_error: 'Error!',
-                delete_error_message: 'Failed to delete inquiry. Please try again.',
+                delete_error_message:
+                    'Failed to delete inquiry. Please try again.',
                 tooltip_total: 'Total number of inquiries received',
                 tooltip_today: 'Inquiries received today',
                 tooltip_this_week: 'Inquiries received this week',
@@ -209,26 +236,32 @@ const messages = {
                 instagram_accounts: 'Instagram Accounts',
                 posts_count: 'Posts',
                 suspend_modal_title: 'Suspend User',
-                suspend_modal_message: 'Please provide a reason for suspension:',
+                suspend_modal_message:
+                    'Please provide a reason for suspension:',
                 confirm_suspend: 'Suspend',
                 cancel: 'Cancel',
                 confirm_impersonate_title: 'Impersonate User',
-                confirm_impersonate_message: 'You will be logged in as this user. You can stop impersonation at any time.',
+                confirm_impersonate_message:
+                    'You will be logged in as this user. You can stop impersonation at any time.',
                 confirm_password_reset_title: 'Send Password Reset?',
-                confirm_password_reset_message: 'A password reset link will be sent to',
+                confirm_password_reset_message:
+                    'A password reset link will be sent to',
                 confirm_unsuspend_title: 'Unsuspend User?',
-                confirm_unsuspend_message: 'This user will be able to log in again.',
+                confirm_unsuspend_message:
+                    'This user will be able to log in again.',
                 confirm: 'Confirm',
                 success: 'Success!',
                 error: 'Error!',
-                password_reset_sent: 'Password reset link has been sent successfully',
+                password_reset_sent:
+                    'Password reset link has been sent successfully',
                 user_suspended: 'User has been suspended',
                 user_unsuspended: 'User has been unsuspended',
                 impersonation_started: 'Now impersonating user',
                 action_failed: 'Failed to complete action. Please try again.',
                 tooltip_total_users: 'Total number of registered users',
                 tooltip_active_users: 'Users who are active and not suspended',
-                tooltip_suspended_users: 'Users who have been suspended by admins',
+                tooltip_suspended_users:
+                    'Users who have been suspended by admins',
                 tooltip_new_this_month: 'New users registered this month',
             },
             impersonating: 'You are impersonating',
@@ -307,49 +340,76 @@ const messages = {
             connected: 'Подключен',
             sync: 'Синхронизировать',
             disconnect: 'Отключить',
-            disconnect_confirm: 'Вы уверены, что хотите отключить @{username}? Вы можете переподключить его в любое время.',
+            disconnect_confirm:
+                'Вы уверены, что хотите отключить @{username}? Вы можете переподключить его в любое время.',
             disconnect_confirm_title: 'Отключить аккаунт Instagram?',
-            disconnect_confirm_message: 'Вы уверены, что хотите отключить {username}? Вы можете переподключить его в любое время.',
+            disconnect_confirm_message:
+                'Вы уверены, что хотите отключить {username}? Вы можете переподключить его в любое время.',
             disconnect_button: 'Да, отключить',
             disconnect_cancel: 'Отмена',
             status_active: 'Активен',
             status_expired: 'Истек',
             status_expiring_soon: 'Скоро истечет',
-            token_warning: 'Ваш токен доступа скоро истечет. Пожалуйста, переподключите этот аккаунт для продолжения публикаций.',
+            token_warning:
+                'Ваш токен доступа скоро истечет. Пожалуйста, переподключите этот аккаунт для продолжения публикаций.',
         },
         profile: {
             title: 'Профиль',
             information: {
                 title: 'Информация профиля',
-                description: 'Обновите информацию вашего профиля и адрес электронной почты.',
+                description:
+                    'Обновите информацию вашего профиля и адрес электронной почты.',
                 name: 'Имя',
                 email: 'Электронная почта',
                 timezone: 'Часовой пояс',
-                timezone_description: 'Все даты и время будут отображаться в выбранном часовом поясе.',
+                timezone_description:
+                    'Все даты и время будут отображаться в выбранном часовом поясе.',
                 search_timezone: 'Поиск часовых поясов...',
-                common_timezones: '🌟 Быстрый выбор (США, Канада и Ключевые города)',
+                common_timezones:
+                    '🌟 Быстрый выбор (США, Канада и Ключевые города)',
                 all_timezones: '🌍 Все часовые пояса',
                 unverified_email: 'Ваш адрес электронной почты не подтвержден.',
-                resend_verification: 'Нажмите здесь, чтобы повторно отправить письмо с подтверждением.',
-                verification_sent: 'Новая ссылка для подтверждения отправлена на ваш адрес электронной почты.',
+                resend_verification:
+                    'Нажмите здесь, чтобы повторно отправить письмо с подтверждением.',
+                verification_sent:
+                    'Новая ссылка для подтверждения отправлена на ваш адрес электронной почты.',
                 save: 'Сохранить',
                 saved: 'Сохранено.',
             },
             password: {
                 title: 'Обновить пароль',
-                description: 'Убедитесь, что ваша учетная запись использует длинный случайный пароль для обеспечения безопасности.',
+                description:
+                    'Убедитесь, что ваша учетная запись использует длинный случайный пароль для обеспечения безопасности.',
                 current_password: 'Текущий пароль',
                 new_password: 'Новый пароль',
                 confirm_password: 'Подтвердите пароль',
                 save: 'Сохранить',
                 saved: 'Сохранено.',
             },
+            company: {
+                title: 'Информация о компании',
+                description: 'Информация о вашей текущей компании и команде.',
+                no_company:
+                    'Вы в настоящее время не связаны ни с одной компанией.',
+                member_since: 'Участник с',
+                role_admin: 'Администратор',
+                role_user: 'Пользователь',
+                role_network: 'Менеджер сети',
+                member_singular: 'Участник команды',
+                member_plural: 'Участники команды',
+                instagram_account_singular: 'Аккаунт Instagram',
+                instagram_account_plural: 'Аккаунты Instagram',
+                manage_accounts: 'Управлять аккаунтами Instagram',
+            },
             delete: {
                 title: 'Удалить аккаунт',
-                description: 'После удаления вашей учетной записи все ее ресурсы и данные будут удалены навсегда. Перед удалением учетной записи загрузите все данные или информацию, которую хотите сохранить.',
+                description:
+                    'После удаления вашей учетной записи все ее ресурсы и данные будут удалены навсегда. Перед удалением учетной записи загрузите все данные или информацию, которую хотите сохранить.',
                 button: 'Удалить аккаунт',
-                confirm_title: 'Вы уверены, что хотите удалить свою учетную запись?',
-                confirm_description: 'После удаления вашей учетной записи все ее ресурсы и данные будут удалены навсегда. Пожалуйста, введите свой пароль для подтверждения окончательного удаления учетной записи.',
+                confirm_title:
+                    'Вы уверены, что хотите удалить свою учетную запись?',
+                confirm_description:
+                    'После удаления вашей учетной записи все ее ресурсы и данные будут удалены навсегда. Пожалуйста, введите свой пароль для подтверждения окончательного удаления учетной записи.',
                 password: 'Пароль',
                 password_placeholder: 'Пароль',
                 cancel: 'Отмена',
@@ -381,13 +441,15 @@ const messages = {
                 this_week: 'На Этой Неделе',
                 this_month: 'В Этом Месяце',
                 delete_confirm_title: 'Удалить Запрос?',
-                delete_confirm_message: 'Это действие нельзя отменить. Запрос будет удалён навсегда.',
+                delete_confirm_message:
+                    'Это действие нельзя отменить. Запрос будет удалён навсегда.',
                 confirm_delete: 'Да, удалить',
                 cancel: 'Отмена',
                 deleted_success: 'Удалено!',
                 deleted_message: 'Запрос успешно удалён.',
                 delete_error: 'Ошибка!',
-                delete_error_message: 'Не удалось удалить запрос. Попробуйте снова.',
+                delete_error_message:
+                    'Не удалось удалить запрос. Попробуйте снова.',
                 tooltip_total: 'Общее количество полученных запросов',
                 tooltip_today: 'Запросы, полученные сегодня',
                 tooltip_this_week: 'Запросы, полученные на этой неделе',
@@ -421,27 +483,37 @@ const messages = {
                 instagram_accounts: 'Аккаунты Instagram',
                 posts_count: 'Публикации',
                 suspend_modal_title: 'Блокировка Пользователя',
-                suspend_modal_message: 'Пожалуйста, укажите причину блокировки:',
+                suspend_modal_message:
+                    'Пожалуйста, укажите причину блокировки:',
                 confirm_suspend: 'Заблокировать',
                 cancel: 'Отмена',
                 confirm_impersonate_title: 'Вход как Пользователь',
-                confirm_impersonate_message: 'Вы войдёте как этот пользователь. Вы можете остановить вход в любое время.',
+                confirm_impersonate_message:
+                    'Вы войдёте как этот пользователь. Вы можете остановить вход в любое время.',
                 confirm_password_reset_title: 'Отправить Сброс Пароля?',
-                confirm_password_reset_message: 'Ссылка для сброса пароля будет отправлена на',
+                confirm_password_reset_message:
+                    'Ссылка для сброса пароля будет отправлена на',
                 confirm_unsuspend_title: 'Разблокировать Пользователя?',
-                confirm_unsuspend_message: 'Этот пользователь снова сможет войти в систему.',
+                confirm_unsuspend_message:
+                    'Этот пользователь снова сможет войти в систему.',
                 confirm: 'Подтвердить',
                 success: 'Успешно!',
                 error: 'Ошибка!',
-                password_reset_sent: 'Ссылка для сброса пароля успешно отправлена',
+                password_reset_sent:
+                    'Ссылка для сброса пароля успешно отправлена',
                 user_suspended: 'Пользователь заблокирован',
                 user_unsuspended: 'Пользователь разблокирован',
                 impersonation_started: 'Теперь вы работаете как пользователь',
-                action_failed: 'Не удалось выполнить действие. Попробуйте снова.',
-                tooltip_total_users: 'Общее количество зарегистрированных пользователей',
-                tooltip_active_users: 'Пользователи, которые активны и не заблокированы',
-                tooltip_suspended_users: 'Пользователи, которые были заблокированы администраторами',
-                tooltip_new_this_month: 'Новые пользователи, зарегистрированные в этом месяце',
+                action_failed:
+                    'Не удалось выполнить действие. Попробуйте снова.',
+                tooltip_total_users:
+                    'Общее количество зарегистрированных пользователей',
+                tooltip_active_users:
+                    'Пользователи, которые активны и не заблокированы',
+                tooltip_suspended_users:
+                    'Пользователи, которые были заблокированы администраторами',
+                tooltip_new_this_month:
+                    'Новые пользователи, зарегистрированные в этом месяце',
             },
             impersonating: 'Вы вошли как',
             stop_impersonation: 'Остановить Вход',
@@ -519,49 +591,77 @@ const messages = {
             connected: 'Conectado',
             sync: 'Sincronizar',
             disconnect: 'Desconectar',
-            disconnect_confirm: '¿Estás seguro de que quieres desconectar @{username}? Puedes reconectarlo en cualquier momento.',
+            disconnect_confirm:
+                '¿Estás seguro de que quieres desconectar @{username}? Puedes reconectarlo en cualquier momento.',
             disconnect_confirm_title: '¿Desconectar cuenta de Instagram?',
-            disconnect_confirm_message: '¿Estás seguro de que quieres desconectar {username}? Puedes reconectarla en cualquier momento.',
+            disconnect_confirm_message:
+                '¿Estás seguro de que quieres desconectar {username}? Puedes reconectarla en cualquier momento.',
             disconnect_button: 'Sí, desconectar',
             disconnect_cancel: 'Cancelar',
             status_active: 'Activo',
             status_expired: 'Expirado',
             status_expiring_soon: 'Por expirar',
-            token_warning: 'Tu token de acceso expirará pronto. Por favor, vuelve a conectar esta cuenta para continuar publicando.',
+            token_warning:
+                'Tu token de acceso expirará pronto. Por favor, vuelve a conectar esta cuenta para continuar publicando.',
         },
         profile: {
             title: 'Perfil',
             information: {
                 title: 'Información del Perfil',
-                description: 'Actualiza la información de tu cuenta y dirección de correo electrónico.',
+                description:
+                    'Actualiza la información de tu cuenta y dirección de correo electrónico.',
                 name: 'Nombre',
                 email: 'Correo Electrónico',
                 timezone: 'Zona Horaria',
-                timezone_description: 'Todas las fechas y horas se mostrarán en la zona horaria seleccionada.',
+                timezone_description:
+                    'Todas las fechas y horas se mostrarán en la zona horaria seleccionada.',
                 search_timezone: 'Buscar zonas horarias...',
-                common_timezones: '🌟 Selección Rápida (EE.UU., Canadá y Ciudades Clave)',
+                common_timezones:
+                    '🌟 Selección Rápida (EE.UU., Canadá y Ciudades Clave)',
                 all_timezones: '🌍 Todas las Zonas Horarias',
-                unverified_email: 'Tu dirección de correo electrónico no está verificada.',
-                resend_verification: 'Haz clic aquí para reenviar el correo de verificación.',
-                verification_sent: 'Se ha enviado un nuevo enlace de verificación a tu dirección de correo electrónico.',
+                unverified_email:
+                    'Tu dirección de correo electrónico no está verificada.',
+                resend_verification:
+                    'Haz clic aquí para reenviar el correo de verificación.',
+                verification_sent:
+                    'Se ha enviado un nuevo enlace de verificación a tu dirección de correo electrónico.',
                 save: 'Guardar',
                 saved: 'Guardado.',
             },
             password: {
                 title: 'Actualizar Contraseña',
-                description: 'Asegúrate de que tu cuenta utiliza una contraseña larga y aleatoria para mantener la seguridad.',
+                description:
+                    'Asegúrate de que tu cuenta utiliza una contraseña larga y aleatoria para mantener la seguridad.',
                 current_password: 'Contraseña Actual',
                 new_password: 'Nueva Contraseña',
                 confirm_password: 'Confirmar Contraseña',
                 save: 'Guardar',
                 saved: 'Guardado.',
             },
+            company: {
+                title: 'Información de la empresa',
+                description: 'Detalles de tu empresa actual y equipo.',
+                no_company:
+                    'Actualmente no estás asociado con ninguna empresa.',
+                member_since: 'Miembro desde',
+                role_admin: 'Administrador',
+                role_user: 'Usuario',
+                role_network: 'Gerente de red',
+                member_singular: 'Miembro del equipo',
+                member_plural: 'Miembros del equipo',
+                instagram_account_singular: 'Cuenta de Instagram',
+                instagram_account_plural: 'Cuentas de Instagram',
+                manage_accounts: 'Gestionar cuentas de Instagram',
+            },
             delete: {
                 title: 'Eliminar Cuenta',
-                description: 'Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán permanentemente. Antes de eliminar tu cuenta, descarga cualquier dato o información que desees conservar.',
+                description:
+                    'Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán permanentemente. Antes de eliminar tu cuenta, descarga cualquier dato o información que desees conservar.',
                 button: 'Eliminar Cuenta',
-                confirm_title: '¿Estás seguro de que quieres eliminar tu cuenta?',
-                confirm_description: 'Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán permanentemente. Por favor, ingresa tu contraseña para confirmar que deseas eliminar permanentemente tu cuenta.',
+                confirm_title:
+                    '¿Estás seguro de que quieres eliminar tu cuenta?',
+                confirm_description:
+                    'Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán permanentemente. Por favor, ingresa tu contraseña para confirmar que deseas eliminar permanentemente tu cuenta.',
                 password: 'Contraseña',
                 password_placeholder: 'Contraseña',
                 cancel: 'Cancelar',
@@ -593,13 +693,15 @@ const messages = {
                 this_week: 'Esta Semana',
                 this_month: 'Este Mes',
                 delete_confirm_title: '¿Eliminar Consulta?',
-                delete_confirm_message: 'Esta acción no se puede deshacer. La consulta se eliminará permanentemente.',
+                delete_confirm_message:
+                    'Esta acción no se puede deshacer. La consulta se eliminará permanentemente.',
                 confirm_delete: 'Sí, eliminarla',
                 cancel: 'Cancelar',
                 deleted_success: '¡Eliminado!',
                 deleted_message: 'La consulta se ha eliminado correctamente.',
                 delete_error: '¡Error!',
-                delete_error_message: 'No se pudo eliminar la consulta. Por favor, inténtelo de nuevo.',
+                delete_error_message:
+                    'No se pudo eliminar la consulta. Por favor, inténtelo de nuevo.',
                 tooltip_total: 'Número total de consultas recibidas',
                 tooltip_today: 'Consultas recibidas hoy',
                 tooltip_this_week: 'Consultas recibidas esta semana',
@@ -633,26 +735,35 @@ const messages = {
                 instagram_accounts: 'Cuentas de Instagram',
                 posts_count: 'Publicaciones',
                 suspend_modal_title: 'Suspender Usuario',
-                suspend_modal_message: 'Por favor, proporcione una razón para la suspensión:',
+                suspend_modal_message:
+                    'Por favor, proporcione una razón para la suspensión:',
                 confirm_suspend: 'Suspender',
                 cancel: 'Cancelar',
                 confirm_impersonate_title: 'Suplantar Usuario',
-                confirm_impersonate_message: 'Iniciará sesión como este usuario. Puede detener la suplantación en cualquier momento.',
-                confirm_password_reset_title: '¿Enviar Restablecimiento de Contraseña?',
-                confirm_password_reset_message: 'Se enviará un enlace de restablecimiento de contraseña a',
+                confirm_impersonate_message:
+                    'Iniciará sesión como este usuario. Puede detener la suplantación en cualquier momento.',
+                confirm_password_reset_title:
+                    '¿Enviar Restablecimiento de Contraseña?',
+                confirm_password_reset_message:
+                    'Se enviará un enlace de restablecimiento de contraseña a',
                 confirm_unsuspend_title: '¿Reactivar Usuario?',
-                confirm_unsuspend_message: 'Este usuario podrá iniciar sesión nuevamente.',
+                confirm_unsuspend_message:
+                    'Este usuario podrá iniciar sesión nuevamente.',
                 confirm: 'Confirmar',
                 success: '¡Éxito!',
                 error: '¡Error!',
-                password_reset_sent: 'Enlace de restablecimiento de contraseña enviado correctamente',
+                password_reset_sent:
+                    'Enlace de restablecimiento de contraseña enviado correctamente',
                 user_suspended: 'Usuario suspendido',
                 user_unsuspended: 'Usuario reactivado',
                 impersonation_started: 'Ahora está suplantando al usuario',
-                action_failed: 'No se pudo completar la acción. Por favor, inténtelo de nuevo.',
+                action_failed:
+                    'No se pudo completar la acción. Por favor, inténtelo de nuevo.',
                 tooltip_total_users: 'Número total de usuarios registrados',
-                tooltip_active_users: 'Usuarios que están activos y no suspendidos',
-                tooltip_suspended_users: 'Usuarios que han sido suspendidos por administradores',
+                tooltip_active_users:
+                    'Usuarios que están activos y no suspendidos',
+                tooltip_suspended_users:
+                    'Usuarios que han sido suspendidos por administradores',
                 tooltip_new_this_month: 'Nuevos usuarios registrados este mes',
             },
             impersonating: 'Está suplantando a',

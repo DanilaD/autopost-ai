@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Profile',
-    
+
     // Profile Information Section
     'information' => [
         'title' => 'Profile Information',
@@ -19,7 +19,23 @@ return [
         'save' => 'Save',
         'saved' => 'Saved.',
     ],
-    
+
+    // Company Information Section
+    'company' => [
+        'title' => 'Company Information',
+        'description' => 'Your current company and team details.',
+        'no_company' => 'You are not currently associated with any company.',
+        'member_since' => 'Member since',
+        'role_admin' => 'Administrator',
+        'role_user' => 'User',
+        'role_network' => 'Network Manager',
+        'member_singular' => 'Team Member',
+        'member_plural' => 'Team Members',
+        'instagram_account_singular' => 'Instagram Account',
+        'instagram_account_plural' => 'Instagram Accounts',
+        'manage_accounts' => 'Manage Instagram Accounts',
+    ],
+
     // Update Password Section
     'password' => [
         'title' => 'Update Password',
@@ -30,7 +46,7 @@ return [
         'save' => 'Save',
         'saved' => 'Saved.',
     ],
-    
+
     // Delete Account Section
     'delete' => [
         'title' => 'Delete Account',
@@ -44,4 +60,3 @@ return [
         'confirm_button' => 'Delete Account',
     ],
 ];
-
