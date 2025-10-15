@@ -1,51 +1,188 @@
-/* Glass Edge Design System - CSS Tokens */
+/* Material Design 3 - CSS Tokens */
 
 :root {
-  /* Light Mode Colors */
-  --bg-main: #F8FAFC;
-  --bg-card: rgba(255,255,255,.60);
-  --bg-card-soft: rgba(255,255,255,.45);
-  --txt: #111827;
-  --txt-2: #374151;
-  --txt-3: #6B7280;
-  --accent: #6E56CF;
-  --accent-light: #8B7BFF;
-  --brd-w: rgba(255,255,255,.65);
-  --brd-b: rgba(15,23,42,.10);
+  /* Material Design 3 Light Mode Colors */
+  --md-primary: #2196f3;
+  --md-primary-container: #e3f2fd;
+  --md-on-primary: #ffffff;
+  --md-on-primary-container: #0d47a1;
   
-  /* Glass Effects */
-  --glass-bg: rgba(255,255,255,.60);
-  --glass-bg-soft: rgba(255,255,255,.45);
-  --glass-border: rgba(255,255,255,.65);
-  --glass-border-soft: rgba(255,255,255,.45);
-  --glass-shadow: 0 8px 24px rgba(15,23,42,.10);
-  --glass-blur: 16px;
+  --md-secondary: #9c27b0;
+  --md-secondary-container: #f3e5f5;
+  --md-on-secondary: #ffffff;
+  --md-on-secondary-container: #4a148c;
+  
+  --md-tertiary: #ff9800;
+  --md-tertiary-container: #fff3e0;
+  --md-on-tertiary: #ffffff;
+  --md-on-tertiary-container: #e65100;
+  
+  --md-error: #f44336;
+  --md-error-container: #ffebee;
+  --md-on-error: #ffffff;
+  --md-on-error-container: #b71c1c;
+  
+  --md-success: #4caf50;
+  --md-success-container: #e8f5e8;
+  --md-on-success: #ffffff;
+  --md-on-success-container: #1b5e20;
+  
+  --md-warning: #ffc107;
+  --md-warning-container: #fff8e1;
+  --md-on-warning: #000000;
+  --md-on-warning-container: #ff6f00;
+  
+  /* Material Design 3 Surface Colors */
+  --md-surface: #ffffff;
+  --md-surface-dim: #f5f5f5;
+  --md-surface-bright: #ffffff;
+  --md-surface-container-lowest: #ffffff;
+  --md-surface-container-low: #fafafa;
+  --md-surface-container: #f5f5f5;
+  --md-surface-container-high: #eeeeee;
+  --md-surface-container-highest: #e0e0e0;
+  
+  --md-on-surface: #212121;
+  --md-on-surface-variant: #424242;
+  
+  /* Material Design 3 Background Colors */
+  --md-background: #fafafa;
+  --md-on-background: #212121;
+  
+  /* Material Design 3 Outline Colors */
+  --md-outline: #757575;
+  --md-outline-variant: #bdbdbd;
+  
+  /* Material Design 3 Shadow Colors */
+  --md-shadow: rgba(0, 0, 0, 0.3);
+  --md-shadow-light: rgba(0, 0, 0, 0.15);
+  
+  /* Material Design 3 State Layer Colors */
+  --md-state-hover: rgba(33, 150, 243, 0.08);
+  --md-state-focus: rgba(33, 150, 243, 0.12);
+  --md-state-pressed: rgba(33, 150, 243, 0.16);
+  --md-state-dragged: rgba(33, 150, 243, 0.16);
 }
 
-/* Dark Mode Colors */
+/* Material Design 3 Dark Mode Colors */
 .dark {
-  --bg-main: #0F172A;
-  --bg-card: rgba(15,23,42,.60);
-  --bg-card-soft: rgba(15,23,42,.45);
-  --txt: #F8FAFC;
-  --txt-2: #E2E8F0;
-  --txt-3: #94A3B8;
-  --brd-w: rgba(255,255,255,.10);
-  --brd-b: rgba(0,0,0,.20);
+  --md-primary: #64b5f6;
+  --md-primary-container: #0d47a1;
+  --md-on-primary: #0d47a1;
+  --md-on-primary-container: #e3f2fd;
   
-  /* Dark Glass Effects */
-  --glass-bg: rgba(15,23,42,.60);
-  --glass-bg-soft: rgba(15,23,42,.45);
-  --glass-border: rgba(255,255,255,.10);
-  --glass-border-soft: rgba(255,255,255,.05);
-  --glass-shadow: 0 8px 24px rgba(0,0,0,.20);
+  --md-secondary: #ce93d8;
+  --md-secondary-container: #4a148c;
+  --md-on-secondary: #4a148c;
+  --md-on-secondary-container: #f3e5f5;
+  
+  --md-tertiary: #ffb74d;
+  --md-tertiary-container: #e65100;
+  --md-on-tertiary: #e65100;
+  --md-on-tertiary-container: #fff3e0;
+  
+  --md-error: #f44336;
+  --md-error-container: #b71c1c;
+  --md-on-error: #ffffff;
+  --md-on-error-container: #ffebee;
+  
+  --md-success: #66bb6a;
+  --md-success-container: #1b5e20;
+  --md-on-success: #ffffff;
+  --md-on-success-container: #e8f5e8;
+  
+  --md-warning: #ffca28;
+  --md-warning-container: #ff6f00;
+  --md-on-warning: #000000;
+  --md-on-warning-container: #fff8e1;
+  
+  /* Material Design 3 Dark Surface Colors */
+  --md-surface: #121212;
+  --md-surface-dim: #0f0f0f;
+  --md-surface-bright: #383838;
+  --md-surface-container-lowest: #0f0f0f;
+  --md-surface-container-low: #1a1a1a;
+  --md-surface-container: #1f1f1f;
+  --md-surface-container-high: #2a2a2a;
+  --md-surface-container-highest: #353535;
+  
+  --md-on-surface: #e0e0e0;
+  --md-on-surface-variant: #bdbdbd;
+  
+  /* Material Design 3 Dark Background Colors */
+  --md-background: #121212;
+  --md-on-background: #e0e0e0;
+  
+  /* Material Design 3 Dark Outline Colors */
+  --md-outline: #616161;
+  --md-outline-variant: #424242;
+  
+  /* Material Design 3 Dark Shadow Colors */
+  --md-shadow: rgba(0, 0, 0, 0.3);
+  --md-shadow-light: rgba(0, 0, 0, 0.15);
+  
+  /* Material Design 3 Dark State Layer Colors */
+  --md-state-hover: rgba(100, 181, 246, 0.08);
+  --md-state-focus: rgba(100, 181, 246, 0.12);
+  --md-state-pressed: rgba(100, 181, 246, 0.16);
+  --md-state-dragged: rgba(100, 181, 246, 0.16);
 }
+
+/* Material Design 3 Utility Classes */
+.bg-md-primary { background-color: var(--md-primary); }
+.bg-md-primary-container { background-color: var(--md-primary-container); }
+.bg-md-secondary { background-color: var(--md-secondary); }
+.bg-md-secondary-container { background-color: var(--md-secondary-container); }
+.bg-md-tertiary { background-color: var(--md-tertiary); }
+.bg-md-tertiary-container { background-color: var(--md-tertiary-container); }
+.bg-md-error { background-color: var(--md-error); }
+.bg-md-error-container { background-color: var(--md-error-container); }
+.bg-md-success { background-color: var(--md-success); }
+.bg-md-success-container { background-color: var(--md-success-container); }
+.bg-md-warning { background-color: var(--md-warning); }
+.bg-md-warning-container { background-color: var(--md-warning-container); }
+.bg-md-surface { background-color: var(--md-surface); }
+.bg-md-surface-container { background-color: var(--md-surface-container); }
+.bg-md-surface-container-low { background-color: var(--md-surface-container-low); }
+.bg-md-surface-container-high { background-color: var(--md-surface-container-high); }
+.bg-md-background { background-color: var(--md-background); }
+
+.text-md-primary { color: var(--md-primary); }
+.text-md-on-primary { color: var(--md-on-primary); }
+.text-md-on-primary-container { color: var(--md-on-primary-container); }
+.text-md-secondary { color: var(--md-secondary); }
+.text-md-on-secondary { color: var(--md-on-secondary); }
+.text-md-on-secondary-container { color: var(--md-on-secondary-container); }
+.text-md-tertiary { color: var(--md-tertiary); }
+.text-md-on-tertiary { color: var(--md-on-tertiary); }
+.text-md-on-tertiary-container { color: var(--md-on-tertiary-container); }
+.text-md-error { color: var(--md-error); }
+.text-md-on-error { color: var(--md-on-error); }
+.text-md-on-error-container { color: var(--md-on-error-container); }
+.text-md-success { color: var(--md-success); }
+.text-md-on-success { color: var(--md-on-success); }
+.text-md-on-success-container { color: var(--md-on-success-container); }
+.text-md-warning { color: var(--md-warning); }
+.text-md-on-warning { color: var(--md-on-warning); }
+.text-md-on-warning-container { color: var(--md-on-warning-container); }
+.text-md-on-surface { color: var(--md-on-surface); }
+.text-md-on-surface-variant { color: var(--md-on-surface-variant); }
+.text-md-on-background { color: var(--md-on-background); }
+
+.border-md-outline { border-color: var(--md-outline); }
+.border-md-outline-variant { border-color: var(--md-outline-variant); }
+
+/* Material Design 3 State Layer Classes */
+.hover-md-state:hover { background-color: var(--md-state-hover); }
+.focus-md-state:focus { background-color: var(--md-state-focus); }
+.pressed-md-state:active { background-color: var(--md-state-pressed); }
+.dragged-md-state { background-color: var(--md-state-dragged); }
 
 /* Base Styles */
 html, body { 
-  background: var(--bg-main); 
-  color: var(--txt); 
-  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--md-background); 
+  color: var(--md-on-background); 
+  font-family: 'Roboto', system-ui, sans-serif;
 }
 
 /* Smooth transitions for theme switching */

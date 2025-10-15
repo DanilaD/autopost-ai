@@ -28,42 +28,62 @@ const submit = () => {
     <AuthLayout>
         <Head :title="t('auth.forgot_password_title')" />
 
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ t('auth.forgot_password_description') }}
+        <!-- Header Section -->
+        <div class="mb-8 text-center">
+            <h1 class="text-2xl font-bold text-md-on-surface">
+                {{ t('auth.forgot_password_title') }}
+            </h1>
+            <p class="mt-2 text-sm text-md-on-surface-variant">
+                {{ t('auth.forgot_password_description') }}
+            </p>
         </div>
 
+        <!-- Status Message -->
         <div
             v-if="status"
-            class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+            class="mb-6 rounded-md bg-md-success-container p-4 text-center"
         >
-            {{ status }}
+            <p class="text-sm font-medium text-md-on-success-container">
+                {{ status }}
+            </p>
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" :value="t('auth.email')" />
+        <!-- Form Card -->
+        <div class="bg-md-surface-container rounded-md p-6 shadow-elevation-1">
+            <form class="space-y-6" @submit.prevent="submit">
+                <div>
+                    <InputLabel for="email" :value="t('auth.email')" />
+                    <TextInput
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="mt-1 block w-full"
+                        required
+                        autofocus
+                        autocomplete="username"
+                    />
+                    <InputError class="mt-2" :message="form.errors.email" />
+                </div>
 
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+                <div class="flex items-center justify-end">
+                    <PrimaryButton
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        {{ t('auth.email_password_reset_link') }}
+                    </PrimaryButton>
+                </div>
+            </form>
+        </div>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    {{ t('auth.email_password_reset_link') }}
-                </PrimaryButton>
-            </div>
-        </form>
+        <!-- Back to Login Link -->
+        <div class="mt-6 text-center">
+            <a
+                :href="route('login')"
+                class="text-sm text-md-primary hover:text-md-primary-container transition-colors duration-medium2"
+            >
+                ← {{ t('auth.back_to_login') }}
+            </a>
+        </div>
     </AuthLayout>
 </template>

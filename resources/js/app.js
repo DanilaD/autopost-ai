@@ -41,6 +41,7 @@ const messages = {
             forgot_password_description:
                 "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
             email_password_reset_link: 'Email Password Reset Link',
+            back_to_login: 'Back to Login',
         },
         errors: {
             page_not_found: 'Page Not Found',
@@ -314,6 +315,7 @@ const messages = {
             forgot_password_description:
                 'Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.',
             email_password_reset_link: 'Отправить ссылку для сброса пароля',
+            back_to_login: 'Вернуться к входу',
         },
         errors: {
             page_not_found: 'Страница не найдена',
@@ -593,6 +595,7 @@ const messages = {
             forgot_password_description:
                 '¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.',
             email_password_reset_link: 'Enviar enlace de restablecimiento',
+            back_to_login: 'Volver al inicio de sesión',
         },
         errors: {
             page_not_found: 'Página no encontrada',
