@@ -63,7 +63,9 @@ const welcomeMessage = computed(() => {
                     class="overflow-hidden rounded-md shadow-elevation-3 bg-indigo-600 dark:bg-indigo-500"
                 >
                     <div class="p-8">
-                        <h3 class="text-2xl font-bold text-white">
+                        <h3
+                            class="text-2xl font-bold text-white dark:text-white"
+                        >
                             {{ greeting }}, {{ user.name }}! 👋
                         </h3>
                         <p
