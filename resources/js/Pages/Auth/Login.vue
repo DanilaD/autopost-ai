@@ -149,7 +149,7 @@ const submit = () => {
                         class="flex-1 py-3 px-4 border border-pattern-neutral-300 dark:border-pattern-neutral-600 text-sm font-medium text-pattern-neutral-700 dark:text-pattern-neutral-300 bg-pattern-neutral-100 dark:bg-pattern-neutral-700 hover:bg-pattern-neutral-200 dark:hover:bg-pattern-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pattern-primary"
                         @click="$inertia.visit(route('welcome'))"
                     >
-                        Back
+                        {{ t('auth.back') }}
                     </button>
                     <button
                         type="submit"
