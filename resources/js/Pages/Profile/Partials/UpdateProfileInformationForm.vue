@@ -84,18 +84,18 @@ onMounted(() => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-md-on-surface">
                 {{ t('profile.information.title') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-md-on-surface-variant">
                 {{ t('profile.information.description') }}
             </p>
 
             <div
-                class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
+                class="mt-3 p-3 bg-md-primary-container border border-md-primary rounded-md"
             >
-                <p class="text-sm text-blue-800 dark:text-blue-200">
+                <p class="text-sm text-md-on-primary-container">
                     <svg
                         class="w-4 h-4 inline mr-1"
                         fill="currentColor"
@@ -171,13 +171,13 @@ onMounted(() => {
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800 dark:text-gray-200">
+                <p class="mt-2 text-sm text-md-on-surface">
                     {{ t('profile.information.unverified_email') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="rounded-md text-sm text-md-primary underline hover:text-md-primary-container focus:outline-none focus:ring-2 focus:ring-md-primary focus:ring-offset-2"
                     >
                         {{ t('profile.information.resend_verification') }}
                     </Link>
@@ -185,7 +185,7 @@ onMounted(() => {
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
+                    class="mt-2 text-sm font-medium text-md-success"
                 >
                     {{ t('profile.information.verification_sent') }}
                 </div>
@@ -204,7 +204,7 @@ onMounted(() => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600 dark:text-gray-400"
+                        class="text-sm text-md-on-surface-variant"
                     >
                         {{ t('profile.information.saved') }}
                     </p>

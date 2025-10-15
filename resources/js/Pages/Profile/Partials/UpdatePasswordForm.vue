@@ -39,18 +39,21 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-md-on-surface">
                 {{ t('profile.password.title') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-md-on-surface-variant">
                 {{ t('profile.password.description') }}
             </p>
         </header>
 
         <form class="mt-6 space-y-6" @submit.prevent="updatePassword">
             <div>
-                <InputLabel for="current_password" :value="t('profile.password.current_password')" />
+                <InputLabel
+                    for="current_password"
+                    :value="t('profile.password.current_password')"
+                />
 
                 <TextInput
                     id="current_password"
@@ -68,7 +71,10 @@ const updatePassword = () => {
             </div>
 
             <div>
-                <InputLabel for="password" :value="t('profile.password.new_password')" />
+                <InputLabel
+                    for="password"
+                    :value="t('profile.password.new_password')"
+                />
 
                 <TextInput
                     id="password"
@@ -115,7 +121,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600 dark:text-gray-400"
+                        class="text-sm text-md-on-surface-variant"
                     >
                         {{ t('profile.password.saved') }}
                     </p>
