@@ -47,7 +47,9 @@ const user = computed(() => page.props.auth.user)
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                 <!-- Profile Header with Avatar -->
-                <div class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg">
+                <div
+                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
+                >
                     <div class="flex items-center space-x-6">
                         <!-- Avatar -->
                         <Avatar
@@ -115,7 +117,7 @@ const user = computed(() => page.props.auth.user)
                 <!-- Company Information -->
                 <div
                     v-if="company"
-                    class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg"
+                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
                 >
                     <header class="mb-4">
                         <h2
@@ -157,7 +159,9 @@ const user = computed(() => page.props.auth.user)
                 </div>
 
                 <!-- Profile Information Form -->
-                <div class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg">
+                <div
+                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
+                >
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
@@ -167,12 +171,16 @@ const user = computed(() => page.props.auth.user)
                 </div>
 
                 <!-- Update Password Form -->
-                <div class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg">
+                <div
+                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
+                >
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
                 <!-- Delete Account Form -->
-                <div class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg">
+                <div
+                    class="bg-md-surface-container p-6 shadow-elevation-1 rounded-md"
+                >
                     <DeleteUserForm class="max-w-xl" />
                 </div>
             </div>

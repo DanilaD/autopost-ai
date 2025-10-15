@@ -84,17 +84,23 @@ onMounted(() => {
                                 </NavLink>
 
                                 <!-- Admin Navigation -->
-                                <template v-if="$page.props.auth.user?.is_admin">
+                                <template
+                                    v-if="$page.props.auth.user?.is_admin"
+                                >
                                     <NavLink
                                         :href="route('admin.inquiries.index')"
-                                        :active="route().current('admin.inquiries.*')"
+                                        :active="
+                                            route().current('admin.inquiries.*')
+                                        "
                                     >
                                         {{ t('menu.inquiries') }}
                                     </NavLink>
 
                                     <NavLink
                                         :href="route('admin.users.index')"
-                                        :active="route().current('admin.users.*')"
+                                        :active="
+                                            route().current('admin.users.*')
+                                        "
                                     >
                                         {{ t('menu.users') }}
                                     </NavLink>
@@ -160,7 +166,9 @@ onMounted(() => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center space-x-2 sm:hidden">
+                        <div
+                            class="-me-2 flex items-center space-x-2 sm:hidden"
+                        >
                             <!-- Mobile Theme Toggle -->
                             <ThemeToggle />
 
@@ -240,7 +248,9 @@ onMounted(() => {
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-700">
+                    <div
+                        class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-700"
+                    >
                         <div class="px-4">
                             <div
                                 class="text-base font-medium text-gray-800 dark:text-gray-200"
@@ -248,7 +258,7 @@ onMounted(() => {
                                 {{ $page.props.auth.user.name }}
                             </div>
                             <div
-                                class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                class="text-sm font-medium text-md-on-surface-variant"
                             >
                                 {{ $page.props.auth.user.email }}
                             </div>

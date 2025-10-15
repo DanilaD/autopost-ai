@@ -37,16 +37,16 @@ const timezoneAbbreviation = computed(() => {
             timeZone: userTimezone.value,
             timeZoneName: 'short',
         })
-        
+
         // Extract timezone abbreviation (e.g., "3:45:12 PM EST" -> "EST")
         const parts = formatted.split(' ')
         const abbr = parts[parts.length - 1]
-        
+
         // If abbreviation looks like GMT offset, keep it; otherwise return it as is
         if (abbr && abbr.length <= 10) {
             return abbr
         }
-        
+
         // Fallback: calculate GMT offset
         return gmtOffset.value.replace('GMT', '')
     } catch (error) {
@@ -64,15 +64,11 @@ const timezoneName = computed(() => {
 // Get current time formatted
 const formattedTime = computed(() => {
     try {
-        return formatInTimezone(
-            currentTime.value,
-            userTimezone.value,
-            {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-            }
-        )
+        return formatInTimezone(currentTime.value, userTimezone.value, {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        })
     } catch (error) {
         return '12:00 PM'
     }
@@ -82,7 +78,7 @@ const formattedTime = computed(() => {
 const gmtOffset = computed(() => {
     try {
         const date = currentTime.value
-        
+
         // Get the timezone offset in minutes
         const utcDate = Date.UTC(
             date.getUTCFullYear(),
@@ -91,18 +87,22 @@ const gmtOffset = computed(() => {
             date.getUTCHours(),
             date.getUTCMinutes()
         )
-        
-        const tzString = date.toLocaleString('en-US', { timeZone: userTimezone.value })
+
+        const tzString = date.toLocaleString('en-US', {
+            timeZone: userTimezone.value,
+        })
         const tzDate = new Date(tzString).getTime()
-        
+
         // Calculate offset in minutes
-        const offsetMinutes = Math.round((tzDate - date.getTime()) / (1000 * 60))
+        const offsetMinutes = Math.round(
+            (tzDate - date.getTime()) / (1000 * 60)
+        )
         const offsetHours = offsetMinutes / 60
-        
+
         const sign = offsetHours >= 0 ? '+' : '-'
         const absHours = Math.abs(Math.floor(offsetHours))
         const minutes = Math.abs(offsetMinutes % 60)
-        
+
         if (minutes === 0) {
             return `GMT${sign}${absHours}`
         } else {
@@ -153,22 +153,26 @@ const gmtOffset = computed(() => {
             >
                 <div
                     class="border-b-8 border-l-8 border-r-8 border-transparent border-b-gray-200 dark:border-b-gray-700"
-                ></div>
+                />
                 <div
                     class="absolute left-1/2 top-0 -translate-x-1/2 border-b-8 border-l-8 border-r-8 border-transparent border-b-white dark:border-b-gray-800"
                     style="margin-top: 1px"
-                ></div>
+                />
             </div>
 
             <!-- Tooltip Content -->
             <div class="space-y-1.5 text-center">
-                <div class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                <div
+                    class="text-sm font-semibold text-gray-900 dark:text-gray-100"
+                >
                     {{ timezoneName }}
                 </div>
-                <div class="text-base font-bold text-indigo-600 dark:text-indigo-400">
+                <div
+                    class="text-base font-bold text-indigo-600 dark:text-indigo-400"
+                >
                     {{ formattedTime }}
                 </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">
+                <div class="text-xs text-md-on-surface-variant">
                     {{ gmtOffset }}
                 </div>
                 <div
@@ -180,4 +184,3 @@ const gmtOffset = computed(() => {
         </div>
     </div>
 </template>
-

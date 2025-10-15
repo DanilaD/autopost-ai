@@ -121,10 +121,10 @@ const truncate = (str, length = 50) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.inquiries.total') }}
                             </div>
@@ -141,10 +141,10 @@ const truncate = (str, length = 50) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.inquiries.today') }}
                             </div>
@@ -161,10 +161,10 @@ const truncate = (str, length = 50) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.inquiries.this_week') }}
                             </div>
@@ -181,10 +181,10 @@ const truncate = (str, length = 50) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-elevation-2 dark:bg-gray-800 md:p-4"
                         >
                             <div
-                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                                class="text-xs font-medium text-md-on-surface-variant md:text-sm"
                             >
                                 {{ t('admin.inquiries.this_month') }}
                             </div>
@@ -234,7 +234,7 @@ const truncate = (str, length = 50) => {
                 >
                     <div class="overflow-x-auto">
                         <table
-                            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                            class="min-w-full divide-y divide-md-outline-variant"
                         >
                             <thead>
                                 <tr>
@@ -281,18 +281,18 @@ const truncate = (str, length = 50) => {
                                         {{ inquiry.email }}
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400"
+                                        class="whitespace-nowrap px-6 py-4 text-sm text-md-on-surface-variant"
                                     >
                                         {{ inquiry.ip_address || 'N/A' }}
                                     </td>
                                     <td
-                                        class="max-w-xs px-6 py-4 text-sm text-gray-500 dark:text-gray-400"
+                                        class="max-w-xs px-6 py-4 text-sm text-md-on-surface-variant"
                                         :title="inquiry.user_agent"
                                     >
                                         {{ truncate(inquiry.user_agent, 60) }}
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400"
+                                        class="whitespace-nowrap px-6 py-4 text-sm text-md-on-surface-variant"
                                     >
                                         {{ formatDate(inquiry.created_at) }}
                                     </td>
@@ -323,7 +323,7 @@ const truncate = (str, length = 50) => {
                                 >
                                     <td
                                         colspan="5"
-                                        class="px-6 py-8 text-center text-sm text-gray-500 dark:text-gray-400"
+                                        class="px-6 py-8 text-center text-sm text-md-on-surface-variant"
                                     >
                                         {{ t('admin.inquiries.no_results') }}
                                     </td>

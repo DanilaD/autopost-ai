@@ -292,7 +292,7 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
                         >
                             <div
                                 class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
@@ -312,7 +312,7 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
                         >
                             <div
                                 class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
@@ -332,7 +332,7 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
                         >
                             <div
                                 class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
@@ -352,7 +352,7 @@ const getStatusBadgeClass = (isSuspended) => {
                         position="top"
                     >
                         <div
-                            class="flex-1 cursor-help rounded-md bg-white p-3 shadow transition-all hover:shadow-md dark:bg-gray-800 md:p-4"
+                            class="flex-1 cursor-help rounded-md bg-md-surface-container p-3 shadow-elevation-1 transition-all hover:shadow-elevation-2 md:p-4"
                         >
                             <div
                                 class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
@@ -381,7 +381,7 @@ const getStatusBadgeClass = (isSuspended) => {
 
                 <!-- Users Table -->
                 <div
-                    class="overflow-hidden rounded-md bg-white shadow dark:bg-gray-800"
+                    class="overflow-hidden rounded-md bg-md-surface-container shadow-elevation-1"
                 >
                     <div class="overflow-x-auto">
                         <table
@@ -430,7 +430,7 @@ const getStatusBadgeClass = (isSuspended) => {
                                 </tr>
                             </thead>
                             <tbody
-                                class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
+                                class="divide-y divide-md-outline-variant bg-md-surface-container"
                             >
                                 <tr
                                     v-for="user in users.data"

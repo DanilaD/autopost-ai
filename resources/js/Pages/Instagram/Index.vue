@@ -35,7 +35,9 @@ onMounted(() => {
 const disconnectAccount = async (account) => {
     const result = await Swal.fire({
         title: t('instagram.disconnect_confirm_title'),
-        html: t('instagram.disconnect_confirm_message', { username: `<strong>@${account.username}</strong>` }),
+        html: t('instagram.disconnect_confirm_message', {
+            username: `<strong>@${account.username}</strong>`,
+        }),
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
@@ -74,15 +76,19 @@ const syncAccount = (account) => {
 }
 
 const getStatusBadgeClass = (account) => {
-    if (account.is_token_expired) return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-    if (account.is_token_expiring_soon) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-    if (account.is_active) return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+    if (account.is_token_expired)
+        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+    if (account.is_token_expiring_soon)
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+    if (account.is_active)
+        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
     return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
 }
 
 const getStatusText = (account) => {
     if (account.is_token_expired) return t('instagram.status_expired')
-    if (account.is_token_expiring_soon) return t('instagram.status_expiring_soon')
+    if (account.is_token_expiring_soon)
+        return t('instagram.status_expiring_soon')
     if (account.is_active) return t('instagram.status_active')
     return account.status
 }
@@ -94,7 +100,9 @@ const getStatusText = (account) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2
+                    class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
+                >
                     {{ t('instagram.title') }}
                 </h2>
                 <a
@@ -138,7 +146,9 @@ const getStatusText = (account) => {
                             </svg>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm text-yellow-700 dark:text-yellow-400">
+                            <p
+                                class="text-sm text-yellow-700 dark:text-yellow-400"
+                            >
                                 {{ t('instagram.no_active_company') }}
                             </p>
                         </div>
@@ -150,7 +160,7 @@ const getStatusText = (account) => {
                     <div
                         v-for="account in accounts"
                         :key="account.id"
-                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
+                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md"
                     >
                         <div class="p-6">
                             <div class="flex items-start justify-between">
@@ -194,7 +204,9 @@ const getStatusText = (account) => {
                                                 {{ account.account_type }}
                                             </span>
                                         </div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        <p
+                                            class="text-sm text-gray-500 dark:text-gray-400 mt-1"
+                                        >
                                             {{ t('instagram.connected') }}
                                             {{ account.created_at }}
                                         </p>
@@ -251,7 +263,9 @@ const getStatusText = (account) => {
                                         </svg>
                                     </div>
                                     <div class="ml-3">
-                                        <p class="text-sm text-yellow-700 dark:text-yellow-400">
+                                        <p
+                                            class="text-sm text-yellow-700 dark:text-yellow-400"
+                                        >
                                             {{ t('instagram.token_warning') }}
                                         </p>
                                     </div>
@@ -264,7 +278,7 @@ const getStatusText = (account) => {
                 <!-- Empty State -->
                 <div
                     v-if="accounts.length === 0 && hasCompany"
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
+                    class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md"
                 >
                     <div class="p-12 text-center">
                         <svg
@@ -276,10 +290,14 @@ const getStatusText = (account) => {
                                 d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
                             />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        <h3
+                            class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                        >
                             {{ t('instagram.no_accounts') }}
                         </h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p
+                            class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                        >
                             {{ t('instagram.connect_description') }}
                         </p>
                         <div class="mt-6">

@@ -221,7 +221,7 @@ const welcomeMessage = computed(() => {
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <!-- Connect Instagram -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow dark:bg-gray-800"
+                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">
@@ -266,7 +266,7 @@ const welcomeMessage = computed(() => {
 
                     <!-- Create Post -->
                     <div
-                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow dark:bg-gray-800"
+                        class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
                     >
                         <div class="p-6">
                             <div class="flex items-start space-x-4">

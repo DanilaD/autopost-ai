@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.1  
-**Date:** October 10, 2025  
+**Version:** 1.2  
+**Date:** October 15, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Added mandatory pre-commit documentation check rule
+**Recent Update:** Added Material Design 3 standardization rules
 
 ---
 
@@ -15,8 +15,9 @@
 4. [Code Structure](#code-structure)
 5. [Best Practices](#best-practices)
 6. [Documentation Rules](#documentation-rules)
-7. [Testing Requirements](#testing-requirements)
-8. [Code Examples](#code-examples)
+7. [Material Design 3 Standards](#material-design-3-standards)
+8. [Testing Requirements](#testing-requirements)
+9. [Code Examples](#code-examples)
 
 ---
 
@@ -1192,6 +1193,185 @@ public function processPost(Post $post): void
 
 ---
 
+## Material Design 3 Standards
+
+### 1. UI Component Patterns
+
+**MANDATORY:** All UI components must use Material Design 3 patterns consistently.
+
+#### Card/Container Pattern
+
+**✅ CORRECT:**
+
+```vue
+<div
+    class="bg-md-surface-container overflow-hidden shadow-elevation-1 rounded-md hover:shadow-elevation-2 transition-shadow duration-medium2"
+>
+    <!-- Content -->
+</div>
+```
+
+**❌ WRONG:**
+
+```vue
+<div
+    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
+>
+    <!-- Content -->
+</div>
+```
+
+#### Button Pattern
+
+**✅ CORRECT:**
+
+```vue
+<button
+    class="inline-flex items-center rounded-sm border border-transparent bg-md-primary px-4 py-2 text-xs font-semibold uppercase tracking-widest text-md-on-primary transition duration-medium2 ease-in-out hover:bg-md-primary-container hover:text-md-on-primary-container focus:bg-md-primary-container focus:outline-none focus:ring-2 focus:ring-md-primary focus:ring-offset-2 active:bg-md-primary"
+>
+    Button Text
+</button>
+```
+
+**❌ WRONG:**
+
+```vue
+<button
+    class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+>
+    Button Text
+</button>
+```
+
+### 2. Color System
+
+**Use Material Design 3 colors ONLY:**
+
+- **Primary:** `bg-md-primary`, `text-md-on-primary`
+- **Secondary:** `bg-md-secondary`, `text-md-on-secondary`
+- **Surface:** `bg-md-surface-container`, `text-md-on-surface`
+- **Error:** `bg-md-error`, `text-md-on-error`
+- **Success:** `bg-md-success`, `text-md-on-success`
+- **Warning:** `bg-md-warning`, `text-md-on-warning`
+
+**❌ NEVER use:** `bg-white`, `bg-gray-800`, `text-gray-700`, etc.
+
+### 3. Shadow System
+
+**Use Material Design 3 elevation shadows:**
+
+- **Level 1:** `shadow-elevation-1` (subtle)
+- **Level 2:** `shadow-elevation-2` (medium)
+- **Level 3:** `shadow-elevation-3` (prominent)
+- **Level 4:** `shadow-elevation-4` (strong)
+- **Level 5:** `shadow-elevation-5` (maximum)
+
+**❌ NEVER use:** `shadow-sm`, `shadow-md`, `shadow-lg`
+
+### 4. Border Radius
+
+**Use Material Design 3 border radius:**
+
+- **Small:** `rounded-sm` (4px)
+- **Medium:** `rounded-md` (6px)
+- **Large:** `rounded-lg` (8px)
+- **Extra Large:** `rounded-xl` (12px)
+
+**❌ NEVER use:** `sm:rounded-lg` (responsive classes)
+
+### 5. Animation Durations
+
+**Use Material Design 3 timing:**
+
+- **Short:** `duration-short1` (50ms), `duration-short2` (100ms)
+- **Medium:** `duration-medium1` (250ms), `duration-medium2` (300ms)
+- **Long:** `duration-long1` (450ms), `duration-long2` (500ms)
+
+**❌ NEVER use:** `duration-150`, `duration-200`, `duration-300`
+
+### 6. Transition Easing
+
+**Use Material Design 3 easing:**
+
+- **Standard:** `ease-standard`
+- **Emphasized:** `ease-emphasized`
+- **Decelerate:** `ease-emphasized-decelerate`
+- **Accelerate:** `ease-emphasized-accelerate`
+
+**❌ NEVER use:** `ease-in-out`, `ease-linear`
+
+### 7. Typography
+
+**Use Material Design 3 font family:**
+
+```css
+font-family: 'Roboto', system-ui, sans-serif;
+```
+
+### 8. Component Examples
+
+#### Input Fields
+
+```vue
+<input
+    class="rounded-sm border-md-outline-variant shadow-sm focus:border-md-primary focus:ring-md-primary"
+/>
+```
+
+#### Dropdowns
+
+```vue
+<div
+    class="absolute z-50 mt-2 w-48 origin-top-right rounded-md bg-md-surface-container shadow-elevation-3 ring-1 ring-md-outline-variant focus:outline-none"
+>
+    <!-- Dropdown content -->
+</div>
+```
+
+#### Tables
+
+```vue
+<table
+    class="min-w-full divide-y divide-md-outline-variant bg-md-surface-container"
+>
+    <!-- Table content -->
+</table>
+```
+
+### 9. Dark Mode
+
+**Material Design 3 handles dark mode automatically** - no need for `dark:` classes when using MD3 colors.
+
+**✅ CORRECT:**
+
+```vue
+<div class="bg-md-surface-container text-md-on-surface">
+    <!-- Automatically adapts to dark/light mode -->
+</div>
+```
+
+**❌ WRONG:**
+
+```vue
+<div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+    <!-- Manual dark mode handling -->
+</div>
+```
+
+### 10. Migration Checklist
+
+When updating components to Material Design 3:
+
+- [ ] Replace `bg-white dark:bg-gray-800` with `bg-md-surface-container`
+- [ ] Replace `shadow-sm/sm:rounded-lg` with `shadow-elevation-1/rounded-md`
+- [ ] Replace color classes with MD3 equivalents
+- [ ] Replace animation durations with MD3 timing
+- [ ] Remove manual dark mode classes
+- [ ] Update hover states to use MD3 elevation
+- [ ] Test in both light and dark modes
+
+---
+
 ## Documentation Rules
 
 ### 1. Code Changes
@@ -1291,6 +1471,7 @@ Before running git commit:
 **When to Skip:**
 
 Only skip documentation updates for:
+
 - Pure refactoring (no behavior change)
 - Internal implementation details
 - Typo fixes in code comments
