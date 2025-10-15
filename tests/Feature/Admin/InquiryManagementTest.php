@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\User;
-use App\Enums\UserRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,7 +14,9 @@ class InquiryManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $user;
+
     protected Company $company;
 
     protected function setUp(): void
@@ -138,4 +140,3 @@ class InquiryManagementTest extends TestCase
         );
     }
 }
-

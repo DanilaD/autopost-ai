@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Instagram Account Permission Service
- * 
+ *
  * Centralizes all permission checking logic for Instagram accounts.
  * Handles ownership, sharing, and company-level access control.
  */
@@ -16,7 +16,7 @@ class InstagramAccountPermissionService
 {
     /**
      * Check if a user can view an Instagram account.
-     * 
+     *
      * View permissions are granted if:
      * - User owns the account
      * - User is a member of the company that owns the account
@@ -29,7 +29,7 @@ class InstagramAccountPermissionService
 
     /**
      * Check if a user can post to an Instagram account.
-     * 
+     *
      * Post permissions are granted if:
      * - User owns the account
      * - User is a member of the company that owns the account
@@ -42,7 +42,7 @@ class InstagramAccountPermissionService
 
     /**
      * Check if a user can manage an Instagram account.
-     * 
+     *
      * Management permissions (reconnect, disconnect, settings) are granted if:
      * - User owns the account
      * - User is an admin in the company that owns the account
@@ -55,7 +55,7 @@ class InstagramAccountPermissionService
 
     /**
      * Check if a user can share an Instagram account with others.
-     * 
+     *
      * Sharing permissions are granted if:
      * - User owns the account (can share personal accounts)
      * - User is an admin in the company that owns the account
@@ -109,7 +109,7 @@ class InstagramAccountPermissionService
 
     /**
      * Get all Instagram accounts accessible by a user with their permission levels.
-     * 
+     *
      * @return array Array of accounts with permission flags
      */
     public function getAccessibleAccountsWithPermissions(User $user): array
@@ -135,7 +135,7 @@ class InstagramAccountPermissionService
 
     /**
      * Determine how a user has access to an account.
-     * 
+     *
      * @return string 'owner', 'company', or 'shared'
      */
     public function getAccessType(User $user, InstagramAccount $account): string
@@ -172,7 +172,7 @@ class InstagramAccountPermissionService
                 'sharing_user_id' => $sharingUser->id,
                 'target_user_id' => $targetUser->id,
             ]);
-            
+
             return false;
         }
 
@@ -188,7 +188,7 @@ class InstagramAccountPermissionService
 
         try {
             $account->shareWith($targetUser, $canPost, $canManage, $sharingUser);
-            
+
             Log::info('Instagram account shared', [
                 'account_id' => $account->id,
                 'shared_with_user_id' => $targetUser->id,
@@ -196,14 +196,14 @@ class InstagramAccountPermissionService
                 'can_post' => $canPost,
                 'can_manage' => $canManage,
             ]);
-            
+
             return true;
         } catch (\Exception $e) {
             Log::error('Failed to share Instagram account', [
                 'account_id' => $account->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
@@ -223,38 +223,38 @@ class InstagramAccountPermissionService
                 'revoking_user_id' => $revokingUser->id,
                 'target_user_id' => $targetUser->id,
             ]);
-            
+
             return false;
         }
 
         try {
             $account->revokeAccessFor($targetUser);
-            
+
             Log::info('Instagram account access revoked', [
                 'account_id' => $account->id,
                 'revoked_from_user_id' => $targetUser->id,
                 'revoked_by_user_id' => $revokingUser->id,
             ]);
-            
+
             return true;
         } catch (\Exception $e) {
             Log::error('Failed to revoke Instagram account access', [
                 'account_id' => $account->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
 
     /**
      * Validate if a user can perform an action, throw exception if not.
-     * 
+     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function authorize(User $user, InstagramAccount $account, string $action): void
     {
-        $canPerformAction = match($action) {
+        $canPerformAction = match ($action) {
             'view' => $this->canView($user, $account),
             'post' => $this->canPost($user, $account),
             'manage' => $this->canManage($user, $account),
@@ -270,4 +270,3 @@ class InstagramAccountPermissionService
         }
     }
 }
-

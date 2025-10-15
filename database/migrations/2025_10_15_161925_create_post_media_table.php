@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('order')->default(0); // For carousel posts
             $table->json('metadata')->nullable(); // Image dimensions, duration, etc.
             $table->timestamps();
+            $table->softDeletes();
 
             // Indexes
             $table->index(['post_id', 'order']);

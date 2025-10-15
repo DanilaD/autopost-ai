@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Service for managing inquiry operations.
- * 
+ *
  * Handles inquiry listing, search, filtering, and deletion.
  * All business logic for inquiry management is centralized here.
  */
@@ -23,7 +23,6 @@ class InquiryService
      *     direction?: string,
      *     per_page?: int
      * } $filters
-     * @return LengthAwarePaginator
      */
     public function getInquiries(array $filters = []): LengthAwarePaginator
     {
@@ -37,30 +36,26 @@ class InquiryService
         // Apply sorting
         $sortField = $filters['sort'] ?? 'created_at';
         $sortDirection = $filters['direction'] ?? 'desc';
-        
+
         // Validate sort field to prevent SQL injection
         $allowedSortFields = ['email', 'ip_address', 'created_at'];
         if (! in_array($sortField, $allowedSortFields)) {
             $sortField = 'created_at';
         }
-        
+
         // Validate sort direction
         $sortDirection = in_array($sortDirection, ['asc', 'desc']) ? $sortDirection : 'desc';
-        
+
         $query->orderBy($sortField, $sortDirection);
 
         // Paginate results
         $perPage = $filters['per_page'] ?? 15;
-        
+
         return $query->paginate($perPage)->withQueryString();
     }
 
     /**
      * Search inquiries by email.
-     *
-     * @param string $searchTerm
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function searchInquiries(string $searchTerm, int $perPage = 15): LengthAwarePaginator
     {
@@ -72,22 +67,16 @@ class InquiryService
 
     /**
      * Delete an inquiry by ID.
-     *
-     * @param int $inquiryId
-     * @return bool
      */
     public function deleteInquiry(int $inquiryId): bool
     {
         $inquiry = Inquiry::findOrFail($inquiryId);
-        
+
         return $inquiry->delete();
     }
 
     /**
      * Get recent inquiries within specified days.
-     *
-     * @param int $days
-     * @return Builder
      */
     public function getRecentInquiries(int $days = 30): Builder
     {
@@ -118,7 +107,6 @@ class InquiryService
     /**
      * Export inquiries to CSV format.
      *
-     * @param array $filters
      * @return \Illuminate\Http\Response
      */
     public function exportInquiriesToCsv(array $filters = [])
@@ -133,7 +121,7 @@ class InquiryService
         // Apply sorting
         $sortField = $filters['sort'] ?? 'created_at';
         $sortDirection = $filters['direction'] ?? 'desc';
-        
+
         $allowedSortFields = ['email', 'ip_address', 'created_at'];
         if (in_array($sortField, $allowedSortFields)) {
             $query->orderBy($sortField, $sortDirection);
@@ -142,10 +130,10 @@ class InquiryService
         // Stream the CSV to avoid memory issues with large datasets
         return response()->streamDownload(function () use ($query) {
             $handle = fopen('php://output', 'w');
-            
+
             // Add CSV headers
             fputcsv($handle, ['Email', 'IP Address', 'User Agent', 'Created At']);
-            
+
             // Stream each inquiry
             $query->chunk(100, function ($inquiries) use ($handle) {
                 foreach ($inquiries as $inquiry) {
@@ -157,7 +145,7 @@ class InquiryService
                     ]);
                 }
             });
-            
+
             fclose($handle);
         }, 'inquiries-'.now()->format('Y-m-d').'.csv', [
             'Content-Type' => 'text/csv',
@@ -165,4 +153,3 @@ class InquiryService
         ]);
     }
 }
-

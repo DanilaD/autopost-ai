@@ -40,28 +40,28 @@ return [
         'active_users' => 'Activos',
         'suspended_users' => 'Suspendidos',
         'new_this_month' => 'Nuevos Este Mes',
-        
+
         // Actions
         'send_password_reset' => 'Enviar Restablecimiento de Contraseña',
         'suspend' => 'Suspender Usuario',
         'unsuspend' => 'Reactivar Usuario',
         'impersonate' => 'Suplantar',
         'view_details' => 'Ver Detalles',
-        
+
         // Status
         'active' => 'Activo',
         'suspended' => 'Suspendido',
         'suspended_by' => 'Suspendido por',
         'suspended_on' => 'Suspendido el',
         'suspension_reason' => 'Razón',
-        
+
         // Stats
         'companies_count' => 'Empresas',
         'instagram_accounts' => 'Cuentas de Instagram',
         'posts_count' => 'Publicaciones',
         'account_age' => 'Antigüedad de Cuenta',
         'never_logged_in' => 'Nunca ha iniciado sesión',
-        
+
         // Modals
         'suspend_modal_title' => 'Suspender Usuario',
         'suspend_modal_message' => 'Por favor, proporcione una razón para la suspensión:',
@@ -70,7 +70,7 @@ return [
         'confirm_impersonate_title' => 'Suplantar Usuario',
         'confirm_impersonate_message' => 'Está a punto de ver la aplicación como este usuario. ¿Continuar?',
         'confirm' => 'Confirmar',
-        
+
         // Messages
         'password_reset_sent' => 'Enlace de restablecimiento de contraseña enviado con éxito',
         'suspend_success' => 'Usuario suspendido con éxito',
@@ -102,4 +102,3 @@ return [
     'loading' => 'Cargando...',
     'no_data' => 'No hay datos disponibles',
 ];
-

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Middleware to set the application timezone based on authenticated user's preference.
- * 
+ *
  * This middleware ensures that all dates and times displayed to the user
  * are shown in their preferred timezone. The actual dates are still stored
  * in UTC in the database (Laravel default), but are converted for display.

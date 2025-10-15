@@ -9,4 +9,3 @@ return [
     'dark' => 'Oscuro',
     'system' => 'Sistema',
 ];
-

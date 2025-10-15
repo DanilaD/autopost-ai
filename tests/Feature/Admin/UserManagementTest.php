@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
-use App\Enums\UserRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
@@ -14,7 +14,9 @@ class UserManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $regularUser;
+
     protected Company $company;
 
     protected function setUp(): void
@@ -190,4 +192,3 @@ class UserManagementTest extends TestCase
         );
     }
 }
-

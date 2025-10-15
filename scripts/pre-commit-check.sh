@@ -69,7 +69,8 @@ print_info() {
 print_header "1. Analyzing Staged Files"
 
 # Get list of staged files
-STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$' || true)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR || true)
+STAGED_PHP_FILES=$(echo "$STAGED_FILES" | grep '\.php$' || true)
 STAGED_VUE_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.vue$' || true)
 STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.js$' || true)
 STAGED_MIGRATION_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'database/migrations' || true)
@@ -325,11 +326,120 @@ else
 fi
 
 ###############################################################################
-# 6. Run Tests
+# 6. Run Tests & Validate Test Updates
 ###############################################################################
 
-print_header "6. Running Tests"
+print_header "6. Running Tests & Validating Test Updates"
 
+# Check if tests need to be updated when code changes
+TEST_UPDATE_REQUIRED=false
+
+if [ "$PHP_COUNT" -gt 0 ]; then
+    print_info "PHP code changes detected - checking for test updates..."
+    
+    # Check if any test files are being updated
+    TEST_FILES_CHANGED=$(echo "$STAGED_FILES" | grep -E "^tests/" | wc -l)
+    
+    if [ "$TEST_FILES_CHANGED" -eq 0 ]; then
+        print_warning "Code changes detected but NO test files updated!"
+        print_info "Mandatory test update rule: Every code change must include test updates"
+        TEST_UPDATE_REQUIRED=true
+    else
+        print_success "Test files are being updated with code changes"
+    fi
+    
+# Check for specific patterns that require test updates
+if echo "$STAGED_PHP_FILES" | grep -q "Services/" && ! echo "$STAGED_PHP_FILES" | grep -q "tests/"; then
+    SERVICE_FILES=$(echo "$STAGED_PHP_FILES" | grep "Services/" | grep -v "tests/")
+    for service_file in $SERVICE_FILES; do
+        service_name=$(basename "$service_file" .php)
+        test_file="tests/Unit/Services/${service_name}Test.php"
+        if [ ! -f "$test_file" ]; then
+            print_error "Service $service_name has no corresponding test file: $test_file"
+            TEST_UPDATE_REQUIRED=true
+        fi
+    done
+fi
+
+if echo "$STAGED_PHP_FILES" | grep -q "Controllers/" && ! echo "$STAGED_PHP_FILES" | grep -q "tests/"; then
+    CONTROLLER_FILES=$(echo "$STAGED_PHP_FILES" | grep "Controllers/" | grep -v "tests/")
+    for controller_file in $CONTROLLER_FILES; do
+        controller_name=$(basename "$controller_file" .php)
+        test_file="tests/Feature/${controller_name}Test.php"
+        if [ ! -f "$test_file" ]; then
+            print_error "Controller $controller_name has no corresponding test file: $test_file"
+            TEST_UPDATE_REQUIRED=true
+        fi
+    done
+fi
+
+if echo "$STAGED_PHP_FILES" | grep -q "Models/" && ! echo "$STAGED_PHP_FILES" | grep -q "tests/"; then
+    MODEL_FILES=$(echo "$STAGED_PHP_FILES" | grep "Models/" | grep -v "tests/")
+    for model_file in $MODEL_FILES; do
+        model_name=$(basename "$model_file" .php)
+        test_file="tests/Unit/Models/${model_name}Test.php"
+        if [ ! -f "$test_file" ]; then
+            print_error "Model $model_name has no corresponding test file: $test_file"
+            TEST_UPDATE_REQUIRED=true
+        fi
+    done
+fi
+
+# Check for migration-model-factory consistency
+MIGRATION_FILES=$(echo "$STAGED_FILES" | grep -E "^database/migrations/.*\.php$")
+if [ -n "$MIGRATION_FILES" ]; then
+    print_info "Migration files detected - checking model/factory consistency..."
+    
+    for migration_file in $MIGRATION_FILES; do
+        migration_name=$(basename "$migration_file" .php)
+        
+        # Extract table name from migration (improved pattern matching)
+        if echo "$migration_name" | grep -q "create_.*_table"; then
+            # Extract table name from create_*_table pattern (remove timestamp prefix)
+            table_name=$(echo "$migration_name" | sed 's/^[0-9_]*create_\(.*\)_table$/\1/')
+            
+            # Convert table name to model name (snake_case to PascalCase)
+            model_name=$(echo "$table_name" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)}1' | sed 's/ //g')
+            
+            model_file="app/Models/${model_name}.php"
+            factory_file="database/factories/${model_name}Factory.php"
+            
+            # Check if model exists
+            if [ ! -f "$model_file" ]; then
+                print_error "Migration $migration_name creates table '$table_name' but no model found: $model_file"
+                TEST_UPDATE_REQUIRED=true
+            fi
+            
+            # Check if factory exists
+            if [ ! -f "$factory_file" ]; then
+                print_error "Migration $migration_name creates table '$table_name' but no factory found: $factory_file"
+                TEST_UPDATE_REQUIRED=true
+            fi
+        fi
+        
+        # Check for modify migrations (skip these as they don't create new tables)
+        if echo "$migration_name" | grep -q "modify_.*_table\|add_.*_to_.*_table\|update_.*_table"; then
+            print_info "Skipping modify migration: $migration_name (no new table created)"
+        fi
+    done
+fi
+
+# Check for model changes without migration updates
+MODEL_FILES=$(echo "$STAGED_PHP_FILES" | grep "Models/")
+if [ -n "$MODEL_FILES" ] && [ -z "$MIGRATION_FILES" ]; then
+    print_warning "Model files changed but no migration files detected"
+    print_info "Please verify if model changes require migration updates"
+fi
+
+# Check for factory changes without model updates
+FACTORY_FILES=$(echo "$STAGED_FILES" | grep -E "^database/factories/.*\.php$")
+if [ -n "$FACTORY_FILES" ] && [ -z "$MODEL_FILES" ]; then
+    print_warning "Factory files changed but no model files detected"
+    print_info "Please verify if factory changes require model updates"
+fi
+fi
+
+# Run tests
 print_info "Running PHPUnit tests..."
 
 # Run only affected tests based on changed files
@@ -353,6 +463,48 @@ if [ "$PHP_COUNT" -gt 0 ]; then
     fi
 else
     print_info "No PHP files changed, skipping tests"
+fi
+
+# Check test coverage for new/modified files
+if [ "$PHP_COUNT" -gt 0 ]; then
+    print_info "Checking test coverage for modified files..."
+    
+    # Count test methods in new test files
+    NEW_TEST_FILES=$(echo "$STAGED_FILES" | grep -E "^tests/.*Test\.php$")
+    if [ -n "$NEW_TEST_FILES" ]; then
+        TOTAL_TEST_METHODS=0
+        for test_file in $NEW_TEST_FILES; do
+            if [ -f "$test_file" ]; then
+                METHODS=$(grep -c "public function test_\|it(" "$test_file" 2>/dev/null || echo "0")
+                TOTAL_TEST_METHODS=$((TOTAL_TEST_METHODS + METHODS))
+                print_info "  $test_file: $METHODS test methods"
+            fi
+        done
+        print_success "Total new test methods: $TOTAL_TEST_METHODS"
+    fi
+fi
+
+if [ "$TEST_UPDATE_REQUIRED" = true ]; then
+    print_error "Test updates are REQUIRED before commit"
+    echo ""
+    echo -e "${YELLOW}🧪 Please add/update tests:${NC}"
+    echo "  1. Create test files for new Services/Controllers/Models"
+    echo "  2. Update existing tests for modified functionality"
+    echo "  3. Ensure all tests pass: php artisan test"
+    echo "  4. Stage test files: git add tests/"
+    echo ""
+    echo -e "${YELLOW}📋 Test Coverage Requirements:${NC}"
+    echo "  • Services: 90% coverage"
+    echo "  • Repositories: 80% coverage"
+    echo "  • Controllers: 70% coverage"
+    echo "  • Models: 85% coverage"
+    echo ""
+    echo -e "${YELLOW}🗄️ Migration-Model-Factory Requirements:${NC}"
+    echo "  • Every migration change must include model and factory updates"
+    echo "  • Every new table must have corresponding model and factory"
+    echo "  • Every model change must have corresponding tests"
+    echo "  • Every factory must be documented and tested"
+    echo ""
 fi
 
 ###############################################################################

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Instagram Account User Pivot Model
- * 
+ *
  * Custom pivot model to handle type casting for the instagram_account_user table.
  */
 class InstagramAccountUser extends Pivot
@@ -22,4 +22,3 @@ class InstagramAccountUser extends Pivot
         'shared_at' => 'datetime',
     ];
 }
-

@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Instagram Account Factory
- * 
+ *
  * Creates test data for Instagram accounts.
  * Supports both user-owned and company-owned accounts.
- * 
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\InstagramAccount>
  */
 class InstagramAccountFactory extends Factory
@@ -27,7 +27,7 @@ class InstagramAccountFactory extends Factory
     public function definition(): array
     {
         $username = fake()->unique()->userName();
-        
+
         return [
             'username' => $username,
             'instagram_user_id' => fake()->unique()->numerify('##############'),
@@ -131,4 +131,3 @@ class InstagramAccountFactory extends Factory
         ]);
     }
 }
-

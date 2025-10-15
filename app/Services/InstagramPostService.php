@@ -8,11 +8,10 @@ use App\Models\InstagramPost;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Instagram Post Service
- * 
+ *
  * Handles creating, scheduling, and publishing posts to Instagram.
  * Manages the full post lifecycle from draft to published.
  */
@@ -27,11 +26,10 @@ class InstagramPostService
 
     /**
      * Create a new draft post.
-     * 
-     * @param User $user The user creating the post
-     * @param InstagramAccount $account The account to post to
-     * @param array $data Post data (caption, media_urls, etc.)
-     * @return InstagramPost|null
+     *
+     * @param  User  $user  The user creating the post
+     * @param  InstagramAccount  $account  The account to post to
+     * @param  array  $data  Post data (caption, media_urls, etc.)
      */
     public function createDraft(User $user, InstagramAccount $account, array $data): ?InstagramPost
     {
@@ -41,7 +39,7 @@ class InstagramPostService
                 'user_id' => $user->id,
                 'account_id' => $account->id,
             ]);
-            
+
             return null;
         }
 
@@ -69,7 +67,7 @@ class InstagramPostService
                 'account_id' => $account->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return null;
         }
     }
@@ -85,7 +83,7 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'status' => $post->status->value,
             ]);
-            
+
             return false;
         }
 
@@ -95,7 +93,7 @@ class InstagramPostService
                 'user_id' => $user->id,
                 'post_id' => $post->id,
             ]);
-            
+
             return false;
         }
 
@@ -113,7 +111,7 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
@@ -129,7 +127,7 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'scheduled_at' => $scheduledAt->format('Y-m-d H:i:s'),
             ]);
-            
+
             return false;
         }
 
@@ -143,13 +141,13 @@ class InstagramPostService
             Log::warning('Attempted to schedule post without media', [
                 'post_id' => $post->id,
             ]);
-            
+
             return false;
         }
 
         try {
             $post->markAsScheduled($scheduledAt);
-            
+
             Log::info('Post scheduled', [
                 'post_id' => $post->id,
                 'scheduled_at' => $scheduledAt->format('Y-m-d H:i:s'),
@@ -161,14 +159,14 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
 
     /**
      * Publish a post immediately to Instagram.
-     * 
+     *
      * Note: This is a placeholder for actual Instagram API integration.
      * You'll need to implement the actual media container creation and publishing
      * based on Instagram's Graph API documentation.
@@ -180,6 +178,7 @@ class InstagramPostService
         // Check if account is active and has valid token
         if (! $account->isActive() || $account->isTokenExpired()) {
             $post->markAsFailed('Instagram account is not active or token expired');
+
             return false;
         }
 
@@ -195,7 +194,7 @@ class InstagramPostService
                     $result['instagram_post_id'],
                     $result['permalink']
                 );
-                
+
                 Log::info('Post published successfully', [
                     'post_id' => $post->id,
                     'instagram_post_id' => $result['instagram_post_id'],
@@ -204,16 +203,17 @@ class InstagramPostService
                 return true;
             } else {
                 $post->markAsFailed($result['error'] ?? 'Unknown error');
+
                 return false;
             }
         } catch (\Exception $e) {
             $post->markAsFailed($e->getMessage());
-            
+
             Log::error('Failed to publish post', [
                 'post_id' => $post->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
@@ -234,7 +234,7 @@ class InstagramPostService
 
         try {
             $post->markAsCancelled();
-            
+
             Log::info('Post cancelled', [
                 'post_id' => $post->id,
                 'user_id' => $user->id,
@@ -246,7 +246,7 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
@@ -266,13 +266,13 @@ class InstagramPostService
             Log::warning('Attempted to delete published post', [
                 'post_id' => $post->id,
             ]);
-            
+
             return false;
         }
 
         try {
             $post->delete();
-            
+
             Log::info('Post deleted', [
                 'post_id' => $post->id,
                 'user_id' => $user->id,
@@ -284,7 +284,7 @@ class InstagramPostService
                 'post_id' => $post->id,
                 'error' => $e->getMessage(),
             ]);
-            
+
             return false;
         }
     }
@@ -328,22 +328,22 @@ class InstagramPostService
 
     /**
      * Placeholder for actual Instagram API publishing.
-     * 
+     *
      * This should be implemented based on Instagram Graph API documentation:
      * https://developers.facebook.com/docs/instagram-api/guides/content-publishing
-     * 
+     *
      * The basic flow is:
      * 1. Upload media to Instagram
      * 2. Create a media container
      * 3. Publish the container
-     * 
+     *
      * @return array{success: bool, instagram_post_id?: string, permalink?: string, error?: string}
      */
     private function publishToInstagramApi(InstagramAccount $account, InstagramPost $post): array
     {
         // TODO: Implement actual Instagram API integration
         // This is a placeholder that simulates success
-        
+
         // For now, just log that we would publish
         Log::info('Would publish to Instagram API', [
             'account_id' => $account->id,
@@ -355,23 +355,23 @@ class InstagramPostService
         // Simulate success (in production, this would be real Instagram API response)
         return [
             'success' => true,
-            'instagram_post_id' => 'ig_' . uniqid(),
-            'permalink' => "https://www.instagram.com/p/" . uniqid(),
+            'instagram_post_id' => 'ig_'.uniqid(),
+            'permalink' => 'https://www.instagram.com/p/'.uniqid(),
         ];
-        
-        /* 
+
+        /*
         // Real implementation would look something like this:
-        
+
         try {
             // Step 1: Upload media and create container
             $containerId = $this->createMediaContainer($account, $post);
-            
+
             // Step 2: Publish the container
             $response = Http::post("https://graph.instagram.com/v18.0/{$account->instagram_user_id}/media_publish", [
                 'creation_id' => $containerId,
                 'access_token' => $account->access_token,
             ]);
-            
+
             if ($response->successful()) {
                 $data = $response->json();
                 return [
@@ -380,7 +380,7 @@ class InstagramPostService
                     'permalink' => $this->getPostPermalink($account, $data['id']),
                 ];
             }
-            
+
             return [
                 'success' => false,
                 'error' => $response->json()['error']['message'] ?? 'Unknown error',
@@ -394,4 +394,3 @@ class InstagramPostService
         */
     }
 }
-

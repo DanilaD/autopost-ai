@@ -45,12 +45,10 @@ class InstagramService
 
     /**
      * Check if using dummy/development credentials
-     * 
-     * @return bool
      */
     public function isDummyCredentials(): bool
     {
-        return str_starts_with($this->clientId, 'dummy_') 
+        return str_starts_with($this->clientId, 'dummy_')
             || str_contains($this->clientId, 'dummy')
             || str_contains($this->clientId, 'test')
             || str_contains($this->clientId, 'fake');
@@ -211,7 +209,7 @@ class InstagramService
     public function connectAccountForCompany(Company $company, string $code): ?InstagramAccount
     {
         $accountData = $this->exchangeCodeForAccountData($code);
-        
+
         if (! $accountData) {
             return null;
         }
@@ -247,7 +245,7 @@ class InstagramService
     public function connectAccountForUser(User $user, string $code): ?InstagramAccount
     {
         $accountData = $this->exchangeCodeForAccountData($code);
-        
+
         if (! $accountData) {
             return null;
         }

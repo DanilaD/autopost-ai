@@ -4,12 +4,12 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Service for managing user impersonation.
- * 
+ *
  * Handles starting and stopping impersonation sessions.
  * Provides security checks and audit logging.
  */
@@ -18,19 +18,18 @@ class ImpersonationService
     /**
      * Start impersonating a user.
      *
-     * @param User $admin The admin user starting impersonation
-     * @param int $targetUserId The user to impersonate
-     * @return bool
+     * @param  User  $admin  The admin user starting impersonation
+     * @param  int  $targetUserId  The user to impersonate
      */
     public function impersonate(User $admin, int $targetUserId): bool
     {
         $targetUser = User::findOrFail($targetUserId);
-        
+
         // Security checks
         if (! $this->canImpersonate($admin, $targetUser)) {
             throw new \InvalidArgumentException('You do not have permission to impersonate this user.');
         }
-        
+
         // Store original admin information in session
         Session::put('impersonate', [
             'admin_id' => $admin->id,
@@ -39,51 +38,45 @@ class ImpersonationService
             'started_at' => now()->toDateTimeString(),
             'target_user_id' => $targetUser->id,
         ]);
-        
+
         // Log the impersonation start
         $this->logImpersonation($admin->id, $targetUser->id, 'started');
-        
+
         // Switch to target user
         Auth::login($targetUser);
-        
+
         return true;
     }
 
     /**
      * Stop impersonating and return to original admin account.
-     *
-     * @return bool
      */
     public function stopImpersonation(): bool
     {
         $impersonateData = Session::get('impersonate');
-        
+
         if (! $impersonateData) {
             throw new \InvalidArgumentException('No active impersonation session.');
         }
-        
+
         $adminId = $impersonateData['admin_id'];
         $targetUserId = $impersonateData['target_user_id'];
-        
+
         // Log the impersonation end
         $this->logImpersonation($adminId, $targetUserId, 'stopped');
-        
+
         // Remove impersonation data from session
         Session::forget('impersonate');
-        
+
         // Switch back to admin user
         $admin = User::findOrFail($adminId);
         Auth::login($admin);
-        
+
         return true;
     }
 
     /**
      * Check if a user can impersonate another user.
-     *
-     * @param User $admin
-     * @param User $target
-     * @return bool
      */
     public function canImpersonate(User $admin, User $target): bool
     {
@@ -91,34 +84,32 @@ class ImpersonationService
         if ($admin->id === $target->id) {
             return false;
         }
-        
+
         // Admin must have admin role in their current company
         if (! $admin->isAdminInCurrentCompany()) {
             return false;
         }
-        
+
         // Cannot impersonate another admin (prevent privilege escalation)
         // Check if target is admin in any company
         $targetIsAdmin = $target->companies()
             ->wherePivot('role', 'admin')
             ->exists();
-            
+
         if ($targetIsAdmin) {
             return false;
         }
-        
+
         // Cannot impersonate suspended users
         if ($target->isSuspended()) {
             return false;
         }
-        
+
         return true;
     }
 
     /**
      * Check if currently impersonating.
-     *
-     * @return bool
      */
     public function isImpersonating(): bool
     {
@@ -127,8 +118,6 @@ class ImpersonationService
 
     /**
      * Get impersonation session data.
-     *
-     * @return array|null
      */
     public function getImpersonationData(): ?array
     {
@@ -137,33 +126,26 @@ class ImpersonationService
 
     /**
      * Get the original admin user during impersonation.
-     *
-     * @return User|null
      */
     public function getOriginalAdmin(): ?User
     {
         $data = $this->getImpersonationData();
-        
+
         if (! $data) {
             return null;
         }
-        
+
         return User::find($data['admin_id']);
     }
 
     /**
      * Log impersonation action for audit trail.
-     *
-     * @param int $adminId
-     * @param int $targetUserId
-     * @param string $action
-     * @return void
      */
     protected function logImpersonation(int $adminId, int $targetUserId, string $action): void
     {
         $admin = User::find($adminId);
         $target = User::find($targetUserId);
-        
+
         Log::info('User Impersonation', [
             'action' => $action,
             'admin_id' => $adminId,
@@ -179,9 +161,6 @@ class ImpersonationService
     /**
      * Get impersonation history from logs (if implementing database logging).
      * This is a placeholder for future database-backed audit logs.
-     *
-     * @param int|null $userId
-     * @return array
      */
     public function getImpersonationHistory(?int $userId = null): array
     {
@@ -193,27 +172,25 @@ class ImpersonationService
     /**
      * Validate impersonation session hasn't expired.
      * Auto-expires after 60 minutes.
-     *
-     * @return bool
      */
     public function validateImpersonationSession(): bool
     {
         $data = $this->getImpersonationData();
-        
+
         if (! $data) {
             return false;
         }
-        
+
         $startedAt = \Carbon\Carbon::parse($data['started_at']);
         $expiresAt = $startedAt->addHour();
-        
+
         // If expired, automatically stop impersonation
         if (now()->greaterThan($expiresAt)) {
             $this->stopImpersonation();
+
             return false;
         }
-        
+
         return true;
     }
 }
-

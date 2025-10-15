@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('publish_attempts')->default(0);
             $table->json('metadata')->nullable(); // Additional data for Instagram API
             $table->timestamps();
+            $table->softDeletes();
 
             // Indexes
             $table->index(['company_id', 'status']);

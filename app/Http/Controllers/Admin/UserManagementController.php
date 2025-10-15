@@ -11,7 +11,7 @@ use Inertia\Response;
 
 /**
  * Controller for managing users (admin only).
- * 
+ *
  * Handles user listing, suspension, password resets, and statistics.
  * All operations require admin privileges.
  */
@@ -26,9 +26,6 @@ class UserManagementController extends Controller
 
     /**
      * Display paginated list of users.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request): Response
     {
@@ -81,8 +78,6 @@ class UserManagementController extends Controller
     /**
      * Send password reset link to user.
      *
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function sendPasswordReset(Request $request, int $id)
@@ -96,7 +91,7 @@ class UserManagementController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to send password reset link: ' . $e->getMessage(),
+                'message' => 'Failed to send password reset link: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
@@ -105,8 +100,6 @@ class UserManagementController extends Controller
     /**
      * Suspend a user account.
      *
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function suspend(Request $request, int $id)
@@ -133,7 +126,7 @@ class UserManagementController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to suspend user: ' . $e->getMessage(),
+                'message' => 'Failed to suspend user: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
@@ -142,8 +135,6 @@ class UserManagementController extends Controller
     /**
      * Unsuspend a user account.
      *
-     * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function unsuspend(Request $request, int $id)
@@ -162,10 +153,9 @@ class UserManagementController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to restore user access: ' . $e->getMessage(),
+                'message' => 'Failed to restore user access: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
     }
 }
-

@@ -85,6 +85,69 @@ else
     exit 1
 fi
 
+# Check for new test files
+print_info "Validating test coverage for Post Management System..."
+
+# Check if PostService tests exist
+if [ -f "tests/Unit/Services/Post/PostServiceTest.php" ]; then
+    print_success "PostService unit tests found"
+else
+    print_warning "PostService unit tests missing"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+# Check if PostMediaService tests exist
+if [ -f "tests/Unit/Services/Post/PostMediaServiceTest.php" ]; then
+    print_success "PostMediaService unit tests found"
+else
+    print_warning "PostMediaService unit tests missing"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+# Check if PostController tests exist
+if [ -f "tests/Feature/PostControllerTest.php" ]; then
+    print_success "PostController feature tests found"
+else
+    print_warning "PostController feature tests missing"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+# Check if Post model tests exist
+if [ -f "tests/Unit/Models/PostTest.php" ]; then
+    print_success "Post model unit tests found"
+else
+    print_warning "Post model unit tests missing"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+# Check if PostMedia model tests exist
+if [ -f "tests/Unit/Models/PostMediaTest.php" ]; then
+    print_success "PostMedia model unit tests found"
+else
+    print_warning "PostMedia model unit tests missing"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+# Count total test files
+TOTAL_TEST_FILES=$(find tests/ -name "*.php" -type f | wc -l)
+print_info "Total test files: $TOTAL_TEST_FILES"
+
+# Count test methods in new files
+if [ -f "tests/Unit/Services/Post/PostServiceTest.php" ]; then
+    POST_SERVICE_TESTS=$(grep -c "public function test_" tests/Unit/Services/Post/PostServiceTest.php || echo "0")
+    print_info "PostService test methods: $POST_SERVICE_TESTS"
+fi
+
+if [ -f "tests/Unit/Services/Post/PostMediaServiceTest.php" ]; then
+    POST_MEDIA_SERVICE_TESTS=$(grep -c "public function test_" tests/Unit/Services/Post/PostMediaServiceTest.php || echo "0")
+    print_info "PostMediaService test methods: $POST_MEDIA_SERVICE_TESTS"
+fi
+
+if [ -f "tests/Feature/PostControllerTest.php" ]; then
+    POST_CONTROLLER_TESTS=$(grep -c "public function test_" tests/Feature/PostControllerTest.php || echo "0")
+    print_info "PostController test methods: $POST_CONTROLLER_TESTS"
+fi
+
 ###############################################################################
 # 2. Documentation Completeness Check
 ###############################################################################

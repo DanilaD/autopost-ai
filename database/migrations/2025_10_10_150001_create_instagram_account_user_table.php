@@ -12,7 +12,7 @@ return new class extends Migration
      * This pivot table enables fine-grained sharing of Instagram accounts.
      * Users can share their personal accounts with team members, or company
      * admins can grant specific permissions on company accounts.
-     * 
+     *
      * Permission levels:
      * - can_post: User can create and publish posts to this account
      * - can_manage: User can modify account settings, reconnect, or disconnect
@@ -21,32 +21,32 @@ return new class extends Migration
     {
         Schema::create('instagram_account_user', function (Blueprint $table) {
             $table->id();
-            
+
             // Foreign keys
             $table->foreignId('instagram_account_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            
+
             // Permission flags
             $table->boolean('can_post')->default(true);
             $table->boolean('can_manage')->default(false);
-            
+
             // Metadata
             $table->timestamp('shared_at')->useCurrent();
             $table->foreignId('shared_by_user_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
-            
+
             $table->timestamps();
-            
+
             // Ensure unique user-account combinations
             $table->unique(['instagram_account_id', 'user_id'], 'instagram_account_user_unique');
-            
+
             // Indexes for performance
             $table->index('user_id');
             $table->index(['user_id', 'can_post']);
@@ -62,4 +62,3 @@ return new class extends Migration
         Schema::dropIfExists('instagram_account_user');
     }
 };
-

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('suspended_by')->nullable()->constrained('users')->nullOnDelete()->after('suspended_at');
             $table->text('suspension_reason')->nullable()->after('suspended_by');
             $table->timestamp('last_login_at')->nullable()->after('suspension_reason');
-            
+
             $table->index('suspended_at');
             $table->index('last_login_at');
         });

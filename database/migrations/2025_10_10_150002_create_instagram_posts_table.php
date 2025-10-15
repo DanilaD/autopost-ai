@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * This table tracks all posts made through the platform.
      * Supports both immediate posts and scheduled posts.
-     * 
+     *
      * Post lifecycle:
      * 1. draft - Being created
      * 2. scheduled - Queued for future posting
@@ -24,49 +24,49 @@ return new class extends Migration
     {
         Schema::create('instagram_posts', function (Blueprint $table) {
             $table->id();
-            
+
             // Ownership - which account and which user created this
             $table->foreignId('instagram_account_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            
+
             // Post content
             $table->text('caption')->nullable();
             $table->string('media_type')->default('image'); // image, video, carousel
             $table->json('media_urls')->nullable(); // Array of media file paths/urls
-            
+
             // Instagram response data
             $table->string('instagram_post_id')->nullable()->unique();
             $table->string('instagram_permalink')->nullable();
-            
+
             // Scheduling
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('published_at')->nullable();
-            
+
             // Status tracking
             $table->enum('status', [
                 'draft',
-                'scheduled', 
+                'scheduled',
                 'publishing',
                 'published',
                 'failed',
-                'cancelled'
+                'cancelled',
             ])->default('draft');
-            
+
             // Error tracking
             $table->text('error_message')->nullable();
             $table->integer('retry_count')->default(0);
-            
+
             // Metadata and analytics placeholder
             $table->json('metadata')->nullable();
-            
+
             $table->timestamps();
             $table->softDeletes(); // Allow soft deletion for audit trail
-            
+
             // Indexes for common queries
             $table->index(['instagram_account_id', 'status']);
             $table->index(['user_id', 'status']);
@@ -84,4 +84,3 @@ return new class extends Migration
         Schema::dropIfExists('instagram_posts');
     }
 };
-

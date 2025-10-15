@@ -48,7 +48,7 @@ return [
     'status_expired' => 'Истек',
     'status_expiring_soon' => 'Скоро истечет',
     'status_error' => 'Ошибка',
-    
+
     // Account details
     'connected' => 'Подключено',
     'account_type' => 'Тип аккаунта',

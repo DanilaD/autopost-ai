@@ -17,8 +17,8 @@ class DashboardController extends Controller
         $company = $user->currentCompany;
 
         // Get Instagram accounts count for current company
-        $instagramAccountsCount = $company 
-            ? $company->instagramAccounts()->count() 
+        $instagramAccountsCount = $company
+            ? $company->instagramAccounts()->count()
             : 0;
 
         // Get scheduled posts count (future feature)
@@ -36,4 +36,3 @@ class DashboardController extends Controller
         ]);
     }
 }
-

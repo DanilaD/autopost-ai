@@ -16,7 +16,7 @@ class InquiryServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new InquiryService();
+        $this->service = new InquiryService;
     }
 
     public function test_get_inquiries_returns_paginated_results(): void
@@ -105,4 +105,3 @@ class InquiryServiceTest extends TestCase
         $this->assertGreaterThan(0, $result->total());
     }
 }
-

@@ -1535,6 +1535,7 @@ Only skip documentation updates for:
 - ✅ Services: 90% coverage
 - ✅ Repositories: 80% coverage
 - ✅ Controllers: 70% coverage
+- ✅ Models: 85% coverage
 
 ### 2. Test Structure
 
@@ -1572,6 +1573,266 @@ it('credits wallet when stripe payment succeeds', function () {
     // ...
 });
 ```
+
+### 4. MANDATORY Test Updates Rule ⚠️ **CRITICAL**
+
+**ALWAYS update tests when you change code:**
+
+#### When to Update Tests:
+
+- ✅ **Add new method** → Add test for the method
+- ✅ **Modify existing method** → Update existing test
+- ✅ **Change validation rules** → Update validation tests
+- ✅ **Add new service** → Create complete test suite
+- ✅ **Modify controller** → Update feature tests
+- ✅ **Change model relationships** → Update model tests
+- ✅ **Add new enum** → Test all enum cases
+- ✅ **Modify business logic** → Update service tests
+
+#### Test Update Checklist:
+
+```
+□ New functionality has tests
+□ Modified functionality has updated tests
+□ All test cases pass
+□ Edge cases are covered
+□ Error scenarios are tested
+□ Integration tests updated
+□ Mock dependencies properly
+□ Test data factories updated
+```
+
+#### Pre-Commit Test Validation:
+
+- **Every commit** must include test updates
+- **No code changes** without corresponding test changes
+- **All tests must pass** before commit
+- **Coverage must not decrease** below minimum thresholds
+
+#### Test Coverage Enforcement:
+
+```bash
+# Run before every commit
+php artisan test --coverage --min=80
+
+# Check specific coverage
+php artisan test --coverage --min=90 tests/Unit/Services/
+php artisan test --coverage --min=80 tests/Unit/Repositories/
+php artisan test --coverage --min=70 tests/Feature/
+```
+
+### 5. MANDATORY Migration-Model-Factory Rule ⚠️ **CRITICAL**
+
+**ALWAYS update models and factories when you change migrations:**
+
+#### When to Update Models & Factories:
+
+- ✅ **Add new migration** → Update/create corresponding model and factory
+- ✅ **Modify migration** → Update corresponding model and factory
+- ✅ **Add new table** → Create model, factory, and tests
+- ✅ **Modify table structure** → Update model fillable/casts and factory
+- ✅ **Add new columns** → Update model fillable array and factory definition
+- ✅ **Modify column types** → Update model casts and factory data
+- ✅ **Add foreign keys** → Update model relationships and factory relationships
+- ✅ **Add indexes** → Update model scopes if needed
+
+#### Migration-Model-Factory Checklist:
+
+```
+□ Migration created/modified
+□ Model updated with new fillable/casts/relationships
+□ Factory updated with new fields/data
+□ Model tests updated for new functionality
+□ Factory tests updated for new data
+□ All tests pass
+□ Database schema documented
+```
+
+#### Pre-Commit Migration Validation:
+
+- **Every migration change** must include model and factory updates
+- **No migration changes** without corresponding model/factory changes
+- **All model relationships** must be properly defined
+- **All factory data** must be realistic and complete
+
+#### Migration Coverage Enforcement:
+
+```bash
+# Check for orphaned migrations
+php artisan migrate:status
+
+# Verify model-factory consistency
+php artisan tinker --execute="App\Models\YourModel::factory()->make()"
+
+# Run model tests
+php artisan test tests/Unit/Models/
+```
+
+#### Examples:
+
+**✅ GOOD: Complete Migration-Model-Factory Update**
+
+```php
+// Migration: Add user_id to posts table
+Schema::table('posts', function (Blueprint $table) {
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+});
+
+// Model: Update Post model
+class Post extends Model {
+    protected $fillable = [
+        'user_id', // Added
+        'title',
+        'caption',
+        // ... existing fields
+    ];
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class); // Added relationship
+    }
+}
+
+// Factory: Update PostFactory
+class PostFactory extends Factory {
+    public function definition(): array {
+        return [
+            'user_id' => User::factory(), // Added
+            'title' => $this->faker->sentence(),
+            // ... existing fields
+        ];
+    }
+}
+```
+
+**❌ BAD: Incomplete Migration Update**
+
+```php
+// Migration: Add user_id to posts table
+Schema::table('posts', function (Blueprint $table) {
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+});
+
+// Model: NOT updated - missing user_id in fillable and relationship
+// Factory: NOT updated - missing user_id in definition
+// Tests: NOT updated - missing user relationship tests
+```
+
+#### Database Schema Documentation:
+
+- **Every migration** must be documented in `docs/DATABASE_SCHEMA.md`
+- **Every model change** must be reflected in documentation
+- **Every new relationship** must be documented with examples
+- **Every factory** must be documented with usage examples
+
+### 5. Test Quality Standards
+
+**Write comprehensive tests:**
+
+```php
+// ✅ GOOD: Comprehensive test
+it('creates post with media and schedules for future', function () {
+    $user = User::factory()->create();
+    $company = Company::factory()->create();
+    $account = InstagramAccount::factory()->create(['company_id' => $company->id]);
+
+    $file = UploadedFile::fake()->image('test.jpg');
+
+    $response = $this->actingAs($user)
+        ->post('/posts', [
+            'type' => 'feed',
+            'caption' => 'Test post #test @user',
+            'scheduled_at' => now()->addHour(),
+            'media' => [['file' => $file]]
+        ]);
+
+    $response->assertRedirect('/posts');
+
+    $post = Post::latest()->first();
+    expect($post->status)->toBe(PostStatus::SCHEDULED);
+    expect($post->media)->toHaveCount(1);
+    expect($post->hashtags)->toContain('test');
+    expect($post->mentions)->toContain('user');
+});
+
+// ❌ BAD: Incomplete test
+it('creates post', function () {
+    $response = $this->post('/posts', ['caption' => 'test']);
+    $response->assertOk();
+});
+```
+
+### 6. Test Categories
+
+**Unit Tests (Fast, Isolated):**
+
+- Service methods
+- Repository methods
+- Model methods and relationships
+- Enum cases and validation
+
+**Feature Tests (Integration):**
+
+- Controller endpoints
+- Authentication flows
+- Database interactions
+- File uploads
+
+**Browser Tests (E2E):**
+
+- Complete user workflows
+- Complex UI interactions
+- Cross-browser compatibility
+
+### 7. Test Data Management
+
+**Use factories for consistent test data:**
+
+```php
+// ✅ GOOD: Use factories
+$user = User::factory()->create();
+$post = Post::factory()->create(['user_id' => $user->id]);
+
+// ❌ BAD: Hardcoded data
+$user = new User(['name' => 'Test User', 'email' => 'test@example.com']);
+```
+
+### 8. Mocking Strategy
+
+**Mock external dependencies:**
+
+```php
+// ✅ GOOD: Mock external services
+Storage::fake();
+Mail::fake();
+Http::fake();
+
+// ✅ GOOD: Mock repositories in unit tests
+$mockRepository = Mockery::mock(PostRepository::class);
+$mockRepository->shouldReceive('create')->once()->andReturn($post);
+```
+
+### 9. Test Performance
+
+**Keep tests fast:**
+
+- Use `RefreshDatabase` only when needed
+- Mock expensive operations
+- Use factories instead of seeders
+- Run tests in parallel when possible
+
+### 10. Continuous Integration
+
+**Automated test validation:**
+
+```yaml
+# .github/workflows/tests.yml
+- name: Run Tests
+  run: |
+      php artisan test --coverage --min=80
+      php artisan test --coverage --min=90 tests/Unit/Services/
+```
+
+**Remember: Tests are not optional - they are mandatory for every code change!**
 
 ---
 

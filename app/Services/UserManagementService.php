@@ -2,15 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Service for managing user operations.
- * 
+ *
  * Handles user listing, suspension, password resets, and statistics.
  * All business logic for user management is centralized here.
  */
@@ -27,7 +26,6 @@ class UserManagementService
      *     company_id?: int,
      *     status?: string
      * } $filters
-     * @return LengthAwarePaginator
      */
     public function getUsers(array $filters = []): LengthAwarePaginator
     {
@@ -40,7 +38,7 @@ class UserManagementService
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%'.$search.'%')
-                  ->orWhere('email', 'like', '%'.$search.'%');
+                    ->orWhere('email', 'like', '%'.$search.'%');
             });
         }
 
@@ -63,37 +61,36 @@ class UserManagementService
         // Apply sorting
         $sortField = $filters['sort'] ?? 'created_at';
         $sortDirection = $filters['direction'] ?? 'desc';
-        
+
         // Validate sort field
         $allowedSortFields = ['name', 'email', 'created_at', 'last_login_at', 'suspended_at'];
         if (! in_array($sortField, $allowedSortFields)) {
             $sortField = 'created_at';
         }
-        
+
         // Validate sort direction
         $sortDirection = in_array($sortDirection, ['asc', 'desc']) ? $sortDirection : 'desc';
-        
+
         $query->orderBy($sortField, $sortDirection);
 
         // Paginate results
         $perPage = $filters['per_page'] ?? 15;
-        
+
         return $query->paginate($perPage)->withQueryString();
     }
 
     /**
      * Send password reset link to a user.
      *
-     * @param int $userId
      * @return string Status message
      */
     public function sendPasswordResetLink(int $userId): string
     {
         $user = User::findOrFail($userId);
-        
+
         // Send the password reset notification
         $status = Password::sendResetLink(['email' => $user->email]);
-        
+
         return $status === Password::RESET_LINK_SENT
             ? 'Password reset link sent successfully.'
             : 'Unable to send password reset link.';
@@ -101,50 +98,41 @@ class UserManagementService
 
     /**
      * Suspend a user account.
-     *
-     * @param int $userId
-     * @param string $reason
-     * @param User $suspendedBy
-     * @return bool
      */
     public function suspendUser(int $userId, string $reason, User $suspendedBy): bool
     {
         $user = User::findOrFail($userId);
-        
+
         // Don't allow suspending yourself
         if ($user->id === $suspendedBy->id) {
             throw new \InvalidArgumentException('You cannot suspend yourself.');
         }
-        
+
         // Don't allow suspending if already suspended
         if ($user->isSuspended()) {
             throw new \InvalidArgumentException('User is already suspended.');
         }
-        
+
         return $user->suspend($reason, $suspendedBy);
     }
 
     /**
      * Unsuspend a user account.
-     *
-     * @param int $userId
-     * @return bool
      */
     public function unsuspendUser(int $userId): bool
     {
         $user = User::findOrFail($userId);
-        
+
         if (! $user->isSuspended()) {
             throw new \InvalidArgumentException('User is not suspended.');
         }
-        
+
         return $user->unsuspend();
     }
 
     /**
      * Get user statistics.
      *
-     * @param int $userId
      * @return array{
      *     instagram_accounts: int,
      *     posts_count: int,
@@ -158,7 +146,7 @@ class UserManagementService
     {
         $user = User::with(['companies', 'ownedInstagramAccounts', 'instagramPosts'])
             ->findOrFail($userId);
-        
+
         // Get role in current company
         $roleInCurrentCompany = null;
         if ($user->current_company_id) {
@@ -168,7 +156,7 @@ class UserManagementService
                 $roleInCurrentCompany = $role ? $role->value : null;
             }
         }
-        
+
         return [
             'instagram_accounts' => $user->accessibleInstagramAccounts()->count(),
             'posts_count' => $user->instagramPosts()->count(),
@@ -181,10 +169,6 @@ class UserManagementService
 
     /**
      * Search users by name or email.
-     *
-     * @param string $searchTerm
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function searchUsers(string $searchTerm, int $perPage = 15): LengthAwarePaginator
     {
@@ -199,30 +183,23 @@ class UserManagementService
 
     /**
      * Get users for a specific company with their roles.
-     *
-     * @param int $companyId
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function getUsersForCompany(int $companyId, int $perPage = 15): LengthAwarePaginator
     {
         return User::whereHas('companies', function ($query) use ($companyId) {
             $query->where('company_id', $companyId);
         })
-        ->with(['companies' => function ($query) use ($companyId) {
-            $query->where('company_id', $companyId);
-        }])
-        ->withCount(['companies', 'ownedInstagramAccounts', 'instagramPosts'])
-        ->orderBy('name')
-        ->paginate($perPage)
-        ->withQueryString();
+            ->with(['companies' => function ($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            }])
+            ->withCount(['companies', 'ownedInstagramAccounts', 'instagramPosts'])
+            ->orderBy('name')
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     /**
      * Update user's last login timestamp.
-     *
-     * @param int $userId
-     * @return bool
      */
     public function updateLastLogin(int $userId): bool
     {
@@ -251,4 +228,3 @@ class UserManagementService
         ];
     }
 }
-

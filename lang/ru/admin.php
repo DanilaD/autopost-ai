@@ -40,28 +40,28 @@ return [
         'active_users' => 'Активные',
         'suspended_users' => 'Заблокированные',
         'new_this_month' => 'Новых в Этом Месяце',
-        
+
         // Actions
         'send_password_reset' => 'Отправить Ссылку на Сброс Пароля',
         'suspend' => 'Заблокировать Пользователя',
         'unsuspend' => 'Разблокировать Пользователя',
         'impersonate' => 'Войти как Пользователь',
         'view_details' => 'Просмотреть Детали',
-        
+
         // Status
         'active' => 'Активен',
         'suspended' => 'Заблокирован',
         'suspended_by' => 'Заблокировал',
         'suspended_on' => 'Заблокирован',
         'suspension_reason' => 'Причина',
-        
+
         // Stats
         'companies_count' => 'Компании',
         'instagram_accounts' => 'Аккаунты Instagram',
         'posts_count' => 'Публикации',
         'account_age' => 'Возраст Аккаунта',
         'never_logged_in' => 'Никогда не входил',
-        
+
         // Modals
         'suspend_modal_title' => 'Блокировка Пользователя',
         'suspend_modal_message' => 'Пожалуйста, укажите причину блокировки:',
@@ -70,7 +70,7 @@ return [
         'confirm_impersonate_title' => 'Вход как Пользователь',
         'confirm_impersonate_message' => 'Вы собираетесь просматривать приложение от имени этого пользователя. Продолжить?',
         'confirm' => 'Подтвердить',
-        
+
         // Messages
         'password_reset_sent' => 'Ссылка на сброс пароля отправлена успешно',
         'suspend_success' => 'Пользователь заблокирован успешно',
@@ -102,4 +102,3 @@ return [
     'loading' => 'Загрузка...',
     'no_data' => 'Нет данных',
 ];
-

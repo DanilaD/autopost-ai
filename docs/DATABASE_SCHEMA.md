@@ -693,6 +693,7 @@ CREATE TABLE post_assets (
     metadata JSON NULL,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL,
 
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     INDEX idx_post (post_id)
@@ -872,6 +873,7 @@ CREATE TABLE posts (
     published_at TIMESTAMP NULL,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL,
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
@@ -930,6 +932,7 @@ CREATE TABLE post_media (
     metadata JSON NULL,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL,
 
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     INDEX idx_post (post_id),

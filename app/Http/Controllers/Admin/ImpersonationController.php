@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * Controller for managing user impersonation (admin only).
- * 
+ *
  * Allows admins to impersonate users for support and debugging.
  * All operations are logged for audit purposes.
  */
@@ -24,8 +24,7 @@ class ImpersonationController extends Controller
     /**
      * Start impersonating a user.
      *
-     * @param Request $request
-     * @param int $id User ID to impersonate
+     * @param  int  $id  User ID to impersonate
      * @return \Illuminate\Http\RedirectResponse
      */
     public function start(Request $request, int $id)
@@ -44,7 +43,7 @@ class ImpersonationController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to start impersonation: ' . $e->getMessage(),
+                'message' => 'Failed to start impersonation: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
@@ -53,7 +52,6 @@ class ImpersonationController extends Controller
     /**
      * Stop impersonating and return to admin account.
      *
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function stop(Request $request)
@@ -72,10 +70,9 @@ class ImpersonationController extends Controller
             ]);
         } catch (\Exception $e) {
             return back()->with('toast', [
-                'message' => 'Failed to stop impersonation: ' . $e->getMessage(),
+                'message' => 'Failed to stop impersonation: '.$e->getMessage(),
                 'type' => 'error',
             ]);
         }
     }
 }
-

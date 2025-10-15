@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
-use App\Enums\UserRole;
 use App\Services\UserManagementService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
@@ -15,12 +15,13 @@ class UserManagementServiceTest extends TestCase
     use RefreshDatabase;
 
     protected UserManagementService $service;
+
     protected Company $company;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new UserManagementService();
+        $this->service = new UserManagementService;
         $this->company = Company::factory()->create();
     }
 
@@ -54,7 +55,7 @@ class UserManagementServiceTest extends TestCase
         $activeUser = User::factory()->create();
         $suspendedUser = User::factory()->create();
         $admin = User::factory()->create();
-        
+
         $admin->companies()->attach($this->company->id, ['role' => UserRole::ADMIN->value]);
         $suspendedUser->suspend('Test reason', $admin);
 
@@ -197,4 +198,3 @@ class UserManagementServiceTest extends TestCase
         $this->assertNotNull($user->last_login_at);
     }
 }
-

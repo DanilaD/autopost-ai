@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * Instagram Post Factory
- * 
+ *
  * Creates test data for Instagram posts.
- * 
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\InstagramPost>
  */
 class InstagramPostFactory extends Factory
@@ -32,7 +32,7 @@ class InstagramPostFactory extends Factory
             'caption' => fake()->paragraph(3),
             'media_type' => 'image',
             'media_urls' => [
-                'https://picsum.photos/800/800?random=' . fake()->numberBetween(1, 1000),
+                'https://picsum.photos/800/800?random='.fake()->numberBetween(1, 1000),
             ],
             'status' => InstagramPostStatus::DRAFT,
             'retry_count' => 0,
@@ -71,8 +71,8 @@ class InstagramPostFactory extends Factory
      */
     public function published(): static
     {
-        $instagramPostId = 'ig_' . fake()->numerify('##############');
-        
+        $instagramPostId = 'ig_'.fake()->numerify('##############');
+
         return $this->state(fn (array $attributes) => [
             'status' => InstagramPostStatus::PUBLISHED,
             'instagram_post_id' => $instagramPostId,
@@ -89,7 +89,7 @@ class InstagramPostFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => InstagramPostStatus::FAILED,
-            'error_message' => $errorMessage ?? 'Failed to publish: ' . fake()->sentence(),
+            'error_message' => $errorMessage ?? 'Failed to publish: '.fake()->sentence(),
             'retry_count' => fake()->numberBetween(1, 3),
         ]);
     }
@@ -125,7 +125,7 @@ class InstagramPostFactory extends Factory
     {
         $images = [];
         for ($i = 0; $i < $imageCount; $i++) {
-            $images[] = 'https://picsum.photos/800/800?random=' . fake()->unique()->numberBetween(1, 10000);
+            $images[] = 'https://picsum.photos/800/800?random='.fake()->unique()->numberBetween(1, 10000);
         }
 
         return $this->state(fn (array $attributes) => [
@@ -165,4 +165,3 @@ class InstagramPostFactory extends Factory
         ]);
     }
 }
-

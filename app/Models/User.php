@@ -194,7 +194,7 @@ class User extends Authenticatable
      */
     public function hasInstagramAccounts(): bool
     {
-        return $this->ownedInstagramAccounts()->exists() 
+        return $this->ownedInstagramAccounts()->exists()
             || $this->sharedInstagramAccounts()->exists()
             || $this->currentCompany?->instagramAccounts()->exists();
     }
@@ -240,9 +240,8 @@ class User extends Authenticatable
     /**
      * Suspend this user account.
      *
-     * @param string $reason Reason for suspension
-     * @param User $suspendedBy Admin user performing the suspension
-     * @return bool
+     * @param  string  $reason  Reason for suspension
+     * @param  User  $suspendedBy  Admin user performing the suspension
      */
     public function suspend(string $reason, User $suspendedBy): bool
     {
@@ -255,8 +254,6 @@ class User extends Authenticatable
 
     /**
      * Unsuspend this user account.
-     *
-     * @return bool
      */
     public function unsuspend(): bool
     {
@@ -269,8 +266,6 @@ class User extends Authenticatable
 
     /**
      * Check if user account is suspended.
-     *
-     * @return bool
      */
     public function isSuspended(): bool
     {
@@ -280,7 +275,7 @@ class User extends Authenticatable
     /**
      * Scope to filter only active (non-suspended) users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
@@ -291,7 +286,7 @@ class User extends Authenticatable
     /**
      * Scope to filter only suspended users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSuspended($query)
@@ -301,8 +296,6 @@ class User extends Authenticatable
 
     /**
      * Get user statistics for admin panel.
-     *
-     * @return array
      */
     public function getStatsAttribute(): array
     {

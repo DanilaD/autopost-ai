@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -27,6 +29,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class PostMedia extends Model
 {
+    use HasFactory, SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      */
@@ -84,7 +88,7 @@ class PostMedia extends Model
         $bytes = $this->file_size;
         $units = ['B', 'KB', 'MB', 'GB'];
 
-        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
+        for ($i = 0; $bytes >= 1024 && $i < count($units) - 1; $i++) {
             $bytes /= 1024;
         }
 

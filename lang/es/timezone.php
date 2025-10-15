@@ -8,4 +8,3 @@ return [
     'timezone' => 'Zona Horaria',
     'local_time' => 'Hora Local',
 ];
-

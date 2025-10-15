@@ -40,28 +40,28 @@ return [
         'active_users' => 'Active',
         'suspended_users' => 'Suspended',
         'new_this_month' => 'New This Month',
-        
+
         // Actions
         'send_password_reset' => 'Send Password Reset',
         'suspend' => 'Suspend User',
         'unsuspend' => 'Unsuspend User',
         'impersonate' => 'Impersonate',
         'view_details' => 'View Details',
-        
+
         // Status
         'active' => 'Active',
         'suspended' => 'Suspended',
         'suspended_by' => 'Suspended by',
         'suspended_on' => 'Suspended on',
         'suspension_reason' => 'Reason',
-        
+
         // Stats
         'companies_count' => 'Companies',
         'instagram_accounts' => 'Instagram Accounts',
         'posts_count' => 'Posts',
         'account_age' => 'Account Age',
         'never_logged_in' => 'Never logged in',
-        
+
         // Modals
         'suspend_modal_title' => 'Suspend User',
         'suspend_modal_message' => 'Please provide a reason for suspension:',
@@ -70,7 +70,7 @@ return [
         'confirm_impersonate_title' => 'Impersonate User',
         'confirm_impersonate_message' => 'You are about to view the application as this user. Continue?',
         'confirm' => 'Confirm',
-        
+
         // Messages
         'password_reset_sent' => 'Password reset link sent successfully',
         'suspend_success' => 'User suspended successfully',
@@ -102,4 +102,3 @@ return [
     'loading' => 'Loading...',
     'no_data' => 'No data available',
 ];
-

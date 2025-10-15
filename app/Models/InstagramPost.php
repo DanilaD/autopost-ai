@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Instagram Post Model
- * 
+ *
  * Represents a post (draft, scheduled, or published) to an Instagram account.
  * Tracks the full lifecycle from creation to publication.
  */
@@ -241,7 +241,7 @@ class InstagramPost extends Model
     public function getSummary(): string
     {
         $summary = $this->caption ? substr($this->caption, 0, 50) : 'No caption';
-        
+
         if (strlen($this->caption ?? '') > 50) {
             $summary .= '...';
         }
@@ -249,4 +249,3 @@ class InstagramPost extends Model
         return $summary;
     }
 }
-

@@ -48,7 +48,7 @@ return [
     'status_expired' => 'Expired',
     'status_expiring_soon' => 'Expiring Soon',
     'status_error' => 'Error',
-    
+
     // Account details
     'connected' => 'Connected',
     'account_type' => 'Account Type',
