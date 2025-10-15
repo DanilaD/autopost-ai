@@ -34,15 +34,43 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         // Handle 500 errors - redirect to custom 500 page
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Server Error'], $e->getStatusCode());
+            }
+
+            // Handle specific HTTP status codes
+            switch ($e->getStatusCode()) {
+                case 500:
+                    \Log::error('Server Error: '.$e->getMessage(), [
+                        'exception' => $e,
+                        'url' => $request->url(),
+                        'method' => $request->method(),
+                    ]);
+
+                    return redirect()->route('errors.500');
+                case 403:
+                    return redirect()->route('errors.403');
+                case 404:
+                    return redirect()->route('errors.404');
+                default:
+                    return null; // Let Laravel handle other status codes
+            }
+        });
+
+        // Handle 419 CSRF Token Mismatch errors
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'CSRF Token Mismatch'], 419);
+            }
+
+            return redirect()->route('errors.419');
+        });
+
+        // Handle general exceptions (fallback for non-HTTP exceptions)
         $exceptions->render(function (\Throwable $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Server Error'], 500);
-            }
-
-            // Only redirect to 500 page for actual server errors (not 404s, 403s, etc.)
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException ||
-                $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
-                return null; // Let other handlers deal with these
             }
 
             // Log the error
@@ -53,23 +81,5 @@ return Application::configure(basePath: dirname(__DIR__))
             ]);
 
             return redirect()->route('errors.500');
-        });
-
-        // Handle 403 Forbidden errors
-        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => 'Forbidden'], 403);
-            }
-
-            return redirect()->route('errors.403');
-        });
-
-        // Handle 419 CSRF Token Mismatch errors
-        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => 'CSRF Token Mismatch'], 419);
-            }
-
-            return redirect()->route('errors.419');
         });
     })->create();
