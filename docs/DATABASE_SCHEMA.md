@@ -1,9 +1,9 @@
 # Database Schema Documentation
 
 **Project:** Autopost AI  
-**Version:** 1.5  
-**Date:** October 15, 2025  
-**Recent Update:** Post Management System with Media Handling & Scheduling
+**Version:** 1.6
+**Date:** October 15, 2025
+**Recent Update:** Phase 2 Analysis - Current vs Planned Database Schema
 
 ---
 
@@ -211,11 +211,11 @@ CREATE TABLE company_user (
 
 ---
 
-### Billing Tables
+### Phase 2: Database & Multi-Company Tables
 
-#### `wallets`
+#### `wallets` 🔜 **PLANNED**
 
-**Purpose:** Stores wallet metadata. Balance is computed from transactions.
+**Purpose:** Store wallet metadata for each company with balance tracking.
 
 ```sql
 CREATE TABLE wallets (
@@ -231,8 +231,8 @@ CREATE TABLE wallets (
 
 **Relationships:**
 
-- `belongsTo(Company)`
-- `hasMany(WalletTransaction)`
+- `belongsTo(Company)` - Company that owns the wallet
+- `hasMany(WalletTransaction)` - All wallet transactions
 
 **Methods:**
 
@@ -255,9 +255,9 @@ public function balanceFromSnapshot(): int
 
 ---
 
-#### `wallet_transactions`
+#### `wallet_transactions` 🔜 **PLANNED**
 
-**Purpose:** Immutable ledger of all wallet changes.
+**Purpose:** Immutable ledger of all wallet changes with balance snapshots.
 
 ```sql
 CREATE TABLE wallet_transactions (
@@ -292,37 +292,166 @@ CREATE TABLE wallet_transactions (
 - `idempotency_key`: Prevents duplicate webhooks
 - `stripe_payment_intent_id`: Links to Stripe transaction
 
-**Example Transactions:**
+---
+
+#### `ai_generations` 🔜 **PLANNED**
+
+**Purpose:** Track all AI-generated content and associated costs.
+
+```sql
+CREATE TABLE ai_generations (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    company_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    type ENUM('caption', 'image', 'video') NOT NULL,
+    prompt TEXT NOT NULL,
+    result TEXT NULL, -- caption text or S3 URL
+    cost_credits INT UNSIGNED NOT NULL, -- in cents
+    metadata JSON NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_company_type (company_id, type),
+    INDEX idx_created (created_at)
+);
+```
+
+**Relationships:**
+
+- `belongsTo(Company)` - Company that generated content
+- `belongsTo(User)` - User who initiated generation
+
+**Generation Types:**
+
+- `caption`: AI-generated post captions
+- `image`: AI-generated images
+- `video`: AI-generated videos
+
+---
+
+#### `questionnaire_responses` 🔜 **PLANNED**
+
+**Purpose:** Store onboarding questionnaire answers for brand setup.
+
+```sql
+CREATE TABLE questionnaire_responses (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    company_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    responses JSON NOT NULL,
+    completed_at TIMESTAMP NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_company (company_id)
+);
+```
+
+**Relationships:**
+
+- `belongsTo(Company)` - Company being onboarded
+- `belongsTo(User)` - User completing questionnaire
+
+---
+
+#### `content_plans` 🔜 **PLANNED**
+
+**Purpose:** Long-term content planning and theme management.
+
+```sql
+CREATE TABLE content_plans (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    company_id BIGINT UNSIGNED NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    themes JSON NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    INDEX idx_company (company_id),
+    INDEX idx_dates (start_date, end_date)
+);
+```
+
+**Relationships:**
+
+- `belongsTo(Company)` - Company that owns the plan
+
+**Themes JSON Example:**
 
 ```json
-// Credit (top-up)
 {
-  "type": "credit",
-  "amount": 5000,
-  "balance_after": 5000,
-  "idempotency_key": "pi_3abc123_succeeded",
-  "stripe_payment_intent_id": "pi_3abc123",
-  "description": "Wallet top-up via Stripe",
-  "metadata": {
-    "payment_method": "card",
-    "last4": "4242"
-  }
+    "brand_voice": "professional",
+    "content_types": ["educational", "inspirational"],
+    "posting_frequency": "daily",
+    "target_audience": "professionals"
+}
+```
+
+---
+
+### Enhanced Company Management
+
+#### `company_user` Table Updates 🔜 **PLANNED**
+
+**Purpose:** Add invitation tracking to existing company-user relationships.
+
+```sql
+-- Add invitation fields to existing company_user table
+ALTER TABLE company_user ADD COLUMN invited_by BIGINT UNSIGNED NULL;
+ALTER TABLE company_user ADD COLUMN invited_at TIMESTAMP NULL;
+ALTER TABLE company_user ADD COLUMN accepted_at TIMESTAMP NULL;
+
+-- Add foreign key constraint
+ALTER TABLE company_user ADD FOREIGN KEY (invited_by) REFERENCES users(id) ON DELETE SET NULL;
+
+-- Add indexes for performance
+ALTER TABLE company_user ADD INDEX idx_invited_by (invited_by);
+ALTER TABLE company_user ADD INDEX idx_invitation_status (invited_at, accepted_at);
+```
+
+**Invitation Flow:**
+
+1. Admin invites → `invited_at` set, `accepted_at` NULL
+2. User accepts → `accepted_at` set
+3. User has access once `accepted_at` is not NULL
+
+---
+
+"type": "credit",
+"amount": 5000,
+"balance_after": 5000,
+"idempotency_key": "pi_3abc123_succeeded",
+"stripe_payment_intent_id": "pi_3abc123",
+"description": "Wallet top-up via Stripe",
+"metadata": {
+"payment_method": "card",
+"last4": "4242"
+}
 }
 
 // Debit (AI generation)
 {
-  "type": "debit",
-  "amount": 150,
-  "balance_after": 4850,
-  "idempotency_key": "ai_gen_456",
-  "description": "Image generation",
-  "metadata": {
-    "ai_generation_id": 456,
-    "type": "image",
-    "model": "stable-diffusion-3"
-  }
+"type": "debit",
+"amount": 150,
+"balance_after": 4850,
+"idempotency_key": "ai_gen_456",
+"description": "Image generation",
+"metadata": {
+"ai_generation_id": 456,
+"type": "image",
+"model": "stable-diffusion-3"
 }
-```
+}
+
+````
 
 ---
 
@@ -361,7 +490,7 @@ CREATE TABLE instagram_accounts (
     INDEX idx_company_status (company_id, status), -- NEW
     INDEX idx_ownership_type (ownership_type) -- NEW
 );
-```
+````
 
 **Relationships:**
 
