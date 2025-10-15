@@ -42,6 +42,30 @@ const messages = {
                 "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
             email_password_reset_link: 'Email Password Reset Link',
         },
+        errors: {
+            page_not_found: 'Page Not Found',
+            page_not_found_description:
+                'Sorry, the page you are looking for could not be found.',
+            server_error: 'Server Error',
+            server_error_description:
+                'Something went wrong on our end. Please try again later.',
+            forbidden: 'Access Forbidden',
+            forbidden_description:
+                'You do not have permission to access this resource.',
+            csrf_mismatch: 'Session Expired',
+            csrf_mismatch_description:
+                'Your session has expired. Please refresh the page and try again.',
+            go_home: 'Go Home',
+            try_again: 'Try Again',
+            go_back: 'Go Back',
+            refresh_page: 'Refresh Page',
+            need_help: 'Need help? Contact our support team.',
+            contact_support: 'Contact Support',
+            error_404: '404 - Page Not Found',
+            error_500: '500 - Server Error',
+            error_403: '403 - Access Forbidden',
+            error_419: '419 - Session Expired',
+        },
         dashboard: {
             title: 'Dashboard',
             greeting_morning: 'Good morning',
@@ -290,6 +314,30 @@ const messages = {
             forgot_password_description:
                 'Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.',
             email_password_reset_link: 'Отправить ссылку для сброса пароля',
+        },
+        errors: {
+            page_not_found: 'Страница не найдена',
+            page_not_found_description:
+                'Извините, запрашиваемая страница не найдена.',
+            server_error: 'Ошибка сервера',
+            server_error_description:
+                'Произошла ошибка на нашей стороне. Пожалуйста, попробуйте позже.',
+            forbidden: 'Доступ запрещен',
+            forbidden_description:
+                'У вас нет прав для доступа к этому ресурсу.',
+            csrf_mismatch: 'Сессия истекла',
+            csrf_mismatch_description:
+                'Ваша сессия истекла. Пожалуйста, обновите страницу и попробуйте снова.',
+            go_home: 'На главную',
+            try_again: 'Попробовать снова',
+            go_back: 'Назад',
+            refresh_page: 'Обновить страницу',
+            need_help: 'Нужна помощь? Обратитесь в службу поддержки.',
+            contact_support: 'Связаться с поддержкой',
+            error_404: '404 - Страница не найдена',
+            error_500: '500 - Ошибка сервера',
+            error_403: '403 - Доступ запрещен',
+            error_419: '419 - Сессия истекла',
         },
         dashboard: {
             title: 'Панель управления',
@@ -545,6 +593,31 @@ const messages = {
             forgot_password_description:
                 '¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.',
             email_password_reset_link: 'Enviar enlace de restablecimiento',
+        },
+        errors: {
+            page_not_found: 'Página no encontrada',
+            page_not_found_description:
+                'Lo sentimos, la página que buscas no se pudo encontrar.',
+            server_error: 'Error del servidor',
+            server_error_description:
+                'Algo salió mal de nuestro lado. Por favor, inténtalo de nuevo más tarde.',
+            forbidden: 'Acceso prohibido',
+            forbidden_description:
+                'No tienes permisos para acceder a este recurso.',
+            csrf_mismatch: 'Sesión expirada',
+            csrf_mismatch_description:
+                'Tu sesión ha expirado. Por favor, actualiza la página e inténtalo de nuevo.',
+            go_home: 'Ir al inicio',
+            try_again: 'Intentar de nuevo',
+            go_back: 'Volver',
+            refresh_page: 'Actualizar página',
+            need_help:
+                '¿Necesitas ayuda? Contacta a nuestro equipo de soporte.',
+            contact_support: 'Contactar soporte',
+            error_404: '404 - Página no encontrada',
+            error_500: '500 - Error del servidor',
+            error_403: '403 - Acceso prohibido',
+            error_419: '419 - Sesión expirada',
         },
         dashboard: {
             title: 'Panel de control',

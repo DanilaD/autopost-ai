@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified'])
                 ->name('inquiries.destroy');
             Route::get('/inquiries/export', [\App\Http\Controllers\Admin\InquiryController::class, 'export'])
                 ->name('inquiries.export');
-            
+
             // User Management
             Route::get('/users', [\App\Http\Controllers\Admin\UserManagementController::class, 'index'])
                 ->name('users.index');
@@ -71,11 +71,41 @@ Route::middleware(['auth', 'verified'])
                 ->name('users.suspend');
             Route::post('/users/{user}/unsuspend', [\App\Http\Controllers\Admin\UserManagementController::class, 'unsuspend'])
                 ->name('users.unsuspend');
-            
+
             // Impersonation Start
             Route::post('/users/{user}/impersonate', [\App\Http\Controllers\Admin\ImpersonationController::class, 'start'])
                 ->name('users.impersonate');
         });
     });
+
+// Error pages
+Route::get('/404', function () {
+    return Inertia::render('Errors/404');
+})->name('errors.404');
+
+Route::get('/500', function () {
+    return Inertia::render('Errors/500');
+})->name('errors.500');
+
+Route::get('/403', function () {
+    return Inertia::render('Errors/403');
+})->name('errors.403');
+
+Route::get('/419', function () {
+    return Inertia::render('Errors/419');
+})->name('errors.419');
+
+// Test error routes (remove in production)
+Route::get('/test-404', function () {
+    abort(404);
+})->name('test.404');
+
+Route::get('/test-500', function () {
+    abort(500);
+})->name('test.500');
+
+Route::get('/test-403', function () {
+    abort(403);
+})->name('test.403');
 
 require __DIR__.'/auth.php';
