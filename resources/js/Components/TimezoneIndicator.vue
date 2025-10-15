@@ -172,7 +172,7 @@ const gmtOffset = computed(() => {
                 >
                     {{ formattedTime }}
                 </div>
-                <div class="text-xs text-md-on-surface-variant">
+                <div class="text-xs text-gray-500 dark:text-gray-400">
                     {{ gmtOffset }}
                 </div>
                 <div

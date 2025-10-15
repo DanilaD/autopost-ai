@@ -113,7 +113,7 @@ if (typeof window !== 'undefined') {
                         <!-- Checkmark for current language -->
                         <svg
                             v-if="currentLocale === language.code"
-                            class="h-5 w-5 text-md-primary"
+                            class="h-5 w-5 text-indigo-600 dark:text-indigo-400"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >

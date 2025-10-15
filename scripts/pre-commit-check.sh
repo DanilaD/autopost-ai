@@ -77,13 +77,22 @@ STAGED_MODEL_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'ap
 STAGED_LANG_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'lang/' || true)
 STAGED_DOC_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'docs/' || true)
 
-PHP_COUNT=$(echo "$STAGED_PHP_FILES" | grep -c . || echo "0")
-VUE_COUNT=$(echo "$STAGED_VUE_FILES" | grep -c . || echo "0")
-JS_COUNT=$(echo "$STAGED_JS_FILES" | grep -c . || echo "0")
-MIGRATION_COUNT=$(echo "$STAGED_MIGRATION_FILES" | grep -c . || echo "0")
-MODEL_COUNT=$(echo "$STAGED_MODEL_FILES" | grep -c . || echo "0")
-LANG_COUNT=$(echo "$STAGED_LANG_FILES" | grep -c . || echo "0")
-DOC_COUNT=$(echo "$STAGED_DOC_FILES" | grep -c . || echo "0")
+PHP_COUNT=$(echo "$STAGED_PHP_FILES" | wc -l | tr -d ' ')
+VUE_COUNT=$(echo "$STAGED_VUE_FILES" | wc -l | tr -d ' ')
+JS_COUNT=$(echo "$STAGED_JS_FILES" | wc -l | tr -d ' ')
+MIGRATION_COUNT=$(echo "$STAGED_MIGRATION_FILES" | wc -l | tr -d ' ')
+MODEL_COUNT=$(echo "$STAGED_MODEL_FILES" | wc -l | tr -d ' ')
+LANG_COUNT=$(echo "$STAGED_LANG_FILES" | wc -l | tr -d ' ')
+DOC_COUNT=$(echo "$STAGED_DOC_FILES" | wc -l | tr -d ' ')
+
+# Handle empty results (when no files match, wc -l returns 1)
+if [ -z "$STAGED_PHP_FILES" ]; then PHP_COUNT=0; fi
+if [ -z "$STAGED_VUE_FILES" ]; then VUE_COUNT=0; fi
+if [ -z "$STAGED_JS_FILES" ]; then JS_COUNT=0; fi
+if [ -z "$STAGED_MIGRATION_FILES" ]; then MIGRATION_COUNT=0; fi
+if [ -z "$STAGED_MODEL_FILES" ]; then MODEL_COUNT=0; fi
+if [ -z "$STAGED_LANG_FILES" ]; then LANG_COUNT=0; fi
+if [ -z "$STAGED_DOC_FILES" ]; then DOC_COUNT=0; fi
 
 print_info "Staged PHP files: $PHP_COUNT"
 print_info "Staged Vue files: $VUE_COUNT"

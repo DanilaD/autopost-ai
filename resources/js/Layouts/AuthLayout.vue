@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3'
 
 <template>
     <div
-        class="flex min-h-screen flex-col items-center bg-md-background pt-6 sm:justify-center sm:pt-0"
+        class="flex min-h-screen flex-col items-center bg-gray-50 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900"
     >
         <!-- Language Selector Only - Top Right -->
         <div class="absolute top-4 right-4 flex items-center space-x-2">
@@ -16,13 +16,13 @@ import { Link } from '@inertiajs/vue3'
         <div>
             <Link href="/">
                 <ApplicationLogo
-                    class="h-20 w-20 fill-current text-md-on-surface-variant"
+                    class="h-20 w-20 fill-current text-gray-600 dark:text-gray-400"
                 />
             </Link>
         </div>
 
         <div
-            class="mt-6 w-full overflow-hidden bg-md-surface-container px-6 py-4 shadow-elevation-2 sm:max-w-md sm:rounded-md"
+            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg dark:bg-gray-800"
         >
             <slot />
         </div>

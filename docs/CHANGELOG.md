@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### UI Consistency & Dark Mode Improvements (2025-10-15)
+
+- Fixed dark mode contrast issues across all components
+- Standardized UI components to use consistent Tailwind classes
+- Replaced Material Design 3 tokens with standard Tailwind equivalents
+- Improved welcome card dark mode visibility with proper text contrast
+- Updated all form components (buttons, inputs, checkboxes) for consistent styling
+- Enhanced layout components (AuthLayout, GuestLayout) with proper dark mode support
+
+#### Code Quality & Testing Improvements (2025-10-15)
+
+- Fixed Husky deprecation warnings by removing deprecated lines from pre-commit/pre-push hooks
+- Converted PHPUnit doc-comment metadata to PHP 8 attributes in all test files
+- Resolved "integer expression expected" warnings in pre-commit-check.sh script
+- Improved script reliability with proper empty result handling
+
 #### CI Alignment (2025-10-15)
 
 - GitHub Actions workflow `Laravel CI` updated to run local quality gates in CI

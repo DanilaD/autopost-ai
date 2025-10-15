@@ -8,11 +8,12 @@ use App\Models\InstagramPost;
 use App\Models\User;
 use App\Services\InstagramPostService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * Test Instagram Post Management
- * 
+ *
  * Tests post creation, scheduling, publishing, and lifecycle management.
  */
 class InstagramPostManagementTest extends TestCase
@@ -27,7 +28,7 @@ class InstagramPostManagementTest extends TestCase
         $this->postService = app(InstagramPostService::class);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_create_draft_post_for_owned_account()
     {
         $user = User::factory()->create();
@@ -46,13 +47,13 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals($account->id, $post->instagram_account_id);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_create_post_for_company_account()
     {
         $user = User::factory()->create();
         $company = \App\Models\Company::factory()->create();
         $company->users()->attach($user, ['role' => 'member']);
-        
+
         $account = InstagramAccount::factory()->forCompany($company)->create();
 
         $post = $this->postService->createDraft($user, $account, [
@@ -64,7 +65,7 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals($account->id, $post->instagram_account_id);
     }
 
-    /** @test */
+    #[Test]
     public function user_cannot_create_post_for_inaccessible_account()
     {
         $user = User::factory()->create();
@@ -79,12 +80,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertNull($post);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_update_their_draft_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -100,12 +101,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals('Updated caption', $post->caption);
     }
 
-    /** @test */
+    #[Test]
     public function user_cannot_update_published_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -121,12 +122,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals('Original caption', $post->caption);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_schedule_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -142,12 +143,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals($scheduledTime->timestamp, $post->scheduled_at->timestamp);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_schedule_post_in_the_past()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -160,12 +161,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertFalse($scheduled);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_schedule_post_without_media()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -178,12 +179,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertFalse($scheduled);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_cancel_scheduled_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -197,12 +198,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertEquals(InstagramPostStatus::CANCELLED, $post->status);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_delete_draft_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -215,12 +216,12 @@ class InstagramPostManagementTest extends TestCase
         $this->assertSoftDeleted($post);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_delete_published_post()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         $post = InstagramPost::factory()
             ->forAccount($account)
             ->byUser($user)
@@ -233,7 +234,7 @@ class InstagramPostManagementTest extends TestCase
         $this->assertDatabaseHas('instagram_posts', ['id' => $post->id]);
     }
 
-    /** @test */
+    #[Test]
     public function post_statuses_work_correctly()
     {
         $draft = InstagramPost::factory()->draft()->create();
@@ -254,13 +255,13 @@ class InstagramPostManagementTest extends TestCase
         $this->assertFalse($draft->isFinal());
     }
 
-    /** @test */
+    #[Test]
     public function due_for_publishing_scope_works()
     {
         // Create various posts
         InstagramPost::factory()->draft()->create();
         InstagramPost::factory()->scheduled(now()->addHours(2))->create();
-        
+
         $duePost1 = InstagramPost::factory()->dueForPublishing()->create();
         $duePost2 = InstagramPost::factory()->scheduled(now()->subMinutes(10))->create();
 
@@ -271,11 +272,11 @@ class InstagramPostManagementTest extends TestCase
         $this->assertTrue($duePosts->contains($duePost2));
     }
 
-    /** @test */
+    #[Test]
     public function post_scopes_filter_correctly()
     {
         $account = InstagramAccount::factory()->create();
-        
+
         InstagramPost::factory()->forAccount($account)->draft()->create();
         InstagramPost::factory()->forAccount($account)->scheduled()->create();
         InstagramPost::factory()->forAccount($account)->published()->create();
@@ -287,14 +288,14 @@ class InstagramPostManagementTest extends TestCase
         $this->assertCount(1, InstagramPost::failed()->get());
     }
 
-    /** @test */
+    #[Test]
     public function user_can_view_their_posts()
     {
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
-        
+
         InstagramPost::factory()->count(3)->forAccount($account)->byUser($user)->create();
-        
+
         // Create posts by another user
         $otherUser = User::factory()->create();
         $otherAccount = InstagramAccount::factory()->forUser($otherUser)->create();
@@ -305,7 +306,7 @@ class InstagramPostManagementTest extends TestCase
         $this->assertCount(3, $userPosts);
     }
 
-    /** @test */
+    #[Test]
     public function failed_post_can_be_retried()
     {
         $post = InstagramPost::factory()
@@ -321,7 +322,7 @@ class InstagramPostManagementTest extends TestCase
         $this->assertNull($post->error_message);
     }
 
-    /** @test */
+    #[Test]
     public function post_cannot_be_retried_after_max_attempts()
     {
         $post = InstagramPost::factory()
@@ -331,19 +332,18 @@ class InstagramPostManagementTest extends TestCase
         $this->assertFalse($post->canRetry());
     }
 
-    /** @test */
+    #[Test]
     public function post_summary_truncates_long_captions()
     {
         $longCaption = str_repeat('This is a very long caption. ', 20);
-        
+
         $post = InstagramPost::factory()->create([
             'caption' => $longCaption,
         ]);
 
         $summary = $post->getSummary();
-        
+
         $this->assertLessThanOrEqual(53, strlen($summary)); // 50 + "..."
         $this->assertStringEndsWith('...', $summary);
     }
 }
-
