@@ -1,4 +1,5 @@
 <template>
+    <Head :title="t('posts.title')" />
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
@@ -321,7 +322,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { Link, router, usePage } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import MediaUpload from '@/Components/MediaUpload.vue'
 import DateTimePicker from '@/Components/DateTimePicker.vue'
