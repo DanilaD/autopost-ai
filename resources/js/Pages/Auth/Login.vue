@@ -1,10 +1,5 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue'
 import LanguageSelector from '@/Components/LanguageSelector.vue'
-import InputError from '@/Components/InputError.vue'
-import InputLabel from '@/Components/InputLabel.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import TextInput from '@/Components/TextInput.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 
