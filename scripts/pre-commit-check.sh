@@ -383,6 +383,38 @@ if [ "$DEBUG_FOUND" = false ]; then
     print_success "No debug statements found"
 fi
 
+# Check for hardcoded secrets
+print_info "Checking for hardcoded secrets..."
+SECRETS_FOUND=false
+
+for file in $STAGED_PHP_FILES; do
+    if grep -qi "password.*=.*['\"].*['\"]" "$file" || \
+       grep -qi "api_key.*=.*['\"].*['\"]" "$file" || \
+       grep -qi "secret.*=.*['\"].*['\"]" "$file"; then
+        print_warning "Potential hardcoded secret found in: $file"
+        SECRETS_FOUND=true
+    fi
+done
+
+if [ "$SECRETS_FOUND" = false ]; then
+    print_success "No hardcoded secrets found"
+fi
+
+# Check for N+1 query patterns
+print_info "Checking for N+1 query patterns..."
+N1_FOUND=false
+
+for file in $STAGED_PHP_FILES; do
+    if grep -q "foreach.*->" "$file" && grep -q "->" "$file" && ! grep -q "with(" "$file"; then
+        print_warning "Potential N+1 query pattern in: $file"
+        N1_FOUND=true
+    fi
+done
+
+if [ "$N1_FOUND" = false ]; then
+    print_success "No N+1 query patterns detected"
+fi
+
 # Check for TODO comments
 print_info "Checking for TODO comments..."
 TODO_FOUND=false
