@@ -302,6 +302,73 @@ defineProps({
 
 ---
 
+## 🎨 UI/UX Features
+
+### Dark Mode (useTheme)
+
+```vue
+<!-- Using theme in components -->
+<script setup>
+import { useTheme } from '@/composables/useTheme'
+
+const { isDark, theme, toggleTheme, setTheme } = useTheme()
+</script>
+
+<template>
+    <!-- Toggle button -->
+    <button @click="toggleTheme">
+        Switch to {{ isDark ? 'light' : 'dark' }} mode
+    </button>
+    
+    <!-- Conditional rendering based on theme -->
+    <div v-if="isDark">Dark mode content</div>
+</template>
+```
+
+**Tailwind Dark Mode Classes:**
+```vue
+<!-- Always use dark: prefix for dark mode variants -->
+<div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+    Content adapts to theme
+</div>
+```
+
+**Color Palette Convention:**
+- Background: `bg-gray-100` → `dark:bg-gray-900`
+- Cards: `bg-white` → `dark:bg-gray-800`
+- Text: `text-gray-900` → `dark:text-gray-100`
+- Secondary: `text-gray-500` → `dark:text-gray-400`
+- Borders: `border-gray-300` → `dark:border-gray-700`
+
+### Internationalization (useI18n)
+
+```vue
+<!-- Using translations in components -->
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
+</script>
+
+<template>
+    <h1>{{ t('dashboard.title') }}</h1>
+    <p>{{ t('dashboard.welcome_message') }}</p>
+    
+    <!-- With parameters -->
+    <p>{{ t('greeting', { name: user.name }) }}</p>
+    
+    <!-- Current locale -->
+    <p>Language: {{ locale }}</p>
+</template>
+```
+
+**Translation Files:**
+- `lang/en/*.php` - English
+- `lang/es/*.php` - Spanish
+- `lang/ru/*.php` - Russian
+
+---
+
 ## 🗄️ Database Queries
 
 ### Common Patterns
@@ -492,10 +559,19 @@ git branch -d feature/add-new-feature
 
 ## 📚 Documentation Links
 
+### Core Guides
 - **Start Here:** [GETTING_STARTED.md](./GETTING_STARTED.md)
 - **Standards:** [CODING_STANDARDS.md](./CODING_STANDARDS.md)
 - **Testing:** [TESTING_GUIDE.md](./TESTING_GUIDE.md)
 - **Contributing:** [CONTRIBUTING.md](../CONTRIBUTING.md)
+
+### Feature Implementation
+- **Dark Mode:** [DARK_MODE_IMPLEMENTATION.md](./DARK_MODE_IMPLEMENTATION.md) ⭐️
+- **Instagram:** [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
+- **i18n:** [INTERNATIONALIZATION_PLAN.md](./INTERNATIONALIZATION_PLAN.md)
+- **Auth:** [AUTH_FLOW_PLAN.md](./AUTH_FLOW_PLAN.md)
+
+### Complete Index
 - **All Docs:** [INDEX.md](./INDEX.md)
 
 ---

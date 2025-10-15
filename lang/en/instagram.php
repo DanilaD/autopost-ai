@@ -22,6 +22,7 @@ return [
     'token_expired' => 'Your Instagram token has expired. Please reconnect your account.',
     'sync_failed' => 'Failed to sync Instagram account data.',
     'disconnect_failed' => 'Failed to disconnect Instagram account.',
+    'dummy_credentials_warning' => '🔧 Instagram is in development mode. To connect a real Instagram account, please add your Instagram App credentials to the .env file. Contact your developer or administrator for assistance.',
 
     // Account info
     'username' => 'Username',
@@ -36,9 +37,20 @@ return [
     'sync' => 'Sync',
     'disconnect' => 'Disconnect',
     'refresh' => 'Refresh',
+    'disconnect_confirm' => 'Are you sure you want to disconnect @:username? You can reconnect it anytime.',
+    'disconnect_confirm_title' => 'Disconnect Instagram Account?',
+    'disconnect_confirm_message' => 'Are you sure you want to disconnect {username}? You can reconnect it anytime.',
+    'disconnect_button' => 'Yes, Disconnect',
+    'disconnect_cancel' => 'Cancel',
 
     // Status
     'status_active' => 'Active',
-    'status_expired' => 'Token Expired',
+    'status_expired' => 'Expired',
+    'status_expiring_soon' => 'Expiring Soon',
     'status_error' => 'Error',
+    
+    // Account details
+    'connected' => 'Connected',
+    'account_type' => 'Account Type',
+    'token_warning' => 'Your access token will expire soon. Please reconnect this account to continue posting.',
 ];

@@ -14,4 +14,9 @@ return [
     'company' => 'Компания',
     'companies' => 'Компании',
     'settings' => 'Настройки',
+
+    // Admin section
+    'admin' => 'Администрирование',
+    'inquiries' => 'Запросы',
+    'users' => 'Пользователи',
 ];

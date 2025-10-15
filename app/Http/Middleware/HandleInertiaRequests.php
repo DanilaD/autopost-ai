@@ -29,13 +29,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user ? array_merge($user->toArray(), [
+                    'is_admin' => $user->isAdminInCurrentCompany(),
+                ]) : null,
             ],
             'toast' => fn () => $request->session()->get('toast'),
             'locale' => app()->getLocale(),
+            'impersonating' => fn () => $request->session()->get('impersonate') ? [
+                'admin_id' => $request->session()->get('impersonate.admin_id'),
+                'admin_name' => $request->session()->get('impersonate.admin_name'),
+                'admin_email' => $request->session()->get('impersonate.admin_email'),
+                'started_at' => $request->session()->get('impersonate.started_at'),
+            ] : null,
         ];
     }
 }

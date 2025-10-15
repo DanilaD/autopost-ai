@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel-lang/common": "^6.7",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
@@ -62,6 +63,10 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
+        "precommit": "./scripts/pre-commit-check.sh",
+        "validate-translations": "@php scripts/translation-validator.php",
+        "format": "./vendor/bin/pint",
+        "format-check": "./vendor/bin/pint --test",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

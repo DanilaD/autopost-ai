@@ -1,8 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.0  
-**Date:** October 9, 2025  
-**Status:** Active - All developers must follow
+**Version:** 1.1  
+**Date:** October 10, 2025  
+**Status:** Active - All developers must follow  
+**Recent Update:** Added mandatory pre-commit documentation check rule
 
 ---
 
@@ -1231,6 +1232,68 @@ refactor(services): extract publish logic to separate service
 docs(auth): update magic link documentation
 test(wallet): add transaction ledger reconciliation tests
 ```
+
+### 5. Pre-Commit Documentation Check ⚠️ **MANDATORY**
+
+**ALWAYS before committing code:**
+
+1. ✅ **Review related documentation** - Check if any docs need updates
+2. ✅ **Update affected docs** - Modify relevant documentation files
+3. ✅ **Update INDEX.md** - If you created/renamed docs
+4. ✅ **Update DATABASE_SCHEMA.md** - If you modified database tables
+5. ✅ **Update version/date** - In updated documentation files
+6. ✅ **Then commit** - Include doc updates in the same commit
+
+**Examples:**
+
+```bash
+# ❌ BAD - Committing code without checking docs
+git add app/Models/InstagramAccount.php
+git commit -m "feat: add user ownership to Instagram accounts"
+
+# ✅ GOOD - Check and update docs first
+# 1. Review docs/DATABASE_SCHEMA.md - needs update
+# 2. Update instagram_accounts table documentation
+# 3. Update docs/INDEX.md with version bump
+# 4. Commit everything together
+git add app/Models/InstagramAccount.php
+git add docs/DATABASE_SCHEMA.md
+git add docs/INDEX.md
+git commit -m "feat: add user ownership to Instagram accounts
+
+- Added user_id column to instagram_accounts table
+- Updated database schema documentation
+- Bumped schema version to 1.1"
+```
+
+**Pre-Commit Checklist:**
+
+```
+Before running git commit:
+
+□ Are there any related docs in /docs folder?
+□ Does DATABASE_SCHEMA.md need updates?
+□ Does API documentation need updates?
+□ Does INDEX.md need updates?
+□ Have I updated version/date in modified docs?
+□ Are new features documented?
+□ Are breaking changes documented?
+```
+
+**Why This Matters:**
+
+- 📚 **Documentation stays current** - Never outdated
+- 🤝 **Team stays informed** - Everyone knows about changes
+- 🔍 **Code reviews are easier** - Reviewers see full context
+- 📝 **Audit trail** - Documentation changes tracked with code
+- ⚡ **No follow-up PRs** - One complete change
+
+**When to Skip:**
+
+Only skip documentation updates for:
+- Pure refactoring (no behavior change)
+- Internal implementation details
+- Typo fixes in code comments
 
 ---
 

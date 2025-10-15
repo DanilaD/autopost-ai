@@ -34,6 +34,15 @@ class InstagramOAuthController extends Controller
                 ]);
         }
 
+        // Check if using dummy credentials
+        if ($this->instagramService->isDummyCredentials()) {
+            return redirect()->route('instagram.index')
+                ->with('toast', [
+                    'type' => 'warning',
+                    'message' => __('instagram.dummy_credentials_warning'),
+                ]);
+        }
+
         $authUrl = $this->instagramService->getAuthorizationUrl();
 
         return redirect($authUrl);

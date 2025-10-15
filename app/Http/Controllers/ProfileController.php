@@ -18,9 +18,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $timezoneService = new \App\Services\TimezoneService();
+        
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'timezones' => $timezoneService->getFlatTimezones(),
+            'commonTimezones' => $timezoneService->getCommonTimezones(),
         ]);
     }
 

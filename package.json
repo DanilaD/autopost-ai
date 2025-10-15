@@ -7,7 +7,10 @@
         "dev": "vite",
         "prepare": "husky install",
         "lint": "eslint resources/js --ext .js,.vue",
-        "format": "prettier --write \"resources/**/*.{js,vue,json}\""
+        "format": "prettier --write \"resources/**/*.{js,vue,json}\"",
+        "precommit": "./scripts/pre-commit-check.sh",
+        "validate-translations": "php scripts/translation-validator.php",
+        "install-hooks": "./scripts/install-git-hooks.sh"
     },
     "lint-staged": {
         "*.php": [
@@ -43,6 +46,7 @@
         "vue-eslint-parser": "^10.2.0"
     },
     "dependencies": {
+        "sweetalert2": "^11.26.1",
         "vue-i18n": "^9.14.5"
     }
 }

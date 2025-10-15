@@ -1,0 +1,229 @@
+# Cursor AI Rules & Workflow Guidelines
+
+## 🚨 MANDATORY PRE-COMMIT DOCUMENTATION CHECK
+
+**ALWAYS before committing code:**
+
+1. ✅ **Check related documentation** - Review /docs folder for affected files
+2. ✅ **Update affected docs** - Modify DATABASE_SCHEMA.md, API docs, etc.
+3. ✅ **Update INDEX.md** - If you created/renamed documentation
+4. ✅ **Update version/date** - In all modified documentation files
+5. ✅ **Include in commit** - Stage documentation changes with code changes
+
+**Pre-Commit Checklist:**
+```
+□ Reviewed /docs for related documentation
+□ Updated DATABASE_SCHEMA.md (if database changed)
+□ Updated INDEX.md (if needed)
+□ Updated version/date in modified docs
+□ Staged all documentation changes
+□ Ready to commit
+```
+
+---
+
+## 1. Folder Structure Discipline
+
+**All models go in app/Models**
+**All business logic lives in app/Services or app/Actions**
+**Keep controllers thin** — only request handling + delegation
+**Use resources/js/** for Vue 3 with components, views, composables
+
+🧠 Rule: No business logic in controllers or Vue templates.
+
+---
+
+## 2. AI Usage Rules
+
+**Use AI (Cmd+K or Ask AI) for:**
+- Refactoring functions
+- Writing test cases
+- Drafting validation and service layers
+
+**Never copy AI output directly into production code without reviewing**
+**Use "Refactor to service" or "Explain this" commands before large edits**
+
+🧠 Rule: AI is your assistant, not your reviewer.
+
+---
+
+## 3. Code Formatting & Linting
+
+**Enable Prettier and ESLint in Cursor**
+**Enable editor.formatOnSave: true in settings**
+**Use .editorconfig for unified indentation** (2 spaces for Vue, 4 for PHP)
+
+🧠 Rule: No manual formatting or inconsistent whitespace.
+
+---
+
+## 4. Cursor Extensions Rulebook
+
+**Install and use the following only:**
+
+**For Laravel:**
+- PHP Intelephense
+- Laravel Extra Intellisense
+- Blade Snippets
+
+**For Vue:**
+- Vue Language Features (Volar)
+- Prettier, ESLint, Vue Snippets
+
+🧠 Rule: Don't install overlapping or conflicting plugins.
+
+---
+
+## 5. Navigation Rules
+
+**Use Cmd+Click or F12 to navigate to:**
+- Models
+- Services
+- Components
+
+**If not working** → run `composer dump-autoload`, reload window
+
+🧠 Rule: Avoid "search and open" when definition jumping works.
+
+---
+
+## 6. Naming & File Rules
+
+**Class names** = singular PascalCase (e.g. CampaignTargetCall)
+**Vue components** = PascalCase (CallTable.vue)
+**Blade** = kebab-case (call-table.blade.php)
+**Tests** mirror structure: tests/Feature/CallTest.php
+
+🧠 Rule: Match file names and class/component names exactly.
+
+---
+
+## 7. Task Rules (AI + Git)
+
+**Use AI to:**
+- Auto-summarize changed files
+- Generate commit messages
+- Draft JIRA tickets from command class names
+
+**Keep Cursor AI chat open** for feature development traceability
+
+🧠 Rule: One feature = one AI session + one commit.
+
+---
+
+## 8. Code Quality Rules
+
+**Make code as best practice always**
+**Add comments and explain like senior developer**
+**Follow SOLID principles**
+**Use dependency injection**
+**Write type hints everywhere**
+
+🧠 Rule: Code should be self-documenting with helpful comments.
+
+---
+
+## 9. Documentation Rules ⚠️ CRITICAL
+
+**When you change code:**
+- Check if /docs needs updates
+- Update DATABASE_SCHEMA.md for any table changes
+- Update API documentation for endpoint changes
+- Update INDEX.md if you create new docs
+- Include documentation updates in your commit
+
+**Documentation files to commonly update:**
+- `docs/DATABASE_SCHEMA.md` - Database changes
+- `docs/INDEX.md` - Documentation index
+- `docs/INSTAGRAM_HYBRID_OWNERSHIP.md` - Instagram features
+- `docs/API_DOCUMENTATION.md` - API changes (when created)
+
+**Always update version and date** at top of modified docs
+
+🧠 Rule: Documentation is part of your code change, not an afterthought.
+
+---
+
+## 10. Testing Rules
+
+**Write tests for:**
+- All service methods
+- All repository methods
+- All complex business logic
+- All API endpoints
+
+**Test coverage requirements:**
+- Services: 90% minimum
+- Repositories: 80% minimum
+- Controllers: Feature tests for all routes
+
+🧠 Rule: No PR without tests.
+
+---
+
+## 11. Architecture Pattern
+
+**Flow:** Route → Controller → Service → Repository → Model
+
+**Controllers:** HTTP only, no business logic
+**Services:** ALL business logic
+**Repositories:** ALL database queries
+**Models:** Relationships and casts only
+
+🧠 Rule: Never skip layers. Always follow the flow.
+
+---
+
+## 12. Commit Message Format
+
+**Use conventional commits:**
+
+```
+feat(posts): add carousel post type support
+fix(wallet): correct balance calculation for refunds
+refactor(services): extract publish logic to separate service
+docs(auth): update magic link documentation
+test(wallet): add transaction ledger reconciliation tests
+```
+
+**Include in commit body:**
+- What changed in code
+- What changed in documentation
+- Why the change was made
+
+---
+
+## 13. Before Every Commit Checklist
+
+```
+□ Code follows architecture pattern (Controller → Service → Repository)
+□ All business logic is in Services
+□ Tests are written and passing
+□ Linter has no errors
+□ Documentation is checked and updated
+□ Commit message follows convention
+□ Related docs staged with code
+```
+
+---
+
+## Documentation Files Reference
+
+**Core Docs:**
+- `/docs/INDEX.md` - Master index
+- `/docs/CODING_STANDARDS.md` - This file's detailed version
+- `/docs/DATABASE_SCHEMA.md` - Database tables
+- `/docs/PROJECT_PLAN.md` - Project roadmap
+
+**Feature Docs:**
+- `/docs/INSTAGRAM_HYBRID_OWNERSHIP.md` - Instagram accounts & posts
+- `/docs/AUTH_FLOW_PLAN.md` - Authentication
+- `/docs/INTERNATIONALIZATION_PLAN.md` - Multi-language
+
+**Always check these when making changes!**
+
+---
+
+**Last Updated:** October 10, 2025
+**Version:** 1.1
+

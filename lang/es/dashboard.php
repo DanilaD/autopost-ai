@@ -30,4 +30,8 @@ return [
         'create_post_desc' => 'Programa y publica contenido en tus cuentas de Instagram.',
         'coming_soon' => 'Próximamente',
     ],
+    'empty_state' => [
+        'no_posts' => 'Aún no hay publicaciones',
+        'get_started' => 'Comienza conectando tu cuenta de Instagram y creando tu primera publicación.',
+    ],
 ];

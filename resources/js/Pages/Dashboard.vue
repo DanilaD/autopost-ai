@@ -8,6 +8,18 @@ const { t, tm } = useI18n()
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
+// Get stats from props
+const props = defineProps({
+    stats: {
+        type: Object,
+        default: () => ({
+            instagram_accounts: 0,
+            scheduled_posts: 0,
+            wallet_balance: 0,
+        }),
+    },
+})
+
 // Get current time for greeting
 const greeting = computed(() => {
     const hour = new Date().getHours()
@@ -100,7 +112,7 @@ const welcomeMessage = computed(() => {
                                             <div
                                                 class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
-                                                0
+                                                {{ props.stats.instagram_accounts }}
                                             </div>
                                         </dd>
                                     </dl>
@@ -143,7 +155,7 @@ const welcomeMessage = computed(() => {
                                             <div
                                                 class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
-                                                0
+                                                {{ props.stats.scheduled_posts }}
                                             </div>
                                         </dd>
                                     </dl>
@@ -186,7 +198,7 @@ const welcomeMessage = computed(() => {
                                             <div
                                                 class="text-lg font-medium text-gray-900 dark:text-gray-100"
                                             >
-                                                $0.00
+                                                ${{ (props.stats.wallet_balance / 100).toFixed(2) }}
                                             </div>
                                         </dd>
                                     </dl>
@@ -310,13 +322,12 @@ const welcomeMessage = computed(() => {
                         <h3
                             class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100"
                         >
-                            No posts yet
+                            {{ t('dashboard.empty_state.no_posts') }}
                         </h3>
                         <p
                             class="mt-1 text-sm text-gray-500 dark:text-gray-400"
                         >
-                            Get started by connecting your Instagram account and
-                            creating your first post.
+                            {{ t('dashboard.empty_state.get_started') }}
                         </p>
                     </div>
                 </div>

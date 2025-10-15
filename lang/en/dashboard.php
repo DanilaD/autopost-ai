@@ -30,4 +30,8 @@ return [
         'create_post_desc' => 'Schedule and publish content across your Instagram accounts.',
         'coming_soon' => 'Coming Soon',
     ],
+    'empty_state' => [
+        'no_posts' => 'No posts yet',
+        'get_started' => 'Get started by connecting your Instagram account and creating your first post.',
+    ],
 ];

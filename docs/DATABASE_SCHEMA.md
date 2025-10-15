@@ -1,8 +1,9 @@
 # Database Schema Documentation
 
 **Project:** Autopost AI  
-**Version:** 1.0  
-**Date:** October 9, 2025
+**Version:** 1.4  
+**Date:** October 10, 2025  
+**Recent Update:** Searchable Timezone Dropdown & Instagram OAuth Fixes
 
 ---
 
@@ -93,7 +94,12 @@ CREATE TABLE users (
     email_verified_at TIMESTAMP NULL,
     password VARCHAR(255) NOT NULL,
     current_company_id BIGINT UNSIGNED NULL,
+    locale VARCHAR(10) DEFAULT 'en',
     timezone VARCHAR(255) DEFAULT 'UTC',
+    suspended_at TIMESTAMP NULL,
+    suspended_by BIGINT UNSIGNED NULL,
+    suspension_reason TEXT NULL,
+    last_login_at TIMESTAMP NULL,
     remember_token VARCHAR(100) NULL,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
@@ -112,8 +118,14 @@ CREATE TABLE users (
 **Notes:**
 
 - `current_company_id`: Tracks which company user is currently viewing
-- `timezone`: User's timezone for scheduling posts
+- `locale`: User's preferred language (en, es, ru) - see [Internationalization](./INTERNATIONALIZATION_PLAN.md)
+- `timezone`: User's preferred timezone for displaying dates/times (default: UTC) - see [Timezone Feature](./TIMEZONE_FEATURE.md)
+- `suspended_at`: Timestamp when user was suspended (NULL if active)
+- `suspended_by`: ID of admin who suspended the user
+- `suspension_reason`: Text explanation for why user was suspended
+- `last_login_at`: Tracks user's most recent login for admin analytics
 - Password can be NULL if OAuth-only user
+- Suspended users cannot log in or access the system
 
 ---
 
@@ -316,35 +328,52 @@ CREATE TABLE wallet_transactions (
 
 ### Instagram Tables
 
-#### `instagram_accounts`
+#### `instagram_accounts` ⚠️ **UPDATED - Hybrid Ownership Model**
 
-**Purpose:** Connected Instagram business accounts with OAuth tokens.
+**Purpose:** Connected Instagram accounts with hybrid ownership (user OR company).
 
 ```sql
 CREATE TABLE instagram_accounts (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    company_id BIGINT UNSIGNED NOT NULL,
+    company_id BIGINT UNSIGNED NULL, -- Now nullable for user-owned accounts
+    user_id BIGINT UNSIGNED NULL, -- NEW: For user-owned accounts
     instagram_user_id VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) NOT NULL,
     access_token TEXT NOT NULL, -- encrypted
-    token_type VARCHAR(50) DEFAULT 'long_lived',
     token_expires_at TIMESTAMP NOT NULL,
+    account_type VARCHAR(50) DEFAULT 'personal', -- personal, business
     profile_picture_url TEXT NULL,
     followers_count INT UNSIGNED DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'active', -- active, expired, error, disconnected
     last_synced_at TIMESTAMP NULL,
+    is_shared BOOLEAN DEFAULT FALSE, -- NEW: If shared with other users
+    ownership_type ENUM('user', 'company') DEFAULT 'company', -- NEW: Explicit ownership
+    metadata JSON NULL, -- NEW: Additional Instagram data
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL,
 
     FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- NEW
     INDEX idx_company (company_id),
-    INDEX idx_token_expiry (token_expires_at)
+    INDEX idx_user (user_id), -- NEW
+    INDEX idx_token_expiry (token_expires_at),
+    INDEX idx_user_status (user_id, status), -- NEW
+    INDEX idx_company_status (company_id, status), -- NEW
+    INDEX idx_ownership_type (ownership_type) -- NEW
 );
 ```
 
 **Relationships:**
 
-- `belongsTo(Company)`
-- `hasMany(Post)`
+- `belongsTo(Company)` - For company-owned accounts
+- `belongsTo(User)` as `owner` - For user-owned accounts
+- `belongsToMany(User)` via `instagram_account_user` - Shared access
+- `hasMany(InstagramPost)` - Posts made to this account
+
+**Ownership Types:**
+
+- `user`: Personal account owned by a user
+- `company`: Team account owned by a company
 
 **Token Management:**
 
@@ -360,8 +389,101 @@ protected $casts = [
     'access_token' => 'encrypted',
     'token_expires_at' => 'datetime',
     'last_synced_at' => 'datetime',
+    'metadata' => 'array',
+    'is_shared' => 'boolean',
 ];
 ```
+
+**See Also:** [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md) for complete implementation guide
+
+---
+
+#### `instagram_account_user` (pivot) ✨ **NEW**
+
+**Purpose:** Manages sharing permissions for Instagram accounts.
+
+```sql
+CREATE TABLE instagram_account_user (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    instagram_account_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    can_post BOOLEAN DEFAULT TRUE,
+    can_manage BOOLEAN DEFAULT FALSE,
+    shared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    shared_by_user_id BIGINT UNSIGNED NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+
+    FOREIGN KEY (instagram_account_id) REFERENCES instagram_accounts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (shared_by_user_id) REFERENCES users(id) ON DELETE SET NULL,
+    UNIQUE KEY unique_account_user (instagram_account_id, user_id),
+    INDEX idx_user (user_id),
+    INDEX idx_user_post (user_id, can_post),
+    INDEX idx_account_manage (instagram_account_id, can_manage)
+);
+```
+
+**Permission Flags:**
+
+- `can_post`: User can create and publish posts to this account
+- `can_manage`: User can modify account settings, reconnect, disconnect
+
+**Audit Fields:**
+
+- `shared_at`: When access was granted
+- `shared_by_user_id`: Who shared the account
+
+---
+
+#### `instagram_posts` ✨ **NEW**
+
+**Purpose:** Complete Instagram post lifecycle management.
+
+```sql
+CREATE TABLE instagram_posts (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    instagram_account_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    caption TEXT NULL,
+    media_type VARCHAR(50) DEFAULT 'image', -- image, video, carousel
+    media_urls JSON NULL, -- Array of media file paths
+    instagram_post_id VARCHAR(255) UNIQUE NULL,
+    instagram_permalink VARCHAR(255) NULL,
+    scheduled_at TIMESTAMP NULL,
+    published_at TIMESTAMP NULL,
+    status ENUM('draft', 'scheduled', 'publishing', 'published', 'failed', 'cancelled') DEFAULT 'draft',
+    error_message TEXT NULL,
+    retry_count INTEGER DEFAULT 0,
+    metadata JSON NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL, -- Soft deletes for audit trail
+
+    FOREIGN KEY (instagram_account_id) REFERENCES instagram_accounts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_account_status (instagram_account_id, status),
+    INDEX idx_user_status (user_id, status),
+    INDEX idx_scheduled (scheduled_at),
+    INDEX idx_published (published_at),
+    INDEX idx_status (status)
+);
+```
+
+**Status Flow:**
+
+```
+draft → scheduled → publishing → published
+                        ↓
+                     failed (can retry up to 3 times)
+```
+
+**Relationships:**
+
+- `belongsTo(InstagramAccount)`
+- `belongsTo(User)` as `creator`
+
+**See Also:** [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md) for post management guide
 
 ---
 
@@ -846,13 +968,20 @@ WHERE failed_at < DATE_SUB(NOW(), INTERVAL 30 DAY);
 
 ## Schema Versioning
 
-**Current Version:** 1.0  
-**Last Updated:** October 9, 2025
+**Current Version:** 1.1  
+**Last Updated:** October 10, 2025
 
 **Change Log:**
 
+- `v1.1` - **Instagram Hybrid Ownership Model**
+  - Modified `instagram_accounts` table (added `user_id`, `is_shared`, `ownership_type`)
+  - Added `instagram_account_user` pivot table for sharing
+  - Added `instagram_posts` table for post management
+  - See: [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
+  
 - `v1.0` - Initial schema design
-- Future: Add soft deletes, audit tables, analytics tables
+
+- Future: Add analytics tables, notification preferences, audit logs
 
 ---
 

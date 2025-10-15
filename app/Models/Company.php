@@ -91,4 +91,31 @@ class Company extends Model
     {
         return $this->hasMany(InstagramAccount::class)->where('status', 'active');
     }
+
+    /**
+     * Get all posts made by company members to company accounts.
+     */
+    public function instagramPosts()
+    {
+        // Get all posts made to company-owned Instagram accounts
+        return InstagramPost::whereHas('instagramAccount', function ($query) {
+            $query->where('company_id', $this->id);
+        });
+    }
+
+    /**
+     * Check if company has any Instagram accounts connected.
+     */
+    public function hasInstagramAccounts(): bool
+    {
+        return $this->instagramAccounts()->exists();
+    }
+
+    /**
+     * Get the primary/default Instagram account for this company.
+     */
+    public function getPrimaryInstagramAccount(): ?InstagramAccount
+    {
+        return $this->activeInstagramAccounts()->first();
+    }
 }

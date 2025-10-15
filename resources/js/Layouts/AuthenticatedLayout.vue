@@ -7,6 +7,8 @@ import NavLink from '@/Components/NavLink.vue'
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import ToastContainer from '@/Components/ToastContainer.vue'
 import LanguageSelector from '@/Components/LanguageSelector.vue'
+import ThemeToggle from '@/Components/ThemeToggle.vue'
+import TimezoneIndicator from '@/Components/TimezoneIndicator.vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from 'vue-i18n'
@@ -30,8 +32,33 @@ onMounted(() => {
         <!-- Toast Notifications -->
         <ToastContainer />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav class="border-b border-gray-100 bg-white">
+        <!-- Impersonation Banner -->
+        <div
+            v-if="$page.props.impersonating"
+            class="bg-yellow-500 px-4 py-3 text-center text-sm font-medium text-white"
+        >
+            <div class="mx-auto flex max-w-7xl items-center justify-between">
+                <div>
+                    🎭 {{ t('admin.impersonating') }}:
+                    {{ $page.props.auth.user.name }} ({{
+                        $page.props.auth.user.email
+                    }})
+                </div>
+                <Link
+                    :href="route('admin.impersonate.stop')"
+                    method="post"
+                    as="button"
+                    class="rounded bg-white px-3 py-1 text-sm font-medium text-yellow-700 hover:bg-gray-100"
+                >
+                    {{ t('admin.stop_impersonation') }}
+                </Link>
+            </div>
+        </div>
+
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+            <nav
+                class="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -40,7 +67,7 @@ onMounted(() => {
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
                                     />
                                 </Link>
                             </div>
@@ -55,14 +82,37 @@ onMounted(() => {
                                 >
                                     {{ t('menu.dashboard') }}
                                 </NavLink>
+
+                                <!-- Admin Navigation -->
+                                <template v-if="$page.props.auth.user?.is_admin">
+                                    <NavLink
+                                        :href="route('admin.inquiries.index')"
+                                        :active="route().current('admin.inquiries.*')"
+                                    >
+                                        {{ t('menu.inquiries') }}
+                                    </NavLink>
+
+                                    <NavLink
+                                        :href="route('admin.users.index')"
+                                        :active="route().current('admin.users.*')"
+                                    >
+                                        {{ t('menu.users') }}
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
 
                         <div
                             class="hidden sm:ms-6 sm:flex sm:items-center sm:space-x-3"
                         >
+                            <!-- Theme Toggle -->
+                            <ThemeToggle />
+
                             <!-- Language Selector -->
                             <LanguageSelector />
+
+                            <!-- Timezone Indicator -->
+                            <TimezoneIndicator />
 
                             <!-- Settings Dropdown -->
                             <div class="relative">
@@ -110,9 +160,12 @@ onMounted(() => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="-me-2 flex items-center space-x-2 sm:hidden">
+                            <!-- Mobile Theme Toggle -->
+                            <ThemeToggle />
+
                             <button
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-gray-200 dark:focus:bg-gray-700"
                                 @click="
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
@@ -167,17 +220,43 @@ onMounted(() => {
                         >
                             {{ t('menu.dashboard') }}
                         </ResponsiveNavLink>
+
+                        <!-- Admin Navigation (Mobile) -->
+                        <template v-if="$page.props.auth.user?.is_admin">
+                            <ResponsiveNavLink
+                                :href="route('admin.inquiries.index')"
+                                :active="route().current('admin.inquiries.*')"
+                            >
+                                {{ t('menu.inquiries') }}
+                            </ResponsiveNavLink>
+
+                            <ResponsiveNavLink
+                                :href="route('admin.users.index')"
+                                :active="route().current('admin.users.*')"
+                            >
+                                {{ t('menu.users') }}
+                            </ResponsiveNavLink>
+                        </template>
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="border-t border-gray-200 pb-1 pt-4">
+                    <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-700">
                         <div class="px-4">
-                            <div class="text-base font-medium text-gray-800">
+                            <div
+                                class="text-base font-medium text-gray-800 dark:text-gray-200"
+                            >
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="text-sm font-medium text-gray-500">
+                            <div
+                                class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                            >
                                 {{ $page.props.auth.user.email }}
                             </div>
+                        </div>
+
+                        <!-- Mobile Timezone Display -->
+                        <div class="mt-3 px-4">
+                            <TimezoneIndicator />
                         </div>
 
                         <div class="mt-3 space-y-1">
@@ -197,7 +276,10 @@ onMounted(() => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white shadow">
+            <header
+                v-if="$slots.header"
+                class="bg-white shadow dark:bg-gray-800 dark:shadow-gray-900/50"
+            >
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

@@ -14,4 +14,9 @@ return [
     'company' => 'Empresa',
     'companies' => 'Empresas',
     'settings' => 'Configuración',
+
+    // Admin section
+    'admin' => 'Administración',
+    'inquiries' => 'Consultas',
+    'users' => 'Usuarios',
 ];

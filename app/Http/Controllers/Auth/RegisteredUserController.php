@@ -34,17 +34,23 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'timezone' => ['nullable', 'string', 'timezone'],
         ]);
 
         // Get current locale from session/LocalStorage to preserve language preference
         $currentLocale = app()->getLocale();
         $locale = in_array($currentLocale, ['en', 'ru', 'es']) ? $currentLocale : 'en';
 
+        // Get timezone from request or default to UTC
+        // Frontend will detect browser timezone and send it
+        $timezone = $request->input('timezone', 'UTC');
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'locale' => $locale, // Save the language they were using before registration
+            'timezone' => $timezone, // Save detected timezone
         ]);
 
         event(new Registered($user));

@@ -20,9 +20,9 @@ Route::post('/auth/email/check', EmailCheckController::class)
     ->name('auth.email.check');
 
 // Dashboard
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Profile routes
 Route::middleware('auth')->group(function () {
@@ -42,5 +42,40 @@ Route::middleware(['auth', 'verified'])->prefix('instagram')->name('instagram.')
     Route::post('/{account}/disconnect', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'disconnect'])->name('disconnect');
     Route::post('/{account}/sync', [\App\Http\Controllers\Instagram\InstagramAccountController::class, 'sync'])->name('sync');
 });
+
+// Admin routes - requires admin role in current company
+Route::middleware(['auth', 'verified'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Stop impersonation - accessible to anyone who's impersonating (no admin check)
+        Route::post('/impersonate/stop', [\App\Http\Controllers\Admin\ImpersonationController::class, 'stop'])
+            ->name('impersonate.stop');
+
+        // Admin-only routes
+        Route::middleware('admin')->group(function () {
+            // Inquiry Management
+            Route::get('/inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])
+                ->name('inquiries.index');
+            Route::delete('/inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'destroy'])
+                ->name('inquiries.destroy');
+            Route::get('/inquiries/export', [\App\Http\Controllers\Admin\InquiryController::class, 'export'])
+                ->name('inquiries.export');
+            
+            // User Management
+            Route::get('/users', [\App\Http\Controllers\Admin\UserManagementController::class, 'index'])
+                ->name('users.index');
+            Route::post('/users/{user}/password-reset', [\App\Http\Controllers\Admin\UserManagementController::class, 'sendPasswordReset'])
+                ->name('users.password-reset');
+            Route::post('/users/{user}/suspend', [\App\Http\Controllers\Admin\UserManagementController::class, 'suspend'])
+                ->name('users.suspend');
+            Route::post('/users/{user}/unsuspend', [\App\Http\Controllers\Admin\UserManagementController::class, 'unsuspend'])
+                ->name('users.unsuspend');
+            
+            // Impersonation Start
+            Route::post('/users/{user}/impersonate', [\App\Http\Controllers\Admin\ImpersonationController::class, 'start'])
+                ->name('users.impersonate');
+        });
+    });
 
 require __DIR__.'/auth.php';

@@ -1,0 +1,441 @@
+#!/bin/bash
+
+###############################################################################
+# Pre-Commit Quality & Documentation Check Script
+#
+# This script runs before every commit to ensure:
+# 1. Code quality (linting, formatting)
+# 2. Documentation is updated
+# 3. Translations are complete for all languages
+# 4. Tests pass
+# 5. No linter errors
+#
+# Usage: ./scripts/pre-commit-check.sh
+# Or: Automatically via git pre-commit hook
+###############################################################################
+
+set -e  # Exit on any error
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Emoji for better visual feedback
+CHECK="✅"
+CROSS="❌"
+WARNING="⚠️"
+INFO="ℹ️"
+ROCKET="🚀"
+
+# Counter for issues
+ISSUES_FOUND=0
+
+###############################################################################
+# Helper Functions
+###############################################################################
+
+print_header() {
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}  $1${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+}
+
+print_success() {
+    echo -e "${GREEN}${CHECK} $1${NC}"
+}
+
+print_error() {
+    echo -e "${RED}${CROSS} $1${NC}"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+}
+
+print_warning() {
+    echo -e "${YELLOW}${WARNING} $1${NC}"
+}
+
+print_info() {
+    echo -e "${BLUE}${INFO} $1${NC}"
+}
+
+###############################################################################
+# 1. Check Staged Files
+###############################################################################
+
+print_header "1. Analyzing Staged Files"
+
+# Get list of staged files
+STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$' || true)
+STAGED_VUE_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.vue$' || true)
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.js$' || true)
+STAGED_MIGRATION_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'database/migrations' || true)
+STAGED_MODEL_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'app/Models' || true)
+STAGED_LANG_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'lang/' || true)
+STAGED_DOC_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep 'docs/' || true)
+
+PHP_COUNT=$(echo "$STAGED_PHP_FILES" | grep -c . || echo "0")
+VUE_COUNT=$(echo "$STAGED_VUE_FILES" | grep -c . || echo "0")
+JS_COUNT=$(echo "$STAGED_JS_FILES" | grep -c . || echo "0")
+MIGRATION_COUNT=$(echo "$STAGED_MIGRATION_FILES" | grep -c . || echo "0")
+MODEL_COUNT=$(echo "$STAGED_MODEL_FILES" | grep -c . || echo "0")
+LANG_COUNT=$(echo "$STAGED_LANG_FILES" | grep -c . || echo "0")
+DOC_COUNT=$(echo "$STAGED_DOC_FILES" | grep -c . || echo "0")
+
+print_info "Staged PHP files: $PHP_COUNT"
+print_info "Staged Vue files: $VUE_COUNT"
+print_info "Staged JS files: $JS_COUNT"
+print_info "Staged Migrations: $MIGRATION_COUNT"
+print_info "Staged Models: $MODEL_COUNT"
+print_info "Staged Language files: $LANG_COUNT"
+print_info "Staged Documentation: $DOC_COUNT"
+
+if [ "$PHP_COUNT" -eq 0 ] && [ "$VUE_COUNT" -eq 0 ] && [ "$JS_COUNT" -eq 0 ]; then
+    print_warning "No code files staged. Skipping code quality checks."
+fi
+
+###############################################################################
+# 2. PHP Code Quality Checks
+###############################################################################
+
+if [ "$PHP_COUNT" -gt 0 ]; then
+    print_header "2. PHP Code Quality (Pint)"
+    
+    print_info "Running Laravel Pint..."
+    if ./vendor/bin/pint --test $STAGED_PHP_FILES 2>/dev/null; then
+        print_success "PHP code formatting is correct"
+    else
+        print_error "PHP code formatting issues found"
+        print_info "Run: ./vendor/bin/pint to fix automatically"
+    fi
+    
+    # Run PHPStan if available
+    if [ -f "./vendor/bin/phpstan" ]; then
+        print_info "Running PHPStan static analysis..."
+        if ./vendor/bin/phpstan analyse --memory-limit=1G $STAGED_PHP_FILES 2>/dev/null; then
+            print_success "PHPStan analysis passed"
+        else
+            print_warning "PHPStan found potential issues"
+        fi
+    fi
+fi
+
+###############################################################################
+# 3. JavaScript/Vue Code Quality
+###############################################################################
+
+if [ "$VUE_COUNT" -gt 0 ] || [ "$JS_COUNT" -gt 0 ]; then
+    print_header "3. JavaScript/Vue Code Quality (ESLint)"
+    
+    ALL_JS_FILES="$STAGED_VUE_FILES $STAGED_JS_FILES"
+    
+    print_info "Running ESLint..."
+    if npm run lint -- $ALL_JS_FILES 2>/dev/null; then
+        print_success "JavaScript/Vue code is clean"
+    else
+        print_error "ESLint found issues"
+        print_info "Run: npm run lint -- --fix to fix automatically"
+    fi
+fi
+
+###############################################################################
+# 4. Documentation Check (MANDATORY)
+###############################################################################
+
+print_header "4. Documentation Check ${WARNING} MANDATORY"
+
+DOCS_NEED_UPDATE=false
+
+# Check if database schema changed
+if [ "$MIGRATION_COUNT" -gt 0 ]; then
+    print_info "Database migrations detected"
+    
+    # Check if DATABASE_SCHEMA.md is staged
+    if echo "$STAGED_DOC_FILES" | grep -q "DATABASE_SCHEMA.md"; then
+        print_success "DATABASE_SCHEMA.md is updated"
+    else
+        print_error "DATABASE_SCHEMA.md needs to be updated!"
+        print_info "  → docs/DATABASE_SCHEMA.md"
+        DOCS_NEED_UPDATE=true
+    fi
+fi
+
+# Check if models changed
+if [ "$MODEL_COUNT" -gt 0 ]; then
+    print_info "Model files changed: $MODEL_COUNT"
+    
+    # List changed models
+    for model in $STAGED_MODEL_FILES; do
+        MODEL_NAME=$(basename "$model" .php)
+        print_info "  → $MODEL_NAME"
+        
+        # Check if it's Instagram related
+        if echo "$model" | grep -q "Instagram"; then
+            if echo "$STAGED_DOC_FILES" | grep -q "INSTAGRAM"; then
+                print_success "Instagram documentation is being updated"
+            else
+                print_warning "Consider updating docs/INSTAGRAM_HYBRID_OWNERSHIP.md"
+            fi
+        fi
+    done
+fi
+
+# Check if INDEX.md needs update
+if [ "$DOC_COUNT" -gt 0 ]; then
+    # Check if new doc files added (not just modified)
+    NEW_DOCS=$(git diff --cached --name-only --diff-filter=A | grep 'docs/' | grep -v 'INDEX.md' || true)
+    if [ -n "$NEW_DOCS" ]; then
+        if echo "$STAGED_DOC_FILES" | grep -q "INDEX.md"; then
+            print_success "INDEX.md is being updated with new docs"
+        else
+            print_error "New documentation added but INDEX.md not updated!"
+            print_info "  → Update docs/INDEX.md to reference new docs"
+            DOCS_NEED_UPDATE=true
+        fi
+    fi
+fi
+
+# Check if any code changed but no docs updated
+if [ "$PHP_COUNT" -gt 0 ] || [ "$VUE_COUNT" -gt 0 ]; then
+    if [ "$DOC_COUNT" -eq 0 ]; then
+        print_warning "Code changes detected but no documentation updated"
+        print_info "Please review if docs need updates:"
+        print_info "  → docs/DATABASE_SCHEMA.md (if database changed)"
+        print_info "  → docs/INSTAGRAM_HYBRID_OWNERSHIP.md (if Instagram features changed)"
+        print_info "  → docs/INDEX.md (if major features added)"
+    else
+        print_success "Documentation is being updated with code changes"
+    fi
+fi
+
+if [ "$DOCS_NEED_UPDATE" = true ]; then
+    print_error "Documentation updates are REQUIRED before commit"
+    echo ""
+    echo -e "${YELLOW}📚 Please update the following:${NC}"
+    echo "  1. Review /docs folder for related documentation"
+    echo "  2. Update affected documentation files"
+    echo "  3. Update version/date in modified docs"
+    echo "  4. Stage updated docs: git add docs/"
+    echo ""
+fi
+
+###############################################################################
+# 5. Translation Validation (3 Languages)
+###############################################################################
+
+print_header "5. Translation Validation (EN, RU, ES)"
+
+TRANSLATION_ISSUES=false
+
+# Check if any language files changed
+if [ "$LANG_COUNT" -gt 0 ]; then
+    print_info "Language files changed detected"
+    
+    # List of required languages
+    LANGUAGES=("en" "es" "ru")
+    
+    # Get all translation files being modified
+    for lang_file in $STAGED_LANG_FILES; do
+        # Extract the relative path after lang/XX/
+        REL_PATH=$(echo "$lang_file" | sed 's|lang/[^/]*/||')
+        FILE_NAME=$(basename "$lang_file")
+        
+        print_info "Checking translations for: $FILE_NAME"
+        
+        # Check if this file exists in all 3 languages
+        for lang in "${LANGUAGES[@]}"; do
+            CHECK_PATH="lang/$lang/$REL_PATH"
+            
+            if [ -f "$CHECK_PATH" ]; then
+                # Check if this language version is also staged or already exists
+                if echo "$STAGED_LANG_FILES" | grep -q "$CHECK_PATH" || git ls-files --error-unmatch "$CHECK_PATH" >/dev/null 2>&1; then
+                    print_success "  [$lang] $FILE_NAME exists"
+                else
+                    print_error "  [$lang] $FILE_NAME is missing or not staged!"
+                    TRANSLATION_ISSUES=true
+                fi
+            else
+                print_error "  [$lang] $FILE_NAME does not exist!"
+                print_info "     → Create: $CHECK_PATH"
+                TRANSLATION_ISSUES=true
+            fi
+        done
+        
+        echo ""
+    done
+    
+    # Check for translation key consistency
+    print_info "Validating translation keys consistency..."
+    
+    # Get all PHP files that might have translation keys
+    TRANSLATION_FILES="lang/en/*.php lang/es/*.php lang/ru/*.php"
+    
+    for file_type in "auth" "dashboard" "instagram" "menu" "pagination" "passwords" "validation"; do
+        if [ -f "lang/en/$file_type.php" ]; then
+            # Extract keys from English (base language)
+            EN_KEYS=$(php -r "print_r(array_keys(include 'lang/en/$file_type.php'));" 2>/dev/null | grep '^\[' | wc -l || echo "0")
+            
+            # Check Spanish
+            if [ -f "lang/es/$file_type.php" ]; then
+                ES_KEYS=$(php -r "print_r(array_keys(include 'lang/es/$file_type.php'));" 2>/dev/null | grep '^\[' | wc -l || echo "0")
+            else
+                ES_KEYS=0
+            fi
+            
+            # Check Russian
+            if [ -f "lang/ru/$file_type.php" ]; then
+                RU_KEYS=$(php -r "print_r(array_keys(include 'lang/ru/$file_type.php'));" 2>/dev/null | grep '^\[' | wc -l || echo "0")
+            else
+                RU_KEYS=0
+            fi
+            
+            if [ "$EN_KEYS" -eq "$ES_KEYS" ] && [ "$EN_KEYS" -eq "$RU_KEYS" ]; then
+                print_success "  $file_type.php: All languages have matching keys ($EN_KEYS keys)"
+            else
+                print_warning "  $file_type.php: Key count mismatch (EN: $EN_KEYS, ES: $ES_KEYS, RU: $RU_KEYS)"
+            fi
+        fi
+    done
+    
+    if [ "$TRANSLATION_ISSUES" = true ]; then
+        print_error "Translation validation failed!"
+        echo ""
+        echo -e "${YELLOW}🌍 Translation Requirements:${NC}"
+        echo "  1. Every translation file must exist in all 3 languages (en, es, ru)"
+        echo "  2. All translation files must have matching keys"
+        echo "  3. Stage all language files together: git add lang/"
+        echo ""
+    else
+        print_success "All translations are complete and consistent"
+    fi
+else
+    print_info "No translation files changed"
+fi
+
+###############################################################################
+# 6. Run Tests
+###############################################################################
+
+print_header "6. Running Tests"
+
+print_info "Running PHPUnit tests..."
+
+# Run only affected tests based on changed files
+if [ "$PHP_COUNT" -gt 0 ]; then
+    # Check if any Instagram related files changed
+    if echo "$STAGED_PHP_FILES" | grep -q "Instagram"; then
+        print_info "Instagram files changed, running Instagram tests..."
+        if php artisan test --filter=Instagram --stop-on-failure; then
+            print_success "Instagram tests passed"
+        else
+            print_error "Instagram tests failed"
+        fi
+    else
+        # Run all tests
+        print_info "Running all tests..."
+        if php artisan test --stop-on-failure --parallel; then
+            print_success "All tests passed"
+        else
+            print_error "Tests failed"
+        fi
+    fi
+else
+    print_info "No PHP files changed, skipping tests"
+fi
+
+###############################################################################
+# 7. Check for Common Issues
+###############################################################################
+
+print_header "7. Additional Checks"
+
+# Check for debugging statements
+print_info "Checking for debug statements..."
+DEBUG_FOUND=false
+
+for file in $STAGED_PHP_FILES; do
+    if grep -q "dd(" "$file" || grep -q "dump(" "$file" || grep -q "var_dump(" "$file"; then
+        print_warning "Debug statement found in: $file"
+        DEBUG_FOUND=true
+    fi
+done
+
+for file in $STAGED_VUE_FILES $STAGED_JS_FILES; do
+    if grep -q "console.log" "$file"; then
+        print_warning "console.log found in: $file"
+        DEBUG_FOUND=true
+    fi
+done
+
+if [ "$DEBUG_FOUND" = false ]; then
+    print_success "No debug statements found"
+fi
+
+# Check for TODO comments
+print_info "Checking for TODO comments..."
+TODO_FOUND=false
+
+for file in $STAGED_PHP_FILES $STAGED_VUE_FILES $STAGED_JS_FILES; do
+    if grep -q "TODO:" "$file" || grep -q "FIXME:" "$file"; then
+        print_warning "TODO/FIXME found in: $file"
+        TODO_FOUND=true
+    fi
+done
+
+if [ "$TODO_FOUND" = false ]; then
+    print_success "No TODO/FIXME comments found"
+fi
+
+# Check for large files
+print_info "Checking for large files..."
+LARGE_FILES_FOUND=false
+
+for file in $(git diff --cached --name-only); do
+    if [ -f "$file" ]; then
+        SIZE=$(wc -c < "$file")
+        if [ "$SIZE" -gt 500000 ]; then  # 500KB
+            print_warning "Large file detected ($(($SIZE / 1024))KB): $file"
+            LARGE_FILES_FOUND=true
+        fi
+    fi
+done
+
+if [ "$LARGE_FILES_FOUND" = false ]; then
+    print_success "No unusually large files"
+fi
+
+###############################################################################
+# 8. Summary
+###############################################################################
+
+print_header "Summary"
+
+if [ "$ISSUES_FOUND" -gt 0 ]; then
+    echo ""
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${RED}  ${CROSS} COMMIT BLOCKED - $ISSUES_FOUND ISSUE(S) FOUND${NC}"
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${YELLOW}Please fix the issues above and try again.${NC}"
+    echo ""
+    echo -e "${BLUE}Quick fixes:${NC}"
+    echo "  → Format PHP: ./vendor/bin/pint"
+    echo "  → Format JS/Vue: npm run lint -- --fix"
+    echo "  → Update docs: Review /docs folder"
+    echo "  → Add translations: Ensure all 3 languages (en, es, ru)"
+    echo ""
+    exit 1
+else
+    echo ""
+    echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${GREEN}  ${CHECK} ALL CHECKS PASSED ${ROCKET}${NC}"
+    echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${GREEN}Your commit is ready!${NC}"
+    echo ""
+    exit 0
+fi
+

@@ -17,4 +17,10 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        // Allow HMR to work through ngrok/valet share
+        hmr: {
+            host: process.env.VITE_HMR_HOST || 'localhost',
+        },
+    },
 })

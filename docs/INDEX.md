@@ -1,8 +1,8 @@
 # Autopost AI - Documentation Index
 
 **Project:** Autopost AI - AI-Powered Instagram Content Platform  
-**Last Updated:** October 9, 2025  
-**Version:** 1.0
+**Last Updated:** October 10, 2025  
+**Version:** 1.3
 
 ---
 
@@ -99,10 +99,10 @@ This directory contains comprehensive documentation for the Autopost AI project.
 
 - URL structure (locale path prefix: /en/, /ru/, /es/)
 - Backend setup (Laravel localization)
-- Frontend setup (Vue i18n with laravel-vue-i18n)
-- Language detection priority (URL → User → Session → Browser → Default)
+- Frontend setup (Vue i18n with vue-i18n)
+- Language detection priority (Cookie → User → Browser → Default)
 - Database schema (user locale preference)
-- Translation file structure (JSON + PHP arrays)
+- Translation file structure (JavaScript objects in app.js)
 - Language switcher component
 - Complete code examples for:
     - Middleware (SetLocale)
@@ -113,7 +113,7 @@ This directory contains comprehensive documentation for the Autopost AI project.
 - Date and number formatting
 - Testing strategy
 
-**Status:** ✅ Complete  
+**Status:** ✅ Complete & Implemented  
 **Estimated Reading Time:** 20-30 minutes
 
 ---
@@ -136,11 +136,13 @@ This directory contains comprehensive documentation for the Autopost AI project.
 - Code structure and organization
 - Best practices (DI, type hints, transactions, logging)
 - Documentation requirements
+- ⚠️ **NEW:** Mandatory pre-commit documentation check
 - Testing requirements
 - Complete code examples for every layer
 
 **Status:** ✅ Active - Mandatory  
-**Estimated Reading Time:** 30-40 minutes
+**Estimated Reading Time:** 30-40 minutes  
+**Recent Update:** Added pre-commit documentation check rule (v1.1)
 
 ---
 
@@ -300,6 +302,180 @@ This directory contains comprehensive documentation for the Autopost AI project.
 
 ---
 
+### 13. [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
+
+**Complete implementation guide for the hybrid Instagram ownership model.**
+
+**Contains:**
+
+- Architecture overview (user-owned + company-owned accounts)
+- Database schema (3 new tables: modified instagram_accounts, pivot table, posts)
+- Model documentation (5 models with 67+ new methods)
+- Service layer (3 services for permissions, posts, Instagram API)
+- Permission matrix (5 permission levels)
+- Complete code examples for:
+    - Connecting user/company accounts
+    - Sharing accounts with permissions
+    - Creating and scheduling posts
+    - Permission checking
+- API reference for all methods
+- Testing guide (52 tests included)
+- Usage examples for common scenarios
+
+**Status:** ✅ Complete & Implemented  
+**Estimated Reading Time:** 35-45 minutes
+
+---
+
+### 14. [INSTAGRAM_SETUP.md](./INSTAGRAM_SETUP.md)
+
+**Complete guide to setting up Instagram OAuth integration.**
+
+**Contains:**
+
+- Prerequisites and Facebook Developer account setup
+- Step-by-step Facebook app creation
+- Instagram Basic Display configuration
+- OAuth redirect URIs setup
+- Getting client ID and secret credentials
+- Adding test users for development
+- Testing the integration
+- Token lifecycle and refresh schedule
+- Production setup and app review process
+- Troubleshooting guide
+- Rate limits and permissions
+
+**Status:** ✅ Complete  
+**Estimated Reading Time:** 20-25 minutes
+
+---
+
+### 15. [INSTAGRAM_INTEGRATION_SETUP_PLAN.md](./INSTAGRAM_INTEGRATION_SETUP_PLAN.md) ⚡ **NEW**
+
+**Comprehensive review and action plan for Instagram integration setup.**
+
+**Contains:**
+
+- Current state assessment (what's built vs what's missing)
+- Why you're seeing configuration errors
+- 3 setup options with pros/cons:
+    - Full Instagram integration (production)
+    - Development mode with dummy credentials
+    - Feature flag / disable integration
+- Immediate solution (fix error in 5 minutes)
+- Long-term production setup (4 phases)
+- Architecture explanation and flow diagram
+- Security features overview
+- Troubleshooting common issues
+- Feature comparison matrix
+- Step-by-step action plans
+
+**Status:** ✅ Complete  
+**Estimated Reading Time:** 25-30 minutes
+
+---
+
+### 16. [DARK_MODE_IMPLEMENTATION.md](./DARK_MODE_IMPLEMENTATION.md) ✨
+
+**Complete dark/light mode implementation guide.**
+
+**Contains:**
+
+- Architecture overview (Tailwind CSS + Vue 3 composable)
+- Theme composable API (`useTheme()`)
+- Component documentation (ThemeToggle.vue)
+- Color palette convention (light/dark variants)
+- Translation support (EN, ES, RU)
+- Implementation details:
+    - LocalStorage persistence
+    - System preference detection
+    - Smooth transitions
+    - Zero runtime overhead
+- Complete code examples for:
+    - Using theme state in components
+    - Adding dark mode to new components
+    - Conditional logic based on theme
+- Browser support and performance
+- Accessibility features
+- Testing checklist
+- Troubleshooting guide
+- Future enhancement ideas
+
+**Status:** ✅ Complete & Implemented  
+**Estimated Reading Time:** 15-20 minutes
+
+---
+
+### 17. [TIMEZONE_FEATURE.md](./TIMEZONE_FEATURE.md) ✨
+
+**Complete timezone management implementation.**
+
+**Contains:**
+
+- Architecture overview (400+ timezones support)
+- Automatic browser timezone detection
+- User timezone preferences in profile
+- TimezoneService API documentation
+- SetUserTimezone middleware
+- Database schema (users.timezone column)
+- Complete code examples for:
+    - Auto-detecting user timezone
+    - Displaying dates in user's timezone
+    - Validating timezones
+    - Getting timezone offsets
+- Frontend composable (useTimezone.js)
+- Testing guide (24 tests included)
+- Best practices for timezone handling
+- DST (Daylight Saving Time) handling
+- Troubleshooting guide
+
+**Status:** ✅ Complete & Implemented  
+**Estimated Reading Time:** 20-25 minutes
+
+---
+
+### 18. [ADMIN_FEATURES.md](./ADMIN_FEATURES.md) 🎯 **NEW**
+
+**Complete admin panel implementation for inquiry and user management.**
+
+**Contains:**
+
+- Architecture overview (Services, Controllers, Middleware)
+- **Inquiry Management:**
+    - View, search, sort, paginate inquiries
+    - Delete inquiries with confirmation
+    - Export to CSV functionality
+    - Real-time statistics dashboard
+- **User Management:**
+    - View all users with stats (companies, Instagram accounts, posts)
+    - Send password reset links
+    - Suspend/unsuspend users with reason tracking
+    - User impersonation for support/debugging
+- **Security Features:**
+    - Admin middleware (EnsureUserIsAdmin)
+    - Suspension audit trail
+    - Impersonation logging and auto-expire
+    - Cannot suspend self or other admins
+- **UI/UX Features:**
+    - SweetAlert2 confirmations (no ugly alerts!)
+    - Beautiful hover tooltips (translated)
+    - Responsive stat cards (one-line layout)
+    - Color-coded actions (red/green/blue/purple)
+    - Impersonation banner with stop button
+- Complete code examples for:
+    - Admin services (InquiryService, UserManagementService, ImpersonationService)
+    - Admin controllers and routes
+    - Vue components with translations
+    - Database migrations for suspension tracking
+- Testing guide (45 tests included - 100% passing)
+- Security best practices
+- Translation support (EN/ES/RU for everything)
+
+**Status:** ✅ Complete & Implemented  
+**Estimated Reading Time:** 25-30 minutes
+
+---
+
 ## 🗺️ Implementation Roadmap
 
 ### Phase 0: Authentication Foundation (CURRENT)
@@ -309,18 +485,19 @@ This directory contains comprehensive documentation for the Autopost AI project.
 - [AUTH_FLOW_PLAN.md](./AUTH_FLOW_PLAN.md)
 - [INTERNATIONALIZATION_PLAN.md](./INTERNATIONALIZATION_PLAN.md)
 
-**Status:** 📋 Planning  
+**Status:** ✅ Complete (Auth + i18n implemented)  
 **Estimated Time:** 14-20 hours
 
 **Deliverables:**
 
-- Modern email-first login page
-- Magic link authentication
-- Inquiry tracking system
-- Email verification
-- Multi-language support (EN, RU, ES)
-- Language switcher component
-- User locale preferences
+- ✅ Modern email-first login page
+- ✅ Magic link authentication
+- ✅ Inquiry tracking system
+- ✅ Email verification
+- ✅ Multi-language support (EN, RU, ES)
+- ✅ Language switcher component
+- ✅ User locale preferences
+- ✅ All pages translated (Auth, Profile, Dashboard, Instagram)
 
 ---
 
@@ -373,15 +550,22 @@ This directory contains comprehensive documentation for the Autopost AI project.
 
 ### Phase 4: Instagram Graph Integration
 
-**Documents:** [PROJECT_PLAN.md](./PROJECT_PLAN.md#phase-4-instagram-graph-integration-week-4-5)  
-**Status:** 🔜 Not Started
+**Documents:** 
+- [PROJECT_PLAN.md](./PROJECT_PLAN.md#phase-4-instagram-graph-integration-week-4-5)
+- [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md) ✅ **NEW**
+
+**Status:** ✅ Partially Complete (Hybrid Ownership Model Implemented)
 
 **Deliverables:**
 
-- Instagram OAuth flow
-- Token refresh system
-- Post publishing
-- Webhook handling
+- ✅ Hybrid ownership model (user + company accounts)
+- ✅ Account sharing with permissions
+- ✅ Post lifecycle management
+- ✅ Permission service layer
+- 🔜 Instagram OAuth flow (setup guide exists)
+- 🔜 Token refresh system (structure ready)
+- 🔜 Real Instagram API integration
+- 🔜 Webhook handling
 
 ---
 
@@ -542,6 +726,19 @@ Landing Page → [Enter Email] → Check User
 
 ---
 
+## 🎨 UI/UX Features
+
+### Implemented Features
+
+- ✅ **Dark/Light Mode** - Tailwind-based theme switching with persistence ([DARK_MODE_IMPLEMENTATION.md](./DARK_MODE_IMPLEMENTATION.md))
+- ✅ **Multi-Language Support** - EN, ES, RU with language switcher ([INTERNATIONALIZATION_PLAN.md](./INTERNATIONALIZATION_PLAN.md))
+- ✅ **Timezone Management** - 400+ timezones with auto-detection ([TIMEZONE_FEATURE.md](./TIMEZONE_FEATURE.md))
+- ✅ **Modern Authentication** - Email-first, magic links, passwordless ([AUTH_FLOW_PLAN.md](./AUTH_FLOW_PLAN.md))
+- ✅ **Responsive Design** - Mobile-first with Tailwind CSS
+- ✅ **Toast Notifications** - Non-intrusive user feedback system
+
+---
+
 ## 📦 Dependencies
 
 ### PHP/Laravel Packages
@@ -585,7 +782,8 @@ Landing Page → [Enter Email] → Check User
     "@inertiajs/vue3": "^2.0.0",
     "tailwindcss": "^3.2.1",
     "vite": "^7.0.7",
-    "axios": "^1.11.0"
+    "axios": "^1.11.0",
+    "vue-i18n": "^9.14.5"
 }
 ```
 
@@ -718,12 +916,172 @@ All documentation should include:
 
 ## 📊 Project Status
 
-**Current Phase:** Phase 0 - Authentication Foundation  
-**Overall Progress:** ~5% (Planning Complete)  
-**Next Milestone:** Complete authentication flow implementation  
+**Current Phase:** Phase 0 - Authentication Foundation + Admin Features  
+**Overall Progress:** ~7% (Planning Complete + Core Features)  
+**Next Milestone:** Complete Phase 1 - Foundation & Core Stack  
 **Estimated Completion:** 8 weeks from start
 
 ---
 
-**Last Updated:** October 9, 2025  
+**Last Updated:** October 10, 2025  
+**Version:** 1.4  
 **Maintained By:** Development Team
+
+---
+
+## 📢 Recent Updates
+
+### October 10, 2025 - Admin Features Implementation 🎯 **LATEST**
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ **Inquiry Management** - View, search, sort, delete, export inquiries to CSV
+- ✅ **User Management** - View all users with stats, suspend/unsuspend, send password resets
+- ✅ **User Impersonation** - Admins can log in as any user for support/debugging
+- ✅ **Admin Middleware** - `EnsureUserIsAdmin` protects admin-only routes
+- ✅ **User Suspension System** - Database tracking with reason and audit log
+- ✅ **Beautiful UI** - SweetAlert2 confirmations, hover tooltips, responsive design
+- ✅ **Complete Translations** - EN/ES/RU for all admin features
+- ✅ **Comprehensive Tests** - 45 tests for all admin functionality (100% passing)
+- ✅ **Full Documentation** - [ADMIN_FEATURES.md](./ADMIN_FEATURES.md)
+
+**Services Created:**
+
+- `InquiryService` - Inquiry search, pagination, export, statistics
+- `UserManagementService` - User operations, suspension, stats
+- `ImpersonationService` - Secure user impersonation with session management
+
+**Admin Pages:**
+
+- `/admin/inquiries` - Inquiry management dashboard with stats cards
+- `/admin/users` - User management dashboard with actions
+
+**Security Features:**
+
+- ✅ Admin role verification middleware
+- ✅ Suspension tracking (who, when, why)
+- ✅ Impersonation audit logging
+- ✅ Auto-expire impersonation sessions (60 minutes)
+- ✅ Cannot suspend self or other admins
+- ✅ Cannot impersonate other admins
+
+**User Experience:**
+
+- ✅ SweetAlert2 for all confirmations (no ugly alerts!)
+- ✅ Hover tooltips on stats cards (translated)
+- ✅ Stats displayed in single horizontal row
+- ✅ Color-coded actions (red for suspend, green for unsuspend, etc.)
+- ✅ Impersonation banner with easy stop button
+- ✅ Success/error messages with auto-dismiss
+
+**Tests:** 45/45 passing (26 feature tests + 19 unit tests)  
+**Files Created:** 15 new files  
+**Files Updated:** 8 files  
+**Documentation:** [ADMIN_FEATURES.md](./ADMIN_FEATURES.md), [DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md) v1.3
+
+---
+
+### October 10, 2025 - Complete Translation Implementation ✨
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ All pages fully translated (EN, ES, RU)
+- ✅ Profile page translations (Information, Password, Delete Account)
+- ✅ Instagram page translations (all status messages, actions, warnings)
+- ✅ Dashboard empty state translations
+- ✅ Auth pages translations (Forgot Password, Reset Password, Email Verification, Confirm Password)
+- ✅ Profile translations added to app.js (3 languages)
+- ✅ Auth translations expanded (password reset, email verification flows)
+- ✅ Dark mode support added throughout all translated components
+- ✅ Fixed Profile/Edit.vue timezones prop passing
+- ✅ Full i18n coverage across entire application
+
+**Pages Translated:**
+
+- ✅ Profile (Edit, UpdateProfileInformationForm, UpdatePasswordForm, DeleteUserForm)
+- ✅ Instagram (Index page with all status badges and actions)
+- ✅ Dashboard (empty state messages)
+- ✅ Auth (ForgotPassword, ResetPassword, VerifyEmail, ConfirmPassword)
+- ✅ All previously translated pages (Login, Register, Welcome)
+
+**Translation Files:**
+
+- Created: `lang/en/profile.php`, `lang/es/profile.php`, `lang/ru/profile.php`
+- Updated: `lang/*/auth.php` (added password reset & email verification strings)
+- Updated: `lang/*/dashboard.php` (added empty state strings)
+- Updated: `lang/*/instagram.php` (added missing action/status strings)
+- Updated: `resources/js/app.js` (added profile translations for all 3 languages)
+
+**Files Created:** 3 new translation files  
+**Files Updated:** 14 Vue components, 6 PHP translation files, 1 JavaScript file  
+**No Breaking Changes**  
+**Documentation:** Updated INTERNATIONALIZATION_PLAN.md to v2.0
+
+---
+
+### October 10, 2025 - Timezone Management Feature ✨
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ 400+ timezones supported (all PHP timezones)
+- ✅ Automatic browser timezone detection on registration
+- ✅ User timezone preferences in profile settings
+- ✅ TimezoneService with timezone utilities
+- ✅ SetUserTimezone middleware for per-request timezone
+- ✅ Formatted timezone labels with GMT offsets
+- ✅ 24 comprehensive tests (all passing)
+- ✅ Full documentation: [TIMEZONE_FEATURE.md](./TIMEZONE_FEATURE.md)
+
+**Files Created:** 6 new files (service, middleware, composable, tests, migrations, docs)  
+**Files Updated:** 5 files (User model, ProfileController, ProfileRequest, Register.vue)  
+**No Breaking Changes**  
+**Documentation:** Complete
+
+---
+
+### October 10, 2025 - Dark/Light Mode Implementation ✨
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ Dark/light mode toggle with smooth transitions
+- ✅ LocalStorage persistence across sessions
+- ✅ System preference detection (auto-detect OS theme)
+- ✅ Translation support (EN, ES, RU)
+- ✅ Zero runtime overhead (pure CSS switching)
+- ✅ Updated 15+ components with dark mode variants
+- ✅ Accessible (ARIA labels, high contrast)
+- ✅ Full documentation: [DARK_MODE_IMPLEMENTATION.md](./DARK_MODE_IMPLEMENTATION.md)
+
+**Files Created:** 4 new files (composable, component, translations, docs)  
+**Files Updated:** 15+ components with dark mode support  
+**No Breaking Changes**  
+**Documentation:** Complete
+
+---
+
+### October 10, 2025 - Instagram Hybrid Ownership Model
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ Users can now own personal Instagram accounts
+- ✅ Companies can own team Instagram accounts
+- ✅ Account sharing with granular permissions (post vs manage)
+- ✅ Complete post lifecycle management (draft → scheduled → published)
+- ✅ Permission service layer for access control
+- ✅ 52 comprehensive tests (all passing)
+- ✅ Full documentation: [INSTAGRAM_HYBRID_OWNERSHIP.md](./INSTAGRAM_HYBRID_OWNERSHIP.md)
+
+**Migrations Run:** 3 new migrations deployed  
+**Files Created:** 15 new files  
+**Tests:** 52/52 passing  
+**Documentation:** Complete
