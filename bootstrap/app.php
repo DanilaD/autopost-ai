@@ -67,6 +67,18 @@ return Application::configure(basePath: dirname(__DIR__))
             return redirect()->route('errors.419');
         });
 
+        // Handle validation exceptions (like login failures)
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Validation Error', 'errors' => $e->errors()], 422);
+            }
+
+            // For web requests, redirect back with errors
+            return redirect()->back()
+                ->withInput($request->except('password'))
+                ->withErrors($e->errors());
+        });
+
         // Handle general exceptions (fallback for non-HTTP exceptions)
         $exceptions->render(function (\Throwable $e, $request) {
             if ($request->expectsJson()) {

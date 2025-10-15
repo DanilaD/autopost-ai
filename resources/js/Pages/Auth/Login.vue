@@ -55,6 +55,26 @@ const submit = () => {
                 </p>
             </div>
 
+            <!-- Error Messages -->
+            <div
+                v-if="
+                    $page.props.errors &&
+                    Object.keys($page.props.errors).length > 0
+                "
+                class="rounded-md bg-red-50 dark:bg-red-900/20 p-4"
+            >
+                <div class="text-sm text-red-800 dark:text-red-200">
+                    <ul class="list-disc list-inside space-y-1">
+                        <li
+                            v-for="(error, field) in $page.props.errors"
+                            :key="field"
+                        >
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Status Message -->
             <div
                 v-if="status"
