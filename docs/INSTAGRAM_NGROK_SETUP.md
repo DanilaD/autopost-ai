@@ -9,12 +9,14 @@
 ## ⚠️ Do You Need This?
 
 **You DON'T need ngrok if:**
+
 - ✅ You're using Laravel Valet (already have HTTPS)
 - ✅ Testing only on your own computer
 - ✅ Your `.test` domain works fine
 - ✅ You're the only developer
 
 **You NEED ngrok if:**
+
 - 📱 Testing from mobile device on different network
 - 👥 Sharing with remote team members
 - 🎤 Client demo from your local machine
@@ -27,6 +29,7 @@
 ### Step 1: Install ngrok
 
 **macOS (Homebrew):**
+
 ```bash
 brew install ngrok
 ```
@@ -39,6 +42,7 @@ Visit: https://ngrok.com/download
 1. Go to: https://dashboard.ngrok.com/signup
 2. Copy your auth token
 3. Run:
+
 ```bash
 ngrok config add-authtoken YOUR_AUTH_TOKEN_HERE
 ```
@@ -56,11 +60,13 @@ npm run dev
 ### Step 4: Start ngrok Tunnel
 
 **In a new terminal:**
+
 ```bash
 ngrok http 8000
 ```
 
 **Output:**
+
 ```
 ngrok
 
@@ -83,12 +89,14 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
 ### Step 5: Update .env
 
 **While ngrok is running:**
+
 ```env
 APP_URL=https://abc123def456.ngrok-free.app
 INSTAGRAM_REDIRECT_URI=https://abc123def456.ngrok-free.app/instagram/callback
 ```
 
 **Clear cache:**
+
 ```bash
 php artisan config:clear
 ```
@@ -98,9 +106,11 @@ php artisan config:clear
 1. Go to: https://developers.facebook.com/apps/1539628577054406
 2. Click **"Instagram Basic Display"**
 3. **Add** to OAuth Redirect URIs:
+
 ```
 https://abc123def456.ngrok-free.app/instagram/callback
 ```
+
 4. Click **"Save Changes"**
 
 ### Step 7: Test the Connection
@@ -116,6 +126,7 @@ https://abc123def456.ngrok-free.app/instagram/callback
 ## 💰 ngrok Plans Comparison
 
 ### Free Plan
+
 - ✅ 1 online process
 - ✅ HTTPS support
 - ❌ **URL changes each restart**
@@ -125,6 +136,7 @@ https://abc123def456.ngrok-free.app/instagram/callback
 **Best for:** Quick testing, one-off demos
 
 ### Personal Plan ($10/month)
+
 - ✅ 3 online processes
 - ✅ **Static domains** (URL never changes!)
 - ✅ No rate limits
@@ -150,6 +162,7 @@ npm run dev
 **Access:** `https://autopost-ai.test`
 
 **.env:**
+
 ```env
 APP_URL=https://autopost-ai.test
 INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
@@ -160,16 +173,19 @@ INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
 ### For Mobile Testing (Use ngrok)
 
 **Terminal 1:**
+
 ```bash
 php artisan serve
 ```
 
 **Terminal 2:**
+
 ```bash
 npm run dev
 ```
 
 **Terminal 3:**
+
 ```bash
 ngrok http 8000
 ```
@@ -181,6 +197,7 @@ ngrok http 8000
 ### For Client Demo (Use ngrok)
 
 Same as mobile testing, but remember:
+
 1. Update `.env` with ngrok URL
 2. Update Facebook app settings
 3. Clear cache
@@ -210,6 +227,7 @@ ngrok http 8000 --domain=yourapp.ngrok.app
 ```
 
 **Your URL will ALWAYS be:**
+
 ```
 https://yourapp.ngrok.app
 ```
@@ -217,6 +235,7 @@ https://yourapp.ngrok.app
 ### Step 4: One-Time Facebook Setup
 
 Add to Facebook app (only once):
+
 ```
 https://yourapp.ngrok.app/instagram/callback
 ```
@@ -238,12 +257,14 @@ INSTAGRAM_REDIRECT_URI=https://yourapp.ngrok.app/instagram/callback
 ### Use Valet (Default)
 
 **.env:**
+
 ```env
 APP_URL=https://autopost-ai.test
 INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
 ```
 
 **Run:**
+
 ```bash
 php artisan config:clear
 npm run dev
@@ -254,12 +275,14 @@ npm run dev
 ### Use ngrok (When Needed)
 
 **.env:**
+
 ```env
 APP_URL=https://abc123def456.ngrok-free.app
 INSTAGRAM_REDIRECT_URI=https://abc123def456.ngrok-free.app/instagram/callback
 ```
 
 **Run:**
+
 ```bash
 # Terminal 1
 php artisan serve
@@ -281,6 +304,7 @@ php artisan config:clear
 ### Error: "Invalid Host Header"
 
 **Solution:** Add to `vite.config.js`:
+
 ```js
 server: {
     hmr: {
@@ -292,6 +316,7 @@ server: {
 ### Error: "ngrok: command not found"
 
 **Solution:**
+
 ```bash
 brew install ngrok
 # or download from ngrok.com
@@ -300,6 +325,7 @@ brew install ngrok
 ### Error: "Session Expired" (Free Plan)
 
 **Solution:**
+
 - Free plan has 2-hour sessions
 - Just restart ngrok
 - Update .env with new URL
@@ -307,12 +333,14 @@ brew install ngrok
 - Clear cache
 
 **Better Solution:**
+
 - Upgrade to paid plan for unlimited sessions
 - Or use Valet for daily development
 
 ### Error: "Redirect URI Mismatch"
 
 **Solution:**
+
 - Check `.env` matches ngrok URL exactly
 - Check Facebook app has ngrok URL added
 - Run `php artisan config:clear`
@@ -322,16 +350,16 @@ brew install ngrok
 
 ## 📊 When to Use What
 
-| Scenario | Tool | Why |
-|----------|------|-----|
-| Daily development | **Valet** | Fast, stable, no hassle |
-| Testing on your computer | **Valet** | Already works |
-| Quick mobile test | **ngrok Free** | External access |
-| Regular remote testing | **ngrok Paid** | Static domain |
-| Client demo | **ngrok** | Share easily |
-| Production deployment | **VPS/Cloud** | Real hosting |
-| Team collaboration (local) | **Valet** | Fast local network |
-| Team collaboration (remote) | **ngrok Paid** | Everyone can access |
+| Scenario                    | Tool           | Why                     |
+| --------------------------- | -------------- | ----------------------- |
+| Daily development           | **Valet**      | Fast, stable, no hassle |
+| Testing on your computer    | **Valet**      | Already works           |
+| Quick mobile test           | **ngrok Free** | External access         |
+| Regular remote testing      | **ngrok Paid** | Static domain           |
+| Client demo                 | **ngrok**      | Share easily            |
+| Production deployment       | **VPS/Cloud**  | Real hosting            |
+| Team collaboration (local)  | **Valet**      | Fast local network      |
+| Team collaboration (remote) | **ngrok Paid** | Everyone can access     |
 
 ---
 
@@ -349,11 +377,13 @@ brew install ngrok
 ## ✅ Recommended Setup
 
 **For 90% of development:**
+
 ```
 Use Valet → https://autopost-ai.test
 ```
 
 **When you need to:**
+
 - Show to client remotely
 - Test from phone on different network
 - Share with remote team member
@@ -375,4 +405,3 @@ Use ngrok → https://yourapp.ngrok.app
 
 **Last Updated:** October 10, 2025  
 **Version:** 1.0
-

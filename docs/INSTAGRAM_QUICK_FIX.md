@@ -8,8 +8,9 @@
 ## ✅ What Was Done
 
 **Problem:** You were seeing this error message:
+
 ```
-Instagram integration is not configured yet. Please contact your administrator 
+Instagram integration is not configured yet. Please contact your administrator
 to set up Instagram API credentials.
 ```
 
@@ -74,29 +75,30 @@ open docs/INSTAGRAM_INTEGRATION_SETUP_PLAN.md
 **Steps Summary:**
 
 1. **Create Facebook Developer Account** (10 min)
-   - Go to https://developers.facebook.com/apps
-   - Create new app (Type: "Consumer")
+    - Go to https://developers.facebook.com/apps
+    - Create new app (Type: "Consumer")
 
 2. **Add Instagram Basic Display** (10 min)
-   - Add product to your app
-   - Configure OAuth redirect URIs
-   - Get App ID and App Secret
+    - Add product to your app
+    - Configure OAuth redirect URIs
+    - Get App ID and App Secret
 
 3. **Update `.env` with Real Credentials** (2 min)
-   ```env
-   INSTAGRAM_CLIENT_ID=your_real_app_id_here
-   INSTAGRAM_CLIENT_SECRET=your_real_app_secret_here
-   ```
+
+    ```env
+    INSTAGRAM_CLIENT_ID=your_real_app_id_here
+    INSTAGRAM_CLIENT_SECRET=your_real_app_secret_here
+    ```
 
 4. **Add Test Users** (5 min)
-   - Add yourself as Instagram tester
-   - Accept invitation on Instagram app
+    - Add yourself as Instagram tester
+    - Accept invitation on Instagram app
 
 5. **Test OAuth Flow** (5 min)
-   ```bash
-   php artisan config:clear
-   # Visit /instagram and click "Connect Instagram Account"
-   ```
+    ```bash
+    php artisan config:clear
+    # Visit /instagram and click "Connect Instagram Account"
+    ```
 
 **Timeline:** 1 hour for complete setup
 
@@ -180,18 +182,20 @@ php artisan tinker
 ### Why It Happened
 
 1. **InstagramService Constructor** checks for credentials:
-   ```php
-   if (! $this->clientId || ! $this->clientSecret || ! $this->redirectUri) {
-       throw new \RuntimeException('Instagram API credentials not configured...');
-   }
-   ```
+
+    ```php
+    if (! $this->clientId || ! $this->clientSecret || ! $this->redirectUri) {
+        throw new \RuntimeException('Instagram API credentials not configured...');
+    }
+    ```
 
 2. **Your `.env` file** didn't have these variables:
-   ```env
-   INSTAGRAM_CLIENT_ID=
-   INSTAGRAM_CLIENT_SECRET=
-   INSTAGRAM_REDIRECT_URI=
-   ```
+
+    ```env
+    INSTAGRAM_CLIENT_ID=
+    INSTAGRAM_CLIENT_SECRET=
+    INSTAGRAM_REDIRECT_URI=
+    ```
 
 3. **Controllers catch the error** and show user-friendly message
 
@@ -316,12 +320,12 @@ php artisan instagram:refresh-tokens
 ❌ Don't commit real Instagram credentials to git  
 ❌ Don't skip test user setup in development mode  
 ❌ Don't forget to clear config cache after .env changes  
-❌ Don't try OAuth with dummy credentials (it won't work)  
+❌ Don't try OAuth with dummy credentials (it won't work)
 
 ✅ Use dummy credentials for development  
 ✅ Add real credentials only when testing OAuth  
 ✅ Follow the setup guide step-by-step  
-✅ Test with database seeders first  
+✅ Test with database seeders first
 
 ---
 
@@ -372,7 +376,7 @@ php artisan serve
 **What was missing:** Configuration credentials  
 **What we did:** Added dummy credentials  
 **Current state:** Error gone, development can continue  
-**Next step:** Either continue development OR set up real credentials  
+**Next step:** Either continue development OR set up real credentials
 
 **You're all set to continue development! 🚀**
 
@@ -381,4 +385,3 @@ php artisan serve
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** Quick Fix Applied ✅
-

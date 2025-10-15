@@ -31,12 +31,14 @@ INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
 ```
 
 **We prevented this error:**
+
 ```
-❌ Instagram integration is not configured yet. 
+❌ Instagram integration is not configured yet.
    Please contact your administrator...
 ```
 
 **But we created this limitation:**
+
 ```
 ❌ OAuth button won't work with Instagram API
 ```
@@ -44,6 +46,7 @@ INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
 ### The Trade-off
 
 **With Dummy Credentials:**
+
 - ✅ App doesn't crash
 - ✅ Instagram page loads
 - ✅ UI is functional
@@ -51,6 +54,7 @@ INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
 - ❌ **Browser button doesn't work**
 
 **With Real Credentials:**
+
 - ✅ Everything above
 - ✅ **Browser button WORKS**
 - ✅ Real Instagram data
@@ -68,8 +72,8 @@ INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
 2. Click "Create App"
 3. Select type: "Consumer"
 4. Enter details:
-   - App Name: "Autopost AI Dev"
-   - Contact Email: your email
+    - App Name: "Autopost AI Dev"
+    - Contact Email: your email
 5. Click "Create App"
 
 #### 2. Add Instagram Basic Display (15 minutes)
@@ -86,17 +90,20 @@ INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
 In the "Basic Display" settings, add:
 
 **Valid OAuth Redirect URIs:**
+
 ```
 https://autopost-ai.test/instagram/callback
 http://localhost:8000/instagram/callback
 ```
 
 **Deauthorize Callback URL:**
+
 ```
 https://autopost-ai.test/instagram/webhook/deauthorize
 ```
 
 **Data Deletion Request URL:**
+
 ```
 https://autopost-ai.test/instagram/webhook/delete
 ```
@@ -125,6 +132,7 @@ INSTAGRAM_CLIENT_SECRET=your_app_secret_from_facebook
 ```
 
 **Example:**
+
 ```env
 INSTAGRAM_CLIENT_ID=1234567890123456
 INSTAGRAM_CLIENT_SECRET=abc123def456ghi789jkl012mno345pq
@@ -149,6 +157,7 @@ php artisan config:clear
 5. Click "Submit"
 
 Then on your Instagram app:
+
 1. Open Instagram app on phone
 2. Go to Settings → Apps and Websites
 3. Go to "Tester Invites"
@@ -169,14 +178,14 @@ Then on your Instagram app:
 
 ## 📊 Comparison: Terminal vs Browser
 
-| Feature | Add via Terminal | Add via Browser |
-|---------|-----------------|-----------------|
-| **Setup Time** | ✅ 0 min (ready now) | ⏱️ 1 hour (one-time) |
-| **Works Now** | ✅ Yes | ❌ No (needs setup) |
-| **Cost** | ✅ Free | ✅ Free |
-| **Data Source** | 📝 You create it | 📸 Real Instagram |
-| **Flexibility** | ✅ Any data you want | 🔒 Real Instagram only |
-| **Good For** | 🛠️ Development/Testing | 🚀 Production/Real use |
+| Feature         | Add via Terminal       | Add via Browser        |
+| --------------- | ---------------------- | ---------------------- |
+| **Setup Time**  | ✅ 0 min (ready now)   | ⏱️ 1 hour (one-time)   |
+| **Works Now**   | ✅ Yes                 | ❌ No (needs setup)    |
+| **Cost**        | ✅ Free                | ✅ Free                |
+| **Data Source** | 📝 You create it       | 📸 Real Instagram      |
+| **Flexibility** | ✅ Any data you want   | 🔒 Real Instagram only |
+| **Good For**    | 🛠️ Development/Testing | 🚀 Production/Real use |
 
 ---
 
@@ -205,6 +214,7 @@ Then on your Instagram app:
 ## 🎯 Current Status
 
 **What Works:**
+
 ```
 ✅ Instagram page loads
 ✅ Accounts display correctly
@@ -214,6 +224,7 @@ Then on your Instagram app:
 ```
 
 **What Doesn't Work:**
+
 ```
 ❌ "Connect Instagram Account" button (browser)
    Reason: Dummy credentials
@@ -290,7 +301,7 @@ foreach (\$user->currentCompany->instagramAccounts as \$a) {
 When you click "Connect Instagram Account" you see:
 
 ```
-[Error] XMLHttpRequest cannot load 
+[Error] XMLHttpRequest cannot load
 https://api.instagram.com/oauth/authorize?
 client_id=dummy_dev_client_id_12345
 ```
@@ -348,7 +359,7 @@ Without ANY credentials in `.env`, you'd see:
 
 ### Question: "Which should I do?"
 
-**Answer:** 
+**Answer:**
 
 - **For development:** Keep using terminal (fast!)
 - **For production:** Set up real OAuth (one-time)
@@ -367,11 +378,13 @@ Without ANY credentials in `.env`, you'd see:
 ## ✅ Summary
 
 **The browser button doesn't work because:**
+
 - You have dummy Instagram credentials (by design)
 - Instagram API rejects dummy credentials (expected)
 - This is a trade-off for app functionality
 
 **You can:**
+
 - ✅ Add accounts via terminal (works great!)
 - ✅ Build all features
 - ✅ Test everything except OAuth
@@ -384,4 +397,3 @@ Without ANY credentials in `.env`, you'd see:
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** Terminal Method Works - Browser Requires Real OAuth
-

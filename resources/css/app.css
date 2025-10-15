@@ -1,17 +1,17 @@
+@import "./tokens.css";
+@import "./glass.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "./tokens.css";
-@import "./glass.css";
-
 /* Focus styles for accessibility */
-:focus-visible { 
-  outline: none; 
+:focus-visible {
+  outline: none;
 }
 
-.focus-ring { 
-  @apply ring-2 ring-accent/60; 
+.focus-ring {
+  @apply ring-2 ring-accent/60;
 }
 
 /* Glass Edge specific focus styles */

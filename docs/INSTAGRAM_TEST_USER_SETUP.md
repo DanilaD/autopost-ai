@@ -11,6 +11,7 @@
 Instagram apps in **Development Mode** can only connect accounts that are added as **Test Users**.
 
 ### Error Message:
+
 ```
 User Not Authorized
 The user is not authorized to use this app.
@@ -41,6 +42,7 @@ You'll see a message: "Invitation sent to @your_username"
 ### Step 4: Accept the Invitation on Instagram
 
 #### Option A: Instagram Mobile App (Easier)
+
 1. Open Instagram app on your phone
 2. Go to: **Profile** → **☰ Menu** → **Settings**
 3. Tap **"Apps and Websites"**
@@ -49,6 +51,7 @@ You'll see a message: "Invitation sent to @your_username"
 6. Tap **"Accept"**
 
 #### Option B: Instagram Web (Alternative)
+
 1. Go to https://www.instagram.com/accounts/manage_access/
 2. Look for **"Tester Invites"** section
 3. Accept the invitation
@@ -67,11 +70,13 @@ You'll see a message: "Invitation sent to @your_username"
 ### Error: "Redirect URI Mismatch"
 
 **Check your .env file:**
+
 ```env
 INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
 ```
 
 **Check Facebook App Settings:**
+
 - Must match exactly: `https://autopost-ai.test/instagram/callback`
 - No trailing slash
 - Include the full path
@@ -79,6 +84,7 @@ INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
 ### Error: "Invalid Client ID"
 
 **Solution:**
+
 ```bash
 # Clear cache
 php artisan config:clear
@@ -90,6 +96,7 @@ php artisan serve
 ### Error: "Invalid Client Secret"
 
 **Double-check:**
+
 1. Go to Facebook Developer Console
 2. Click **"Instagram Basic Display"** → **"Basic Display"**
 3. Click **"Show"** next to Instagram App Secret
@@ -102,12 +109,14 @@ php artisan serve
 ## 📊 Development vs Production
 
 ### Development Mode (Current)
+
 - ✅ Free to use
 - ❌ Only works with test users (up to 25)
 - ✅ Perfect for testing
 - ❌ Cannot connect random Instagram accounts
 
 ### Live Mode (After App Review)
+
 - ✅ Works with any Instagram account
 - ❌ Requires Facebook App Review (2-5 days)
 - ✅ Required for production
@@ -120,6 +129,7 @@ php artisan serve
 ### Why Test Users?
 
 Instagram/Facebook wants to prevent:
+
 - Spam apps
 - Phishing attempts
 - Unauthorized data collection
@@ -131,7 +141,7 @@ Instagram/Facebook wants to prevent:
 ### The Complete Authorization Flow
 
 ```
-1. User clicks "Connect Instagram" 
+1. User clicks "Connect Instagram"
    ↓
 2. Redirected to Instagram OAuth
    ↓
@@ -158,7 +168,7 @@ Before you can connect Instagram accounts, verify:
 ```
 □ Instagram Basic Display product added
 □ Client ID copied to .env
-□ Client Secret copied to .env  
+□ Client Secret copied to .env
 □ Redirect URI added to Facebook app
 □ Redirect URI in .env matches exactly
 □ Instagram account added as tester
@@ -211,4 +221,3 @@ tail -f storage/logs/laravel.log
 
 **Last Updated:** October 10, 2025  
 **Version:** 1.0
-

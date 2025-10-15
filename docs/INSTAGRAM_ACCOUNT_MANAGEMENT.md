@@ -19,12 +19,14 @@ ID: 2 | @my_second_instagram   | 44,134 followers
 ### Method 1: Quick Add (Copy & Paste) ⭐
 
 **Step 1:** Open terminal in your project:
+
 ```bash
 cd /Users/daniladolmatov/Sites/autopost-ai
 php artisan tinker
 ```
 
 **Step 2:** Copy and paste this code:
+
 ```php
 // Get your user and company
 $user = \App\Models\User::where('email', 'd6174173844@gmail.com')->first();
@@ -50,6 +52,7 @@ echo "✅ Created @{$account->username} with " . number_format($account->followe
 ```
 
 **Step 3:** Exit tinker:
+
 ```php
 exit
 ```
@@ -103,27 +106,27 @@ $company = $user->currentCompany;
 $account = \App\Models\InstagramAccount::create([
     'company_id' => $company->id,
     'user_id' => $user->id,
-    
+
     // Basic Info
     'username' => 'fitness_guru_2024',
     'instagram_user_id' => '123456789',
-    
+
     // Account Details
     'account_type' => 'business',  // 'business' or 'personal'
     'profile_picture_url' => 'https://i.pravatar.cc/150?img=45',
     'followers_count' => 250000,  // Set exact number
-    
+
     // Status
     'status' => 'active',  // 'active', 'expired', 'error', 'disconnected'
-    
+
     // Ownership
     'ownership_type' => 'company',  // 'company' or 'user'
     'is_shared' => false,
-    
+
     // Token (for testing)
     'access_token' => encrypt('fake_token_fitness_guru'),
     'token_expires_at' => now()->addDays(60),
-    
+
     // Optional: Metadata
     'metadata' => [
         'bio' => 'Fitness coach & nutritionist',
@@ -155,6 +158,7 @@ exit
 ### Method 2: Via Command (Quick) 🚀
 
 **Step 1:** List your accounts to get the ID:
+
 ```bash
 php artisan tinker --execute="
 \$user = \App\Models\User::where('email', 'd6174173844@gmail.com')->first();
@@ -166,6 +170,7 @@ foreach (\$accounts as \$account) {
 ```
 
 **Step 2:** Remove by ID (replace `2` with the ID you want to remove):
+
 ```bash
 php artisan tinker --execute="
 \$account = \App\Models\InstagramAccount::find(2);
@@ -180,6 +185,7 @@ if (\$account) {
 ```
 
 **Or remove by username:**
+
 ```bash
 php artisan tinker --execute="
 \$account = \App\Models\InstagramAccount::where('username', 'my_second_instagram')->first();
@@ -255,12 +261,14 @@ exit
 ## 🎨 Account Customization Options
 
 ### Account Types
+
 ```php
 'account_type' => 'business'   // Business account
 'account_type' => 'personal'   // Personal account
 ```
 
 ### Status Options
+
 ```php
 'status' => 'active'        // ✅ Working normally
 'status' => 'expired'       // ⚠️ Token expired
@@ -269,12 +277,14 @@ exit
 ```
 
 ### Ownership Types
+
 ```php
 'ownership_type' => 'company'  // Belongs to company (team)
 'ownership_type' => 'user'     // Belongs to individual user
 ```
 
 ### Sharing
+
 ```php
 'is_shared' => false  // Private to company
 'is_shared' => true   // Shared with specific users
@@ -285,6 +295,7 @@ exit
 ## 🎭 Create Accounts with Different Personas
 
 ### Fitness Influencer
+
 ```php
 \App\Models\InstagramAccount::create([
     'company_id' => $company->id,
@@ -306,6 +317,7 @@ exit
 ```
 
 ### Travel Blogger
+
 ```php
 \App\Models\InstagramAccount::create([
     'company_id' => $company->id,
@@ -327,6 +339,7 @@ exit
 ```
 
 ### Food Blogger
+
 ```php
 \App\Models\InstagramAccount::create([
     'company_id' => $company->id,
@@ -382,7 +395,7 @@ foreach ($accounts as $data) {
         'ownership_type' => 'company',
         'is_shared' => false,
     ]);
-    
+
     echo "✅ Created @{$account->username}\n";
 }
 
@@ -457,16 +470,19 @@ $account->update([
 ## 📱 Using the UI
 
 ### View Accounts
+
 1. Go to: `/instagram`
 2. See all your connected accounts
 3. View details: username, followers, status
 
 ### Disconnect Account
+
 1. Click "Disconnect" button
 2. Confirm the action
 3. Account is removed
 
 ### Sync Account (Future Feature)
+
 1. Click "Sync" button
 2. Updates profile data from Instagram
 3. **Note:** Only works with real Instagram credentials
@@ -476,6 +492,7 @@ $account->update([
 ## 🎯 Quick Reference Commands
 
 ### Add Account
+
 ```bash
 php artisan tinker --execute="
 \$user = \App\Models\User::where('email', 'd6174173844@gmail.com')->first();
@@ -497,6 +514,7 @@ echo '✅ Created @' . \$account->username;
 ```
 
 ### List Accounts
+
 ```bash
 php artisan tinker --execute="
 \$user = \App\Models\User::where('email', 'd6174173844@gmail.com')->first();
@@ -507,6 +525,7 @@ foreach (\$user->currentCompany->instagramAccounts as \$a) {
 ```
 
 ### Remove Account by ID
+
 ```bash
 php artisan tinker --execute="
 \App\Models\InstagramAccount::find(2)->delete();
@@ -515,6 +534,7 @@ echo '✅ Account removed';
 ```
 
 ### Remove All Accounts
+
 ```bash
 php artisan tinker --execute="
 \$user = \App\Models\User::where('email', 'd6174173844@gmail.com')->first();
@@ -538,6 +558,7 @@ echo '✅ Removed ' . \$count . ' accounts';
 ## 🎉 Summary
 
 **You now know how to:**
+
 - ✅ Add new Instagram accounts (3 methods)
 - ✅ Remove accounts (via UI or command)
 - ✅ List all accounts
@@ -546,6 +567,7 @@ echo '✅ Removed ' . \$count . ' accounts';
 - ✅ Update account settings
 
 **Current accounts:**
+
 - ID: 1 | @dan_test_instagram
 - ID: 2 | @my_second_instagram
 
@@ -556,4 +578,3 @@ echo '✅ Removed ' . \$count . ' accounts';
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** Complete Guide for Instagram Account Management
-

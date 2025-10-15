@@ -37,6 +37,10 @@ const messages = {
             remember_me: 'Remember me',
             forgot_password: 'Forgot your password?',
             secure_auth: 'Secure authentication powered by Autopost AI',
+            forgot_password_title: 'Forgot Password',
+            forgot_password_description:
+                "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
+            email_password_reset_link: 'Email Password Reset Link',
         },
         dashboard: {
             title: 'Dashboard',
@@ -282,6 +286,10 @@ const messages = {
             remember_me: 'Запомнить меня',
             forgot_password: 'Забыли пароль?',
             secure_auth: 'Безопасная аутентификация от Autopost AI',
+            forgot_password_title: 'Забыли пароль',
+            forgot_password_description:
+                'Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.',
+            email_password_reset_link: 'Отправить ссылку для сброса пароля',
         },
         dashboard: {
             title: 'Панель управления',
@@ -533,6 +541,10 @@ const messages = {
             remember_me: 'Recuérdame',
             forgot_password: '¿Olvidaste tu contraseña?',
             secure_auth: 'Autenticación segura con Autopost AI',
+            forgot_password_title: 'Olvidé mi contraseña',
+            forgot_password_description:
+                '¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.',
+            email_password_reset_link: 'Enviar enlace de restablecimiento',
         },
         dashboard: {
             title: 'Panel de control',

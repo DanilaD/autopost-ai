@@ -18,12 +18,14 @@ INSTAGRAM_CLIENT_SECRET=abc123def456ghi789
 ```
 
 **This enables:**
+
 - ✅ **Every user** in your app can connect **their own Instagram**
 - ✅ OAuth authentication for all users
 - ✅ Secure token management
 - ✅ Users control their accounts
 
 **Think of it like:**
+
 - Facebook Developer App = "Master Key" for your application
 - Users' Instagram accounts = Individual profiles they connect
 - Your app = Platform that facilitates the connection
@@ -47,6 +49,7 @@ User: Dan
 ```
 
 **How it works:**
+
 1. Dan clicks "Connect Instagram Account"
 2. Logs into **his Instagram** (@dan_fitness)
 3. Authorizes your app
@@ -65,6 +68,7 @@ Company: Marketing Agency
 ```
 
 **How it works:**
+
 1. Admin connects company Instagram
 2. Account belongs to company
 3. All team members can post
@@ -109,6 +113,7 @@ Company: Marketing Agency
 ### How Each User Connects
 
 **Dan connects his Instagram:**
+
 ```
 1. Dan logs into your app (d6174173844@gmail.com)
 2. Goes to Instagram page
@@ -122,6 +127,7 @@ Company: Marketing Agency
 ```
 
 **Sarah connects her Instagram:**
+
 ```
 1. Sarah logs into your app (sarah@company.com)
 2. Goes to Instagram page
@@ -135,6 +141,7 @@ Company: Marketing Agency
 ```
 
 **Result:**
+
 ```
 Company: Creative Studios
   ├─ Dan's accounts:
@@ -207,14 +214,17 @@ Company: Creative Studios
 ### Step-by-Step: What to Get
 
 **1. Create Facebook Developer Account**
+
 - Go to: https://developers.facebook.com/apps
 - Sign up (free)
 
 **2. Create New App**
+
 - Type: "Consumer"
 - Name: "Autopost AI" (or your app name)
 
 **3. Add Instagram Basic Display**
+
 - In app dashboard
 - Add product: "Instagram Basic Display"
 
@@ -237,6 +247,7 @@ Instagram App Secret:
 **5. Configure Redirect URI**
 
 Set this URL:
+
 ```
 https://autopost-ai.test/instagram/callback
 ```
@@ -274,22 +285,26 @@ Now **every user** can connect **their Instagram** via the browser button!
 ### After Setup, Each User Can:
 
 ✅ **Connect their personal Instagram**
+
 - Click "Connect Instagram Account"
 - Log into THEIR Instagram
 - Authorize your app
 - Their account is connected
 
 ✅ **Post from their Instagram**
+
 - Create post in your app
 - Select THEIR Instagram account
 - Publish to THEIR Instagram profile
 
 ✅ **Share with team (optional)**
+
 - Give team members access
 - Set permissions (post/manage)
 - Collaborative posting
 
 ✅ **Manage their account**
+
 - Disconnect anytime
 - Sync profile data
 - View posts
@@ -301,11 +316,13 @@ Now **every user** can connect **their Instagram** via the browser button!
 ### 1. One Facebook App = All Users
 
 **You create ONE Facebook Developer app**
+
 - This gives you ONE set of credentials
 - But enables UNLIMITED users to connect
 - Each user connects THEIR Instagram
 
 **Think of it like:**
+
 ```
 Facebook Developer App = "Master key" to Instagram API
 Your App Credentials = Enable OAuth for everyone
@@ -315,12 +332,14 @@ User's Instagram = Individual accounts they connect
 ### 2. Users Connect THEIR Instagram
 
 **Each user:**
+
 - Uses YOUR app's OAuth
 - Logs into THEIR Instagram
 - Connects THEIR account
 - Posts to THEIR profile
 
 **You don't:**
+
 - Need credentials for each user
 - Connect users' accounts manually
 - Store Instagram passwords
@@ -328,6 +347,7 @@ User's Instagram = Individual accounts they connect
 ### 3. Company vs User Ownership
 
 **User-Owned:**
+
 ```
 User: Dan
 └─ @dan_fitness
@@ -337,6 +357,7 @@ User: Dan
 ```
 
 **Company-Owned:**
+
 ```
 Company: Agency
 └─ @agency_official
@@ -410,6 +431,7 @@ Dan disconnects @dan_fitness
 ### For Each Connected Account:
 
 **User Profile Data:**
+
 - Username
 - Profile picture
 - Bio
@@ -417,18 +439,21 @@ Dan disconnects @dan_fitness
 - Account type (business/personal)
 
 **Media Access:**
+
 - User's photos
 - User's videos
 - Post captions
 - Post timestamps
 
 **Posting Capability (Future):**
+
 - Publish photos
 - Publish videos
 - Publish carousels
 - Schedule posts
 
 **What You DON'T Get:**
+
 - User's password
 - Access to DMs
 - Ability to comment as user
@@ -471,6 +496,7 @@ Dan disconnects @dan_fitness
 ### What You Need from Instagram:
 
 **One-time setup:**
+
 1. Create Facebook Developer account (free)
 2. Create app with Instagram Basic Display
 3. Get credentials (Client ID + Secret)
@@ -480,6 +506,7 @@ Dan disconnects @dan_fitness
 ### What This Enables:
 
 **For every user in your app:**
+
 - ✅ Can click "Connect Instagram Account"
 - ✅ Logs into THEIR Instagram
 - ✅ Authorizes your app
@@ -493,7 +520,7 @@ Dan disconnects @dan_fitness
 Your Company: "Marketing Agency"
 ├─ User 1: Dan
 │   └─ His Instagram: @dan_fitness
-├─ User 2: Sarah  
+├─ User 2: Sarah
 │   └─ Her Instagram: @sarah_designs
 ├─ User 3: Mike
 │   └─ His Instagram: @mike_marketing
@@ -516,6 +543,7 @@ Each user connects **their own Instagram**, posts to **their own profile**, and 
 4. Result: All users can connect their Instagram!
 
 **For now:**
+
 - Keep using terminal to add test accounts
 - Build features
 - Test UI/UX
@@ -526,4 +554,3 @@ Each user connects **their own Instagram**, posts to **their own profile**, and 
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** Complete Explanation of User Instagram Connection
-

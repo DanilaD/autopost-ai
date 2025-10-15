@@ -14,6 +14,7 @@ valet share
 ```
 
 **You'll see:**
+
 ```
 Forwarding   https://abc123def456.ngrok-free.app -> https://autopost-ai.test
 ```
@@ -92,6 +93,7 @@ php artisan config:clear
 ### View Requests
 
 While `valet share` is running, visit:
+
 ```
 http://127.0.0.1:4040
 ```
@@ -101,6 +103,7 @@ See all requests in real-time!
 ### Keep URL Forever
 
 Upgrade to ngrok paid ($10/month):
+
 - URL never changes
 - No setup needed each time
 - Visit: https://dashboard.ngrok.com/billing/plan
@@ -111,33 +114,38 @@ Upgrade to ngrok paid ($10/month):
 
 All in your project root:
 
-| Script | Purpose |
-|--------|---------|
-| `./share-app.sh` | Start valet share with instructions |
-| `./update-ngrok-url.sh URL` | Update .env with ngrok URL |
-| `./restore-local-config.sh` | Restore local Valet config |
+| Script                      | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| `./share-app.sh`            | Start valet share with instructions |
+| `./update-ngrok-url.sh URL` | Update .env with ngrok URL          |
+| `./restore-local-config.sh` | Restore local Valet config          |
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### "valet: command not found"
+
 ```bash
 composer global require laravel/valet
 valet install
 ```
 
 ### "ngrok: command not found"
+
 ```bash
 brew install ngrok
 ```
 
 ### URL Changed After Restart
+
 Free ngrok changes URL each time. Either:
+
 1. Update .env and Facebook settings again
 2. Upgrade to paid plan for static URL
 
 ### Can't Access Public URL
+
 1. Check `valet share` is still running
 2. Try visiting `http://127.0.0.1:4040` to see if ngrok is active
 3. Make sure you're using HTTPS (not HTTP)
@@ -147,6 +155,7 @@ Free ngrok changes URL each time. Either:
 ## 📚 Full Documentation
 
 For detailed info, see:
+
 - **`VALET_SHARE_GUIDE.md`** - Complete guide
 - **`INSTAGRAM_NGROK_SETUP.md`** - Alternative ngrok setup
 - **`INSTAGRAM_TEST_USER_SETUP.md`** - Add Instagram test users
@@ -179,4 +188,3 @@ open http://127.0.0.1:4040
 ---
 
 **Last Updated:** October 10, 2025
-

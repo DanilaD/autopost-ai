@@ -1,5 +1,5 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
+import AuthLayout from '@/Layouts/AuthLayout.vue'
 import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
@@ -25,14 +25,17 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthLayout>
         <Head :title="t('auth.forgot_password_title')" />
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             {{ t('auth.forgot_password_description') }}
         </div>
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
+        <div
+            v-if="status"
+            class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+        >
             {{ status }}
         </div>
 
@@ -62,5 +65,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </GuestLayout>
+    </AuthLayout>
 </template>

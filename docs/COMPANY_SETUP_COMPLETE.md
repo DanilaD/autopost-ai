@@ -10,8 +10,9 @@
 You were seeing **TWO** error messages:
 
 ### Error #1 (FIXED ✅)
+
 ```
-Instagram integration is not configured yet. Please contact your administrator 
+Instagram integration is not configured yet. Please contact your administrator
 to set up Instagram API credentials.
 ```
 
@@ -21,8 +22,9 @@ to set up Instagram API credentials.
 ---
 
 ### Error #2 (FIXED ✅)
+
 ```
-You need to have an active company to connect Instagram accounts. 
+You need to have an active company to connect Instagram accounts.
 Please create or select a company first.
 ```
 
@@ -36,6 +38,7 @@ Please create or select a company first.
 ### Fix #1: Instagram Credentials
 
 **Added to `.env`:**
+
 ```env
 INSTAGRAM_CLIENT_ID=dummy_dev_client_id_12345
 INSTAGRAM_CLIENT_SECRET=dummy_dev_client_secret_67890abcdef
@@ -51,16 +54,17 @@ INSTAGRAM_REDIRECT_URI=${APP_URL}/instagram/callback
 **Created Companies:**
 
 1. **Test Company** (ID: 1)
-   - Owner: admin@autopost.ai
-   - Members: 3 users (admin, user, network)
-   - Purpose: Development testing with multiple roles
+    - Owner: admin@autopost.ai
+    - Members: 3 users (admin, user, network)
+    - Purpose: Development testing with multiple roles
 
 2. **Test User's Company** (ID: 2)
-   - Owner: test@example.com (your current account)
-   - Role: Admin
-   - Purpose: Your personal development company
+    - Owner: test@example.com (your current account)
+    - Role: Admin
+    - Purpose: Your personal development company
 
 **Your Current Status:**
+
 ```
 ✅ User: test@example.com
 ✅ Current Company: Test User's Company (ID: 2)
@@ -87,12 +91,12 @@ INSTAGRAM_REDIRECT_URI=${APP_URL}/instagram/callback
 
 You now have multiple test accounts to experiment with:
 
-| Email | Password | Role | Company |
-|-------|----------|------|---------|
-| **test@example.com** | (your password) | Admin | Test User's Company |
-| admin@autopost.ai | password | Admin | Test Company |
-| user@autopost.ai | password | User | Test Company |
-| network@autopost.ai | password | Network | Test Company |
+| Email                | Password        | Role    | Company             |
+| -------------------- | --------------- | ------- | ------------------- |
+| **test@example.com** | (your password) | Admin   | Test User's Company |
+| admin@autopost.ai    | password        | Admin   | Test Company        |
+| user@autopost.ai     | password        | User    | Test Company        |
+| network@autopost.ai  | password        | Network | Test Company        |
 
 ### Testing Different Roles
 
@@ -129,11 +133,11 @@ Company
 
 ### User Roles
 
-| Role | Can Connect Instagram | Can Create Posts | Can Manage Billing | Can Invite Users |
-|------|---------------------|------------------|-------------------|------------------|
-| **Admin** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| **User** | ✅ Yes | ✅ Yes | ❌ No | ❌ No |
-| **Network** | ❌ No | ❌ No | ❌ No | ❌ No |
+| Role        | Can Connect Instagram | Can Create Posts | Can Manage Billing | Can Invite Users |
+| ----------- | --------------------- | ---------------- | ------------------ | ---------------- |
+| **Admin**   | ✅ Yes                | ✅ Yes           | ✅ Yes             | ✅ Yes           |
+| **User**    | ✅ Yes                | ✅ Yes           | ❌ No              | ❌ No            |
+| **Network** | ❌ No                 | ❌ No            | ❌ No              | ❌ No            |
 
 ---
 
@@ -168,6 +172,7 @@ Check: Does user have current_company_id?
 ### Why This Design?
 
 **Benefits:**
+
 - ✅ Team collaboration (multiple users, one company)
 - ✅ Shared Instagram accounts
 - ✅ Company-level billing
@@ -175,6 +180,7 @@ Check: Does user have current_company_id?
 - ✅ Easy to switch between companies
 
 **Use Cases:**
+
 - Agency managing multiple clients (1 company per client)
 - Startup with multiple team members (1 shared company)
 - Freelancer with multiple projects (1 company per project)
@@ -184,12 +190,14 @@ Check: Does user have current_company_id?
 ## 🔧 Managing Companies (Future Feature)
 
 **Currently NOT implemented** (planned for Phase 2):
+
 - Company creation UI
 - Company switching dropdown
 - Team member invitation
 - Company settings page
 
 **Current Workaround:**
+
 - Use development seeder for test data
 - Create companies via Tinker (command line)
 - Or wait for Phase 2 implementation
@@ -236,15 +244,18 @@ php artisan db:seed --class=DevelopmentSeeder
 ### With Dummy Credentials (Current Setup)
 
 **What Works:**
+
 - ✅ No error messages
 - ✅ UI is functional
 - ✅ Can navigate to Instagram page
 - ✅ Button displays correctly
 
 **What Doesn't Work:**
+
 - ❌ Actual OAuth connection (needs real credentials)
 
 **Testing Strategy:**
+
 1. Use database factories to create fake Instagram accounts
 2. Test UI/UX without real Instagram
 3. Build other features (posts, scheduling, etc.)
@@ -289,39 +300,42 @@ InstagramAccount::create([
 ### This Week (Optional)
 
 1. **Set up real Instagram OAuth**
-   - Follow `docs/INSTAGRAM_SETUP.md`
-   - Get Facebook Developer credentials
-   - Test real connections
+    - Follow `docs/INSTAGRAM_SETUP.md`
+    - Get Facebook Developer credentials
+    - Test real connections
 
 2. **Create test data**
-   - Use factories for Instagram accounts
-   - Create mock posts
-   - Test the UI thoroughly
+    - Use factories for Instagram accounts
+    - Create mock posts
+    - Test the UI thoroughly
 
 ### Future (When Feature is Built)
 
 1. **Company management UI**
-   - Create companies visually
-   - Switch between companies
-   - Invite team members
-   - Manage settings
+    - Create companies visually
+    - Switch between companies
+    - Invite team members
+    - Manage settings
 
 ---
 
 ## 📚 Documentation References
 
 ### Instagram Setup
+
 - **Quick Fix:** `INSTAGRAM_QUICK_FIX.md`
 - **Setup Plan:** `docs/INSTAGRAM_INTEGRATION_SETUP_PLAN.md`
 - **OAuth Setup:** `docs/INSTAGRAM_SETUP.md`
 - **Architecture:** `docs/INSTAGRAM_HYBRID_OWNERSHIP.md`
 
 ### Company Architecture
+
 - **Database Schema:** `docs/DATABASE_SCHEMA.md` (companies section)
 - **Project Plan:** `docs/PROJECT_PLAN.md` (multi-tenancy architecture)
 - **Coding Standards:** `docs/CODING_STANDARDS.md`
 
 ### Development
+
 - **Getting Started:** `docs/GETTING_STARTED.md`
 - **Testing Guide:** `docs/TESTING_GUIDE.md`
 
@@ -359,12 +373,14 @@ php artisan serve
 ### Expected Results
 
 ✅ **Instagram Page:**
+
 - No error message about credentials
 - No error message about company
 - "Connect Instagram Account" button visible
 - Page loads without crashes
 
 ✅ **Database:**
+
 - At least 2 companies exist
 - Your user has current_company_id set
 - Your user is attached to company with 'admin' role
@@ -384,6 +400,7 @@ php artisan serve
 ### Q: Can I connect Instagram now?
 
 **A:** The UI works, but OAuth requires real Facebook Developer credentials. With dummy credentials, you can:
+
 - ✅ Test UI
 - ✅ Build features
 - ✅ Create mock data
@@ -392,6 +409,7 @@ php artisan serve
 ### Q: How do I switch companies?
 
 **A:** Currently via Tinker:
+
 ```php
 $user = User::find(1);
 $company = Company::find(2);
@@ -440,11 +458,13 @@ Development Data: ✅ SEEDED (multiple test accounts available)
 ### What Changed
 
 **Before:**
+
 - ❌ Instagram error about credentials
 - ❌ Error about missing company
 - ❌ Couldn't proceed
 
 **After:**
+
 - ✅ No errors
 - ✅ Company created and active
 - ✅ Instagram page functional
@@ -469,4 +489,3 @@ npm run dev
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** All Issues Resolved ✅
-

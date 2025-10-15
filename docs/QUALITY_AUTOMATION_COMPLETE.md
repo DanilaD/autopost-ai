@@ -11,51 +11,52 @@ Comprehensive pre-commit validation system with code quality checks, documentati
 ### Scripts (3 files)
 
 1. **`scripts/pre-commit-check.sh`** - Main validation script
-   - PHP code quality (Pint + PHPStan)
-   - JavaScript/Vue quality (ESLint)
-   - Documentation validation
-   - Translation completeness
-   - Test execution
-   - Debug statement detection
-   - ~300 lines of bash
+    - PHP code quality (Pint + PHPStan)
+    - JavaScript/Vue quality (ESLint)
+    - Documentation validation
+    - Translation completeness
+    - Test execution
+    - Debug statement detection
+    - ~300 lines of bash
 
 2. **`scripts/translation-validator.php`** - Translation validator
-   - Validates all 3 languages (EN, ES, RU)
-   - Checks for missing files
-   - Validates key consistency
-   - Detects empty translations
-   - ~130 lines of PHP
+    - Validates all 3 languages (EN, ES, RU)
+    - Checks for missing files
+    - Validates key consistency
+    - Detects empty translations
+    - ~130 lines of PHP
 
 3. **`scripts/install-git-hooks.sh`** - Git hooks installer
-   - Installs pre-commit hook
-   - Links to validation script
-   - ~20 lines of bash
+    - Installs pre-commit hook
+    - Links to validation script
+    - ~20 lines of bash
 
 ### Documentation
 
 4. **`scripts/README.md`** - Complete script documentation
-   - Usage guide
-   - Troubleshooting
-   - Configuration
-   - Best practices
-   - ~500 lines
+    - Usage guide
+    - Troubleshooting
+    - Configuration
+    - Best practices
+    - ~500 lines
 
 ### Configuration Updates
 
 5. **`package.json`** - Added NPM scripts
-   ```json
-   "precommit": "./scripts/pre-commit-check.sh"
-   "validate-translations": "php scripts/translation-validator.php"
-   "install-hooks": "./scripts/install-git-hooks.sh"
-   ```
+
+    ```json
+    "precommit": "./scripts/pre-commit-check.sh"
+    "validate-translations": "php scripts/translation-validator.php"
+    "install-hooks": "./scripts/install-git-hooks.sh"
+    ```
 
 6. **`composer.json`** - Added Composer scripts
-   ```json
-   "precommit": "./scripts/pre-commit-check.sh"
-   "validate-translations": "@php scripts/translation-validator.php"
-   "format": "./vendor/bin/pint"
-   "format-check": "./vendor/bin/pint --test"
-   ```
+    ```json
+    "precommit": "./scripts/pre-commit-check.sh"
+    "validate-translations": "@php scripts/translation-validator.php"
+    "format": "./vendor/bin/pint"
+    "format-check": "./vendor/bin/pint --test"
+    ```
 
 ---
 
@@ -64,23 +65,27 @@ Comprehensive pre-commit validation system with code quality checks, documentati
 ### 1. Code Quality Checks ✅
 
 **PHP:**
+
 - ✅ Laravel Pint formatting
 - ✅ PHPStan static analysis (if available)
 - ✅ Syntax validation
 
 **JavaScript/Vue:**
+
 - ✅ ESLint validation
 - ✅ Prettier formatting check
 
 ### 2. Documentation Validation ✅
 
 **Automatic checks for:**
+
 - ✅ DATABASE_SCHEMA.md when migrations change
 - ✅ Instagram docs when Instagram code changes
 - ✅ INDEX.md when new docs are added
 - ✅ Version/date updates in modified docs
 
 **Blocks commit if:**
+
 - Database migrations without schema docs update
 - New models without documentation
 - New docs without INDEX.md update
@@ -88,6 +93,7 @@ Comprehensive pre-commit validation system with code quality checks, documentati
 ### 3. Translation Validation ✅
 
 **Validates:**
+
 - ✅ All files exist in EN, ES, RU
 - ✅ All translation keys match
 - ✅ No missing keys across languages
@@ -95,10 +101,11 @@ Comprehensive pre-commit validation system with code quality checks, documentati
 - ✅ Warns about extra keys
 
 **Currently Detected Issues:**
+
 ```
 Missing translations:
 - lang/es/pagination.php
-- lang/ru/pagination.php  
+- lang/ru/pagination.php
 - lang/es/passwords.php
 - lang/ru/passwords.php
 - lang/es/validation.php
@@ -231,29 +238,29 @@ npm run format                      # JS/Vue
 
 ## 📊 Statistics
 
-| Metric | Value |
-|--------|-------|
-| **Scripts Created** | 3 |
-| **Lines of Code** | ~450 |
-| **Checks Performed** | 8 categories |
-| **Languages Validated** | 3 (EN, ES, RU) |
-| **Documentation Created** | 500+ lines |
-| **Package Scripts Added** | 6 |
+| Metric                    | Value          |
+| ------------------------- | -------------- |
+| **Scripts Created**       | 3              |
+| **Lines of Code**         | ~450           |
+| **Checks Performed**      | 8 categories   |
+| **Languages Validated**   | 3 (EN, ES, RU) |
+| **Documentation Created** | 500+ lines     |
+| **Package Scripts Added** | 6              |
 
 ---
 
 ## 🎯 Validation Matrix
 
-| Check | PHP | Vue/JS | Migrations | Docs | Translations |
-|-------|-----|--------|------------|------|--------------|
-| **Code Formatting** | ✅ Pint | ✅ ESLint | - | - | - |
-| **Static Analysis** | ✅ PHPStan | - | - | - | - |
-| **Documentation** | ✅ | ✅ | ✅ | ✅ | - |
-| **Translation Keys** | - | - | - | - | ✅ |
-| **File Existence** | - | - | - | - | ✅ |
-| **Tests** | ✅ | - | ✅ | - | - |
-| **Debug Statements** | ✅ | ✅ | - | - | - |
-| **Large Files** | ✅ | ✅ | - | ✅ | - |
+| Check                | PHP        | Vue/JS    | Migrations | Docs | Translations |
+| -------------------- | ---------- | --------- | ---------- | ---- | ------------ |
+| **Code Formatting**  | ✅ Pint    | ✅ ESLint | -          | -    | -            |
+| **Static Analysis**  | ✅ PHPStan | -         | -          | -    | -            |
+| **Documentation**    | ✅         | ✅        | ✅         | ✅   | -            |
+| **Translation Keys** | -          | -         | -          | -    | ✅           |
+| **File Existence**   | -          | -         | -          | -    | ✅           |
+| **Tests**            | ✅         | -         | ✅         | -    | -            |
+| **Debug Statements** | ✅         | ✅        | -          | -    | -            |
+| **Large Files**      | ✅         | ✅        | -          | ✅   | -            |
 
 ---
 
@@ -329,36 +336,42 @@ git commit -m "feat: add posts feature
 ## 🔍 What Gets Validated
 
 ### 1. Staged Files Analysis
+
 - Counts PHP, Vue, JS, Migration files
 - Counts documentation files
 - Counts translation files
 - Determines which checks to run
 
 ### 2. PHP Quality
+
 ```bash
 ./vendor/bin/pint --test $FILES
 ./vendor/bin/phpstan analyse $FILES
 ```
 
 ### 3. JavaScript/Vue Quality
+
 ```bash
 npm run lint -- $FILES
 ```
 
 ### 4. Documentation Required For:
+
 - Database migrations → DATABASE_SCHEMA.md
 - New models → Related feature docs
 - Instagram changes → INSTAGRAM_HYBRID_OWNERSHIP.md
 - New docs → INDEX.md
 
 ### 5. Translation Rules:
+
 - Every `lang/en/file.php` must have:
-  - `lang/es/file.php`
-  - `lang/ru/file.php`
+    - `lang/es/file.php`
+    - `lang/ru/file.php`
 - All files must have matching keys
 - No empty values allowed
 
 ### 6. Tests Run:
+
 - Instagram tests if Instagram files changed
 - All tests otherwise
 - Stops on first failure
@@ -399,11 +412,13 @@ if [ "$SIZE" -gt 1000000 ]; then
 ### Issue 1: Missing Translation Files
 
 **Problem:**
+
 ```
 ❌ Missing file: lang/es/pagination.php
 ```
 
 **Solution:**
+
 ```bash
 # Copy from English
 cp lang/en/pagination.php lang/es/pagination.php
@@ -418,11 +433,13 @@ git commit
 ### Issue 2: PHPStan Not Found
 
 **Problem:**
+
 ```
 ./vendor/bin/phpstan: not found
 ```
 
 **Solution:**
+
 ```bash
 # PHPStan is optional
 # Script will skip if not installed
@@ -437,6 +454,7 @@ composer require --dev phpstan/phpstan
 Commits proceed without checks
 
 **Solution:**
+
 ```bash
 # Reinstall hooks
 ./scripts/install-git-hooks.sh
@@ -461,6 +479,7 @@ ls -la .git/hooks/pre-commit
 ## 🎓 Best Practices
 
 ### 1. Always Update Docs with Code
+
 ```bash
 # ✅ Good
 git add app/Models/Post.php docs/DATABASE_SCHEMA.md
@@ -472,6 +491,7 @@ git commit  # Docs updated later
 ```
 
 ### 2. Add All Language Translations Together
+
 ```bash
 # ✅ Good
 git add lang/en/posts.php lang/es/posts.php lang/ru/posts.php
@@ -483,13 +503,14 @@ git commit  # Spanish/Russian added later
 ```
 
 ### 3. Fix Issues Immediately
+
 ```bash
 # Run checks
 npm run precommit
 
 # If issues found:
 composer format              # Fix PHP
-npm run lint -- --fix       # Fix JS/Vue  
+npm run lint -- --fix       # Fix JS/Vue
 # Update docs
 # Add translations
 
@@ -498,6 +519,7 @@ git commit
 ```
 
 ### 4. Use Descriptive Commit Messages
+
 ```bash
 # ✅ Good
 git commit -m "feat(posts): add post management system
@@ -518,29 +540,31 @@ git commit -m "add posts"
 ### To Make This Complete:
 
 1. **Add Missing Translations**
-   ```bash
-   # Create these files:
-   - lang/es/pagination.php
-   - lang/ru/pagination.php
-   - lang/es/passwords.php
-   - lang/ru/passwords.php
-   - lang/es/validation.php
-   - lang/ru/validation.php
-   ```
+
+    ```bash
+    # Create these files:
+    - lang/es/pagination.php
+    - lang/ru/pagination.php
+    - lang/es/passwords.php
+    - lang/ru/passwords.php
+    - lang/es/validation.php
+    - lang/ru/validation.php
+    ```
 
 2. **Test the Workflow**
-   ```bash
-   # Make a test change
-   echo "// test" >> app/Models/User.php
-   git add app/Models/User.php
-   git commit -m "test"
-   # Verify checks run
-   ```
+
+    ```bash
+    # Make a test change
+    echo "// test" >> app/Models/User.php
+    git add app/Models/User.php
+    git commit -m "test"
+    # Verify checks run
+    ```
 
 3. **Train the Team**
-   - Share `scripts/README.md`
-   - Demo the workflow
-   - Explain bypass procedures (--no-verify)
+    - Share `scripts/README.md`
+    - Demo the workflow
+    - Explain bypass procedures (--no-verify)
 
 ---
 
@@ -563,12 +587,15 @@ git commit -m "add posts"
 ## 📞 Support
 
 ### Script Issues
+
 Review `scripts/README.md` for:
+
 - Usage examples
 - Troubleshooting
 - Configuration options
 
 ### Git Hooks Not Working
+
 ```bash
 # Check if installed
 ls -la .git/hooks/pre-commit
@@ -578,6 +605,7 @@ ls -la .git/hooks/pre-commit
 ```
 
 ### Bypass Checks (Emergency Only)
+
 ```bash
 git commit --no-verify
 ```
@@ -593,4 +621,3 @@ git commit --no-verify
 ---
 
 🎉 **Quality automation is now active! Every commit will be validated automatically.**
-

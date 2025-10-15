@@ -23,11 +23,13 @@ Implementation plan for admin-only features including Inquiry Management and Use
 ## 🏗️ Architecture Overview
 
 **Tech Stack:**
+
 - Backend: Laravel 11 + Inertia.js
 - Frontend: Vue 3 + Tailwind CSS
 - Architecture: Controller → Service → Repository → Model
 
 **Role System:**
+
 - Roles managed at company level via `company_user` pivot table
 - Role enum: `ADMIN`, `USER`, `NETWORK`
 - Admin checks via `User::isAdminInCurrentCompany()`
@@ -39,10 +41,12 @@ Implementation plan for admin-only features including Inquiry Management and Use
 ### 1.1 Database Migrations
 
 **✅ Already Exists:**
+
 - `inquiries` table (email, ip_address, user_agent, created_at)
 - `users` table (name, email, password, timestamps, etc.)
 
 **🆕 New Migration Needed:**
+
 ```php
 // Migration: add_suspended_fields_to_users_table
 - suspended_at (timestamp, nullable)
@@ -59,11 +63,13 @@ Implementation plan for admin-only features including Inquiry Management and Use
 **File:** `app/Http/Middleware/EnsureUserIsAdmin.php`
 
 **Purpose:**
+
 - Check if authenticated user has ADMIN role in current company
 - Redirect non-admins with error message
 - Reusable across all admin routes
 
 **Implementation:**
+
 ```php
 public function handle($request, Closure $next)
 {
@@ -83,26 +89,27 @@ public function handle($request, Closure $next)
 **Services to Create:**
 
 1. **`app/Services/InquiryService.php`**
-   - `getInquiries($filters)` - Paginated, filtered, sorted list
-   - `searchInquiries($query)` - Search by email
-   - `deleteInquiry($id)` - Remove spam/test entries
-   - `exportInquiries($filters)` - CSV export (optional)
+    - `getInquiries($filters)` - Paginated, filtered, sorted list
+    - `searchInquiries($query)` - Search by email
+    - `deleteInquiry($id)` - Remove spam/test entries
+    - `exportInquiries($filters)` - CSV export (optional)
 
 2. **`app/Services/UserManagementService.php`**
-   - `getUsers($filters)` - Paginated user list with company roles
-   - `sendPasswordResetLink($userId)` - Generate and email reset link
-   - `suspendUser($userId, $reason)` - Suspend user account
-   - `unsuspendUser($userId)` - Restore user access
-   - `searchUsers($query)` - Search by name/email
-   - `getUserStats($userId)` - Get user activity statistics
+    - `getUsers($filters)` - Paginated user list with company roles
+    - `sendPasswordResetLink($userId)` - Generate and email reset link
+    - `suspendUser($userId, $reason)` - Suspend user account
+    - `unsuspendUser($userId)` - Restore user access
+    - `searchUsers($query)` - Search by name/email
+    - `getUserStats($userId)` - Get user activity statistics
 
 3. **`app/Services/ImpersonationService.php`**
-   - `impersonate($adminId, $targetUserId)` - Start impersonation session
-   - `stopImpersonation()` - Return to admin account
-   - `canImpersonate($admin, $target)` - Permission check
-   - `logImpersonation($adminId, $targetUserId)` - Audit trail
+    - `impersonate($adminId, $targetUserId)` - Start impersonation session
+    - `stopImpersonation()` - Return to admin account
+    - `canImpersonate($admin, $target)` - Permission check
+    - `logImpersonation($adminId, $targetUserId)` - Audit trail
 
-**Why separate services:** 
+**Why separate services:**
+
 - Single Responsibility Principle
 - Easier to test
 - Reusable across controllers
@@ -116,6 +123,7 @@ public function handle($request, Closure $next)
 **User Model (`app/Models/User.php`):**
 
 Add methods:
+
 ```php
 // Suspension management
 public function suspend(string $reason, User $suspendedBy): void
@@ -128,6 +136,7 @@ public function getStatsAttribute(): array // Posts, accounts, last activity
 ```
 
 Add casts:
+
 ```php
 'suspended_at' => 'datetime',
 ```
@@ -135,6 +144,7 @@ Add casts:
 **Inquiry Model (`app/Models/Inquiry.php`):**
 
 Add scopes:
+
 ```php
 public function scopeRecent($query, $days = 30)
 public function scopeByEmail($query, $email)
@@ -147,11 +157,13 @@ public function scopeByEmail($query, $email)
 **1. InquiryController** (`app/Http/Controllers/Admin/InquiryController.php`)
 
 Routes:
+
 - `GET /admin/inquiries` - List view (index)
 - `DELETE /admin/inquiries/{id}` - Delete inquiry (destroy)
 - `GET /admin/inquiries/export` - CSV export (export)
 
 Methods:
+
 ```php
 public function index(Request $request): Response
 {
@@ -161,7 +173,7 @@ public function index(Request $request): Response
         'direction' => $request->direction ?? 'desc',
         'per_page' => 15,
     ]);
-    
+
     return Inertia::render('Admin/Inquiries/Index', [
         'inquiries' => $inquiries,
         'filters' => $request->only(['search', 'sort', 'direction']),
@@ -172,6 +184,7 @@ public function index(Request $request): Response
 **2. UserManagementController** (`app/Http/Controllers/Admin/UserManagementController.php`)
 
 Routes:
+
 - `GET /admin/users` - List view (index)
 - `POST /admin/users/{id}/password-reset` - Send reset link (sendPasswordReset)
 - `POST /admin/users/{id}/suspend` - Suspend user (suspend)
@@ -182,6 +195,7 @@ Routes:
 **3. ImpersonationController** (`app/Http/Controllers/Admin/ImpersonationController.php`)
 
 Separate controller for impersonation logic:
+
 - Better separation of concerns
 - Dedicated route group
 - Easier to add audit logging
@@ -198,7 +212,7 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        
+
         // Inquiry Management
         Route::get('/inquiries', [Admin\InquiryController::class, 'index'])
             ->name('inquiries.index');
@@ -206,7 +220,7 @@ Route::middleware(['auth', 'verified', 'admin'])
             ->name('inquiries.destroy');
         Route::get('/inquiries/export', [Admin\InquiryController::class, 'export'])
             ->name('inquiries.export');
-        
+
         // User Management
         Route::get('/users', [Admin\UserManagementController::class, 'index'])
             ->name('users.index');
@@ -216,7 +230,7 @@ Route::middleware(['auth', 'verified', 'admin'])
             ->name('users.suspend');
         Route::post('/users/{user}/unsuspend', [Admin\UserManagementController::class, 'unsuspend'])
             ->name('users.unsuspend');
-        
+
         // Impersonation
         Route::post('/users/{user}/impersonate', [Admin\ImpersonationController::class, 'start'])
             ->name('users.impersonate');
@@ -234,6 +248,7 @@ Route::middleware(['auth', 'verified', 'admin'])
 **File:** `resources/js/Layouts/AuthenticatedLayout.vue`
 
 Add admin menu items (conditionally):
+
 ```vue
 <!-- Admin Navigation (Desktop) -->
 <NavLink
@@ -254,6 +269,7 @@ Add admin menu items (conditionally):
 ```
 
 **Data needed in Inertia props:**
+
 ```php
 // HandleInertiaRequests middleware
 'auth' => [
@@ -275,6 +291,7 @@ Add admin menu items (conditionally):
 **File:** `resources/js/Pages/Admin/Inquiries/Index.vue`
 
 **Features:**
+
 - Data table with pagination
 - Search by email
 - Sort by email/created_at
@@ -284,11 +301,12 @@ Add admin menu items (conditionally):
 - Loading states
 
 **Key Components:**
+
 ```vue
 <template>
     <AuthenticatedLayout>
         <Head title="Inquiries" />
-        
+
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <!-- Header with Search & Export -->
@@ -298,38 +316,53 @@ Add admin menu items (conditionally):
                         Export CSV
                     </PrimaryButton>
                 </div>
-                
+
                 <!-- Inquiries Table -->
-                <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800">
+                <div
+                    class="overflow-hidden bg-white shadow-sm dark:bg-gray-800"
+                >
                     <table>
                         <thead>
                             <tr>
-                                <SortableHeader field="email" :current="filters.sort">
+                                <SortableHeader
+                                    field="email"
+                                    :current="filters.sort"
+                                >
                                     Email
                                 </SortableHeader>
                                 <th>IP Address</th>
                                 <th>User Agent</th>
-                                <SortableHeader field="created_at" :current="filters.sort">
+                                <SortableHeader
+                                    field="created_at"
+                                    :current="filters.sort"
+                                >
                                     Created At
                                 </SortableHeader>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="inquiry in inquiries.data" :key="inquiry.id">
+                            <tr
+                                v-for="inquiry in inquiries.data"
+                                :key="inquiry.id"
+                            >
                                 <td>{{ inquiry.email }}</td>
                                 <td>{{ inquiry.ip_address }}</td>
-                                <td class="truncate">{{ inquiry.user_agent }}</td>
+                                <td class="truncate">
+                                    {{ inquiry.user_agent }}
+                                </td>
                                 <td>{{ formatDate(inquiry.created_at) }}</td>
                                 <td>
-                                    <DangerButton @click="deleteInquiry(inquiry.id)">
+                                    <DangerButton
+                                        @click="deleteInquiry(inquiry.id)"
+                                    >
                                         Delete
                                     </DangerButton>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    
+
                     <!-- Pagination -->
                     <Pagination :links="inquiries.links" />
                 </div>
@@ -346,18 +379,20 @@ Add admin menu items (conditionally):
 **File:** `resources/js/Pages/Admin/Users/Index.vue`
 
 **Features:**
+
 - User list with company roles
 - Search by name/email
 - Sort by various fields
 - Multiple actions per user:
-  - Send password reset link
-  - Suspend/Unsuspend
-  - Impersonate
+    - Send password reset link
+    - Suspend/Unsuspend
+    - Impersonate
 - Status badges (active/suspended)
 - Impersonation banner when active
 - Confirmation modals for destructive actions
 
 **Table Columns:**
+
 - Name
 - Email
 - Role (in current company)
@@ -368,18 +403,19 @@ Add admin menu items (conditionally):
 - Actions (dropdown)
 
 **Key Components:**
+
 ```vue
 <template>
     <AuthenticatedLayout>
         <Head title="User Management" />
-        
+
         <!-- Impersonation Banner -->
         <ImpersonationBanner
             v-if="$page.props.impersonating"
             :original-user="$page.props.impersonating.original"
             @stop="stopImpersonation"
         />
-        
+
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <!-- Header with Search -->
@@ -390,16 +426,26 @@ Add admin menu items (conditionally):
                         @search="search"
                     />
                 </div>
-                
+
                 <!-- Users Table -->
-                <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <div
+                    class="overflow-hidden bg-white shadow-sm dark:bg-gray-800"
+                >
+                    <table
+                        class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                    >
                         <thead>
                             <tr>
-                                <SortableHeader field="name" :current="filters.sort">
+                                <SortableHeader
+                                    field="name"
+                                    :current="filters.sort"
+                                >
                                     Name
                                 </SortableHeader>
-                                <SortableHeader field="email" :current="filters.sort">
+                                <SortableHeader
+                                    field="email"
+                                    :current="filters.sort"
+                                >
                                     Email
                                 </SortableHeader>
                                 <th>Role</th>
@@ -422,9 +468,13 @@ Add admin menu items (conditionally):
                                     <RoleBadge :role="user.role" />
                                 </td>
                                 <td>
-                                    <StatusBadge :suspended="user.suspended_at" />
+                                    <StatusBadge
+                                        :suspended="user.suspended_at"
+                                    />
                                 </td>
-                                <td>{{ formatRelativeDate(user.last_login_at) }}</td>
+                                <td>
+                                    {{ formatRelativeDate(user.last_login_at) }}
+                                </td>
                                 <td>
                                     <UserStats :user="user" />
                                 </td>
@@ -440,20 +490,20 @@ Add admin menu items (conditionally):
                             </tr>
                         </tbody>
                     </table>
-                    
+
                     <!-- Pagination -->
                     <Pagination :links="users.links" />
                 </div>
             </div>
         </div>
-        
+
         <!-- Modals -->
         <SuspendUserModal
             v-model="showSuspendModal"
             :user="selectedUser"
             @confirm="suspendUser"
         />
-        
+
         <ConfirmationModal
             v-model="showImpersonateModal"
             title="Impersonate User"
@@ -480,11 +530,18 @@ const showImpersonateModal = ref(false)
 
 // Actions
 const sendPasswordReset = (user) => {
-    router.post(route('admin.users.password-reset', user.id), {}, {
-        onSuccess: () => {
-            toast.addToast(`Password reset link sent to ${user.email}`, 'success')
+    router.post(
+        route('admin.users.password-reset', user.id),
+        {},
+        {
+            onSuccess: () => {
+                toast.addToast(
+                    `Password reset link sent to ${user.email}`,
+                    'success'
+                )
+            },
         }
-    })
+    )
 }
 
 const confirmSuspend = (user) => {
@@ -493,22 +550,30 @@ const confirmSuspend = (user) => {
 }
 
 const suspendUser = (reason) => {
-    router.post(route('admin.users.suspend', selectedUser.value.id), {
-        reason
-    }, {
-        onSuccess: () => {
-            toast.addToast('User suspended successfully', 'success')
-            showSuspendModal.value = false
+    router.post(
+        route('admin.users.suspend', selectedUser.value.id),
+        {
+            reason,
+        },
+        {
+            onSuccess: () => {
+                toast.addToast('User suspended successfully', 'success')
+                showSuspendModal.value = false
+            },
         }
-    })
+    )
 }
 
 const unsuspendUser = (user) => {
-    router.post(route('admin.users.unsuspend', user.id), {}, {
-        onSuccess: () => {
-            toast.addToast('User access restored', 'success')
+    router.post(
+        route('admin.users.unsuspend', user.id),
+        {},
+        {
+            onSuccess: () => {
+                toast.addToast('User access restored', 'success')
+            },
         }
-    })
+    )
 }
 
 const confirmImpersonate = (user) => {
@@ -533,47 +598,47 @@ const stopImpersonation = () => {
 **Components to Create:**
 
 1. **`SearchInput.vue`**
-   - Debounced search input
-   - Clear button
-   - Loading indicator
+    - Debounced search input
+    - Clear button
+    - Loading indicator
 
 2. **`SortableHeader.vue`**
-   - Clickable table header
-   - Sort direction indicator (↑/↓)
-   - Active state styling
+    - Clickable table header
+    - Sort direction indicator (↑/↓)
+    - Active state styling
 
 3. **`Pagination.vue`**
-   - Previous/Next buttons
-   - Page number links
-   - "Showing X to Y of Z results"
+    - Previous/Next buttons
+    - Page number links
+    - "Showing X to Y of Z results"
 
 4. **`RoleBadge.vue`**
-   - Color-coded role display
-   - Icon per role type
-   - Tooltip with role description
+    - Color-coded role display
+    - Icon per role type
+    - Tooltip with role description
 
 5. **`StatusBadge.vue`**
-   - Active (green) / Suspended (red)
-   - Shows suspension date on hover
+    - Active (green) / Suspended (red)
+    - Shows suspension date on hover
 
 6. **`UserAvatar.vue`**
-   - Initials-based avatar
-   - Fallback for users without photos
+    - Initials-based avatar
+    - Fallback for users without photos
 
 7. **`UserStats.vue`**
-   - Compact display of user metrics
-   - Tooltip with detailed stats
+    - Compact display of user metrics
+    - Tooltip with detailed stats
 
 8. **`UserActionsDropdown.vue`**
-   - Three-dot menu
-   - Conditional actions based on user status
-   - Icon + label for each action
+    - Three-dot menu
+    - Conditional actions based on user status
+    - Icon + label for each action
 
 9. **`ImpersonationBanner.vue`**
-   - Fixed top banner
-   - Shows original admin info
-   - "Stop Impersonation" button
-   - Warning styling
+    - Fixed top banner
+    - Shows original admin info
+    - "Stop Impersonation" button
+    - Warning styling
 
 10. **`SuspendUserModal.vue`**
     - Textarea for suspension reason
@@ -589,11 +654,13 @@ const stopImpersonation = () => {
 ### 3.4 Translation Keys
 
 **Files to update:**
+
 - `lang/en/menu.php`
 - `lang/es/menu.php`
 - `lang/ru/menu.php`
 
 **New keys:**
+
 ```php
 // menu.php
 'inquiries' => 'Inquiries',
@@ -624,21 +691,21 @@ const stopImpersonation = () => {
     'actions' => 'Actions',
     'search' => 'Search users...',
     'no_results' => 'No users found',
-    
+
     // Actions
     'send_password_reset' => 'Send Password Reset',
     'suspend' => 'Suspend User',
     'unsuspend' => 'Unsuspend User',
     'impersonate' => 'Impersonate',
-    
+
     // Status
     'active' => 'Active',
     'suspended' => 'Suspended',
-    
+
     // Impersonation
     'impersonating' => 'You are impersonating',
     'stop_impersonation' => 'Stop Impersonation',
-    
+
     // Modals
     'suspend_modal_title' => 'Suspend User',
     'suspend_modal_message' => 'Please provide a reason for suspension:',
@@ -656,6 +723,7 @@ const stopImpersonation = () => {
 ### 4.1 Impersonation System
 
 **Session Management:**
+
 ```php
 // Store original admin ID in session
 session(['impersonate' => [
@@ -668,6 +736,7 @@ auth()->login($targetUser);
 ```
 
 **Middleware for Impersonation Banner:**
+
 ```php
 // Add to HandleInertiaRequests
 'impersonating' => session('impersonate') ? [
@@ -677,6 +746,7 @@ auth()->login($targetUser);
 ```
 
 **Security:**
+
 - Prevent impersonating other admins
 - Log all impersonation events
 - Auto-expire after 60 minutes
@@ -684,6 +754,7 @@ auth()->login($targetUser);
 
 **Audit Log:**
 Create `impersonation_logs` table:
+
 ```php
 - admin_id
 - target_user_id
@@ -697,16 +768,19 @@ Create `impersonation_logs` table:
 ### 4.2 Email Notifications
 
 **Password Reset:**
+
 - Use Laravel's built-in password reset notification
 - Customize email template for admin-triggered resets
 - Include note: "An administrator has requested this reset"
 
 **User Suspension:**
+
 - Email to suspended user explaining reason
 - Include contact information for appeals
 - CC to admin for record
 
 **User Unsuspension:**
+
 - Welcome back email
 - Summary of suspension period
 
@@ -715,6 +789,7 @@ Create `impersonation_logs` table:
 ### 4.3 Export Functionality
 
 **CSV Export for Inquiries:**
+
 ```php
 // Headers
 Email, IP Address, User Agent, Created At
@@ -722,9 +797,9 @@ Email, IP Address, User Agent, Created At
 // Stream large datasets
 return response()->streamDownload(function () {
     $inquiries = Inquiry::orderBy('created_at', 'desc')->cursor();
-    
+
     echo "Email,IP Address,User Agent,Created At\n";
-    
+
     foreach ($inquiries as $inquiry) {
         echo sprintf(
             '"%s","%s","%s","%s"\n',
@@ -742,6 +817,7 @@ return response()->streamDownload(function () {
 ### 4.4 User Statistics
 
 **Metrics to Display:**
+
 - Total Instagram accounts (owned + shared)
 - Total posts created
 - Last login date
@@ -750,6 +826,7 @@ return response()->streamDownload(function () {
 - Storage used (if applicable)
 
 **Implementation:**
+
 ```php
 // UserService method
 public function getUserStats(User $user): array
@@ -773,34 +850,36 @@ public function getUserStats(User $user): array
 **Test Files:**
 
 1. **`tests/Feature/Admin/InquiryManagementTest.php`**
-   ```php
-   - test_admin_can_view_inquiries()
-   - test_non_admin_cannot_access_inquiries()
-   - test_admin_can_search_inquiries()
-   - test_admin_can_sort_inquiries()
-   - test_admin_can_delete_inquiry()
-   - test_admin_can_export_inquiries_csv()
-   ```
+
+    ```php
+    - test_admin_can_view_inquiries()
+    - test_non_admin_cannot_access_inquiries()
+    - test_admin_can_search_inquiries()
+    - test_admin_can_sort_inquiries()
+    - test_admin_can_delete_inquiry()
+    - test_admin_can_export_inquiries_csv()
+    ```
 
 2. **`tests/Feature/Admin/UserManagementTest.php`**
-   ```php
-   - test_admin_can_view_users()
-   - test_non_admin_cannot_access_users()
-   - test_admin_can_search_users()
-   - test_admin_can_send_password_reset()
-   - test_admin_can_suspend_user()
-   - test_admin_can_unsuspend_user()
-   - test_suspended_user_cannot_login()
-   ```
+
+    ```php
+    - test_admin_can_view_users()
+    - test_non_admin_cannot_access_users()
+    - test_admin_can_search_users()
+    - test_admin_can_send_password_reset()
+    - test_admin_can_suspend_user()
+    - test_admin_can_unsuspend_user()
+    - test_suspended_user_cannot_login()
+    ```
 
 3. **`tests/Feature/Admin/ImpersonationTest.php`**
-   ```php
-   - test_admin_can_impersonate_user()
-   - test_admin_cannot_impersonate_another_admin()
-   - test_admin_can_stop_impersonation()
-   - test_impersonation_logged_to_audit()
-   - test_non_admin_cannot_impersonate()
-   ```
+    ```php
+    - test_admin_can_impersonate_user()
+    - test_admin_cannot_impersonate_another_admin()
+    - test_admin_can_stop_impersonation()
+    - test_impersonation_logged_to_audit()
+    - test_non_admin_cannot_impersonate()
+    ```
 
 ---
 
@@ -809,14 +888,14 @@ public function getUserStats(User $user): array
 **Test Files:**
 
 1. **`tests/Unit/Services/UserManagementServiceTest.php`**
-   - Test each service method in isolation
-   - Mock dependencies
-   - Test edge cases
+    - Test each service method in isolation
+    - Mock dependencies
+    - Test edge cases
 
 2. **`tests/Unit/Middleware/EnsureUserIsAdminTest.php`**
-   - Test admin access granted
-   - Test non-admin access denied
-   - Test unauthenticated access
+    - Test admin access granted
+    - Test non-admin access denied
+    - Test unauthenticated access
 
 ---
 
@@ -827,18 +906,18 @@ public function getUserStats(User $user): array
 **Files to update:**
 
 1. **`docs/DATABASE_SCHEMA.md`**
-   - Add suspended fields to users table
-   - Add impersonation_logs table (if implemented)
-   - Update version and date
+    - Add suspended fields to users table
+    - Add impersonation_logs table (if implemented)
+    - Update version and date
 
 2. **`docs/INDEX.md`**
-   - Add link to new admin features documentation
+    - Add link to new admin features documentation
 
 3. **Create:** `docs/ADMIN_FEATURES.md`
-   - Complete guide to admin features
-   - Screenshots/examples
-   - Security considerations
-   - Troubleshooting
+    - Complete guide to admin features
+    - Screenshots/examples
+    - Security considerations
+    - Troubleshooting
 
 ---
 
@@ -847,56 +926,56 @@ public function getUserStats(User $user): array
 ### Priority 1 (Highly Recommended)
 
 1. **Activity Logging**
-   - Track all admin actions
-   - Searchable audit log
-   - Retention policy
+    - Track all admin actions
+    - Searchable audit log
+    - Retention policy
 
 2. **Bulk Actions**
-   - Suspend multiple users
-   - Delete multiple inquiries
-   - Send bulk notifications
+    - Suspend multiple users
+    - Delete multiple inquiries
+    - Send bulk notifications
 
 3. **Advanced Filters**
-   - Filter users by role
-   - Filter by suspension status
-   - Date range filters
-   - Multi-column search
+    - Filter users by role
+    - Filter by suspension status
+    - Date range filters
+    - Multi-column search
 
 4. **User Details Modal**
-   - Click user row for detailed view
-   - Activity timeline
-   - Related records (posts, accounts)
-   - Quick actions
+    - Click user row for detailed view
+    - Activity timeline
+    - Related records (posts, accounts)
+    - Quick actions
 
 ### Priority 2 (Nice to Have)
 
 5. **Dashboard Analytics**
-   - Total users by role
-   - New inquiries this week
-   - User growth chart
-   - Active vs suspended users
+    - Total users by role
+    - New inquiries this week
+    - User growth chart
+    - Active vs suspended users
 
 6. **Email Templates Management**
-   - Customize notification emails
-   - Preview before sending
-   - Multi-language support
+    - Customize notification emails
+    - Preview before sending
+    - Multi-language support
 
 7. **Role Management**
-   - Change user role from admin panel
-   - Batch role updates
-   - Role history
+    - Change user role from admin panel
+    - Batch role updates
+    - Role history
 
 8. **Export Options**
-   - PDF reports
-   - Excel format
-   - Scheduled exports
+    - PDF reports
+    - Excel format
+    - Scheduled exports
 
 ### Priority 3 (Future Enhancements)
 
 9. **Advanced Impersonation**
-   - Impersonation time limit
-   - Restrict certain actions while impersonating
-   - Watermark on pages during impersonation
+    - Impersonation time limit
+    - Restrict certain actions while impersonating
+    - Watermark on pages during impersonation
 
 10. **User Merge**
     - Combine duplicate accounts
@@ -917,36 +996,42 @@ public function getUserStats(User $user): array
 ## 🗓️ Implementation Timeline
 
 ### Week 1: Foundation
+
 - ✅ Create middleware
 - ✅ Database migration
 - ✅ Service layer setup
 - ✅ Basic routing
 
 ### Week 2: Backend
+
 - ✅ Controllers implementation
 - ✅ Service methods
 - ✅ Model enhancements
 - ✅ Email notifications
 
 ### Week 3: Frontend - Inquiries
+
 - ✅ Navigation updates
 - ✅ Inquiries page
 - ✅ Reusable components
 - ✅ Translations
 
 ### Week 4: Frontend - Users
+
 - ✅ Users management page
 - ✅ Action modals
 - ✅ Impersonation UI
 - ✅ Testing UI flows
 
 ### Week 5: Advanced Features
+
 - ✅ Impersonation backend
 - ✅ CSV export
 - ✅ User statistics
 - ✅ Audit logging
 
 ### Week 6: Testing & Polish
+
 - ✅ Feature tests
 - ✅ Unit tests
 - ✅ Bug fixes
@@ -958,25 +1043,25 @@ public function getUserStats(User $user): array
 ## 🔒 Security Considerations
 
 1. **Authorization**
-   - Always check `isAdminInCurrentCompany()`
-   - Never trust client-side role checks
-   - Validate company context
+    - Always check `isAdminInCurrentCompany()`
+    - Never trust client-side role checks
+    - Validate company context
 
 2. **Impersonation**
-   - Prevent admin-to-admin impersonation
-   - Log all actions during impersonation
-   - Require re-auth for destructive actions
-   - Auto-expire sessions
+    - Prevent admin-to-admin impersonation
+    - Log all actions during impersonation
+    - Require re-auth for destructive actions
+    - Auto-expire sessions
 
 3. **Data Privacy**
-   - Mask sensitive user data
-   - GDPR compliance for exports
-   - Audit trail for data access
+    - Mask sensitive user data
+    - GDPR compliance for exports
+    - Audit trail for data access
 
 4. **Rate Limiting**
-   - Limit password reset requests
-   - Throttle search queries
-   - Prevent brute force on admin routes
+    - Limit password reset requests
+    - Throttle search queries
+    - Prevent brute force on admin routes
 
 ---
 
@@ -1041,4 +1126,3 @@ This is a comprehensive plan. We can implement it in phases or adjust priorities
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Author:** Cursor AI Assistant
-

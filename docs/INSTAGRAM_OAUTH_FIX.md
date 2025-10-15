@@ -26,12 +26,13 @@ Your button is **100% functional**. Here's proof:
 ## 🔍 The Error Explained
 
 ```javascript
-[Error] XMLHttpRequest cannot load 
+[Error] XMLHttpRequest cannot load
 https://api.instagram.com/oauth/authorize?
 client_id=dummy_dev_client_id_12345  // ← Instagram sees this is fake
 ```
 
 **What Instagram is saying:**
+
 > "I don't recognize `dummy_dev_client_id_12345` as a valid app. Access denied."
 
 **This is EXACTLY what should happen** with dummy credentials!
@@ -51,6 +52,7 @@ Created: Today (via database)
 ```
 
 **To see it:**
+
 1. Refresh your browser
 2. Go to `/instagram` page
 3. You'll see your connected account!
@@ -64,6 +66,7 @@ Created: Today (via database)
 **Best for:** Building features now, dealing with OAuth later
 
 **What you have:**
+
 - ✅ Test Instagram account already connected
 - ✅ Can develop all features
 - ✅ Can test UI/UX
@@ -71,6 +74,7 @@ Created: Today (via database)
 - ✅ Can build scheduling
 
 **What you do:**
+
 1. **Ignore the OAuth error** - it's expected
 2. **Use test account** - @dan_test_instagram
 3. **Keep building** - develop other features
@@ -90,8 +94,8 @@ Created: Today (via database)
 2. Click "Create App"
 3. Choose "Consumer" type
 4. Enter app details:
-   - Name: "Autopost AI Dev"
-   - Contact email: your email
+    - Name: "Autopost AI Dev"
+    - Contact email: your email
 
 #### Step 2: Add Instagram Basic Display (15 min)
 
@@ -110,6 +114,7 @@ http://localhost:8000/instagram/callback
 ```
 
 Also set:
+
 - **Deauthorize Callback:** `https://autopost-ai.test/instagram/webhook/deauthorize`
 - **Data Deletion Request:** `https://autopost-ai.test/instagram/webhook/delete`
 
@@ -118,6 +123,7 @@ Click "Save Changes"
 #### Step 4: Get Your Credentials (2 min)
 
 In "Basic Display" tab, copy:
+
 - **Instagram App ID** (your client ID)
 - **Instagram App Secret** (your client secret)
 
@@ -137,6 +143,7 @@ INSTAGRAM_REDIRECT_URI=${APP_URL}/instagram/callback
 ```
 
 **Example:**
+
 ```env
 INSTAGRAM_CLIENT_ID=123456789012345
 INSTAGRAM_CLIENT_SECRET=abcdef1234567890abcdef1234567890
@@ -160,6 +167,7 @@ php artisan config:clear
 5. Click "Submit"
 
 Then on Instagram app:
+
 1. Go to Settings → Apps and Websites → Tester Invites
 2. Accept the invitation
 
@@ -194,6 +202,7 @@ INSTAGRAM_REDIRECT_URI=https://autopost-ai.test
 ### Error: "Invalid Client ID"
 
 **Fix:**
+
 1. Double-check `INSTAGRAM_CLIENT_ID` in `.env`
 2. Clear cache: `php artisan config:clear`
 3. Verify App ID in Facebook dashboard
@@ -201,6 +210,7 @@ INSTAGRAM_REDIRECT_URI=https://autopost-ai.test
 ### Error: "User not authorized"
 
 **Fix:** Make sure you:
+
 1. Added yourself as tester in Facebook app
 2. Accepted invitation on Instagram app
 3. Using an Instagram account (not Facebook)
@@ -208,12 +218,14 @@ INSTAGRAM_REDIRECT_URI=https://autopost-ai.test
 ### Error: Still getting "Network Error"
 
 **Possible causes:**
+
 1. Wrong credentials in `.env`
 2. Cache not cleared
 3. Not added as tester (development mode)
 4. Callback URL mismatch
 
 **Debug steps:**
+
 ```bash
 # Check config is loaded
 php artisan tinker
@@ -226,15 +238,15 @@ php artisan tinker
 
 ## 📊 Comparison: Test Account vs Real OAuth
 
-| Feature | Test Account (Current) | Real OAuth |
-|---------|----------------------|------------|
-| Setup time | ✅ 0 min (done!) | ⏱️ 1 hour |
-| Cost | ✅ Free | ✅ Free |
-| Development | ✅ Full | ✅ Full |
-| Real data | ❌ Fake | ✅ Real |
-| Token refresh | ❌ Manual | ✅ Auto |
-| Production ready | ❌ No | ✅ Yes |
-| Good for | ✅ Development | ✅ Production |
+| Feature          | Test Account (Current) | Real OAuth    |
+| ---------------- | ---------------------- | ------------- |
+| Setup time       | ✅ 0 min (done!)       | ⏱️ 1 hour     |
+| Cost             | ✅ Free                | ✅ Free       |
+| Development      | ✅ Full                | ✅ Full       |
+| Real data        | ❌ Fake                | ✅ Real       |
+| Token refresh    | ❌ Manual              | ✅ Auto       |
+| Production ready | ❌ No                  | ✅ Yes        |
+| Good for         | ✅ Development         | ✅ Production |
 
 ---
 
@@ -243,17 +255,19 @@ php artisan tinker
 **We added dummy credentials** to prevent this error:
 
 ```
-Instagram integration is not configured yet. 
+Instagram integration is not configured yet.
 Please contact your administrator...
 ```
 
 **Trade-off:**
+
 - ✅ App doesn't crash
 - ✅ Instagram page works
 - ✅ UI is functional
 - ❌ OAuth button doesn't work (expected)
 
 **You can:**
+
 - Keep dummy credentials + use test accounts (fast)
 - OR replace with real credentials (takes 1 hour)
 
@@ -264,6 +278,7 @@ Please contact your administrator...
 ### What Happens When You Click the Button
 
 **1. Frontend (Vue):**
+
 ```vue
 <Link :href="route('instagram.connect')">
     Connect Instagram Account
@@ -271,12 +286,14 @@ Please contact your administrator...
 ```
 
 **2. Laravel Route:**
+
 ```php
 Route::get('/instagram/connect', [InstagramOAuthController::class, 'redirect'])
     ->name('instagram.connect');
 ```
 
 **3. Controller:**
+
 ```php
 public function redirect(): RedirectResponse
 {
@@ -284,13 +301,14 @@ public function redirect(): RedirectResponse
         return redirect()->route('instagram.index')
             ->with('error', 'Not configured');
     }
-    
+
     $authUrl = $this->instagramService->getAuthorizationUrl();
     return redirect($authUrl);  // ← Redirects to Instagram
 }
 ```
 
 **4. Instagram Service:**
+
 ```php
 public function getAuthorizationUrl(): string
 {
@@ -300,12 +318,13 @@ public function getAuthorizationUrl(): string
         'scope' => 'user_profile,user_media',
         'response_type' => 'code',
     ]);
-    
+
     return "https://api.instagram.com/oauth/authorize?{$params}";
 }
 ```
 
 **5. Instagram API Response:**
+
 ```
 Status: 302 (Redirect)
 Error: CORS preflight failed
@@ -343,11 +362,13 @@ Reason: Invalid client_id
 ## 📚 Related Documentation
 
 **Instagram Setup:**
+
 - `docs/INSTAGRAM_SETUP.md` - Complete setup guide
 - `docs/INSTAGRAM_INTEGRATION_SETUP_PLAN.md` - Full review
 - `COMPANY_SETUP_COMPLETE.md` - What we fixed today
 
 **Architecture:**
+
 - `docs/INSTAGRAM_HYBRID_OWNERSHIP.md` - Technical details
 - `docs/DATABASE_SCHEMA.md` - Database structure
 
@@ -413,12 +434,14 @@ echo "Status: " . $account->status . "\n";
 ### What You Should Do
 
 **Recommended:**
+
 1. Ignore OAuth button
 2. Use test account
 3. Continue development
 4. Add real OAuth later
 
 **Or:**
+
 1. Follow setup guide above
 2. Get real Facebook Developer credentials
 3. Replace dummy credentials
@@ -433,4 +456,3 @@ echo "Status: " . $account->status . "\n";
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** Button Works - Instagram Rejects Dummy Credentials (Expected)
-

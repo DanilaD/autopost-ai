@@ -27,7 +27,7 @@ valet share
 You'll see output like:
 
 ```
-ngrok                                                                         
+ngrok
 
 Session Status                online
 Account                       Your Name
@@ -125,6 +125,7 @@ Use your normal credentials
 Visit: http://127.0.0.1:4040
 
 This shows:
+
 - Current requests
 - Request/response details
 - Replay requests (useful for debugging)
@@ -149,12 +150,14 @@ valet share
 ## 💰 Free vs Paid ngrok
 
 ### Free Plan (Current)
+
 - ✅ Works great for testing
 - ❌ URL changes every restart
 - ❌ 40 connections/minute limit
 - ⚠️ Shows ngrok warning page to visitors
 
 ### Paid Plan ($10/month)
+
 - ✅ **Static domain** (never changes!)
 - ✅ No connection limits
 - ✅ No warning page
@@ -183,12 +186,14 @@ valet share --subdomain=autopost-ai
 ### Step 3: One-Time Setup
 
 **Update .env (only once):**
+
 ```env
 APP_URL=https://autopost-ai.ngrok.app
 INSTAGRAM_REDIRECT_URI=https://autopost-ai.ngrok.app/instagram/callback
 ```
 
 **Update Facebook (only once):**
+
 ```
 Valid OAuth Redirect URIs:
 https://autopost-ai.ngrok.app/instagram/callback
@@ -203,12 +208,14 @@ https://autopost-ai.ngrok.app/instagram/callback
 ### Development (Local Only)
 
 **.env:**
+
 ```env
 APP_URL=https://autopost-ai.test
 INSTAGRAM_REDIRECT_URI=https://autopost-ai.test/instagram/callback
 ```
 
 **Run:**
+
 ```bash
 php artisan config:clear
 npm run dev
@@ -221,12 +228,14 @@ npm run dev
 ### Testing (Public URL)
 
 **Terminal 1 - Start Valet Share:**
+
 ```bash
 valet share
 # Copy the ngrok URL
 ```
 
 **Terminal 2 - Update Config:**
+
 ```bash
 # Edit .env with ngrok URL
 php artisan config:clear
@@ -242,6 +251,7 @@ npm run dev
 ### Error: "ngrok: command not found"
 
 **Solution:**
+
 ```bash
 brew install ngrok
 ```
@@ -249,6 +259,7 @@ brew install ngrok
 ### Error: "valet: command not found"
 
 **Solution:**
+
 ```bash
 composer global require laravel/valet
 valet install
@@ -259,6 +270,7 @@ valet install
 **Cause:** Free ngrok sessions expire after 2 hours
 
 **Solution:**
+
 1. Stop valet share (Ctrl+C)
 2. Restart: `valet share`
 3. Update `.env` with new URL
@@ -270,6 +282,7 @@ valet install
 ### Error: "Redirect URI Mismatch"
 
 **Check:**
+
 1. `.env` file has correct ngrok URL
 2. Facebook app has correct ngrok URL
 3. URLs match exactly (including `/instagram/callback`)
@@ -287,7 +300,7 @@ export default defineConfig({
             host: 'abc123def456.ngrok-free.app', // Your ngrok domain
         },
     },
-});
+})
 ```
 
 Then restart: `npm run dev`
@@ -311,12 +324,14 @@ https://autopost-ai.test
 ### When You Need Public Access
 
 **Terminal 1:**
+
 ```bash
 valet share
 # Copy the URL
 ```
 
 **Terminal 2:**
+
 ```bash
 # Edit .env with ngrok URL
 nano .env
@@ -329,6 +344,7 @@ npm run dev
 ```
 
 **Browser:**
+
 1. Update Facebook app with ngrok URL
 2. Visit ngrok URL
 3. Test Instagram OAuth
@@ -437,6 +453,7 @@ Your Computer              ngrok Cloud              Internet
 5. Responses: your Valet → ngrok → visitor
 
 **Benefits:**
+
 - ✅ No deployment needed
 - ✅ Instant updates (changes immediately visible)
 - ✅ Full debugging capabilities
@@ -455,4 +472,3 @@ Your Computer              ngrok Cloud              Internet
 
 **Last Updated:** October 10, 2025  
 **Version:** 1.0
-

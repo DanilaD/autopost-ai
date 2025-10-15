@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import fs from 'fs'
 
 export default defineConfig({
     plugins: [
@@ -18,9 +19,21 @@ export default defineConfig({
         }),
     ],
     server: {
-        // Allow HMR to work through ngrok/valet share
+        host: 'autopost-ai.test',
+        port: 3000,
+        https: {
+            key: fs.readFileSync(
+                '/Users/daniladolmatov/.config/valet/Certificates/autopost-ai.test.key'
+            ),
+            cert: fs.readFileSync(
+                '/Users/daniladolmatov/.config/valet/Certificates/autopost-ai.test.crt'
+            ),
+        },
+        strictPort: true,
         hmr: {
-            host: process.env.VITE_HMR_HOST || 'localhost',
+            host: 'autopost-ai.test',
+            port: 3000,
+            protocol: 'wss',
         },
     },
 })

@@ -924,13 +924,48 @@ All documentation should include:
 
 ---
 
-**Last Updated:** October 10, 2025  
-**Version:** 1.4  
+**Last Updated:** January 10, 2025  
+**Version:** 1.5  
 **Maintained By:** Development Team
 
 ---
 
 ## 📢 Recent Updates
+
+### January 10, 2025 - UI/UX Improvements & Bug Fixes 🔧 **LATEST**
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ **Fixed Button Visibility** - Replaced non-existent pattern colors with working indigo colors
+- ✅ **Removed Theme Toggle from Forgot Password** - Created AuthLayout without theme toggle
+- ✅ **Updated Translation System** - Added missing auth translations to Vue i18n
+- ✅ **Improved Forgot Password Text** - More concise and user-friendly description
+- ✅ **Complete Multi-language Support** - All auth translations in EN, ES, RU
+- ✅ **Fixed CSS Import Order** - Resolved PostCSS warnings
+- ✅ **Documentation Organization** - Moved all .md files to /docs folder (except README.md)
+
+**Technical Fixes:**
+
+- ✅ Fixed invisible buttons by replacing `bg-pattern-primary` with `bg-indigo-600`
+- ✅ Created `AuthLayout.vue` for pages without theme toggle
+- ✅ Updated `ForgotPassword.vue` to use AuthLayout
+- ✅ Added missing translation keys to Vue i18n messages
+- ✅ Updated forgot password description in all languages
+- ✅ Fixed CSS import order in `app.css` (imports before @tailwind directives)
+
+**Translation Updates:**
+
+- ✅ English: "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely."
+- ✅ Russian: "Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля."
+- ✅ Spanish: "¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura."
+
+**Files Updated:** 8 files (Vue components, translation files, CSS, documentation)  
+**No Breaking Changes**  
+**Documentation:** Updated INDEX.md to v1.5
+
+---
 
 ### October 10, 2025 - Admin Features Implementation 🎯 **LATEST**
 

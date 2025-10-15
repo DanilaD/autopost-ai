@@ -14,7 +14,8 @@
 
 **Cause:** Dashboard was hardcoded to show `0` - no data was being passed from backend.
 
-**Solution:** 
+**Solution:**
+
 1. Created `DashboardController`
 2. Added logic to count Instagram accounts for current company
 3. Pass stats to Dashboard view
@@ -26,7 +27,8 @@
 
 **Problem:** Using ugly browser `confirm()` dialog for disconnect confirmation.
 
-**Solution:** 
+**Solution:**
+
 1. Installed SweetAlert2
 2. Replaced standard confirm with beautiful modal
 3. Added translations in 3 languages
@@ -57,8 +59,8 @@ class DashboardController extends Controller
         $company = $user->currentCompany;
 
         // Get Instagram accounts count for current company
-        $instagramAccountsCount = $company 
-            ? $company->instagramAccounts()->count() 
+        $instagramAccountsCount = $company
+            ? $company->instagramAccounts()->count()
             : 0;
 
         // Get scheduled posts count (future feature)
@@ -79,6 +81,7 @@ class DashboardController extends Controller
 ```
 
 **Features:**
+
 - ✅ Counts Instagram accounts for current company
 - ✅ Placeholder for scheduled posts (future)
 - ✅ Placeholder for wallet balance (future)
@@ -91,6 +94,7 @@ class DashboardController extends Controller
 **File:** `routes/web.php`
 
 **Before:**
+
 ```php
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -98,6 +102,7 @@ Route::get('/dashboard', function () {
 ```
 
 **After:**
+
 ```php
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -111,12 +116,14 @@ Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'ind
 **File:** `resources/js/Pages/Dashboard.vue`
 
 **Changes:**
+
 1. Added props to receive stats
 2. Replaced hardcoded `0` with dynamic `{{ props.stats.instagram_accounts }}`
 3. Added dynamic scheduled posts count
 4. Added dynamic wallet balance
 
 **Before:**
+
 ```vue
 <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
     0
@@ -124,6 +131,7 @@ Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'ind
 ```
 
 **After:**
+
 ```vue
 <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
     {{ props.stats.instagram_accounts }}
@@ -135,6 +143,7 @@ Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'ind
 ### 4. Installed SweetAlert2
 
 **Command:**
+
 ```bash
 npm install sweetalert2 --legacy-peer-deps
 ```
@@ -148,27 +157,37 @@ npm install sweetalert2 --legacy-peer-deps
 **File:** `resources/js/Pages/Instagram/Index.vue`
 
 **Before (Standard Browser Confirm):**
+
 ```javascript
 const disconnectAccount = (account) => {
-    if (!confirm(t('instagram.disconnect_confirm', { username: account.username }))) {
+    if (
+        !confirm(
+            t('instagram.disconnect_confirm', { username: account.username })
+        )
+    ) {
         return
     }
 
-    router.post(route('instagram.disconnect', account.id), {}, {
-        preserveScroll: true,
-    })
+    router.post(
+        route('instagram.disconnect', account.id),
+        {},
+        {
+            preserveScroll: true,
+        }
+    )
 }
 ```
 
 **After (SweetAlert2):**
+
 ```javascript
 import Swal from 'sweetalert2'
 
 const disconnectAccount = async (account) => {
     const result = await Swal.fire({
         title: t('instagram.disconnect_confirm_title'),
-        html: t('instagram.disconnect_confirm_message', { 
-            username: `<strong>@${account.username}</strong>` 
+        html: t('instagram.disconnect_confirm_message', {
+            username: `<strong>@${account.username}</strong>`,
         }),
         icon: 'warning',
         showCancelButton: true,
@@ -187,14 +206,19 @@ const disconnectAccount = async (account) => {
     })
 
     if (result.isConfirmed) {
-        router.post(route('instagram.disconnect', account.id), {}, {
-            preserveScroll: true,
-        })
+        router.post(
+            route('instagram.disconnect', account.id),
+            {},
+            {
+                preserveScroll: true,
+            }
+        )
     }
 }
 ```
 
 **Features:**
+
 - ✅ Beautiful modal instead of ugly browser confirm
 - ✅ Custom styling with Tailwind classes
 - ✅ Dark mode support
@@ -243,6 +267,7 @@ const disconnectAccount = async (account) => {
 ### Dashboard - Instagram Accounts Count
 
 **Before:**
+
 ```
 Instagram Accounts: 0  ❌ (always showed 0)
 Scheduled Posts: 0
@@ -250,6 +275,7 @@ Wallet Balance: $0.00
 ```
 
 **After:**
+
 ```
 Instagram Accounts: 2  ✅ (shows real count)
 Scheduled Posts: 0
@@ -261,6 +287,7 @@ Wallet Balance: $0.00
 ### Instagram Page - Disconnect Confirmation
 
 **Before:**
+
 ```
 [Browser Confirm Dialog]
 ┌──────────────────────────────────┐
@@ -272,6 +299,7 @@ Wallet Balance: $0.00
 ```
 
 **After:**
+
 ```
 [Beautiful SweetAlert2 Modal]
 ┌───────────────────────────────────────┐
@@ -286,6 +314,7 @@ Wallet Balance: $0.00
 ```
 
 **Features:**
+
 - ✅ Warning icon
 - ✅ Better typography
 - ✅ Custom button colors
@@ -340,6 +369,7 @@ Wallet Balance: $0.00
 3. **Verify:** Count matches actual accounts on Instagram page
 
 **Expected:**
+
 ```
 ✅ Instagram Accounts: 2
 ✅ Scheduled Posts: 0 (placeholder)
@@ -359,6 +389,7 @@ Wallet Balance: $0.00
 7. **Click "Yes, Disconnect":** Account is disconnected
 
 **Expected:**
+
 ```
 ✅ Beautiful modal appears
 ✅ Warning icon displayed
@@ -374,6 +405,7 @@ Wallet Balance: $0.00
 ### Test Multi-Language
 
 **English:**
+
 ```
 Title: Disconnect Instagram Account?
 Message: Are you sure you want to disconnect @username?
@@ -382,6 +414,7 @@ Cancel: Cancel
 ```
 
 **Russian:**
+
 ```
 Title: Отключить аккаунт Instagram?
 Message: Вы уверены, что хотите отключить @username?
@@ -390,6 +423,7 @@ Cancel: Отмена
 ```
 
 **Spanish:**
+
 ```
 Title: ¿Desconectar cuenta de Instagram?
 Message: ¿Estás seguro de que quieres desconectar @username?
@@ -425,15 +459,15 @@ The `DashboardController` is already set up to pass these stats:
 
 ```php
 // Get scheduled posts count
-$scheduledPostsCount = $company 
+$scheduledPostsCount = $company
     ? $company->instagramPosts()
         ->where('status', 'scheduled')
-        ->count() 
+        ->count()
     : 0;
 
 // Get wallet balance
-$walletBalance = $company 
-    ? $company->wallet->balance ?? 0 
+$walletBalance = $company
+    ? $company->wallet->balance ?? 0
     : 0;
 ```
 
@@ -442,6 +476,7 @@ Just uncomment/add when these features are implemented!
 ### SweetAlert Opportunities
 
 Use SweetAlert for other confirmations:
+
 - ✅ Delete user account
 - ✅ Cancel scheduled post
 - ✅ Remove team member
@@ -463,12 +498,14 @@ Use SweetAlert for other confirmations:
 ### Benefits
 
 **For Users:**
+
 - ✅ Accurate dashboard statistics
 - ✅ Beautiful, professional dialogs
 - ✅ Better user experience
 - ✅ Consistent with app design
 
 **For Developers:**
+
 - ✅ Reusable SweetAlert pattern
 - ✅ Easy to add more confirmations
 - ✅ Clean, maintainable code
@@ -522,4 +559,3 @@ const result = await Swal.fire({
 **Last Updated:** October 10, 2025  
 **Version:** 1.0  
 **Status:** ✅ Complete - Ready to Use
-
