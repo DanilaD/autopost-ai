@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Date:** October 15, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Added Material Design 3 standardization rules
+**Recent Update:** Replaced MD3 with Tailwind dark-mode standard; added enforceable UI rules
 
 ---
 
@@ -1193,11 +1193,59 @@ public function processPost(Post $post): void
 
 ---
 
-## Material Design 3 Standards
+## UI & Theming Rules (Tailwind) — Active
+
+Note: This section supersedes the older “Material Design 3 Standards” below. We use Tailwind’s neutral palette with explicit `dark:` variants for consistent light/dark behavior.
+
+### 1) Core Principles
+
+- Use Tailwind utility classes only. No MD3 token classes (`bg-md-*`, `text-md-*`, `shadow-elevation-*`).
+- Use class-based styling; no inline `style="..."` attributes.
+- Ensure dark mode parity: whenever a background is set for light mode, provide a corresponding `dark:` background class.
+- Prefer semantic, reusable components (buttons, inputs, labels, dropdowns) over ad-hoc class mixes.
+
+### 2) Standard Patterns
+
+- Containers/Cards:
+    - Light: `bg-white shadow-md rounded-md`
+    - Dark: add `dark:bg-gray-800`
+- Headings/Text:
+    - Light: `text-gray-900`
+    - Dark: `dark:text-gray-100`
+- Muted Text:
+    - Light: `text-gray-500`
+    - Dark: `dark:text-gray-400`
+- Buttons (primary):
+    - `bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`
+    - Dark is compatible as-is; keep contrast sufficient
+- Inputs:
+    - `border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500`
+    - Dark: `dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100`
+
+### 3) Dark Mode Requirements
+
+- Backgrounds: if using `bg-white`, must include `dark:bg-gray-800`.
+- Overlays/modals: `bg-white dark:bg-gray-800`, overlay tint `dark:bg-gray-900 dark:opacity-80`.
+- Dropdowns/menus: `bg-white ring-1 ring-gray-200 dark:bg-gray-800 dark:ring-gray-700`.
+
+### 4) Forbidden/Deprecated
+
+- Any `bg-md-*`, `text-md-*`, `shadow-elevation-*` classes.
+- Any `pattern-*` classes.
+- Inline styles for visual presentation (use classes or components).
+
+### 5) Accessibility & Contrast
+
+- Primary surfaces: ensure text contrast meets WCAG AA.
+- On indigo surfaces (e.g., `bg-indigo-600`), use `text-white`; on darker indigo in dark mode (`dark:bg-indigo-500`), keep `text-white`.
+
+---
+
+## Material Design 3 Standards (Deprecated)
 
 ### 1. UI Component Patterns
 
-**MANDATORY:** All UI components must use Material Design 3 patterns consistently.
+This section is retained for historical context only. Do not use MD3 token classes in new or edited code.
 
 #### Card/Container Pattern
 
@@ -1254,7 +1302,7 @@ public function processPost(Post $post): void
 - **Success:** `bg-md-success`, `text-md-on-success`
 - **Warning:** `bg-md-warning`, `text-md-on-warning`
 
-**❌ NEVER use:** `bg-white`, `bg-gray-800`, `text-gray-700`, etc.
+Deprecated guidance. See “UI & Theming Rules (Tailwind) — Active”.
 
 ### 3. Shadow System
 
@@ -1266,7 +1314,7 @@ public function processPost(Post $post): void
 - **Level 4:** `shadow-elevation-4` (strong)
 - **Level 5:** `shadow-elevation-5` (maximum)
 
-**❌ NEVER use:** `shadow-sm`, `shadow-md`, `shadow-lg`
+Deprecated guidance. See “UI & Theming Rules (Tailwind) — Active”.
 
 ### 4. Border Radius
 
@@ -1287,7 +1335,7 @@ public function processPost(Post $post): void
 - **Medium:** `duration-medium1` (250ms), `duration-medium2` (300ms)
 - **Long:** `duration-long1` (450ms), `duration-long2` (500ms)
 
-**❌ NEVER use:** `duration-150`, `duration-200`, `duration-300`
+Deprecated guidance. See “UI & Theming Rules (Tailwind) — Active”.
 
 ### 6. Transition Easing
 
@@ -1298,7 +1346,7 @@ public function processPost(Post $post): void
 - **Decelerate:** `ease-emphasized-decelerate`
 - **Accelerate:** `ease-emphasized-accelerate`
 
-**❌ NEVER use:** `ease-in-out`, `ease-linear`
+Deprecated guidance. See “UI & Theming Rules (Tailwind) — Active”.
 
 ### 7. Typography
 
@@ -1340,7 +1388,7 @@ font-family: 'Roboto', system-ui, sans-serif;
 
 ### 9. Dark Mode
 
-**Material Design 3 handles dark mode automatically** - no need for `dark:` classes when using MD3 colors.
+Deprecated guidance. We explicitly use Tailwind `dark:` variants.
 
 **✅ CORRECT:**
 

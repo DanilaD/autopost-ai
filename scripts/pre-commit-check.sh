@@ -484,6 +484,13 @@ if [ "$VUE_COUNT" -gt 0 ]; then
     if grep -n "text-black" "$vf" | grep -v "dark:" >/dev/null 2>&1; then
       print_warning "Dark-mode: text-black without dark: fallback in $vf"
     fi
+    # Require dark mode pairing for headers/text commonly used
+    if grep -n "text-gray-900" "$vf" | grep -v "dark:text-gray-100" >/dev/null 2>&1; then
+      print_warning "Dark-mode: text-gray-900 missing dark:text-gray-100 in $vf"
+    fi
+    if grep -n "text-gray-700" "$vf" | grep -v "dark:text-gray-300" >/dev/null 2>&1; then
+      print_warning "Dark-mode: text-gray-700 missing dark:text-gray-300 in $vf"
+    fi
   done
 fi
 
@@ -515,6 +522,21 @@ if [ "$VUE_COUNT" -gt 0 ]; then
   for vf in $STAGED_VUE_FILES; do
     if grep -q "style=\"" "$vf"; then
       print_error "Inline style attribute found in $vf (use classes/components instead)"
+      ISSUES_FOUND=$((ISSUES_FOUND+1))
+    fi
+  done
+fi
+
+# Block deprecated MD3 token classes and pattern-* classes
+if [ "$VUE_COUNT" -gt 0 ]; then
+  for vf in $STAGED_VUE_FILES; do
+    if grep -Eq "(bg-md-|text-md-|shadow-elevation-)" "$vf"; then
+      print_error "MD3 token classes found in $vf (use Tailwind equivalents)"
+      ISSUES_FOUND=$((ISSUES_FOUND+1))
+    fi
+    if grep -q "pattern-" "$vf"; then
+      print_error "Deprecated pattern-* class found in $vf"
+      ISSUES_FOUND=$((ISSUES_FOUND+1))
     fi
   done
 fi
