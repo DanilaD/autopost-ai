@@ -349,7 +349,7 @@ class PostMediaService
             try {
                 // Copy the file - check both private and public storage
                 $originalPath = "posts/{$originalMedia->post_id}/{$originalMedia->filename}";
-                $privatePath = "private/posts/{$originalMedia->post_id}/{$originalMedia->filename}";
+                $privatePath = "posts/{$originalMedia->post_id}/{$originalMedia->filename}";
 
                 // Try to copy from private storage first (old files), then public storage (new files)
                 if (Storage::disk('local')->exists($privatePath)) {
