@@ -61,12 +61,12 @@ if (typeof window !== 'undefined') {
     <div class="language-selector relative">
         <button
             type="button"
-            class="inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="inline-flex items-center gap-x-1.5 rounded-sm bg-md-surface-container px-3 py-2 text-sm font-medium text-md-on-surface shadow-elevation-1 ring-1 ring-inset ring-md-outline-variant hover:bg-md-surface-container-high focus:outline-none focus:ring-2 focus:ring-md-primary transition-all duration-medium2"
             @click="toggleDropdown"
         >
             <span>{{ currentLanguage.nativeName }}</span>
             <svg
-                class="h-4 w-4 text-gray-400"
+                class="h-4 w-4 text-md-on-surface-variant"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 aria-hidden="true"
@@ -81,16 +81,16 @@ if (typeof window !== 'undefined') {
 
         <!-- Dropdown Menu -->
         <transition
-            enter-active-class="transition ease-out duration-100"
+            enter-active-class="transition ease-out duration-medium2"
             enter-from-class="transform opacity-0 scale-95"
             enter-to-class="transform opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
+            leave-active-class="transition ease-in duration-medium1"
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95"
         >
             <div
                 v-if="showDropdown"
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-md-surface-container shadow-elevation-3 ring-1 ring-md-outline-variant focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
             >
@@ -100,9 +100,9 @@ if (typeof window !== 'undefined') {
                         :key="language.code"
                         type="button"
                         :class="[
-                            'flex w-full items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900',
+                            'flex w-full items-center justify-between px-4 py-2 text-sm text-md-on-surface hover:bg-md-surface-container-high hover:text-md-on-surface transition-all duration-medium2',
                             currentLocale === language.code
-                                ? 'bg-gray-50 font-semibold'
+                                ? 'bg-md-primary-container font-semibold text-md-on-primary-container'
                                 : '',
                         ]"
                         @click="changeLanguage(language.code)"
@@ -113,7 +113,7 @@ if (typeof window !== 'undefined') {
                         <!-- Checkmark for current language -->
                         <svg
                             v-if="currentLocale === language.code"
-                            class="h-5 w-5 text-indigo-600"
+                            class="h-5 w-5 text-md-primary"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
