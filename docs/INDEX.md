@@ -2,7 +2,7 @@
 
 **Project:** {{APP_NAME}} - AI-Powered Instagram Content Platform  
 **Last Updated:** October 16, 2025
-**Version:** 2.2
+**Version:** 2.3
 
 ---
 
@@ -1162,7 +1162,57 @@ All documentation should include:
 
 ## 📢 Recent Updates
 
-### October 16, 2025 - Controller Architecture Refactoring & Dependency Injection 🏗️ **LATEST**
+### October 16, 2025 - Mandatory AI Validation Rule for Documentation & Tests 🤖 **LATEST**
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ **Mandatory AI Validation** - Added requirement to validate all documentation and tests with AI before committing
+- ✅ **Comprehensive Validation Process** - AI checks completeness, accuracy, format, and coverage
+- ✅ **Quality Assurance Enhancement** - Prevents missing documentation and inadequate test coverage
+- ✅ **Developer Guidelines** - Clear commands and checklist for AI validation
+- ✅ **Golden Rules Updated** - Added AI validation as rule #11 in coding standards
+
+**AI Validation Requirements:**
+
+- ✅ **Documentation Validation** - Check completeness, accuracy, format, and examples
+- ✅ **Test Validation** - Verify coverage, accuracy, structure, and assertions
+- ✅ **Comprehensive Coverage** - Ensure all changes are documented and tested
+- ✅ **Quality Standards** - Maintain consistent documentation and testing quality
+
+**Validation Commands Added:**
+
+```bash
+# Documentation validation
+"Please review my documentation updates for completeness and accuracy.
+I changed [describe changes]. Are there any missing pieces or inaccuracies?"
+
+# Test validation
+"Please review my test updates. I modified [describe changes].
+Do my tests adequately cover the changes and are they accurate?"
+
+# Comprehensive validation
+"Please validate both my code changes and documentation updates.
+I modified [describe changes]. Are the docs complete and tests comprehensive?"
+```
+
+**Benefits:**
+
+- 🎯 **Catch Missing Pieces** - AI spots gaps in documentation
+- 🔍 **Verify Accuracy** - AI checks technical correctness
+- 📊 **Ensure Completeness** - AI validates comprehensive coverage
+- ⚡ **Save Time** - Catch issues before code review
+- 🛡️ **Prevent Regressions** - AI validates test coverage
+- 📚 **Maintain Quality** - Consistent documentation standards
+
+**Files Updated:** CODING_STANDARDS.md (version 1.4)  
+**No Breaking Changes**  
+**Documentation:** Updated INDEX.md to v2.3
+
+---
+
+### October 16, 2025 - Controller Architecture Refactoring & Dependency Injection 🏗️
 
 **Status:** ✅ Complete & Deployed
 
