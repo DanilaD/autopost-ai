@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function index(Request $request): Response
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         // Get posts based on user context
         if ($user->currentCompany) {
@@ -53,7 +53,7 @@ class PostController extends Controller
      */
     public function create(Request $request): Response
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         // Get Instagram accounts based on user context
         if ($user->currentCompany) {
@@ -108,7 +108,7 @@ class PostController extends Controller
     public function store(CreatePostRequest $request): RedirectResponse
     {
         try {
-            $user = auth()->user();
+            $user = $request->user();
 
             // Handle both company and individual users
             if ($user->currentCompany) {
@@ -117,20 +117,7 @@ class PostController extends Controller
                 $post = $this->postService->createPost($companyId, $request->validated());
             } else {
                 // Individual user - create post without company
-                $postData = $request->validated();
-                $postData['company_id'] = null; // Ensure no company
-                $postData['created_by'] = $user->id;
-
-                // Handle scheduled_at conversion to UTC
-                if (! empty($postData['scheduled_at'])) {
-                    $postData['scheduled_at'] = \Carbon\Carbon::parse($postData['scheduled_at'])->utc();
-                }
-
-                // Set status based on scheduled_at (same logic as PostService)
-                $postData['status'] = ! empty($postData['scheduled_at']) ? \App\Enums\PostStatus::SCHEDULED : \App\Enums\PostStatus::DRAFT;
-
-                // Create post directly (bypass company validation)
-                $post = Post::create($postData);
+                $post = $this->postService->createPostForUser($user, $request->validated());
             }
 
             // Handle media files
@@ -183,9 +170,9 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified post
      */
-    public function edit(Post $post): Response
+    public function edit(Request $request, Post $post): Response
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         // Get Instagram accounts based on user context
         if ($user->currentCompany) {
@@ -309,9 +296,9 @@ class PostController extends Controller
     /**
      * Get post statistics
      */
-    public function stats(): JsonResponse
+    public function stats(Request $request): JsonResponse
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         if ($user->currentCompany) {
             // Company user - get company stats

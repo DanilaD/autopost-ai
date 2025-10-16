@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\CompanyInvitation;
 use App\Models\User;
 use App\Services\CompanyInvitationService;
+use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -16,7 +17,8 @@ use Inertia\Response;
 class CompanyManagementController extends Controller
 {
     public function __construct(
-        private CompanyInvitationService $invitationService
+        private CompanyInvitationService $invitationService,
+        private CompanyService $companyService
     ) {}
 
     /**
@@ -46,20 +48,7 @@ class CompanyManagementController extends Controller
         }
 
         // Get team members with their roles
-        $teamMembers = $company->users()
-            ->withPivot(['role', 'accepted_at'])
-            ->orderBy('pivot_accepted_at')
-            ->get()
-            ->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $user->pivot->role,
-                    'joined_at' => $user->pivot->accepted_at,
-                    'is_owner' => $user->id === $user->currentCompany->owner_id,
-                ];
-            });
+        $teamMembers = $this->companyService->getTeamMembers($company);
 
         // Get pending invitations
         $invitations = $this->invitationService->getCompanyInvitations($company, [

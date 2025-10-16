@@ -159,4 +159,18 @@ class UserService
             'role_in_current_company' => $roleInCurrentCompany,
         ];
     }
+
+    /**
+     * Update user's locale preference
+     *
+     * @param  string  $locale  Locale code (en, ru, es)
+     */
+    public function updateLocale(User $user, string $locale): bool
+    {
+        if (! in_array($locale, ['en', 'ru', 'es'])) {
+            return false;
+        }
+
+        return $user->update(['locale' => $locale]);
+    }
 }

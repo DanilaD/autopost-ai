@@ -152,4 +152,19 @@ class InquiryService
             'Content-Disposition' => 'attachment; filename="inquiries-'.now()->format('Y-m-d').'.csv"',
         ]);
     }
+
+    /**
+     * Create a new inquiry
+     *
+     * @param  array  $data  Inquiry data
+     */
+    public function createInquiry(array $data): Inquiry
+    {
+        return Inquiry::create([
+            'email' => $data['email'],
+            'ip_address' => $data['ip_address'],
+            'user_agent' => $data['user_agent'],
+            'created_at' => $data['created_at'] ?? now(),
+        ]);
+    }
 }

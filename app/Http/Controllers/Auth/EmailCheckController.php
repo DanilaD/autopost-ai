@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
 use App\Models\User;
+use App\Services\InquiryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -12,6 +13,13 @@ use Illuminate\Validation\ValidationException;
 
 class EmailCheckController extends Controller
 {
+    /**
+     * Constructor dependency injection
+     */
+    public function __construct(
+        private InquiryService $inquiryService
+    ) {}
+
     /**
      * Handle the incoming request.
      */
@@ -40,7 +48,7 @@ class EmailCheckController extends Controller
 
         if (! $user) {
             // Log inquiry for non-existent email (marketing intelligence)
-            Inquiry::create([
+            $this->inquiryService->createInquiry([
                 'email' => $email,
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),

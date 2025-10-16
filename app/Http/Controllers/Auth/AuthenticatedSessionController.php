@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,13 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    /**
+     * Constructor dependency injection
+     */
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * Display the login view.
      */
@@ -46,7 +54,7 @@ class AuthenticatedSessionController extends Controller
         if (! $user->locale) {
             $currentLocale = app()->getLocale();
             if (in_array($currentLocale, ['en', 'ru', 'es'])) {
-                $user->update(['locale' => $currentLocale]);
+                $this->userService->updateLocale($user, $currentLocale);
             }
         } else {
             // If user has a saved locale, ensure it's set for this request

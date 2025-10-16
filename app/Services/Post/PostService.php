@@ -5,6 +5,7 @@ namespace App\Services\Post;
 use App\Enums\PostStatus;
 use App\Enums\PostType;
 use App\Models\Post;
+use App\Models\User;
 use App\Repositories\Post\PostMediaRepository;
 use App\Repositories\Post\PostRepository;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +69,9 @@ class PostService
 
         return DB::transaction(function () use ($companyId, $data) {
             // Determine defaults for optional fields
-            $accountId = $data['instagram_account_id'] ?? optional(auth()->user()->currentCompany?->instagramAccounts()->first())->id;
+            $userId = $data['created_by'] ?? \Illuminate\Support\Facades\Auth::id();
+            $user = \App\Models\User::find($userId);
+            $accountId = $data['instagram_account_id'] ?? optional($user?->currentCompany?->instagramAccounts()->first())->id;
             // Allow posts without Instagram accounts - they can be assigned later
             $resolvedType = $data['type'] ?? PostType::FEED;
 
@@ -82,7 +85,7 @@ class PostService
             // Create post
             $post = $this->postRepository->create([
                 'company_id' => $companyId,
-                'created_by' => auth()->id(),
+                'created_by' => $userId,
                 'instagram_account_id' => $accountId, // Can be null
                 'type' => $resolvedType,
                 'title' => $data['title'] ?? null,
@@ -331,6 +334,50 @@ class PostService
 
         // Create new media
         $this->createPostMedia($post, $mediaData);
+    }
+
+    /**
+     * Create a post for an individual user (not company)
+     *
+     * Business rules:
+     * - User must be authenticated
+     * - Caption max 2200 characters
+     * - Scheduled time must be in future
+     * - Media count must match post type requirements
+     *
+     * @throws \Exception
+     */
+    public function createPostForUser(User $user, array $data): Post
+    {
+        // Validate business rules
+        $this->validatePostData($data);
+
+        return DB::transaction(function () use ($user, $data) {
+            // Handle scheduled_at conversion to UTC
+            $scheduledAt = null;
+            if (! empty($data['scheduled_at'])) {
+                $scheduledAt = \Carbon\Carbon::parse($data['scheduled_at'])->utc();
+            }
+
+            // Create post for individual user
+            $post = $this->postRepository->create([
+                'company_id' => null, // Individual user post
+                'created_by' => $user->id,
+                'instagram_account_id' => $data['instagram_account_id'] ?? null,
+                'type' => $data['type'] ?? PostType::FEED,
+                'title' => $data['title'] ?? null,
+                'caption' => $data['caption'] ?? null,
+                'hashtags' => $this->extractHashtags($data['caption'] ?? ''),
+                'mentions' => $this->extractMentions($data['caption'] ?? ''),
+                'scheduled_at' => $scheduledAt,
+                'status' => ! empty($data['scheduled_at']) ? PostStatus::SCHEDULED : PostStatus::DRAFT,
+                'metadata' => $data['metadata'] ?? [],
+            ]);
+
+            Log::info('Individual user post created successfully', ['post_id' => $post->id, 'user_id' => $user->id]);
+
+            return $post->load('media');
+        });
     }
 
     /**

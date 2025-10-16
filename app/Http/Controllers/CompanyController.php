@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class CompanyController extends Controller
 {
+    /**
+     * Constructor dependency injection
+     */
+    public function __construct(
+        private CompanyService $companyService
+    ) {}
+
     /**
      * Display the company creation form.
      */
@@ -31,43 +37,30 @@ class CompanyController extends Controller
             return redirect()->route('home');
         }
 
-        // Check if user already has a company
-        if ($user->currentCompany) {
-            return redirect()->route('dashboard')->with('toast', [
-                'message' => 'You already have a company. You can only create one company per account.',
-                'type' => 'warning',
-            ]);
-        }
-
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:companies,name',
         ]);
 
-        // Use database transaction to ensure everything is committed together
-        DB::transaction(function () use ($validated, $user, &$company) {
-            // Create the company
-            $company = Company::create([
-                'name' => $validated['name'],
-                'owner_id' => $user->id,
-                'settings' => [
-                    'timezone' => $user->timezone ?? 'UTC',
-                    'locale' => $user->locale ?? 'en',
-                ],
+        try {
+            $company = $this->companyService->createCompany($user, $validated);
+
+            // Refresh user relationships to ensure they're loaded
+            $user->load('companies', 'currentCompany');
+
+            return redirect()->route('dashboard')->with('toast', [
+                'message' => "Company '{$company->name}' created successfully! You can now connect Instagram accounts and create posts.",
+                'type' => 'success',
             ]);
-
-            // Attach user to company as network (company admin)
-            $company->users()->attach($user->id, ['role' => 'network']);
-
-            // Set as current company
-            $user->update(['current_company_id' => $company->id]);
-        });
-
-        // Refresh user relationships to ensure they're loaded
-        $user->load('companies', 'currentCompany');
-
-        return redirect()->route('dashboard')->with('toast', [
-            'message' => "Company '{$company->name}' created successfully! You can now connect Instagram accounts and create posts.",
-            'type' => 'success',
-        ]);
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->route('dashboard')->with('toast', [
+                'message' => $e->getMessage(),
+                'type' => 'warning',
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('toast', [
+                'message' => 'Failed to create company: '.$e->getMessage(),
+                'type' => 'error',
+            ]);
+        }
     }
 }
