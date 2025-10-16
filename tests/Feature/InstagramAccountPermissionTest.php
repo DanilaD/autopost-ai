@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\InstagramAccount;
 use App\Models\User;
 use App\Services\InstagramAccountPermissionService;
+use App\Services\InstagramAccountService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -22,10 +23,13 @@ class InstagramAccountPermissionTest extends TestCase
 
     protected InstagramAccountPermissionService $permissionService;
 
+    protected InstagramAccountService $accountService;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->permissionService = app(InstagramAccountPermissionService::class);
+        $this->accountService = app(InstagramAccountService::class);
     }
 
     #[Test]
@@ -80,7 +84,7 @@ class InstagramAccountPermissionTest extends TestCase
         $collaborator = User::factory()->create();
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
-        $account->shareWith($collaborator, canPost: true, canManage: false);
+        $this->accountService->shareWith($account, $collaborator, canPost: true, canManage: false);
 
         $this->assertTrue($this->permissionService->canView($collaborator, $account));
         $this->assertTrue($this->permissionService->canPost($collaborator, $account));
@@ -95,7 +99,7 @@ class InstagramAccountPermissionTest extends TestCase
         $manager = User::factory()->create();
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
-        $account->shareWith($manager, canPost: true, canManage: true);
+        $this->accountService->shareWith($account, $manager, canPost: true, canManage: true);
 
         $this->assertTrue($this->permissionService->canView($manager, $account));
         $this->assertTrue($this->permissionService->canPost($manager, $account));
@@ -136,7 +140,7 @@ class InstagramAccountPermissionTest extends TestCase
         $sharedAccount = InstagramAccount::factory()
             ->forUser(User::factory()->create())
             ->create();
-        $sharedAccount->shareWith($user, canPost: true, canManage: false);
+        $this->accountService->shareWith($sharedAccount, $user, canPost: true, canManage: false);
 
         $result = $this->permissionService->getAccessibleAccountsWithPermissions($user);
 
@@ -249,7 +253,7 @@ class InstagramAccountPermissionTest extends TestCase
         $collaborator = User::factory()->create();
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
-        $account->shareWith($collaborator);
+        $this->accountService->shareWith($account, $collaborator);
 
         $revoked = $this->permissionService->revokeAccess(
             $account,
@@ -284,7 +288,7 @@ class InstagramAccountPermissionTest extends TestCase
         $stranger = User::factory()->create();
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
-        $account->shareWith($collaborator);
+        $this->accountService->shareWith($account, $collaborator);
 
         $revoked = $this->permissionService->revokeAccess(
             $account,
@@ -332,7 +336,7 @@ class InstagramAccountPermissionTest extends TestCase
         $companyAccount = InstagramAccount::factory()->forCompany($company)->create();
 
         $sharedUser = User::factory()->create();
-        $account->shareWith($sharedUser);
+        $this->accountService->shareWith($account, $sharedUser);
 
         $stranger = User::factory()->create();
 

@@ -3,12 +3,17 @@
 namespace App\Http\Middleware;
 
 use App\Enums\UserRole;
+use App\Services\UserService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsNetwork
 {
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * Handle an incoming request.
      *
@@ -34,7 +39,7 @@ class EnsureUserIsNetwork
         $user->load('companies', 'currentCompany');
 
         // Check if user has network role in current company
-        if (! $user->hasRole($user->currentCompany, UserRole::NETWORK)) {
+        if (! $this->userService->hasRole($user, $user->currentCompany, UserRole::NETWORK)) {
             return redirect()->route('dashboard')->with('toast', [
                 'message' => __('company.toast.no_permission'),
                 'type' => 'error',

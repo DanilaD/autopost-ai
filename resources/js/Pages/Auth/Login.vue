@@ -13,12 +13,15 @@ const props = defineProps({
     },
     status: {
         type: String,
+        default: '',
     },
     email: {
         type: String,
+        default: '',
     },
     invitationToken: {
         type: String,
+        default: '',
     },
 })
 

@@ -95,27 +95,6 @@ class CompanyInvitation extends Model
     }
 
     /**
-     * Accept the invitation
-     */
-    public function accept(User $user): bool
-    {
-        if ($this->isExpired() || $this->isAccepted()) {
-            return false;
-        }
-
-        // Add user to company
-        $this->company->users()->attach($user->id, [
-            'role' => $this->role,
-            'accepted_at' => now(),
-        ]);
-
-        // Mark invitation as accepted
-        $this->update(['accepted_at' => now()]);
-
-        return true;
-    }
-
-    /**
      * Scope: Get pending invitations
      */
     public function scopePending($query)

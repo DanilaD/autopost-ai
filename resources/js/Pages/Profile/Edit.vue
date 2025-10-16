@@ -18,6 +18,7 @@ const props = defineProps({
     },
     status: {
         type: String,
+        default: '',
     },
     timezones: {
         type: Object,

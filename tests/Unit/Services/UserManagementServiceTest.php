@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\UserManagementService;
+use App\Services\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
@@ -21,7 +22,8 @@ class UserManagementServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new UserManagementService;
+        $userService = app(UserService::class);
+        $this->service = new UserManagementService($userService);
         $this->company = Company::factory()->create();
     }
 
@@ -57,7 +59,7 @@ class UserManagementServiceTest extends TestCase
         $admin = User::factory()->create();
 
         $admin->companies()->attach($this->company->id, ['role' => UserRole::ADMIN->value]);
-        $suspendedUser->suspend('Test reason', $admin);
+        $this->service->suspendUser($suspendedUser->id, 'Test reason', $admin);
 
         $result = $this->service->getUsers(['status' => 'suspended']);
 
@@ -93,7 +95,7 @@ class UserManagementServiceTest extends TestCase
         $admin->companies()->attach($this->company->id, ['role' => UserRole::ADMIN->value]);
 
         $user = User::factory()->create();
-        $user->suspend('First reason', $admin);
+        $this->service->suspendUser($user->id, 'First reason', $admin);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->service->suspendUser($user->id, 'Second reason', $admin);
@@ -118,7 +120,7 @@ class UserManagementServiceTest extends TestCase
         $admin->companies()->attach($this->company->id, ['role' => UserRole::ADMIN->value]);
 
         $user = User::factory()->create();
-        $user->suspend('Test reason', $admin);
+        $this->service->suspendUser($user->id, 'Test reason', $admin);
 
         $result = $this->service->unsuspendUser($user->id);
 
@@ -160,7 +162,7 @@ class UserManagementServiceTest extends TestCase
         $stats = $this->service->getUserStats($user->id);
 
         $this->assertIsArray($stats);
-        $this->assertArrayHasKey('instagram_accounts', $stats);
+        $this->assertArrayHasKey('instagram_accounts_count', $stats);
         $this->assertArrayHasKey('posts_count', $stats);
         $this->assertArrayHasKey('companies_count', $stats);
         $this->assertArrayHasKey('account_age_days', $stats);
@@ -175,7 +177,7 @@ class UserManagementServiceTest extends TestCase
 
         User::factory()->count(5)->create();
         $suspendedUser = User::factory()->create();
-        $suspendedUser->suspend('Test', $admin);
+        $this->service->suspendUser($suspendedUser->id, 'Test', $admin);
 
         $stats = $this->service->getUserManagementStats();
 

@@ -315,7 +315,7 @@ class InstagramPostManagementTest extends TestCase
 
         $this->assertTrue($post->canRetry());
 
-        $post->retry();
+        $this->postService->retry($post);
 
         $post->refresh();
         $this->assertEquals(InstagramPostStatus::SCHEDULED, $post->status);

@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Password;
  */
 class UserManagementService
 {
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Get paginated list of users with optional filtering and sorting.
      *
@@ -113,7 +120,7 @@ class UserManagementService
             throw new \InvalidArgumentException('User is already suspended.');
         }
 
-        return $user->suspend($reason, $suspendedBy);
+        return $this->userService->suspend($user, $reason, $suspendedBy);
     }
 
     /**
@@ -127,7 +134,7 @@ class UserManagementService
             throw new \InvalidArgumentException('User is not suspended.');
         }
 
-        return $user->unsuspend();
+        return $this->userService->unsuspend($user);
     }
 
     /**
@@ -152,19 +159,12 @@ class UserManagementService
         if ($user->current_company_id) {
             $company = Company::find($user->current_company_id);
             if ($company) {
-                $role = $user->getRoleIn($company);
+                $role = $this->userService->getRoleIn($user, $company);
                 $roleInCurrentCompany = $role ? $role->value : null;
             }
         }
 
-        return [
-            'instagram_accounts' => $user->accessibleInstagramAccounts()->count(),
-            'posts_count' => $user->instagramPosts()->count(),
-            'companies_count' => $user->companies()->count(),
-            'last_login' => $user->last_login_at?->format('Y-m-d H:i:s'),
-            'account_age_days' => $user->created_at->diffInDays(now()),
-            'role_in_current_company' => $roleInCurrentCompany,
-        ];
+        return $this->userService->getStats($user, $roleInCurrentCompany);
     }
 
     /**

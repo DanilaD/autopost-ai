@@ -19,6 +19,7 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         $timezoneService = new \App\Services\TimezoneService;
+        $companyService = new \App\Services\CompanyService;
         $user = $request->user();
         $company = $user->currentCompany;
 
@@ -28,7 +29,7 @@ class ProfileController extends Controller
             $companyStats = [
                 'instagram_accounts_count' => $company->instagramAccounts()->count(),
                 'team_members_count' => $company->users()->count(),
-                'user_role' => $company->getUserRole($user),
+                'user_role' => $companyService->getUserRole($company, $user),
             ];
         }
 

@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Session;
  */
 class ImpersonationService
 {
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * Start impersonating a user.
      *
@@ -86,7 +90,7 @@ class ImpersonationService
         }
 
         // Admin must have admin role in their current company
-        if (! $admin->isAdminInCurrentCompany()) {
+        if (! $this->userService->isAdminInCurrentCompany($admin)) {
             return false;
         }
 

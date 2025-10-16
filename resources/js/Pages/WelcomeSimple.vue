@@ -7,9 +7,18 @@ import LanguageSelector from '@/Components/LanguageSelector.vue'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 const props = defineProps({
-    email: String,
-    mode: String, // 'register' or 'login'
-    message: String,
+    email: {
+        type: String,
+        default: '',
+    },
+    mode: {
+        type: String,
+        default: '',
+    },
+    message: {
+        type: String,
+        default: '',
+    },
 })
 
 const { t } = useI18n()

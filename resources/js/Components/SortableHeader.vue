@@ -13,7 +13,7 @@ const props = defineProps({
     },
     currentSort: {
         type: String,
-        required: false,
+        default: '',
     },
     currentDirection: {
         type: String,

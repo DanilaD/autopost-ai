@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Company;
 use App\Models\InstagramAccount;
 use App\Models\User;
+use App\Services\InstagramAccountService;
+use App\Services\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -19,6 +21,17 @@ class InstagramAccountOwnershipTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected InstagramAccountService $accountService;
+
+    protected UserService $userService;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->accountService = app(InstagramAccountService::class);
+        $this->userService = app(UserService::class);
+    }
+
     #[Test]
     public function user_can_own_instagram_accounts()
     {
@@ -30,7 +43,7 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $this->assertTrue($account->isUserOwned());
         $this->assertFalse($account->isCompanyOwned());
-        $this->assertTrue($account->isOwnedBy($user));
+        $this->assertTrue($this->accountService->isOwnedBy($account, $user));
         $this->assertEquals('user', $account->ownership_type);
         $this->assertEquals($user->id, $account->user_id);
         $this->assertNull($account->company_id);
@@ -58,9 +71,9 @@ class InstagramAccountOwnershipTest extends TestCase
         $user = User::factory()->create();
         $account = InstagramAccount::factory()->forUser($user)->create();
 
-        $this->assertTrue($account->isAccessibleBy($user));
-        $this->assertTrue($account->canUserPost($user));
-        $this->assertTrue($account->canUserManage($user));
+        $this->assertTrue($this->accountService->isAccessibleBy($account, $user));
+        $this->assertTrue($this->accountService->canUserPost($account, $user));
+        $this->assertTrue($this->accountService->canUserManage($account, $user));
     }
 
     #[Test]
@@ -74,8 +87,8 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $account = InstagramAccount::factory()->forCompany($company)->create();
 
-        $this->assertTrue($account->isAccessibleBy($user));
-        $this->assertTrue($account->canUserPost($user));
+        $this->assertTrue($this->accountService->isAccessibleBy($account, $user));
+        $this->assertTrue($this->accountService->canUserPost($account, $user));
     }
 
     #[Test]
@@ -90,8 +103,8 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $account = InstagramAccount::factory()->forCompany($company)->create();
 
-        $this->assertTrue($account->canUserManage($admin));
-        $this->assertFalse($account->canUserManage($member));
+        $this->assertTrue($this->accountService->canUserManage($account, $admin));
+        $this->assertFalse($this->accountService->canUserManage($account, $member));
     }
 
     #[Test]
@@ -102,9 +115,9 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
 
-        $this->assertFalse($account->isAccessibleBy($stranger));
-        $this->assertFalse($account->canUserPost($stranger));
-        $this->assertFalse($account->canUserManage($stranger));
+        $this->assertFalse($this->accountService->isAccessibleBy($account, $stranger));
+        $this->assertFalse($this->accountService->canUserPost($account, $stranger));
+        $this->assertFalse($this->accountService->canUserManage($account, $stranger));
     }
 
     #[Test]
@@ -115,12 +128,12 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
 
-        $account->shareWith($collaborator, canPost: true, canManage: false, sharedBy: $owner);
+        $this->accountService->shareWith($account, $collaborator, canPost: true, canManage: false, sharedBy: $owner);
 
         $this->assertTrue($account->is_shared);
-        $this->assertTrue($account->isAccessibleBy($collaborator));
-        $this->assertTrue($account->canUserPost($collaborator));
-        $this->assertFalse($account->canUserManage($collaborator));
+        $this->assertTrue($this->accountService->isAccessibleBy($account, $collaborator));
+        $this->assertTrue($this->accountService->canUserPost($account, $collaborator));
+        $this->assertFalse($this->accountService->canUserManage($account, $collaborator));
 
         // Verify pivot data
         $sharedUser = $account->sharedWithUsers()->where('users.id', $collaborator->id)->first();
@@ -138,10 +151,10 @@ class InstagramAccountOwnershipTest extends TestCase
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
 
-        $account->shareWith($manager, canPost: true, canManage: true, sharedBy: $owner);
+        $this->accountService->shareWith($account, $manager, canPost: true, canManage: true, sharedBy: $owner);
 
-        $this->assertTrue($account->canUserPost($manager));
-        $this->assertTrue($account->canUserManage($manager));
+        $this->assertTrue($this->accountService->canUserPost($account, $manager));
+        $this->assertTrue($this->accountService->canUserManage($account, $manager));
     }
 
     #[Test]
@@ -151,14 +164,14 @@ class InstagramAccountOwnershipTest extends TestCase
         $collaborator = User::factory()->create();
 
         $account = InstagramAccount::factory()->forUser($owner)->create();
-        $account->shareWith($collaborator, canPost: true);
+        $this->accountService->shareWith($account, $collaborator, canPost: true);
 
-        $this->assertTrue($account->isAccessibleBy($collaborator));
+        $this->assertTrue($this->accountService->isAccessibleBy($account, $collaborator));
 
-        $account->revokeAccessFor($collaborator);
+        $this->accountService->revokeAccessFor($account, $collaborator);
 
-        $this->assertFalse($account->isAccessibleBy($collaborator));
-        $this->assertFalse($account->canUserPost($collaborator));
+        $this->assertFalse($this->accountService->isAccessibleBy($account, $collaborator));
+        $this->assertFalse($this->accountService->canUserPost($account, $collaborator));
     }
 
     #[Test]
@@ -175,7 +188,7 @@ class InstagramAccountOwnershipTest extends TestCase
         $sharedAccount = InstagramAccount::factory()
             ->forUser(User::factory()->create())
             ->create();
-        $sharedAccount->shareWith($user);
+        $this->accountService->shareWith($sharedAccount, $user);
 
         // Account user has no access to
         InstagramAccount::factory()->forUser(User::factory()->create())->create();
@@ -274,7 +287,7 @@ class InstagramAccountOwnershipTest extends TestCase
         $companyAccount = InstagramAccount::factory()->forCompany($company)->create();
 
         // Should return user's account first
-        $default = $user->getDefaultInstagramAccount();
+        $default = $this->userService->getDefaultInstagramAccount($user);
         $this->assertEquals($userAccount->id, $default->id);
     }
 
@@ -289,7 +302,7 @@ class InstagramAccountOwnershipTest extends TestCase
         // Only company account exists
         $companyAccount = InstagramAccount::factory()->forCompany($company)->create();
 
-        $default = $user->getDefaultInstagramAccount();
+        $default = $this->userService->getDefaultInstagramAccount($user);
         $this->assertEquals($companyAccount->id, $default->id);
     }
 }

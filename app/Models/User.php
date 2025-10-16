@@ -86,69 +86,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has a specific role in a company
-     */
-    public function hasRole(Company $company, UserRole $role): bool
-    {
-        return $this->companies()
-            ->where('company_id', $company->id)
-            ->wherePivot('role', $role->value)
-            ->exists();
-    }
-
-    /**
-     * Check if user is admin in a company
-     */
-    public function isAdmin(Company $company): bool
-    {
-        return $this->companies()
-            ->where('company_id', $company->id)
-            ->wherePivotIn('role', [UserRole::ADMIN->value, UserRole::NETWORK->value])
-            ->exists();
-    }
-
-    /**
-     * Check if user is admin in current company
-     */
-    public function isAdminInCurrentCompany(): bool
-    {
-        if (! $this->current_company_id) {
-            return false;
-        }
-
-        return $this->companies()
-            ->where('company_id', $this->current_company_id)
-            ->wherePivot('role', UserRole::ADMIN->value)
-            ->exists();
-    }
-
-    /**
-     * Get user's role in a specific company
-     */
-    public function getRoleIn(Company $company): ?UserRole
-    {
-        $pivot = $this->companies()
-            ->where('company_id', $company->id)
-            ->first()?->pivot;
-
-        return $pivot ? UserRole::from($pivot->role) : null;
-    }
-
-    /**
-     * Switch to a different company
-     */
-    public function switchCompany(Company $company): bool
-    {
-        if (! $this->companies->contains($company)) {
-            return false;
-        }
-
-        $this->update(['current_company_id' => $company->id]);
-
-        return true;
-    }
-
-    /**
      * Get all Instagram accounts owned by this user.
      */
     public function ownedInstagramAccounts(): HasMany
@@ -201,78 +138,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has any Instagram accounts.
-     */
-    public function hasInstagramAccounts(): bool
-    {
-        return $this->ownedInstagramAccounts()->exists()
-            || $this->sharedInstagramAccounts()->exists()
-            || $this->currentCompany?->instagramAccounts()->exists();
-    }
-
-    /**
-     * Get the default Instagram account for this user.
-     * Priority: User's first active account > Company's first active account > Any account
-     */
-    public function getDefaultInstagramAccount(): ?InstagramAccount
-    {
-        // Try user's own active accounts first
-        $account = $this->ownedInstagramAccounts()
-            ->where('status', 'active')
-            ->first();
-
-        if ($account) {
-            return $account;
-        }
-
-        // Try company's active accounts
-        if ($this->currentCompany) {
-            $account = $this->currentCompany->instagramAccounts()
-                ->where('status', 'active')
-                ->first();
-
-            if ($account) {
-                return $account;
-            }
-        }
-
-        // Fall back to any accessible account
-        return $this->accessibleInstagramAccounts()->first();
-    }
-
-    /**
      * Get the admin who suspended this user.
      */
     public function suspendedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'suspended_by');
-    }
-
-    /**
-     * Suspend this user account.
-     *
-     * @param  string  $reason  Reason for suspension
-     * @param  User  $suspendedBy  Admin user performing the suspension
-     */
-    public function suspend(string $reason, User $suspendedBy): bool
-    {
-        return $this->update([
-            'suspended_at' => now(),
-            'suspended_by' => $suspendedBy->id,
-            'suspension_reason' => $reason,
-        ]);
-    }
-
-    /**
-     * Unsuspend this user account.
-     */
-    public function unsuspend(): bool
-    {
-        return $this->update([
-            'suspended_at' => null,
-            'suspended_by' => null,
-            'suspension_reason' => null,
-        ]);
     }
 
     /**
@@ -303,19 +173,5 @@ class User extends Authenticatable
     public function scopeSuspended($query)
     {
         return $query->whereNotNull('suspended_at');
-    }
-
-    /**
-     * Get user statistics for admin panel.
-     */
-    public function getStatsAttribute(): array
-    {
-        return [
-            'companies_count' => $this->companies()->count(),
-            'instagram_accounts_count' => $this->accessibleInstagramAccounts()->count(),
-            'posts_count' => $this->instagramPosts()->count(),
-            'last_login' => $this->last_login_at?->diffForHumans(),
-            'account_age_days' => $this->created_at->diffInDays(now()),
-        ];
     }
 }

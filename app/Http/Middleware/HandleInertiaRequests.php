@@ -2,11 +2,17 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -35,13 +41,13 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $user ? array_merge($user->toArray(), [
-                    'is_admin' => $user->isAdminInCurrentCompany(),
+                    'is_admin' => $this->userService->isAdminInCurrentCompany($user),
                     'current_company' => $user->currentCompany ? [
                         'id' => $user->currentCompany->id,
                         'name' => $user->currentCompany->name,
-                        'user_role' => $user->getRoleIn($user->currentCompany)?->value,
-                        'is_network' => $user->hasRole($user->currentCompany, \App\Enums\UserRole::NETWORK),
-                        'is_admin' => $user->hasRole($user->currentCompany, \App\Enums\UserRole::ADMIN),
+                        'user_role' => $this->userService->getRoleIn($user, $user->currentCompany)?->value,
+                        'is_network' => $this->userService->hasRole($user, $user->currentCompany, UserRole::NETWORK),
+                        'is_admin' => $this->userService->hasRole($user, $user->currentCompany, UserRole::ADMIN),
                     ] : null,
                 ]) : null,
             ],

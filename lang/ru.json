@@ -261,5 +261,6 @@
     "Your email address is unverified.": "Ваш адрес электронной почты не подтверждён.",
     "dashboard.actions.create_post": "Создать публикацию",
     "dashboard.actions.create_post_desc": "Планируйте и публикуйте контент в аккаунтах Instagram.",
-    "dashboard.actions.coming_soon": "СКОРО"
+    "dashboard.actions.coming_soon": "СКОРО",
+    "profile.company.no_company": "Вы в настоящее время не связаны ни с одной компанией."
 }

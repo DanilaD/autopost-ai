@@ -10,6 +10,7 @@ const { t } = useI18n()
 const props = defineProps({
     status: {
         type: String,
+        default: '',
     },
 })
 

@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,12 +19,17 @@ class ImpersonationTest extends TestCase
 
     protected Company $company;
 
+    protected UserService $userService;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         // Create a company
         $this->company = Company::factory()->create();
+
+        // Initialize UserService
+        $this->userService = app(UserService::class);
 
         // Create an admin user
         $this->admin = User::factory()->create([
@@ -81,7 +87,7 @@ class ImpersonationTest extends TestCase
         $this->actingAs($this->admin);
 
         // Suspend the regular user
-        $this->regularUser->suspend('Test reason', $this->admin);
+        $this->userService->suspend($this->regularUser, 'Test reason', $this->admin);
 
         $response = $this->post(route('admin.users.impersonate', $this->regularUser->id));
 

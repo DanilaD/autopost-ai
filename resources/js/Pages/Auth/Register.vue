@@ -9,8 +9,14 @@ import { detectBrowserTimezone } from '@/composables/useTimezone.js'
 import { onMounted } from 'vue'
 
 const props = defineProps({
-    email: String,
-    invitationToken: String,
+    email: {
+        type: String,
+        default: '',
+    },
+    invitationToken: {
+        type: String,
+        default: '',
+    },
 })
 
 const form = useForm({

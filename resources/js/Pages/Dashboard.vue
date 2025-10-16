@@ -19,7 +19,7 @@ const props = defineProps({
             wallet_balance: 0,
         }),
     },
-    recent_posts: {
+    recentPosts: {
         type: Array,
         default: () => [],
     },
@@ -50,7 +50,7 @@ const welcomeMessage = computed(() => {
 
 // Check if user has posts
 const hasPosts = computed(() => {
-    return props.recent_posts && props.recent_posts.length > 0
+    return props.recentPosts && props.recentPosts.length > 0
 })
 
 // Format date for display
@@ -380,7 +380,7 @@ const getStatusClass = (status) => {
                         class="divide-y divide-gray-200 dark:divide-gray-700"
                     >
                         <div
-                            v-for="post in recent_posts"
+                            v-for="post in recentPosts"
                             :key="post.id"
                             class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >

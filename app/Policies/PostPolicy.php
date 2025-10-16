@@ -4,9 +4,14 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Services\CompanyService;
 
 class PostPolicy
 {
+    public function __construct(
+        private CompanyService $companyService
+    ) {}
+
     /**
      * Determine whether the user can view any models.
      */
@@ -54,7 +59,7 @@ class PostPolicy
 
         if ($user->currentCompany && $post->company_id === $user->currentCompany->id) {
             // Check if user has permission to manage posts in the company
-            $role = $user->currentCompany->getUserRole($user);
+            $role = $this->companyService->getUserRole($user->currentCompany, $user);
 
             return in_array($role, ['admin', 'network']);
         }
@@ -74,7 +79,7 @@ class PostPolicy
 
         if ($user->currentCompany && $post->company_id === $user->currentCompany->id) {
             // Check if user has permission to manage posts in the company
-            $role = $user->currentCompany->getUserRole($user);
+            $role = $this->companyService->getUserRole($user->currentCompany, $user);
 
             return in_array($role, ['admin', 'network']);
         }

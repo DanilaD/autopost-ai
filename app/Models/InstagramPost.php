@@ -159,80 +159,11 @@ class InstagramPost extends Model
     }
 
     /**
-     * Mark this post as scheduled.
-     */
-    public function markAsScheduled(\DateTime $scheduledAt): void
-    {
-        $this->update([
-            'status' => InstagramPostStatus::SCHEDULED,
-            'scheduled_at' => $scheduledAt,
-        ]);
-    }
-
-    /**
-     * Mark this post as publishing.
-     */
-    public function markAsPublishing(): void
-    {
-        $this->update(['status' => InstagramPostStatus::PUBLISHING]);
-    }
-
-    /**
-     * Mark this post as published.
-     */
-    public function markAsPublished(string $instagramPostId, string $permalink): void
-    {
-        $this->update([
-            'status' => InstagramPostStatus::PUBLISHED,
-            'instagram_post_id' => $instagramPostId,
-            'instagram_permalink' => $permalink,
-            'published_at' => now(),
-            'error_message' => null,
-        ]);
-    }
-
-    /**
-     * Mark this post as failed.
-     */
-    public function markAsFailed(string $errorMessage): void
-    {
-        $this->update([
-            'status' => InstagramPostStatus::FAILED,
-            'error_message' => $errorMessage,
-            'retry_count' => $this->retry_count + 1,
-        ]);
-    }
-
-    /**
-     * Mark this post as cancelled.
-     */
-    public function markAsCancelled(): void
-    {
-        $this->update(['status' => InstagramPostStatus::CANCELLED]);
-    }
-
-    /**
      * Check if this post can be retried.
      */
     public function canRetry(): bool
     {
         return $this->status === InstagramPostStatus::FAILED && $this->retry_count < 3;
-    }
-
-    /**
-     * Retry publishing this post.
-     */
-    public function retry(): void
-    {
-        if (! $this->canRetry()) {
-            throw new \RuntimeException('Post cannot be retried');
-        }
-
-        $this->update([
-            'status' => InstagramPostStatus::SCHEDULED,
-            'scheduled_at' => now(),
-            'error_message' => null,
-        ]);
     }
 
     /**

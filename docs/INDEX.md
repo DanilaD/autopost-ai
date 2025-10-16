@@ -1108,6 +1108,58 @@ All documentation should include:
 
 ---
 
+---
+
+## 📚 **API & User Documentation**
+
+### [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+
+**Complete API reference and integration guide for developers.**
+
+**Contains:**
+
+- Authentication methods and endpoints
+- Post Management API (CRUD operations)
+- User Management API (profile, settings)
+- Company Management API (team, invitations)
+- Instagram Integration API (connect, sync)
+- Media Management API (upload, organize)
+- Error handling and status codes
+- Rate limiting information
+- SDK examples (JavaScript, PHP, Python)
+- Webhook documentation
+- Testing endpoints
+
+**Status:** ✅ Complete  
+**Target Audience:** Developers, API integrators  
+**Estimated Reading Time:** 45-60 minutes
+
+---
+
+### [USER_GUIDES.md](./USER_GUIDES.md)
+
+**Comprehensive user guides and tutorials for end users.**
+
+**Contains:**
+
+- Getting started guide
+- Account setup and configuration
+- Instagram integration walkthrough
+- Post creation and management
+- Scheduling and automation
+- Media library organization
+- Company and team management
+- Settings and preferences
+- Troubleshooting common issues
+- Best practices and strategies
+- FAQ and support resources
+
+**Status:** ✅ Complete  
+**Target Audience:** End users, content creators, businesses  
+**Estimated Reading Time:** 60-90 minutes
+
+---
+
 ## 📢 Recent Updates
 
 ### October 16, 2025 - MySQL Testing Setup & Complete Test Suite Fixes 🧪 **LATEST**

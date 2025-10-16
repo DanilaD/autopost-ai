@@ -48,6 +48,9 @@ class AuthenticatedSessionController extends Controller
             if (in_array($currentLocale, ['en', 'ru', 'es'])) {
                 $user->update(['locale' => $currentLocale]);
             }
+        } else {
+            // If user has a saved locale, ensure it's set for this request
+            app()->setLocale($user->locale);
         }
 
         // Handle invitation acceptance if token is provided

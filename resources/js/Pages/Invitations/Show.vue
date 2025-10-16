@@ -7,13 +7,34 @@ import PrimaryButton from '@/Components/PrimaryButton.vue'
 import LanguageSelector from '@/Components/LanguageSelector.vue'
 
 const props = defineProps({
-    invitation: Object,
-    company: Object,
-    inviter: Object,
-    userExists: Boolean,
-    registerUrl: String,
-    loginUrl: String,
-    message: String,
+    invitation: {
+        type: Object,
+        default: () => ({}),
+    },
+    company: {
+        type: Object,
+        default: () => ({}),
+    },
+    inviter: {
+        type: Object,
+        default: () => ({}),
+    },
+    userExists: {
+        type: Boolean,
+        default: false,
+    },
+    registerUrl: {
+        type: String,
+        default: '',
+    },
+    loginUrl: {
+        type: String,
+        default: '',
+    },
+    message: {
+        type: String,
+        default: '',
+    },
 })
 
 const { t } = useI18n()

@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Mail;
 
 class CompanyInvitationService
 {
+    protected CompanyService $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     /**
      * Send an invitation to join a company
      */
@@ -18,7 +25,7 @@ class CompanyInvitationService
     {
         // Check if user is already a member
         $existingUser = User::where('email', $email)->first();
-        if ($existingUser && $company->hasMember($existingUser)) {
+        if ($existingUser && $this->companyService->hasMember($company, $existingUser)) {
             throw new \Exception('User is already a member of this company.');
         }
 
@@ -117,12 +124,12 @@ class CompanyInvitationService
         }
 
         // Check if target user is a member
-        if (! $company->hasMember($targetUser)) {
+        if (! $this->companyService->hasMember($company, $targetUser)) {
             throw new \Exception('User is not a member of this company.');
         }
 
         // Prevent non-owners from making others admin
-        $updaterRole = $company->getUserRole($updater);
+        $updaterRole = $this->companyService->getUserRole($company, $updater);
         if ($newRole === 'admin' && $updaterRole !== 'admin') {
             throw new \Exception('Only company admins can promote users to admin.');
         }
@@ -148,8 +155,8 @@ class CompanyInvitationService
         }
 
         // Prevent non-admins from removing admins
-        $removerRole = $company->getUserRole($remover);
-        $targetRole = $company->getUserRole($targetUser);
+        $removerRole = $this->companyService->getUserRole($company, $remover);
+        $targetRole = $this->companyService->getUserRole($company, $targetUser);
         if ($targetRole === 'admin' && $removerRole !== 'admin') {
             throw new \Exception('Only company admins can remove other admins.');
         }
@@ -162,7 +169,7 @@ class CompanyInvitationService
      */
     public function canManageInvitations(Company $company, User $user): bool
     {
-        $role = $company->getUserRole($user);
+        $role = $this->companyService->getUserRole($company, $user);
 
         return in_array($role, ['admin', 'network']);
     }
@@ -172,7 +179,7 @@ class CompanyInvitationService
      */
     public function canManageUsers(Company $company, User $user): bool
     {
-        $role = $company->getUserRole($user);
+        $role = $this->companyService->getUserRole($company, $user);
 
         return in_array($role, ['admin', 'network']);
     }

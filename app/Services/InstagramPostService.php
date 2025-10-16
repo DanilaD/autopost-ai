@@ -146,7 +146,7 @@ class InstagramPostService
         }
 
         try {
-            $post->markAsScheduled($scheduledAt);
+            $this->markAsScheduled($post, $scheduledAt);
 
             Log::info('Post scheduled', [
                 'post_id' => $post->id,
@@ -177,20 +177,21 @@ class InstagramPostService
 
         // Check if account is active and has valid token
         if (! $account->isActive() || $account->isTokenExpired()) {
-            $post->markAsFailed('Instagram account is not active or token expired');
+            $this->markAsFailed($post, 'Instagram account is not active or token expired');
 
             return false;
         }
 
         try {
-            $post->markAsPublishing();
+            $this->markAsPublishing($post);
 
             // TODO: Implement actual Instagram API publishing
             // For now, this is a placeholder that simulates publishing
             $result = $this->publishToInstagramApi($account, $post);
 
             if ($result['success']) {
-                $post->markAsPublished(
+                $this->markAsPublished(
+                    $post,
                     $result['instagram_post_id'],
                     $result['permalink']
                 );
@@ -202,12 +203,12 @@ class InstagramPostService
 
                 return true;
             } else {
-                $post->markAsFailed($result['error'] ?? 'Unknown error');
+                $this->markAsFailed($post, $result['error'] ?? 'Unknown error');
 
                 return false;
             }
         } catch (\Exception $e) {
-            $post->markAsFailed($e->getMessage());
+            $this->markAsFailed($post, $e->getMessage());
 
             Log::error('Failed to publish post', [
                 'post_id' => $post->id,
@@ -233,7 +234,7 @@ class InstagramPostService
         }
 
         try {
-            $post->markAsCancelled();
+            $this->markAsCancelled($post);
 
             Log::info('Post cancelled', [
                 'post_id' => $post->id,
@@ -392,5 +393,74 @@ class InstagramPostService
             ];
         }
         */
+    }
+
+    /**
+     * Mark this post as scheduled.
+     */
+    public function markAsScheduled(InstagramPost $post, \DateTime $scheduledAt): void
+    {
+        $post->update([
+            'status' => InstagramPostStatus::SCHEDULED,
+            'scheduled_at' => $scheduledAt,
+        ]);
+    }
+
+    /**
+     * Mark this post as publishing.
+     */
+    public function markAsPublishing(InstagramPost $post): void
+    {
+        $post->update(['status' => InstagramPostStatus::PUBLISHING]);
+    }
+
+    /**
+     * Mark this post as published.
+     */
+    public function markAsPublished(InstagramPost $post, string $instagramPostId, string $permalink): void
+    {
+        $post->update([
+            'status' => InstagramPostStatus::PUBLISHED,
+            'instagram_post_id' => $instagramPostId,
+            'instagram_permalink' => $permalink,
+            'published_at' => now(),
+            'error_message' => null,
+        ]);
+    }
+
+    /**
+     * Mark this post as failed.
+     */
+    public function markAsFailed(InstagramPost $post, string $errorMessage): void
+    {
+        $post->update([
+            'status' => InstagramPostStatus::FAILED,
+            'error_message' => $errorMessage,
+            'retry_count' => $post->retry_count + 1,
+        ]);
+    }
+
+    /**
+     * Mark this post as cancelled.
+     */
+    public function markAsCancelled(InstagramPost $post): void
+    {
+        $post->update(['status' => InstagramPostStatus::CANCELLED]);
+    }
+
+    /**
+     * Retry publishing this post.
+     */
+    public function retry(InstagramPost $post): void
+    {
+        if (! $post->canRetry()) {
+            throw new \RuntimeException('Post cannot be retried');
+        }
+
+        $post->update([
+            'status' => InstagramPostStatus::SCHEDULED,
+            'scheduled_at' => now(),
+            'error_message' => null,
+        ]);
     }
 }

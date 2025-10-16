@@ -107,10 +107,17 @@ class PostServiceTest extends TestCase
         ]);
 
         $this->postRepository
-            ->shouldReceive('getByUser')
+            ->shouldReceive('getStatsByUser')
             ->with($userId)
             ->once()
-            ->andReturn($posts);
+            ->andReturn([
+                'total' => 5,
+                'drafts' => 2,
+                'scheduled' => 1,
+                'publishing' => 1,
+                'published' => 1,
+                'failed' => 0,
+            ]);
 
         $result = $this->postService->getStatsByUser($userId);
 
@@ -361,6 +368,7 @@ class PostServiceTest extends TestCase
 
         $post = Mockery::mock(Post::class);
         $post->shouldReceive('canBeEdited')->andReturn(true);
+        $post->shouldReceive('load')->with('media')->andReturnSelf();
         $post->shouldReceive('getAttribute')->with('media')->andReturn(collect([$media]));
         $post->shouldReceive('getAttribute')->with('id')->andReturn(1);
 
@@ -404,6 +412,7 @@ class PostServiceTest extends TestCase
 
         $post = Mockery::mock(Post::class);
         $post->shouldReceive('canBeEdited')->andReturn(true);
+        $post->shouldReceive('load')->with('media')->andReturnSelf();
         $post->shouldReceive('getAttribute')->with('media')->andReturn(collect([$media]));
         $post->shouldReceive('getAttribute')->with('id')->andReturn(1);
         $post->shouldReceive('fresh')->andReturn($post);
@@ -460,6 +469,7 @@ class PostServiceTest extends TestCase
         // Arrange
         $post = Mockery::mock(Post::class);
         $post->shouldReceive('canBeEdited')->andReturn(true);
+        $post->shouldReceive('load')->with('media')->andReturnSelf();
         $post->shouldReceive('getAttribute')->with('media')->andReturn(collect([]));
 
         $scheduledAt = now()->addHour();

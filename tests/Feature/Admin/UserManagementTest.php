@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
@@ -19,9 +20,13 @@ class UserManagementTest extends TestCase
 
     protected Company $company;
 
+    protected UserService $userService;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->userService = app(UserService::class);
 
         // Create a company
         $this->company = Company::factory()->create();
@@ -129,7 +134,7 @@ class UserManagementTest extends TestCase
         $this->actingAs($this->admin);
 
         // First suspend the user
-        $this->regularUser->suspend('Test reason', $this->admin);
+        $this->userService->suspend($this->regularUser, 'Test reason', $this->admin);
         $this->assertTrue($this->regularUser->isSuspended());
 
         // Now unsuspend

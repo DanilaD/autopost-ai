@@ -1,5 +1,6 @@
 {
     "dashboard.actions.create_post": "Create Post",
     "dashboard.actions.create_post_desc": "Schedule and publish content across your Instagram accounts.",
-    "dashboard.actions.coming_soon": "COMING SOON"
+    "dashboard.actions.coming_soon": "COMING SOON",
+    "profile.company.no_company": "You are not currently associated with any company."
 }

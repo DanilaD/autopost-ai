@@ -28,8 +28,11 @@ class InstagramService
 
     protected string $apiVersion = 'v18.0';
 
-    public function __construct()
+    protected InstagramAccountService $accountService;
+
+    public function __construct(InstagramAccountService $accountService)
     {
+        $this->accountService = $accountService;
         $this->clientId = config('services.instagram.client_id');
         $this->clientSecret = config('services.instagram.client_secret');
         $this->redirectUri = config('services.instagram.redirect_uri');
@@ -318,7 +321,7 @@ class InstagramService
      */
     public function disconnectAccount(InstagramAccount $account): bool
     {
-        $account->markAsDisconnected();
+        $this->accountService->markAsDisconnected($account);
 
         return true;
     }

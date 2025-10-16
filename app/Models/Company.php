@@ -59,24 +59,6 @@ class Company extends Model
     }
 
     /**
-     * Check if user is a member of this company
-     */
-    public function hasMember(User $user): bool
-    {
-        return $this->users()->where('user_id', $user->id)->exists();
-    }
-
-    /**
-     * Get user's role in this company
-     */
-    public function getUserRole(User $user): ?string
-    {
-        $pivot = $this->users()->where('user_id', $user->id)->first()?->pivot;
-
-        return $pivot?->role;
-    }
-
-    /**
      * Get all Instagram accounts for the company.
      */
     public function instagramAccounts(): HasMany
@@ -109,21 +91,5 @@ class Company extends Model
         return InstagramPost::whereHas('instagramAccount', function ($query) {
             $query->where('company_id', $this->id);
         });
-    }
-
-    /**
-     * Check if company has any Instagram accounts connected.
-     */
-    public function hasInstagramAccounts(): bool
-    {
-        return $this->instagramAccounts()->exists();
-    }
-
-    /**
-     * Get the primary/default Instagram account for this company.
-     */
-    public function getPrimaryInstagramAccount(): ?InstagramAccount
-    {
-        return $this->activeInstagramAccounts()->first();
     }
 }

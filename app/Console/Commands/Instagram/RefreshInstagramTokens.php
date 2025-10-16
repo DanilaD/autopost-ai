@@ -3,11 +3,19 @@
 namespace App\Console\Commands\Instagram;
 
 use App\Models\InstagramAccount;
-use App\Services\InstagramService;
+use App\Services\InstagramAccountService;
 use Illuminate\Console\Command;
 
 class RefreshInstagramTokens extends Command
 {
+    protected InstagramAccountService $accountService;
+
+    public function __construct(InstagramAccountService $accountService)
+    {
+        parent::__construct();
+        $this->accountService = $accountService;
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -61,12 +69,12 @@ class RefreshInstagramTokens extends Command
                     $refreshed++;
                 } else {
                     $this->error('  ✗ Failed to refresh token');
-                    $account->markAsExpired();
+                    $this->accountService->markAsExpired($account);
                     $failed++;
                 }
             } catch (\Exception $e) {
                 $this->error("  ✗ Error: {$e->getMessage()}");
-                $account->markAsExpired();
+                $this->accountService->markAsExpired($account);
                 $failed++;
             }
         }

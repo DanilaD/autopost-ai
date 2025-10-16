@@ -2,12 +2,17 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\UserService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsAdmin
 {
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     /**
      * Handle an incoming request.
      *
@@ -24,7 +29,7 @@ class EnsureUserIsAdmin
         }
 
         // Check if user has admin role in current company
-        if (! $request->user()->isAdminInCurrentCompany()) {
+        if (! $this->userService->isAdminInCurrentCompany($request->user())) {
             abort(403, 'This action requires administrator privileges.');
         }
 

@@ -13,7 +13,7 @@ const props = defineProps({
     },
     routeName: {
         type: String,
-        required: false,
+        default: '',
     },
     preserveState: {
         type: Boolean,

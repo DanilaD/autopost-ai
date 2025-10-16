@@ -18,21 +18,12 @@ const showingNavigationDropdown = ref(false)
 const page = usePage()
 const toast = useToast()
 
-// Show toast from session flash data immediately
-const toastData = page.props.toast
-if (toastData) {
-    toast.addToast(toastData.message, toastData.type || 'success')
-}
-
-// Also check on mount as backup
+// Show toast from session flash data
 onMounted(() => {
-    // Add a small delay to ensure toast data is available
-    setTimeout(() => {
-        const toastData = page.props.toast
-        if (toastData) {
-            toast.addToast(toastData.message, toastData.type || 'success')
-        }
-    }, 100)
+    const toastData = page.props.toast
+    if (toastData) {
+        toast.addToast(toastData.message, toastData.type || 'success')
+    }
 })
 </script>
 

@@ -43,7 +43,7 @@ class DashboardController extends Controller
                 'scheduled_posts' => $scheduledPostsCount,
                 'wallet_balance' => $walletBalance,
             ],
-            'recent_posts' => $posts,
+            'recentPosts' => $posts,
         ]);
     }
 }

@@ -219,6 +219,40 @@ class PostRepository extends BaseRepository
     }
 
     /**
+     * Get post statistics for individual user
+     */
+    public function getStatsByUser(int $userId): array
+    {
+        $stats = $this->model->query()
+            ->where('created_by', $userId)
+            ->whereNull('company_id')
+            ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as drafts,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as scheduled,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as publishing,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as published,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as failed
+            ', [
+                PostStatus::DRAFT->value,
+                PostStatus::SCHEDULED->value,
+                PostStatus::PUBLISHING->value,
+                PostStatus::PUBLISHED->value,
+                PostStatus::FAILED->value,
+            ])
+            ->first();
+
+        return [
+            'total' => $stats->total ?? 0,
+            'drafts' => $stats->drafts ?? 0,
+            'scheduled' => $stats->scheduled ?? 0,
+            'publishing' => $stats->publishing ?? 0,
+            'published' => $stats->published ?? 0,
+            'failed' => $stats->failed ?? 0,
+        ];
+    }
+
+    /**
      * Get recent posts
      */
     public function getRecent(int $companyId, int $limit = 5): Collection

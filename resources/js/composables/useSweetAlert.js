@@ -15,11 +15,12 @@ const defaultConfig = {
         actions: 'gap-2', // Smaller gap between buttons
     },
     buttonsStyling: false, // Disable default styling to use custom classes
+    // Using SweetAlert's built-in animations instead of animate.css
     showClass: {
-        popup: 'animate__animated animate__fadeInDown animate__faster', // Faster animation
+        popup: 'swal2-show',
     },
     hideClass: {
-        popup: 'animate__animated animate__fadeOutUp animate__faster',
+        popup: 'swal2-hide',
     },
 }
 

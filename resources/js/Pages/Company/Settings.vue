@@ -10,10 +10,22 @@ const { t } = useI18n()
 const toast = useToast()
 
 const props = defineProps({
-    company: Object,
-    teamMembers: Array,
-    invitations: Object,
-    canManageUsers: Boolean,
+    company: {
+        type: Object,
+        default: () => ({}),
+    },
+    teamMembers: {
+        type: Array,
+        default: () => [],
+    },
+    invitations: {
+        type: Object,
+        default: () => ({}),
+    },
+    canManageUsers: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const showInviteForm = ref(false)

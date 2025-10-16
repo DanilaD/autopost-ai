@@ -165,6 +165,9 @@ class PostService
         }
 
         return DB::transaction(function () use ($post) {
+            // Ensure media is loaded to avoid N+1 queries
+            $post->load('media');
+
             // Delete media files
             foreach ($post->media as $media) {
                 Storage::delete($media->storage_path);
@@ -193,6 +196,9 @@ class PostService
         if ($scheduledAt <= now()) {
             throw new \InvalidArgumentException(__('posts.scheduled_time_must_be_future'));
         }
+
+        // Ensure media is loaded to avoid N+1 queries
+        $post->load('media');
 
         if ($post->media->isEmpty()) {
             throw new \InvalidArgumentException(__('posts.media_required_for_scheduling'));
@@ -234,15 +240,16 @@ class PostService
      */
     public function getStatsByUser(int $userId): array
     {
-        $posts = $this->postRepository->getByUser($userId);
+        // Use raw SQL for better performance instead of loading all posts
+        $stats = $this->postRepository->getStatsByUser($userId);
 
         return [
-            'total' => $posts->count(),
-            'drafts' => $posts->where('status', PostStatus::DRAFT->value)->count(),
-            'scheduled' => $posts->where('status', PostStatus::SCHEDULED->value)->count(),
-            'publishing' => $posts->where('status', PostStatus::PUBLISHING->value)->count(),
-            'published' => $posts->where('status', PostStatus::PUBLISHED->value)->count(),
-            'failed' => $posts->where('status', PostStatus::FAILED->value)->count(),
+            'total' => $stats['total'] ?? 0,
+            'drafts' => $stats['drafts'] ?? 0,
+            'scheduled' => $stats['scheduled'] ?? 0,
+            'publishing' => $stats['publishing'] ?? 0,
+            'published' => $stats['published'] ?? 0,
+            'failed' => $stats['failed'] ?? 0,
         ];
     }
 
@@ -313,6 +320,9 @@ class PostService
      */
     private function updatePostMedia(Post $post, array $mediaData): void
     {
+        // Ensure media is loaded to avoid N+1 queries
+        $post->load('media');
+
         // Delete existing media
         foreach ($post->media as $media) {
             Storage::delete($media->storage_path);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Services\UserManagementService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,7 +22,8 @@ class UserManagementController extends Controller
      * Create a new controller instance.
      */
     public function __construct(
-        protected UserManagementService $userManagementService
+        protected UserManagementService $userManagementService,
+        protected UserService $userService
     ) {}
 
     /**
@@ -45,7 +47,7 @@ class UserManagementController extends Controller
             // Get role in current company
             $roleInCurrentCompany = null;
             if ($currentCompany) {
-                $role = $user->getRoleIn($currentCompany);
+                $role = $this->userService->getRoleIn($user, $currentCompany);
                 $roleInCurrentCompany = $role ? $role->value : null;
             }
 

@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Log;
  */
 class InstagramAccountPermissionService
 {
+    protected InstagramAccountService $accountService;
+
+    protected CompanyService $companyService;
+
+    public function __construct(InstagramAccountService $accountService, CompanyService $companyService)
+    {
+        $this->accountService = $accountService;
+        $this->companyService = $companyService;
+    }
+
     /**
      * Check if a user can view an Instagram account.
      *
@@ -24,7 +34,7 @@ class InstagramAccountPermissionService
      */
     public function canView(User $user, InstagramAccount $account): bool
     {
-        return $account->isAccessibleBy($user);
+        return $this->accountService->isAccessibleBy($account, $user);
     }
 
     /**
@@ -37,7 +47,7 @@ class InstagramAccountPermissionService
      */
     public function canPost(User $user, InstagramAccount $account): bool
     {
-        return $account->canUserPost($user);
+        return $this->accountService->canUserPost($account, $user);
     }
 
     /**
@@ -50,7 +60,7 @@ class InstagramAccountPermissionService
      */
     public function canManage(User $user, InstagramAccount $account): bool
     {
-        return $account->canUserManage($user);
+        return $this->accountService->canUserManage($account, $user);
     }
 
     /**
@@ -63,13 +73,13 @@ class InstagramAccountPermissionService
     public function canShare(User $user, InstagramAccount $account): bool
     {
         // Owner can share
-        if ($account->isOwnedBy($user)) {
+        if ($this->accountService->isOwnedBy($account, $user)) {
             return true;
         }
 
         // Company admin can share company accounts
         if ($account->company_id && $account->company) {
-            return $account->company->getUserRole($user) === 'admin';
+            return $this->companyService->getUserRole($account->company, $user) === 'admin';
         }
 
         return false;
@@ -95,13 +105,13 @@ class InstagramAccountPermissionService
     public function canDelete(User $user, InstagramAccount $account): bool
     {
         // Owner can always delete
-        if ($account->isOwnedBy($user)) {
+        if ($this->accountService->isOwnedBy($account, $user)) {
             return true;
         }
 
         // Company admin can delete company accounts
         if ($account->company_id && $account->company) {
-            return $account->company->getUserRole($user) === 'admin';
+            return $this->companyService->getUserRole($account->company, $user) === 'admin';
         }
 
         return false;
@@ -140,11 +150,11 @@ class InstagramAccountPermissionService
      */
     public function getAccessType(User $user, InstagramAccount $account): string
     {
-        if ($account->isOwnedBy($user)) {
+        if ($this->accountService->isOwnedBy($account, $user)) {
             return 'owner';
         }
 
-        if ($account->company_id && $account->company?->hasMember($user)) {
+        if ($account->company_id && $this->companyService->hasMember($account->company, $user)) {
             return 'company';
         }
 
@@ -182,12 +192,12 @@ class InstagramAccountPermissionService
         }
 
         // Can't share with account owner
-        if ($account->isOwnedBy($targetUser)) {
+        if ($this->accountService->isOwnedBy($account, $targetUser)) {
             return false;
         }
 
         try {
-            $account->shareWith($targetUser, $canPost, $canManage, $sharingUser);
+            $this->accountService->shareWith($account, $targetUser, $canPost, $canManage, $sharingUser);
 
             Log::info('Instagram account shared', [
                 'account_id' => $account->id,
@@ -228,7 +238,7 @@ class InstagramAccountPermissionService
         }
 
         try {
-            $account->revokeAccessFor($targetUser);
+            $this->accountService->revokeAccessFor($account, $targetUser);
 
             Log::info('Instagram account access revoked', [
                 'account_id' => $account->id,
