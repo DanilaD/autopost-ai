@@ -283,13 +283,13 @@ const minDateString = computed(() => {
 // Helper functions
 const addHours = (date, hours) => {
     const newDate = new Date(date)
-    newDate.setUTCHours(newDate.getUTCHours() + hours)
+    newDate.setHours(newDate.getHours() + hours)
     return newDate
 }
 
 const setTime = (date, hours, minutes) => {
     const newDate = new Date(date)
-    newDate.setUTCHours(hours, minutes, 0, 0)
+    newDate.setHours(hours, minutes, 0, 0)
     return newDate
 }
 
@@ -310,17 +310,15 @@ const onCustomDateChange = (event) => {
         : new Date()
 
     // Create new date with selected date and current time
-    // Use UTC methods to ensure consistent timezone handling
+    // Use local timezone methods for consistent display
     const [year, month, day] = selectedDate.split('-')
     const newDateTime = new Date(
-        Date.UTC(
-            parseInt(year),
-            parseInt(month) - 1, // Month is 0-indexed
-            parseInt(day),
-            currentTime.getUTCHours(),
-            currentTime.getUTCMinutes(),
-            currentTime.getUTCSeconds()
-        )
+        parseInt(year),
+        parseInt(month) - 1, // Month is 0-indexed
+        parseInt(day),
+        currentTime.getHours(),
+        currentTime.getMinutes(),
+        currentTime.getSeconds()
     )
 
     selectedDateTime.value = newDateTime
@@ -337,17 +335,15 @@ const onCustomTimeChange = (event) => {
         : new Date()
 
     // Create new date with current date and selected time
-    // Use UTC methods to ensure consistent timezone handling
+    // Use local timezone methods for consistent display
     const [hours, minutes] = selectedTime.split(':')
     const newDateTime = new Date(
-        Date.UTC(
-            currentDate.getUTCFullYear(),
-            currentDate.getUTCMonth(),
-            currentDate.getUTCDate(),
-            parseInt(hours),
-            parseInt(minutes),
-            0
-        )
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(hours),
+        parseInt(minutes),
+        0
     )
 
     selectedDateTime.value = newDateTime
@@ -368,7 +364,10 @@ const updateCustomInputs = (date) => {
 
     // Update custom time input (native HTML5)
     if (customTimeInput.value) {
-        const timeStr = dateObj.toISOString().slice(11, 16) // Format as HH:MM from UTC
+        // Format as HH:MM in local timezone
+        const hours = dateObj.getHours().toString().padStart(2, '0')
+        const minutes = dateObj.getMinutes().toString().padStart(2, '0')
+        const timeStr = `${hours}:${minutes}`
         customTimeInput.value.value = timeStr
     }
 }
