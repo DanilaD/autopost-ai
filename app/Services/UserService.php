@@ -16,20 +16,6 @@ use App\Models\User;
 class UserService
 {
     /**
-     * Switch to a different company
-     */
-    public function switchCompany(User $user, Company $company): bool
-    {
-        if (! $user->companies->contains($company)) {
-            return false;
-        }
-
-        $user->update(['current_company_id' => $company->id]);
-
-        return true;
-    }
-
-    /**
      * Suspend this user account.
      *
      * @param  string  $reason  Reason for suspension

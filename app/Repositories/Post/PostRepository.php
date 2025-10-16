@@ -165,27 +165,6 @@ class PostRepository extends BaseRepository
     }
 
     /**
-     * Get posts by Instagram account
-     */
-    public function getByAccount(int $accountId, array $filters = []): Collection
-    {
-        $query = $this->model->query()
-            ->where('instagram_account_id', $accountId)
-            ->with(['creator', 'media']);
-
-        // Apply filters
-        if (! empty($filters['status'])) {
-            $query->where('status', $filters['status']);
-        }
-
-        if (! empty($filters['type'])) {
-            $query->where('type', $filters['type']);
-        }
-
-        return $query->orderBy('created_at', 'desc')->get();
-    }
-
-    /**
      * Get post statistics for company
      */
     public function getStats(int $companyId): array
@@ -250,18 +229,5 @@ class PostRepository extends BaseRepository
             'published' => $stats->published ?? 0,
             'failed' => $stats->failed ?? 0,
         ];
-    }
-
-    /**
-     * Get recent posts
-     */
-    public function getRecent(int $companyId, int $limit = 5): Collection
-    {
-        return $this->model->query()
-            ->where('company_id', $companyId)
-            ->with(['instagramAccount', 'media'])
-            ->orderBy('created_at', 'desc')
-            ->limit($limit)
-            ->get();
     }
 }

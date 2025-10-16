@@ -33,36 +33,6 @@ class CompanyService
     }
 
     /**
-     * Check if company has any Instagram accounts connected.
-     */
-    public function hasInstagramAccounts(Company $company): bool
-    {
-        return $company->instagramAccounts()->exists();
-    }
-
-    /**
-     * Get the primary/default Instagram account for this company.
-     */
-    public function getPrimaryInstagramAccount(Company $company): ?\App\Models\InstagramAccount
-    {
-        return $company->activeInstagramAccounts()->first();
-    }
-
-    /**
-     * Switch user to a different company
-     */
-    public function switchUserCompany(User $user, Company $company): bool
-    {
-        if (! $user->companies->contains($company)) {
-            return false;
-        }
-
-        $user->update(['current_company_id' => $company->id]);
-
-        return true;
-    }
-
-    /**
      * Create a new company for a user
      *
      * Business rules:
