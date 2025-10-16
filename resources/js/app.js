@@ -37,7 +37,7 @@ const messages = {
             password: 'Password',
             remember_me: 'Remember me',
             forgot_password: 'Forgot your password?',
-            secure_auth: 'Secure authentication powered by Autopost AI',
+            secure_auth: `Secure authentication powered by ${appName}`,
             forgot_password_title: 'Forgot Password',
             forgot_password_description:
                 "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
@@ -77,7 +77,7 @@ const messages = {
             greeting_afternoon: 'Good afternoon',
             greeting_evening: 'Good evening',
             welcome_messages: [
-                "Welcome to Autopost AI. Let's make something amazing today.",
+                `Welcome to ${appName}. Let's make something amazing today.`,
                 "Ready to automate your social media? Let's get started!",
                 "Your content deserves to shine. Let's make it happen.",
                 'Time to turn your ideas into engaging posts.',
@@ -587,7 +587,7 @@ const messages = {
             password: 'Пароль',
             remember_me: 'Запомнить меня',
             forgot_password: 'Забыли пароль?',
-            secure_auth: 'Безопасная аутентификация от Autopost AI',
+            secure_auth: `Безопасная аутентификация от ${appName}`,
             forgot_password_title: 'Забыли пароль',
             forgot_password_description:
                 'Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.',
@@ -627,7 +627,7 @@ const messages = {
             greeting_afternoon: 'Добрый день',
             greeting_evening: 'Добрый вечер',
             welcome_messages: [
-                'Добро пожаловать в Autopost AI. Давайте создадим что-то удивительное сегодня.',
+                `Добро пожаловать в ${appName}. Давайте создадим что-то удивительное сегодня.`,
                 'Готовы автоматизировать социальные сети? Начнём!',
                 'Ваш контент заслуживает внимания. Давайте воплотим это в жизнь.',
                 'Время превратить ваши идеи в увлекательные публикации.',
@@ -1123,7 +1123,7 @@ const messages = {
             password: 'Contraseña',
             remember_me: 'Recuérdame',
             forgot_password: '¿Olvidaste tu contraseña?',
-            secure_auth: 'Autenticación segura con Autopost AI',
+            secure_auth: `Autenticación segura con ${appName}`,
             forgot_password_title: 'Olvidé mi contraseña',
             forgot_password_description:
                 '¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.',
@@ -1164,7 +1164,7 @@ const messages = {
             greeting_afternoon: 'Buenas tardes',
             greeting_evening: 'Buenas noches',
             welcome_messages: [
-                'Bienvenido a Autopost AI. Hagamos algo increíble hoy.',
+                `Bienvenido a ${appName}. Hagamos algo increíble hoy.`,
                 '¿Listo para automatizar tus redes sociales? ¡Comencemos!',
                 'Tu contenido merece brillar. Hagámoslo realidad.',
                 'Es hora de convertir tus ideas en publicaciones atractivas.',

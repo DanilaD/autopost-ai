@@ -33,7 +33,7 @@ let timeout = null
 // Watch for changes and emit with debounce
 watch(search, (value) => {
     emit('update:modelValue', value)
-    
+
     if (props.routeName) {
         clearTimeout(timeout)
         timeout = setTimeout(() => {
@@ -66,9 +66,9 @@ const clearSearch = () => {
         <div class="absolute inset-y-0 end-0 flex items-center pe-3">
             <button
                 v-if="search"
-                @click="clearSearch"
                 type="button"
                 class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                @click="clearSearch"
             >
                 <svg
                     class="h-4 w-4"
@@ -101,4 +101,3 @@ const clearSearch = () => {
         </div>
     </div>
 </template>
-

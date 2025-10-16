@@ -136,7 +136,7 @@ class UpdatePostRequest extends FormRequest
         $media = $this->input('media', []);
 
         foreach ($media as $index => $mediaItem) {
-            if (! in_array($mediaItem['type'], $allowedTypes)) {
+            if (isset($mediaItem['type']) && ! in_array($mediaItem['type'], $allowedTypes)) {
                 $validator->errors()->add("media.{$index}.type", __('posts.invalid_media_type_for_post', [
                     'media_type' => $mediaItem['type'],
                     'post_type' => $type->label(),

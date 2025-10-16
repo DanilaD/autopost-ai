@@ -1,4 +1,4 @@
-# Autopost AI
+# {{APP_NAME}} - AI-Powered Instagram Content Platform
 
 A modern SaaS application built with Laravel 12, Inertia.js, and Vue 3 for automated social media posting powered by AI.
 
@@ -42,7 +42,7 @@ A modern SaaS application built with Laravel 12, Inertia.js, and Vue 3 for autom
 - 📊 **Inquiry Tracking** - Marketing intelligence for non-existent email submissions
 - 🎨 **Modern UI** - Beautiful gradient design with Tailwind CSS
 - ⚡ **SPA Experience** - Smooth navigation without full page reloads (Inertia.js)
-- 🧪 **Testing** - Comprehensive test suite (25/25 passing)
+- 🧪 **Testing** - Comprehensive test suite (294/294 passing)
 - 🔧 **Developer Tools** - Auto-formatting (ESLint, Prettier, Pint) with git hooks
 - 🏢 **Company Management** - Multi-company support with owner/member roles
 
@@ -245,7 +245,7 @@ Key variables to configure in `.env`:
 
 ```env
 # Application
-APP_NAME="Autopost AI"
+APP_NAME="{{APP_NAME}}"
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://localhost:8000

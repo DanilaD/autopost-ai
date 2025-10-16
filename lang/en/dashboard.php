@@ -9,7 +9,7 @@ return [
     ],
     // Rotating welcome messages - randomly displayed on dashboard
     'welcome_messages' => [
-        "Welcome to Autopost AI. Let's make something amazing today.",
+        'Welcome to '.config('app.name').'. Let\'s make something amazing today.',
         "Ready to automate your social media? Let's get started!",
         "Your content deserves to shine. Let's make it happen.",
         'Time to turn your ideas into engaging posts.',

@@ -64,7 +64,24 @@ class InstagramAccountController extends Controller
                     'last_synced_at' => $account->last_synced_at?->format('Y-m-d H:i:s'),
                     'created_at' => $account->created_at->format('Y-m-d H:i:s'),
                 ])
-            : collect();
+            : $user->instagramAccounts()
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(fn ($account) => [
+                    'id' => $account->id,
+                    'username' => $account->username,
+                    'instagram_user_id' => $account->instagram_user_id,
+                    'account_type' => $account->account_type,
+                    'profile_picture_url' => $account->profile_picture_url,
+                    'followers_count' => $account->followers_count,
+                    'status' => $account->status,
+                    'is_active' => $account->isActive(),
+                    'is_token_expired' => $account->isTokenExpired(),
+                    'is_token_expiring_soon' => $account->isTokenExpiringSoon(),
+                    'token_expires_at' => $account->token_expires_at->format('Y-m-d H:i:s'),
+                    'last_synced_at' => $account->last_synced_at?->format('Y-m-d H:i:s'),
+                    'created_at' => $account->created_at->format('Y-m-d H:i:s'),
+                ]);
 
         return Inertia::render('Instagram/Index', [
             'accounts' => $accounts,

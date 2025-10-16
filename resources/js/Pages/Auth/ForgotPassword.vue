@@ -3,6 +3,7 @@ import LanguageSelector from '@/Components/LanguageSelector.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 const { t } = useI18n()
 
 defineProps({
@@ -37,7 +38,7 @@ const submit = () => {
             <!-- Logo/Brand -->
             <div class="text-center">
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    Autopost AI
+                    {{ appName }}
                 </h1>
                 <p class="mt-3 text-gray-600 dark:text-gray-400">
                     {{ t('auth.forgot_password_title') }}

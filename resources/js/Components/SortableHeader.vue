@@ -53,8 +53,8 @@ const handleSort = () => {
 
 <template>
     <th
-        @click="handleSort"
         class="cursor-pointer select-none bg-gray-50 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+        @click="handleSort"
     >
         <div class="flex items-center gap-2">
             <span>{{ label }}</span>
@@ -87,4 +87,3 @@ const handleSort = () => {
         </div>
     </th>
 </template>
-

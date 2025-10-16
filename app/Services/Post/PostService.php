@@ -66,9 +66,7 @@ class PostService
         // Validate business rules
         $this->validatePostData($data);
 
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($companyId, $data) {
             // Determine defaults for optional fields
             $accountId = $data['instagram_account_id'] ?? optional(auth()->user()->currentCompany?->instagramAccounts()->first())->id;
             // Allow posts without Instagram accounts - they can be assigned later
@@ -101,22 +99,10 @@ class PostService
                 $this->createPostMedia($post, $data['media']);
             }
 
-            DB::commit();
-
             Log::info('Post created successfully', ['post_id' => $post->id]);
 
             return $post->load('media');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            Log::error('Failed to create post', [
-                'company_id' => $companyId,
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e;
-        }
+        });
     }
 
     /**
@@ -132,9 +118,7 @@ class PostService
 
         $this->validatePostData($data, $post);
 
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($post, $data) {
             // Handle scheduled_at conversion to UTC
             $scheduledAt = $post->scheduled_at;
             if (isset($data['scheduled_at'])) {
@@ -163,22 +147,10 @@ class PostService
                 $this->updatePostMedia($post, $data['media']);
             }
 
-            DB::commit();
-
             Log::info('Post updated successfully', ['post_id' => $post->id]);
 
             return $post->fresh(['media']);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            Log::error('Failed to update post', [
-                'post_id' => $post->id,
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e;
-        }
+        });
     }
 
     /**
@@ -192,9 +164,7 @@ class PostService
             throw new \InvalidArgumentException(__('posts.cannot_delete_published'));
         }
 
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($post) {
             // Delete media files
             foreach ($post->media as $media) {
                 Storage::delete($media->storage_path);
@@ -203,22 +173,10 @@ class PostService
             // Delete post (media will be deleted by cascade)
             $deleted = $this->postRepository->delete($post);
 
-            DB::commit();
-
             Log::info('Post deleted successfully', ['post_id' => $post->id]);
 
             return $deleted;
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            Log::error('Failed to delete post', [
-                'post_id' => $post->id,
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e;
-        }
+        });
     }
 
     /**

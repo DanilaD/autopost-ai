@@ -175,7 +175,7 @@ class PostMediaServiceTest extends TestCase
         $result = $this->postMediaService->getPublicUrl($media);
 
         // Assert
-        $this->assertStringContains('posts/1/test.jpg', $result);
+        $this->assertStringContainsString('posts/1/test.jpg', $result);
     }
 
     /** @test */
@@ -197,25 +197,33 @@ class PostMediaServiceTest extends TestCase
     public function it_can_generate_thumbnail_for_image()
     {
         // Arrange
-        $media = new PostMedia;
+        $media = Mockery::mock(PostMedia::class);
+        $media->shouldAllowMockingProtectedMethods();
+        $media->shouldReceive('setAttribute')->andReturnSelf();
+        $media->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $media->shouldReceive('getAttribute')->with('filename')->andReturn('test.jpg');
+        $media->shouldReceive('getAttribute')->with('post_id')->andReturn(1);
+        $media->shouldReceive('getAttribute')->with('storage_path')->andReturn('posts/1/test.jpg');
+        $media->shouldReceive('isImage')->andReturn(true);
         $media->id = 1;
         $media->filename = 'test.jpg';
         $media->post_id = 1;
-        $media->shouldReceive('isImage')->andReturn(true);
 
         // Act
         $result = $this->postMediaService->generateThumbnail($media, 300, 300);
 
         // Assert
-        $this->assertStringContains('posts/1/test.jpg', $result);
+        $this->assertStringContainsString('posts/1/test.jpg', $result);
     }
 
     /** @test */
     public function it_returns_null_when_generating_thumbnail_for_non_image()
     {
         // Arrange
-        $media = new PostMedia;
+        $media = Mockery::mock(PostMedia::class);
+        $media->shouldAllowMockingProtectedMethods();
         $media->shouldReceive('isImage')->andReturn(false);
+        $media->shouldReceive('setAttribute')->andReturnSelf();
 
         // Act
         $result = $this->postMediaService->generateThumbnail($media);
@@ -228,9 +236,12 @@ class PostMediaServiceTest extends TestCase
     public function it_can_sync_media_for_post()
     {
         // Arrange
-        $post = new Post;
-        $post->id = 1;
+        $post = Mockery::mock(Post::class);
+        $post->shouldAllowMockingProtectedMethods();
+        $post->shouldReceive('setAttribute')->andReturnSelf();
+        $post->shouldReceive('getAttribute')->with('id')->andReturn(1);
         $post->shouldReceive('getAttribute')->with('media')->andReturn(collect([]));
+        $post->id = 1;
 
         $file1 = UploadedFile::fake()->image('test1.jpg');
         $file2 = UploadedFile::fake()->image('test2.jpg');
@@ -256,15 +267,27 @@ class PostMediaServiceTest extends TestCase
     public function it_can_clear_media_for_post()
     {
         // Arrange
-        $post = new Post;
+        $post = Mockery::mock(Post::class);
+        $post->shouldAllowMockingProtectedMethods();
+        $post->shouldReceive('setAttribute')->andReturnSelf();
         $post->id = 1;
 
-        $media1 = new PostMedia;
+        $media1 = Mockery::mock(PostMedia::class);
+        $media1->shouldAllowMockingProtectedMethods();
+        $media1->shouldReceive('setAttribute')->andReturnSelf();
+        $media1->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $media1->shouldReceive('getAttribute')->with('filename')->andReturn('test1.jpg');
+        $media1->shouldReceive('getAttribute')->with('storage_path')->andReturn('posts/1/test1.jpg');
         $media1->id = 1;
         $media1->filename = 'test1.jpg';
         $media1->storage_path = 'posts/1/test1.jpg';
 
-        $media2 = new PostMedia;
+        $media2 = Mockery::mock(PostMedia::class);
+        $media2->shouldAllowMockingProtectedMethods();
+        $media2->shouldReceive('setAttribute')->andReturnSelf();
+        $media2->shouldReceive('getAttribute')->with('id')->andReturn(2);
+        $media2->shouldReceive('getAttribute')->with('filename')->andReturn('test2.jpg');
+        $media2->shouldReceive('getAttribute')->with('storage_path')->andReturn('posts/1/test2.jpg');
         $media2->id = 2;
         $media2->filename = 'test2.jpg';
         $media2->storage_path = 'posts/1/test2.jpg';
@@ -287,15 +310,16 @@ class PostMediaServiceTest extends TestCase
     public function it_can_copy_media_successfully()
     {
         // Arrange
-        $originalMedia = new PostMedia;
-        $originalMedia->id = 1;
-        $originalMedia->post_id = 1;
-        $originalMedia->filename = 'test.jpg';
-        $originalMedia->original_filename = 'test.jpg';
-        $originalMedia->file_size = 1024;
-        $originalMedia->mime_type = 'image/jpeg';
-        $originalMedia->type = 'image';
-        $originalMedia->metadata = ['width' => 100, 'height' => 100];
+        $originalMedia = Mockery::mock(PostMedia::class);
+        $originalMedia->shouldAllowMockingProtectedMethods();
+        $originalMedia->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $originalMedia->shouldReceive('getAttribute')->with('post_id')->andReturn(1);
+        $originalMedia->shouldReceive('getAttribute')->with('filename')->andReturn('test.jpg');
+        $originalMedia->shouldReceive('getAttribute')->with('original_filename')->andReturn('test.jpg');
+        $originalMedia->shouldReceive('getAttribute')->with('file_size')->andReturn(1024);
+        $originalMedia->shouldReceive('getAttribute')->with('mime_type')->andReturn('image/jpeg');
+        $originalMedia->shouldReceive('getAttribute')->with('type')->andReturn('image');
+        $originalMedia->shouldReceive('getAttribute')->with('metadata')->andReturn(['width' => 100, 'height' => 100]);
 
         $mediaToCopy = [
             ['id' => 1, 'order' => 0],
@@ -303,13 +327,27 @@ class PostMediaServiceTest extends TestCase
 
         $newPostId = 2;
 
-        // Mock PostMedia::find
-        PostMedia::shouldReceive('find')->with(1)->andReturn($originalMedia);
+        $this->mediaRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($originalMedia);
 
         $this->mediaRepository
             ->shouldReceive('create')
             ->once()
             ->andReturn(new PostMedia);
+
+        // Mock Storage to simulate file existence
+        Storage::shouldReceive('disk')
+            ->with('local')
+            ->andReturnSelf();
+        Storage::shouldReceive('disk')
+            ->with('public')
+            ->andReturnSelf();
+        Storage::shouldReceive('exists')
+            ->andReturn(true);
+        Storage::shouldReceive('copy')
+            ->andReturn(true);
 
         // Act
         $this->postMediaService->copyMedia($mediaToCopy, $newPostId);
@@ -328,8 +366,11 @@ class PostMediaServiceTest extends TestCase
 
         $newPostId = 2;
 
-        // Mock PostMedia::find to return null
-        PostMedia::shouldReceive('find')->with(999)->andReturn(null);
+        // Mock the repository to return null for non-existent media
+        $this->mediaRepository
+            ->shouldReceive('find')
+            ->with(999)
+            ->andReturn(null);
 
         // Act
         $this->postMediaService->copyMedia($mediaToCopy, $newPostId);
@@ -342,15 +383,16 @@ class PostMediaServiceTest extends TestCase
     public function it_throws_exception_when_original_file_not_found_during_copy()
     {
         // Arrange
-        $originalMedia = new PostMedia;
-        $originalMedia->id = 1;
-        $originalMedia->post_id = 1;
-        $originalMedia->filename = 'nonexistent.jpg';
-        $originalMedia->original_filename = 'nonexistent.jpg';
-        $originalMedia->file_size = 1024;
-        $originalMedia->mime_type = 'image/jpeg';
-        $originalMedia->type = 'image';
-        $originalMedia->metadata = [];
+        $originalMedia = Mockery::mock(PostMedia::class);
+        $originalMedia->shouldAllowMockingProtectedMethods();
+        $originalMedia->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $originalMedia->shouldReceive('getAttribute')->with('post_id')->andReturn(1);
+        $originalMedia->shouldReceive('getAttribute')->with('filename')->andReturn('nonexistent.jpg');
+        $originalMedia->shouldReceive('getAttribute')->with('original_filename')->andReturn('nonexistent.jpg');
+        $originalMedia->shouldReceive('getAttribute')->with('file_size')->andReturn(1024);
+        $originalMedia->shouldReceive('getAttribute')->with('mime_type')->andReturn('image/jpeg');
+        $originalMedia->shouldReceive('getAttribute')->with('type')->andReturn('image');
+        $originalMedia->shouldReceive('getAttribute')->with('metadata')->andReturn([]);
 
         $mediaToCopy = [
             ['id' => 1, 'order' => 0],
@@ -358,8 +400,10 @@ class PostMediaServiceTest extends TestCase
 
         $newPostId = 2;
 
-        // Mock PostMedia::find
-        PostMedia::shouldReceive('find')->with(1)->andReturn($originalMedia);
+        $this->mediaRepository
+            ->shouldReceive('find')
+            ->with(1)
+            ->andReturn($originalMedia);
 
         // Act & Assert
         $this->expectException(\Exception::class);
@@ -446,7 +490,7 @@ class PostMediaServiceTest extends TestCase
 
         // Act & Assert
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(__('posts.unsupported_file_type'));
+        $this->expectExceptionMessage('Invalid file type. Allowed types: JPEG, PNG, GIF, WebP, MP4, MOV, AVI');
 
         $this->postMediaService->uploadMedia($file, $postId);
     }

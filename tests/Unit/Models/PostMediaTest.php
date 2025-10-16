@@ -335,16 +335,16 @@ class PostMediaTest extends TestCase
     /** @test */
     public function it_can_have_multiple_media_per_post()
     {
-        $media1 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 1]);
-        $media2 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 2]);
-        $media3 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 3]);
+        $media1 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 2]);
+        $media2 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 3]);
+        $media3 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 4]);
 
         // Refresh the post model to get updated media relationships
         $this->post->refresh();
 
         $this->assertCount(4, $this->post->media); // Including the one from setUp
-        $this->assertEquals($media1->id, $this->post->media->first()->id);
-        $this->assertEquals($media3->id, $this->post->media->last()->id);
+        $this->assertEquals($this->media->id, $this->post->media->first()->id); // First should be the one from setUp (order=1)
+        $this->assertEquals($media3->id, $this->post->media->last()->id); // Last should be the one with order=4
     }
 
     /** @test */

@@ -124,7 +124,12 @@ class CreatePostRequest extends FormRequest
      */
     private function validateMediaCount($validator): void
     {
-        $type = PostType::from($this->input('type'));
+        $typeInput = $this->input('type');
+        if (! $typeInput) {
+            return; // Skip validation if no type provided
+        }
+
+        $type = PostType::from($typeInput);
         $mediaCount = count($this->input('media', []));
 
         if ($mediaCount > $type->maxMediaCount()) {
@@ -140,12 +145,17 @@ class CreatePostRequest extends FormRequest
      */
     private function validateMediaTypes($validator): void
     {
-        $type = PostType::from($this->input('type'));
+        $typeInput = $this->input('type');
+        if (! $typeInput) {
+            return; // Skip validation if no type provided
+        }
+
+        $type = PostType::from($typeInput);
         $allowedTypes = $type->allowedMediaTypes();
         $media = $this->input('media', []);
 
         foreach ($media as $index => $mediaItem) {
-            if (! in_array($mediaItem['type'], $allowedTypes)) {
+            if (isset($mediaItem['type']) && ! in_array($mediaItem['type'], $allowedTypes)) {
                 $validator->errors()->add("media.{$index}.type", __('posts.invalid_media_type_for_post', [
                     'media_type' => $mediaItem['type'],
                     'post_type' => $type->label(),

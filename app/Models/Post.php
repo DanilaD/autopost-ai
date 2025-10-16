@@ -193,4 +193,28 @@ class Post extends Model
 
         return strlen($caption) > 100 ? substr($caption, 0, 100).'...' : $caption;
     }
+
+    /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Cascade soft delete to related media
+        static::deleted(function ($post) {
+            if ($post->isForceDeleting()) {
+                // Hard delete - cascade to media
+                $post->media()->forceDelete();
+            } else {
+                // Soft delete - cascade to media
+                $post->media()->delete();
+            }
+        });
+
+        // Cascade restore to related media
+        static::restored(function ($post) {
+            $post->media()->withTrashed()->restore();
+        });
+    }
 }

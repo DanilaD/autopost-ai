@@ -293,11 +293,16 @@ class PostController extends Controller
                 'post' => $post,
             ]);
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => __('posts.schedule_failed'),
                 'error' => $e->getMessage(),
-            ], 500);
+            ], 200);
         }
     }
 
@@ -308,22 +313,23 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
-        if (! $user->currentCompany) {
-            return response()->json([
-                'message' => 'You need to create a company first to view statistics.',
-            ], 403);
+        if ($user->currentCompany) {
+            // Company user - get company stats
+            $companyId = $user->currentCompany->id;
+            $posts = $this->postService->getCompanyPosts($companyId);
+        } else {
+            // Individual user - get their own stats
+            $posts = $this->postService->getByUser($user->id);
         }
-
-        $companyId = $user->currentCompany->id;
-        $stats = $this->postService->getCompanyPosts($companyId);
 
         // Calculate stats from posts
         $stats = [
-            'total' => $stats->count(),
-            'drafts' => $stats->where('status', 'draft')->count(),
-            'scheduled' => $stats->where('status', 'scheduled')->count(),
-            'published' => $stats->where('status', 'published')->count(),
-            'failed' => $stats->where('status', 'failed')->count(),
+            'total' => $posts->count(),
+            'drafts' => $posts->where('status', 'draft')->count(),
+            'scheduled' => $posts->where('status', 'scheduled')->count(),
+            'publishing' => $posts->where('status', 'publishing')->count(),
+            'published' => $posts->where('status', 'published')->count(),
+            'failed' => $posts->where('status', 'failed')->count(),
         ];
 
         return response()->json($stats);

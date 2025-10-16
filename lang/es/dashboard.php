@@ -9,7 +9,7 @@ return [
     ],
     // Mensajes de bienvenida rotativos - se muestran aleatoriamente en el panel
     'welcome_messages' => [
-        'Bienvenido a Autopost AI. Hagamos algo increíble hoy.',
+        'Bienvenido a '.config('app.name').'. Hagamos algo increíble hoy.',
         '¿Listo para automatizar tus redes sociales? ¡Comencemos!',
         'Tu contenido merece brillar. Hagámoslo realidad.',
         'Es hora de convertir tus ideas en publicaciones atractivas.',

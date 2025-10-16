@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { ref, computed, watch, nextTick } from 'vue'
 import LanguageSelector from '@/Components/LanguageSelector.vue'
 
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
+
 const props = defineProps({
     email: String,
     mode: String, // 'register' or 'login'
@@ -116,7 +118,7 @@ watch(
             <!-- Logo/Brand -->
             <div class="text-center">
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    Autopost AI
+                    {{ appName }}
                 </h1>
                 <p
                     v-if="isEmailStep"

@@ -4,6 +4,7 @@ import { Head, usePage, Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 const { t, tm } = useI18n()
 const page = usePage()
 const user = computed(() => page.props.auth.user)
@@ -44,7 +45,7 @@ const welcomeMessage = computed(() => {
     }
 
     // Fallback to first message if something goes wrong
-    return "Welcome to Autopost AI. Let's make something amazing today."
+    return `Welcome to ${appName}. Let's make something amazing today.`
 })
 
 // Check if user has posts

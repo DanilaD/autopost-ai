@@ -404,6 +404,6 @@ class PostTest extends TestCase
 
         $this->post->delete();
 
-        $this->assertDatabaseMissing('post_media', ['id' => $media->id]);
+        $this->assertSoftDeleted('post_media', ['id' => $media->id]);
     }
 }

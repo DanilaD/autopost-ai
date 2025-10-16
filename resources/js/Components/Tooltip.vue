@@ -3,9 +3,9 @@ import { ref } from 'vue'
 
 /**
  * Tooltip Component
- * 
+ *
  * Displays a tooltip on hover with smooth animations
- * 
+ *
  * @example
  * <Tooltip text="This is a helpful tooltip">
  *   <button>Hover me</button>
@@ -20,7 +20,8 @@ const props = defineProps({
     position: {
         type: String,
         default: 'top',
-        validator: (value) => ['top', 'bottom', 'left', 'right'].includes(value),
+        validator: (value) =>
+            ['top', 'bottom', 'left', 'right'].includes(value),
     },
 })
 
@@ -87,4 +88,3 @@ const showTooltip = ref(false)
         </Transition>
     </div>
 </template>
-

@@ -13,9 +13,7 @@ const { isDark, toggleTheme } = useTheme()
             :aria-label="
                 isDark ? t('theme.switchToLight') : t('theme.switchToDark')
             "
-            :title="
-                isDark ? t('theme.switchToLight') : t('theme.switchToDark')
-            "
+            :title="isDark ? t('theme.switchToLight') : t('theme.switchToDark')"
             class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition-colors duration-200 ease-in-out hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-100 dark:focus:ring-offset-gray-900"
             @click="toggleTheme"
         >
@@ -55,4 +53,3 @@ const { isDark, toggleTheme } = useTheme()
         </button>
     </div>
 </template>
-

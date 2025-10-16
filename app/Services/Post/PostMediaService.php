@@ -333,7 +333,7 @@ class PostMediaService
     public function copyMedia(array $mediaToCopy, int $newPostId): void
     {
         foreach ($mediaToCopy as $mediaData) {
-            $originalMedia = PostMedia::find($mediaData['id']);
+            $originalMedia = $this->mediaRepository->find($mediaData['id']);
 
             if (! $originalMedia) {
                 Log::warning("Media not found for copying: {$mediaData['id']}");

@@ -12,11 +12,11 @@ return [
     'password' => 'Password',
     'remember_me' => 'Remember me',
     'forgot_password' => 'Forgot your password?',
-    'secure_auth' => 'Secure authentication powered by Autopost AI',
+    'secure_auth' => 'Secure authentication powered by '.config('app.name'),
 
     // Success messages
     'login_success' => 'Welcome back! You have successfully logged in.',
-    'register_success' => 'Welcome to Autopost AI! Your account has been created successfully.',
+    'register_success' => 'Welcome to '.config('app.name').'! Your account has been created successfully.',
     'logout_success' => 'You have been successfully logged out.',
     'password_reset_sent' => 'We have emailed your password reset link!',
     'password_reset_success' => 'Your password has been reset successfully!',
