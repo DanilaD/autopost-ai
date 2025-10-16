@@ -13,7 +13,7 @@ class IndividualUserPostTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function individual_user_can_view_their_posts()
     {
         // Create a user without a company
@@ -42,7 +42,7 @@ class IndividualUserPostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function individual_user_can_create_posts()
     {
         // Create a user without a company
@@ -64,7 +64,7 @@ class IndividualUserPostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function individual_user_can_get_post_stats()
     {
         // Create a user without a company

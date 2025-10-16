@@ -54,7 +54,7 @@ class PostControllerTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_posts_index()
     {
         // Arrange
@@ -94,7 +94,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_posts_index_with_filters()
     {
         // Arrange
@@ -132,7 +132,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_create_post_form()
     {
         // Act
@@ -146,7 +146,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_create_post_form_with_duplicate_prefill()
     {
         // Arrange
@@ -176,7 +176,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_store_a_new_post()
     {
         // Arrange
@@ -206,7 +206,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('success', __('posts.created_successfully'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_store_a_new_post_with_media()
     {
         // Arrange
@@ -245,7 +245,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('success', __('posts.created_successfully'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_post_creation_failure()
     {
         // Arrange
@@ -269,7 +269,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('error', __('posts.create_failed'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_a_specific_post()
     {
         // Arrange
@@ -288,7 +288,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_display_edit_post_form()
     {
         // Arrange
@@ -307,7 +307,7 @@ class PostControllerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_update_a_post()
     {
         // Arrange
@@ -332,7 +332,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('success', __('posts.updated_successfully'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_update_a_post_with_media_changes()
     {
         // Arrange
@@ -379,7 +379,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('success', __('posts.updated_successfully'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_post_update_failure()
     {
         // Arrange
@@ -402,7 +402,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('error', __('posts.update_failed'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_delete_a_post()
     {
         // Arrange
@@ -422,7 +422,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('success', __('posts.deleted_successfully'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_post_deletion_failure()
     {
         // Arrange
@@ -442,7 +442,7 @@ class PostControllerTest extends TestCase
         $response->assertSessionHas('error', __('posts.delete_failed'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_schedule_a_post()
     {
         // Arrange
@@ -468,7 +468,7 @@ class PostControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_post_scheduling_failure()
     {
         // Arrange
@@ -494,7 +494,7 @@ class PostControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_validates_schedule_request()
     {
         // Arrange
@@ -509,7 +509,7 @@ class PostControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_post_statistics()
     {
         // Arrange
@@ -542,7 +542,7 @@ class PostControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_requires_authentication()
     {
         // Act & Assert
@@ -551,7 +551,7 @@ class PostControllerTest extends TestCase
         $this->post(route('posts.store'), [])->assertRedirect('/500');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_requires_user_to_have_current_company()
     {
         // Arrange

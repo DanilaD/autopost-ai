@@ -24,7 +24,7 @@ class IndividualUserInstagramTest extends TestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function individual_user_can_view_instagram_accounts_page()
     {
         // Create a user without a company
@@ -41,7 +41,7 @@ class IndividualUserInstagramTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function individual_user_can_see_their_instagram_accounts()
     {
         // Create a user without a company

@@ -39,7 +39,7 @@ class PostMediaTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_created_with_factory()
     {
         $this->assertInstanceOf(PostMedia::class, $this->media);
@@ -50,7 +50,7 @@ class PostMediaTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_correct_fillable_attributes()
     {
         $fillable = [
@@ -69,7 +69,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals($fillable, $this->media->getFillable());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_casts_attributes_correctly()
     {
         $this->assertIsArray($this->media->metadata);
@@ -77,14 +77,14 @@ class PostMediaTest extends TestCase
         $this->assertIsInt($this->media->order);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_belongs_to_post()
     {
         $this->assertInstanceOf(Post::class, $this->media->post);
         $this->assertEquals($this->post->id, $this->media->post->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_full_storage_path()
     {
         Storage::fake('public');
@@ -92,7 +92,7 @@ class PostMediaTest extends TestCase
         $this->assertStringContainsString('posts/1/test_image.jpg', $this->media->full_path);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_public_url_from_storage_path()
     {
         Storage::fake('public');
@@ -101,7 +101,7 @@ class PostMediaTest extends TestCase
         $this->assertStringContainsString('posts/1/test_image.jpg', $url);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_public_url_from_custom_url()
     {
         $this->media->update(['url' => 'https://example.com/custom-image.jpg']);
@@ -109,7 +109,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('https://example.com/custom-image.jpg', $this->media->fresh()->public_url);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_human_readable_file_size()
     {
         // Test bytes
@@ -129,7 +129,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('1 GB', $this->media->fresh()->human_file_size);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_if_image()
     {
         $this->assertTrue($this->media->isImage());
@@ -140,7 +140,7 @@ class PostMediaTest extends TestCase
         $this->assertTrue($this->media->fresh()->isVideo());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_if_video()
     {
         $videoMedia = PostMedia::factory()->create([
@@ -154,7 +154,7 @@ class PostMediaTest extends TestCase
         $this->assertFalse($videoMedia->isImage());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_image_dimensions_from_metadata()
     {
         $dimensions = $this->media->dimensions;
@@ -164,7 +164,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals(1080, $dimensions['height']);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_null_dimensions_when_not_available()
     {
         $this->media->update(['metadata' => []]);
@@ -172,7 +172,7 @@ class PostMediaTest extends TestCase
         $this->assertNull($this->media->fresh()->dimensions);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_video_duration_from_metadata()
     {
         $videoMedia = PostMedia::factory()->create([
@@ -184,13 +184,13 @@ class PostMediaTest extends TestCase
         $this->assertEquals(120, $videoMedia->duration);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_null_duration_when_not_available()
     {
         $this->assertNull($this->media->duration);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_video_metadata()
     {
         $videoMedia = PostMedia::factory()->create([
@@ -215,7 +215,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals(30, $videoMedia->metadata['fps']);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_complex_image_metadata()
     {
         $imageMedia = PostMedia::factory()->create([
@@ -239,7 +239,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('#FF0000', $imageMedia->metadata['dominant_color']);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_custom_url()
     {
         $this->media->update(['url' => 'https://cdn.example.com/images/test.jpg']);
@@ -247,7 +247,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('https://cdn.example.com/images/test.jpg', $this->media->fresh()->url);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_different_order_values()
     {
         $media1 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 1]);
@@ -259,7 +259,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals(0, $media3->order);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_large_file_sizes()
     {
         $largeFile = PostMedia::factory()->create([
@@ -270,7 +270,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('1 GB', $largeFile->human_file_size);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_small_file_sizes()
     {
         $smallFile = PostMedia::factory()->create([
@@ -281,7 +281,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals('256 B', $smallFile->human_file_size);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_different_mime_types()
     {
         $mimeTypes = [
@@ -304,7 +304,7 @@ class PostMediaTest extends TestCase
         }
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_empty_metadata()
     {
         $this->media->update(['metadata' => null]);
@@ -314,7 +314,7 @@ class PostMediaTest extends TestCase
         $this->assertNull($this->media->fresh()->duration);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_soft_deleted()
     {
         $this->media->delete();
@@ -322,7 +322,7 @@ class PostMediaTest extends TestCase
         $this->assertSoftDeleted('post_media', ['id' => $this->media->id]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_cascades_delete_when_post_is_deleted()
     {
         $mediaId = $this->media->id;
@@ -332,7 +332,7 @@ class PostMediaTest extends TestCase
         $this->assertSoftDeleted('post_media', ['id' => $mediaId]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_multiple_media_per_post()
     {
         $media1 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 2]);
@@ -347,7 +347,7 @@ class PostMediaTest extends TestCase
         $this->assertEquals($media3->id, $this->post->media->last()->id); // Last should be the one with order=4
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_mixed_media_types_per_post()
     {
         $imageMedia = PostMedia::factory()->create([

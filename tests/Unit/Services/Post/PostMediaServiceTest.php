@@ -42,7 +42,7 @@ class PostMediaServiceTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_media_successfully()
     {
         // Arrange
@@ -74,7 +74,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertEquals($order, $result->order);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_file_is_too_large()
     {
         // Arrange
@@ -88,7 +88,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->uploadMedia($file, $postId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_file_type_is_invalid()
     {
         // Arrange
@@ -102,7 +102,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->uploadMedia($file, $postId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_image_file_is_corrupted()
     {
         // Arrange
@@ -121,7 +121,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->uploadMedia($file, $postId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_delete_media_successfully()
     {
         // Arrange
@@ -142,7 +142,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_file_not_found_when_deleting_media()
     {
         // Arrange
@@ -163,7 +163,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_public_url_for_media()
     {
         // Arrange
@@ -178,7 +178,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertStringContainsString('posts/1/test.jpg', $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_custom_url_when_available()
     {
         // Arrange
@@ -193,7 +193,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertEquals('https://example.com/custom-url.jpg', $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_thumbnail_for_image()
     {
         // Arrange
@@ -216,7 +216,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertStringContainsString('posts/1/test.jpg', $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_null_when_generating_thumbnail_for_non_image()
     {
         // Arrange
@@ -232,7 +232,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertNull($result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_sync_media_for_post()
     {
         // Arrange
@@ -263,7 +263,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_clear_media_for_post()
     {
         // Arrange
@@ -306,7 +306,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_copy_media_successfully()
     {
         // Arrange
@@ -356,7 +356,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_missing_media_when_copying()
     {
         // Arrange
@@ -379,7 +379,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_original_file_not_found_during_copy()
     {
         // Arrange
@@ -412,7 +412,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->copyMedia($mediaToCopy, $newPostId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_database_error_during_upload()
     {
         // Arrange
@@ -431,7 +431,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->uploadMedia($file, $postId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_database_error_during_delete()
     {
         // Arrange
@@ -452,7 +452,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->deleteMedia($media);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_validates_video_files_correctly()
     {
         // Arrange
@@ -481,7 +481,7 @@ class PostMediaServiceTest extends TestCase
         $this->assertEquals('video/mp4', $result->mime_type);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_for_unsupported_file_type()
     {
         // Arrange
@@ -495,7 +495,7 @@ class PostMediaServiceTest extends TestCase
         $this->postMediaService->uploadMedia($file, $postId);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_extracts_image_metadata_correctly()
     {
         // Arrange

@@ -52,7 +52,7 @@ class PostServiceTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_company_posts()
     {
         $companyId = 1;
@@ -70,7 +70,7 @@ class PostServiceTest extends TestCase
         $this->assertEquals($expectedPosts, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_stats_for_company()
     {
         $companyId = 1;
@@ -94,7 +94,7 @@ class PostServiceTest extends TestCase
         $this->assertEquals($expectedStats, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_stats_for_individual_user()
     {
         $userId = 1;
@@ -131,7 +131,7 @@ class PostServiceTest extends TestCase
         ], $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_create_a_post_successfully()
     {
         // Arrange
@@ -186,7 +186,7 @@ class PostServiceTest extends TestCase
         $this->assertInstanceOf(Post::class, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_creating_post_without_instagram_account()
     {
         // Arrange
@@ -212,7 +212,7 @@ class PostServiceTest extends TestCase
         $this->postService->createPost($company->id, $postData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_caption_is_too_long()
     {
         // Arrange
@@ -234,7 +234,7 @@ class PostServiceTest extends TestCase
         $this->postService->createPost($company->id, $postData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_scheduled_time_is_in_past()
     {
         // Arrange
@@ -256,7 +256,7 @@ class PostServiceTest extends TestCase
         $this->postService->createPost($company->id, $postData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_too_many_media_for_post_type()
     {
         // Arrange
@@ -281,7 +281,7 @@ class PostServiceTest extends TestCase
         $this->postService->createPost($company->id, $postData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_invalid_media_type_for_post_type()
     {
         // Arrange
@@ -305,7 +305,7 @@ class PostServiceTest extends TestCase
         $this->postService->createPost($company->id, $postData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_update_a_post_successfully()
     {
         // Arrange
@@ -343,7 +343,7 @@ class PostServiceTest extends TestCase
         $this->assertInstanceOf(Post::class, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_updating_published_post()
     {
         // Arrange
@@ -359,7 +359,7 @@ class PostServiceTest extends TestCase
         $this->postService->updatePost($post, $updateData);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_delete_a_post_successfully()
     {
         // Arrange
@@ -390,7 +390,7 @@ class PostServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_deleting_published_post()
     {
         // Arrange
@@ -404,7 +404,7 @@ class PostServiceTest extends TestCase
         $this->postService->deletePost($post);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_schedule_a_post_successfully()
     {
         // Arrange
@@ -431,7 +431,7 @@ class PostServiceTest extends TestCase
         $this->assertInstanceOf(Post::class, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_scheduling_published_post()
     {
         // Arrange
@@ -447,7 +447,7 @@ class PostServiceTest extends TestCase
         $this->postService->schedulePost($post, $scheduledAt);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_scheduling_post_in_past()
     {
         // Arrange
@@ -463,7 +463,7 @@ class PostServiceTest extends TestCase
         $this->postService->schedulePost($post, $scheduledAt);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_exception_when_scheduling_post_without_media()
     {
         // Arrange
@@ -481,7 +481,7 @@ class PostServiceTest extends TestCase
         $this->postService->schedulePost($post, $scheduledAt);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_get_posts_due_for_publishing()
     {
         // Arrange
@@ -499,7 +499,7 @@ class PostServiceTest extends TestCase
         $this->assertEquals($expectedPosts, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_extracts_hashtags_from_caption()
     {
         // This tests the private method indirectly through createPost
@@ -535,7 +535,7 @@ class PostServiceTest extends TestCase
         $this->assertInstanceOf(Post::class, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_extracts_mentions_from_caption()
     {
         // This tests the private method indirectly through createPost
@@ -571,7 +571,7 @@ class PostServiceTest extends TestCase
         $this->assertInstanceOf(Post::class, $result);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_database_transaction_rollback_on_error()
     {
         // Arrange

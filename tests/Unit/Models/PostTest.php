@@ -48,7 +48,7 @@ class PostTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_created_with_factory()
     {
         $this->assertInstanceOf(Post::class, $this->post);
@@ -59,7 +59,7 @@ class PostTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_correct_fillable_attributes()
     {
         $fillable = [
@@ -82,7 +82,7 @@ class PostTest extends TestCase
         $this->assertEquals($fillable, $this->post->getFillable());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_casts_attributes_correctly()
     {
         $this->assertInstanceOf(PostStatus::class, $this->post->status);
@@ -92,28 +92,28 @@ class PostTest extends TestCase
         $this->assertIsArray($this->post->metadata);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_belongs_to_company()
     {
         $this->assertInstanceOf(Company::class, $this->post->company);
         $this->assertEquals($this->company->id, $this->post->company->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_belongs_to_creator()
     {
         $this->assertInstanceOf(User::class, $this->post->creator);
         $this->assertEquals($this->user->id, $this->post->creator->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_belongs_to_instagram_account()
     {
         $this->assertInstanceOf(InstagramAccount::class, $this->post->instagramAccount);
         $this->assertEquals($this->instagramAccount->id, $this->post->instagramAccount->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_many_media()
     {
         $media1 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 1]);
@@ -124,7 +124,7 @@ class PostTest extends TestCase
         $this->assertEquals($media1->id, $this->post->media->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_orders_media_by_order_column()
     {
         $media2 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 2]);
@@ -135,7 +135,7 @@ class PostTest extends TestCase
         $this->assertEquals($media2->id, $media->last()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_scope_by_company()
     {
         $otherCompany = Company::factory()->create();
@@ -147,7 +147,7 @@ class PostTest extends TestCase
         $this->assertEquals($this->post->id, $companyPosts->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_scope_by_status()
     {
         $scheduledPost = Post::factory()->create([
@@ -164,7 +164,7 @@ class PostTest extends TestCase
         $this->assertEquals($scheduledPost->id, $scheduledPosts->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_scope_by_type()
     {
         $reelPost = Post::factory()->create([
@@ -181,7 +181,7 @@ class PostTest extends TestCase
         $this->assertEquals($reelPost->id, $reelPosts->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_scope_due_for_publishing()
     {
         $duePost = Post::factory()->create([
@@ -202,7 +202,7 @@ class PostTest extends TestCase
         $this->assertEquals($duePost->id, $duePosts->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_scope_by_instagram_account()
     {
         $otherAccount = InstagramAccount::factory()->create(['company_id' => $this->company->id]);
@@ -217,7 +217,7 @@ class PostTest extends TestCase
         $this->assertEquals($this->post->id, $accountPosts->first()->id);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_if_editable()
     {
         $this->assertTrue($this->post->canBeEdited());
@@ -226,7 +226,7 @@ class PostTest extends TestCase
         $this->assertFalse($this->post->fresh()->canBeEdited());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_if_ready_to_publish()
     {
         $this->assertFalse($this->post->isReadyToPublish());
@@ -235,7 +235,7 @@ class PostTest extends TestCase
         $this->assertTrue($this->post->fresh()->isReadyToPublish());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_formats_caption_with_hashtags()
     {
         $this->assertEquals(
@@ -244,7 +244,7 @@ class PostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_formats_caption_without_hashtags()
     {
         $this->post->update(['hashtags' => null]);
@@ -255,7 +255,7 @@ class PostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_formats_caption_with_empty_caption()
     {
         $this->post->update(['caption' => null, 'hashtags' => ['test']]);
@@ -266,7 +266,7 @@ class PostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_gets_summary_attribute()
     {
         $this->assertEquals(
@@ -275,7 +275,7 @@ class PostTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_truncates_long_summary()
     {
         $longCaption = str_repeat('a', 150);
@@ -286,7 +286,7 @@ class PostTest extends TestCase
         $this->assertEquals(103, strlen($summary)); // 100 + '...'
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_null_caption_in_summary()
     {
         $this->post->update(['caption' => null]);
@@ -294,7 +294,7 @@ class PostTest extends TestCase
         $this->assertEquals('', $this->post->fresh()->summary);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_created_with_all_post_types()
     {
         foreach (PostType::cases() as $type) {
@@ -307,7 +307,7 @@ class PostTest extends TestCase
         }
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_created_with_all_post_statuses()
     {
         foreach (PostStatus::cases() as $status) {
@@ -320,7 +320,7 @@ class PostTest extends TestCase
         }
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_scheduled_at_set()
     {
         $scheduledAt = now()->addHour();
@@ -329,7 +329,7 @@ class PostTest extends TestCase
         $this->assertEquals($scheduledAt->format('Y-m-d H:i:s'), $this->post->fresh()->scheduled_at->format('Y-m-d H:i:s'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_published_at_set()
     {
         $publishedAt = now();
@@ -338,7 +338,7 @@ class PostTest extends TestCase
         $this->assertEquals($publishedAt->format('Y-m-d H:i:s'), $this->post->fresh()->published_at->format('Y-m-d H:i:s'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_failure_reason_set()
     {
         $failureReason = 'Instagram API error';
@@ -347,7 +347,7 @@ class PostTest extends TestCase
         $this->assertEquals($failureReason, $this->post->fresh()->failure_reason);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_publish_attempts_incremented()
     {
         $this->post->update(['publish_attempts' => 3]);
@@ -355,7 +355,7 @@ class PostTest extends TestCase
         $this->assertEquals(3, $this->post->fresh()->publish_attempts);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_complex_metadata()
     {
         $metadata = [
@@ -371,7 +371,7 @@ class PostTest extends TestCase
         $this->assertEquals($metadata, $this->post->fresh()->metadata);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_multiple_hashtags()
     {
         $hashtags = ['test', 'instagram', 'social', 'media'];
@@ -380,7 +380,7 @@ class PostTest extends TestCase
         $this->assertEquals($hashtags, $this->post->fresh()->hashtags);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_multiple_mentions()
     {
         $mentions = ['user1', 'user2', 'brand'];
@@ -389,7 +389,7 @@ class PostTest extends TestCase
         $this->assertEquals($mentions, $this->post->fresh()->mentions);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_be_soft_deleted()
     {
         $this->post->delete();
@@ -397,7 +397,7 @@ class PostTest extends TestCase
         $this->assertSoftDeleted('posts', ['id' => $this->post->id]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_cascades_delete_to_media()
     {
         $media = PostMedia::factory()->create(['post_id' => $this->post->id]);
