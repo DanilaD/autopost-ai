@@ -3,6 +3,7 @@ import './bootstrap'
 
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+// Cache bust: Company translations loaded - 2025-10-16 16:45:00
 import { createApp, h } from 'vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import { createI18n } from 'vue-i18n'
@@ -101,6 +102,8 @@ const messages = {
                 no_posts: 'No posts yet',
                 get_started: 'Get started by creating your first post',
             },
+            recent_posts: 'Recent Posts',
+            view_all_posts: 'View all posts',
         },
         posts: {
             create_post: 'Create Post',
@@ -126,8 +129,25 @@ const messages = {
             scheduling: 'Scheduling',
             scheduling_description: 'Choose when to publish your post',
             publish_immediately: 'Publish Immediately',
+            save_draft: 'Save Draft',
             schedule_for_later: 'Schedule for Later',
             cancel: 'Cancel',
+            // Scheduling Interface
+            quick_select: 'Quick Select',
+            custom_schedule: 'Custom Schedule',
+            now: 'Now',
+            today_1h: 'Today (+1 hour)',
+            today_3h: 'Today (+3 hours)',
+            today_6h: 'Today (+6 hours)',
+            tomorrow_9am: 'Tomorrow (9:00 AM)',
+            tomorrow_6pm: 'Tomorrow (6:00 PM)',
+            next_week: 'Next Week',
+            next_month: 'Next Month',
+            select_date: 'Select Date',
+            select_time: 'Select Time',
+            date_placeholder: 'Choose a date',
+            time_placeholder: 'Choose a time',
+            scheduled_for: 'Scheduled for',
             type: {
                 feed: 'Feed Post',
                 feed_description: 'Regular post that appears in your feed',
@@ -172,8 +192,12 @@ const messages = {
             status: {
                 draft: 'Draft',
                 scheduled: 'Scheduled',
+                publishing: 'Publishing',
                 published: 'Published',
                 failed: 'Failed',
+            },
+            stats: {
+                total_posts: 'Total Posts',
             },
             created_successfully: 'Post created successfully!',
             view: 'View',
@@ -195,10 +219,58 @@ const messages = {
             confirm_delete: 'Are you sure you want to delete this post?',
             deleted_successfully: 'Post deleted successfully!',
             delete_failed: 'Failed to delete post.',
+            no_instagram_accounts: 'No Instagram Accounts Connected',
+            no_instagram_accounts_description:
+                'You need to connect an Instagram account before you can create posts.',
+            connect_instagram_account: 'Connect Instagram Account',
+            assign_account_later: 'You can assign an Instagram account later',
+            create_post_without_account:
+                'You can create a post without connecting an Instagram account first',
+            or: 'or',
+            assign_later: 'assign later',
+        },
+        common: {
+            view: 'View',
+            edit: 'Edit',
+            delete: 'Delete',
+            save: 'Save',
+            cancel: 'Cancel',
+            back: 'Back',
+            next: 'Next',
+            previous: 'Previous',
+            loading: 'Loading...',
+            error: 'Error',
+            success: 'Success',
+            warning: 'Warning',
+            info: 'Info',
+            yes: 'Yes',
+            no: 'No',
+            ok: 'OK',
+            close: 'Close',
+            open: 'Open',
+            search: 'Search',
+            filter: 'Filter',
+            sort: 'Sort',
+            refresh: 'Refresh',
+            export: 'Export',
+            import: 'Import',
+            download: 'Download',
+            upload: 'Upload',
+            select: 'Select',
+            select_all: 'Select All',
+            deselect_all: 'Deselect All',
+            clear: 'Clear',
+            reset: 'Reset',
+            submit: 'Submit',
+            confirm: 'Confirm',
+            optional: 'Optional',
+            required: 'Required',
         },
         menu: {
             dashboard: 'Dashboard',
             posts: 'Posts',
+            company: 'Company',
+            create_company: 'Create Company',
             profile: 'Profile',
             logout: 'Log Out',
             instagram: 'Instagram',
@@ -237,6 +309,113 @@ const messages = {
             token_warning:
                 'Your access token will expire soon. Please reconnect this account to continue posting.',
         },
+        company: {
+            title: 'Company Information',
+            description: 'Your current company and team details.',
+            no_company: 'You are not currently associated with any company.',
+            member_since: 'Member since',
+            role_admin: 'Administrator',
+            role_user: 'User',
+            role_network: 'Company Admin',
+            member_singular: 'Team Member',
+            member_plural: 'Team Members',
+            instagram_account_singular: 'Instagram Account',
+            instagram_account_plural: 'Instagram Accounts',
+            manage_accounts: 'Manage Instagram Accounts',
+
+            create: {
+                title: 'Create Company',
+                heading: 'Create Your Company',
+                description:
+                    'Set up your company to start collaborating with your team.',
+                name_label: 'Company Name',
+                name_placeholder: 'Enter your company name',
+                info_title: 'What happens next?',
+                info_1: 'You will become the company administrator',
+                info_2: 'You can invite team members to join',
+                info_3: 'All posts will be associated with your company',
+                create_button: 'Create Company',
+                creating: 'Creating...',
+            },
+
+            settings: {
+                title: 'Company Settings',
+                company_info: 'Company Information',
+                company_name: 'Company Name',
+                created_at: 'Created At',
+                team_members: 'Team Members',
+                invite_member: 'Invite Member',
+                member: 'Member',
+                role: 'Role',
+                joined: 'Joined',
+                actions: 'Actions',
+                owner: 'Owner',
+                // keep role labels once only
+                role_admin: 'Administrator',
+                role_user: 'User',
+                role_network: 'Company Admin',
+                edit_role: 'Edit Role',
+                remove: 'Remove',
+                pending_invitations: 'Pending Invitations',
+                email: 'Email',
+                invited_by: 'Invited By',
+                expires: 'Expires',
+                resend_invitation: 'Resend Invitation',
+                cancel: 'Cancel',
+                update_role: 'Update Role',
+                update_role_description: 'Update role for {name}',
+                update: 'Update',
+                invite_new_member: 'Invite New Member',
+                invite_description:
+                    'Send an invitation to join your company team.',
+                email_placeholder: 'Enter email address',
+                send_invitation: 'Send Invitation',
+                confirm_remove_user:
+                    'Are you sure you want to remove {name} from the company?',
+                confirm_cancel_invitation:
+                    'Are you sure you want to cancel the invitation to {email}?',
+            },
+
+            invitation: {
+                sent: 'Invitation sent to {email}',
+                resent: 'Invitation resent successfully',
+                cancelled: 'Invitation cancelled successfully',
+                cannot_resend_accepted: 'Cannot resend an accepted invitation.',
+                title: 'Company Invitation',
+                welcome_title: 'Welcome to {company_name}!',
+                welcome_subtitle: 'You have been invited to join our team.',
+                company_info: 'Company Information',
+                company_name: 'Company Name',
+                invited_by: 'Invited By',
+                your_role: 'Your Role',
+                email: 'Email',
+                expiry_title: 'Invitation Expires',
+                expiry_message: 'This invitation will expire on {expiry_date}.',
+                user_not_exists_message:
+                    'You need to create an account to accept this invitation.',
+                footer_message:
+                    'If you did not expect this invitation, you can safely ignore this email.',
+                register_button: 'Create Account & Join',
+            },
+
+            toast: {
+                need_company_first: 'You need to create a company first.',
+                no_permission:
+                    'You do not have permission to perform this action.',
+                role_updated: 'User role updated successfully',
+                user_removed: 'User removed from company successfully',
+                login_required: 'Please log in to accept the invitation.',
+                accepted:
+                    'Welcome to the company! You can now access all company features.',
+            },
+        },
+        emails: {
+            company_invitation: {
+                role_admin: 'Administrator',
+                role_user: 'User',
+                role_network: 'Company Admin',
+            },
+        },
         profile: {
             title: 'Profile',
             information: {
@@ -249,8 +428,8 @@ const messages = {
                 timezone_description:
                     'All dates and times will be displayed in your selected timezone.',
                 search_timezone: 'Search timezones...',
-                common_timezones: '🌟 Quick Select (USA, Canada & Key Cities)',
-                all_timezones: '🌍 All Timezones',
+                common_timezones: 'Quick Select (USA, Canada & Key Cities)',
+                all_timezones: 'All Timezones',
                 unverified_email: 'Your email address is unverified.',
                 resend_verification:
                     'Click here to re-send the verification email.',
@@ -269,21 +448,6 @@ const messages = {
                 save: 'Save',
                 saved: 'Saved.',
             },
-            company: {
-                title: 'Company Information',
-                description: 'Your current company and team details.',
-                no_company:
-                    'You are not currently associated with any company.',
-                member_since: 'Member since',
-                role_admin: 'Administrator',
-                role_user: 'User',
-                role_network: 'Network Manager',
-                member_singular: 'Team Member',
-                member_plural: 'Team Members',
-                instagram_account_singular: 'Instagram Account',
-                instagram_account_plural: 'Instagram Accounts',
-                manage_accounts: 'Manage Instagram Accounts',
-            },
             delete: {
                 title: 'Delete Account',
                 description:
@@ -296,6 +460,19 @@ const messages = {
                 password_placeholder: 'Password',
                 cancel: 'Cancel',
                 confirm_button: 'Delete Account',
+            },
+            company: {
+                title: 'Company Information',
+                description: 'Your current company and team details.',
+                member_since: 'Member since',
+                role_admin: 'Administrator',
+                role_user: 'User',
+                role_network: 'Company Admin',
+                member_singular: 'Team Member',
+                member_plural: 'Team Members',
+                instagram_account_singular: 'Instagram Account',
+                instagram_account_plural: 'Instagram Accounts',
+                manage_accounts: 'Manage Instagram Accounts',
             },
         },
         timezone: {
@@ -475,6 +652,8 @@ const messages = {
                 no_posts: 'Пока нет публикаций',
                 get_started: 'Начните с создания вашей первой публикации',
             },
+            recent_posts: 'Недавние публикации',
+            view_all_posts: 'Посмотреть все публикации',
         },
         posts: {
             create_post: 'Создать публикацию',
@@ -502,8 +681,25 @@ const messages = {
             scheduling_description:
                 'Выберите, когда опубликовать вашу публикацию',
             publish_immediately: 'Опубликовать сейчас',
+            save_draft: 'Сохранить черновик',
             schedule_for_later: 'Запланировать на потом',
             cancel: 'Отмена',
+            // Scheduling Interface
+            quick_select: 'Быстрый выбор',
+            custom_schedule: 'Настроить расписание',
+            now: 'Сейчас',
+            today_1h: 'Сегодня (+1 час)',
+            today_3h: 'Сегодня (+3 часа)',
+            today_6h: 'Сегодня (+6 часов)',
+            tomorrow_9am: 'Завтра (9:00)',
+            tomorrow_6pm: 'Завтра (18:00)',
+            next_week: 'На следующей неделе',
+            next_month: 'В следующем месяце',
+            select_date: 'Выберите дату',
+            select_time: 'Выберите время',
+            date_placeholder: 'Выберите дату',
+            time_placeholder: 'Выберите время',
+            scheduled_for: 'Запланировано на',
             type: {
                 feed: 'Публикация в ленте',
                 feed_description:
@@ -551,8 +747,12 @@ const messages = {
             status: {
                 draft: 'Черновик',
                 scheduled: 'Запланировано',
+                publishing: 'Публикация',
                 published: 'Опубликовано',
                 failed: 'Ошибка',
+            },
+            stats: {
+                total_posts: 'Всего публикаций',
             },
             created_successfully: 'Публикация успешно создана!',
             view: 'Просмотр',
@@ -574,10 +774,58 @@ const messages = {
             confirm_delete: 'Вы уверены, что хотите удалить эту публикацию?',
             deleted_successfully: 'Публикация успешно удалена!',
             delete_failed: 'Не удалось удалить публикацию.',
+            no_instagram_accounts: 'Нет подключенных аккаунтов Instagram',
+            no_instagram_accounts_description:
+                'Вам нужно подключить аккаунт Instagram перед созданием публикаций.',
+            connect_instagram_account: 'Подключить аккаунт Instagram',
+            assign_account_later: 'Вы можете назначить аккаунт Instagram позже',
+            create_post_without_account:
+                'Вы можете создать публикацию без подключения аккаунта Instagram',
+            or: 'или',
+            assign_later: 'назначить позже',
+        },
+        common: {
+            view: 'Просмотр',
+            edit: 'Редактировать',
+            delete: 'Удалить',
+            save: 'Сохранить',
+            cancel: 'Отмена',
+            back: 'Назад',
+            next: 'Далее',
+            previous: 'Предыдущий',
+            loading: 'Загрузка...',
+            error: 'Ошибка',
+            success: 'Успешно',
+            warning: 'Предупреждение',
+            info: 'Информация',
+            yes: 'Да',
+            no: 'Нет',
+            ok: 'ОК',
+            close: 'Закрыть',
+            open: 'Открыть',
+            search: 'Поиск',
+            filter: 'Фильтр',
+            sort: 'Сортировка',
+            refresh: 'Обновить',
+            export: 'Экспорт',
+            import: 'Импорт',
+            download: 'Скачать',
+            upload: 'Загрузить',
+            select: 'Выбрать',
+            select_all: 'Выбрать все',
+            deselect_all: 'Снять выделение',
+            clear: 'Очистить',
+            reset: 'Сбросить',
+            submit: 'Отправить',
+            confirm: 'Подтвердить',
+            optional: 'Необязательно',
+            required: 'Обязательно',
         },
         menu: {
             dashboard: 'Панель управления',
             posts: 'Публикации',
+            company: 'Компания',
+            create_company: 'Создать Компанию',
             profile: 'Профиль',
             logout: 'Выйти',
             instagram: 'Instagram',
@@ -616,6 +864,88 @@ const messages = {
             token_warning:
                 'Ваш токен доступа скоро истечет. Пожалуйста, переподключите этот аккаунт для продолжения публикаций.',
         },
+        company: {
+            title: 'Информация о компании',
+            description: 'Детали вашей текущей компании и команды.',
+            no_company: 'В настоящее время вы не связаны ни с одной компанией.',
+            member_since: 'Участник с',
+            role_admin: 'Администратор',
+            role_user: 'Пользователь',
+            role_network: 'Администратор компании',
+            member_singular: 'Участник команды',
+            member_plural: 'Участники команды',
+            instagram_account_singular: 'Аккаунт Instagram',
+            instagram_account_plural: 'Аккаунты Instagram',
+            manage_accounts: 'Управление аккаунтами Instagram',
+            create: {
+                title: 'Создать компанию',
+                heading: 'Создайте свою компанию',
+                description:
+                    'Настройте свою компанию для начала сотрудничества с командой.',
+                name_label: 'Название компании',
+                name_placeholder: 'Введите название вашей компании',
+                info_title: 'Что происходит дальше?',
+                info_1: 'Вы станете администратором компании',
+                info_2: 'Вы можете пригласить участников команды присоединиться',
+                info_3: 'Все публикации будут связаны с вашей компанией',
+                create_button: 'Создать компанию',
+                creating: 'Создание...',
+            },
+            settings: {
+                title: 'Настройки компании',
+                company_info: 'Информация о компании',
+                company_name: 'Название компании',
+                created_at: 'Создано',
+                team_members: 'Участники команды',
+                invite_member: 'Пригласить участника',
+                member: 'Участник',
+                role: 'Роль',
+                joined: 'Присоединился',
+                actions: 'Действия',
+                owner: 'Владелец',
+                role_admin: 'Администратор',
+                role_user: 'Пользователь',
+                role_network: 'Администратор компании',
+                edit_role: 'Изменить роль',
+                remove: 'Удалить',
+                pending_invitations: 'Ожидающие приглашения',
+                email: 'Электронная почта',
+                invited_by: 'Приглашен',
+                expires: 'Истекает',
+                resend_invitation: 'Повторно отправить приглашение',
+                cancel: 'Отмена',
+                update_role: 'Обновить роль',
+                update_role_description: 'Обновить роль для {name}',
+                update: 'Обновить',
+                invite_new_member: 'Пригласить нового участника',
+                invite_description:
+                    'Отправить приглашение присоединиться к команде вашей компании.',
+                email_placeholder: 'Введите адрес электронной почты',
+                send_invitation: 'Отправить приглашение',
+                confirm_remove_user:
+                    'Вы уверены, что хотите удалить {name} из компании?',
+                confirm_cancel_invitation:
+                    'Вы уверены, что хотите отменить приглашение для {email}?',
+            },
+            invitation: {
+                sent: 'Приглашение отправлено на {email}',
+                resent: 'Приглашение повторно отправлено успешно',
+                cancelled: 'Приглашение отменено успешно',
+                cannot_resend_accepted:
+                    'Нельзя повторно отправить принятое приглашение.',
+            },
+            toast: {
+                need_company_first: 'Сначала нужно создать компанию.',
+                no_permission:
+                    'У вас нет разрешения на выполнение этого действия.',
+                role_updated: 'Роль пользователя обновлена успешно',
+                user_removed: 'Пользователь удален из компании успешно',
+                login_required:
+                    'Пожалуйста, войдите в систему, чтобы принять приглашение.',
+                accepted:
+                    'Добро пожаловать в компанию! Теперь вы можете получить доступ ко всем функциям компании.',
+            },
+        },
         profile: {
             title: 'Профиль',
             information: {
@@ -649,21 +979,6 @@ const messages = {
                 save: 'Сохранить',
                 saved: 'Сохранено.',
             },
-            company: {
-                title: 'Информация о компании',
-                description: 'Информация о вашей текущей компании и команде.',
-                no_company:
-                    'Вы в настоящее время не связаны ни с одной компанией.',
-                member_since: 'Участник с',
-                role_admin: 'Администратор',
-                role_user: 'Пользователь',
-                role_network: 'Менеджер сети',
-                member_singular: 'Участник команды',
-                member_plural: 'Участники команды',
-                instagram_account_singular: 'Аккаунт Instagram',
-                instagram_account_plural: 'Аккаунты Instagram',
-                manage_accounts: 'Управлять аккаунтами Instagram',
-            },
             delete: {
                 title: 'Удалить аккаунт',
                 description:
@@ -677,6 +992,19 @@ const messages = {
                 password_placeholder: 'Пароль',
                 cancel: 'Отмена',
                 confirm_button: 'Удалить аккаунт',
+            },
+            company: {
+                title: 'Информация о компании',
+                description: 'Детали вашей текущей компании и команды.',
+                member_since: 'Участник с',
+                role_admin: 'Администратор',
+                role_user: 'Пользователь',
+                role_network: 'Администратор компании',
+                member_singular: 'Участник команды',
+                member_plural: 'Участники команды',
+                instagram_account_singular: 'Аккаунт Instagram',
+                instagram_account_plural: 'Аккаунты Instagram',
+                manage_accounts: 'Управление аккаунтами Instagram',
             },
         },
         timezone: {
@@ -861,6 +1189,8 @@ const messages = {
                 no_posts: 'Aún no hay publicaciones',
                 get_started: 'Comienza creando tu primera publicación',
             },
+            recent_posts: 'Publicaciones Recientes',
+            view_all_posts: 'Ver todas las publicaciones',
         },
         posts: {
             create_post: 'Crear publicación',
@@ -887,8 +1217,25 @@ const messages = {
             scheduling: 'Programación',
             scheduling_description: 'Elige cuándo publicar tu contenido',
             publish_immediately: 'Publicar ahora',
+            save_draft: 'Guardar borrador',
             schedule_for_later: 'Programar para después',
             cancel: 'Cancelar',
+            // Scheduling Interface
+            quick_select: 'Selección rápida',
+            custom_schedule: 'Programación personalizada',
+            now: 'Ahora',
+            today_1h: 'Hoy (+1 hora)',
+            today_3h: 'Hoy (+3 horas)',
+            today_6h: 'Hoy (+6 horas)',
+            tomorrow_9am: 'Mañana (9:00 AM)',
+            tomorrow_6pm: 'Mañana (6:00 PM)',
+            next_week: 'La próxima semana',
+            next_month: 'El próximo mes',
+            select_date: 'Seleccionar fecha',
+            select_time: 'Seleccionar hora',
+            date_placeholder: 'Elige una fecha',
+            time_placeholder: 'Elige una hora',
+            scheduled_for: 'Programado para',
             type: {
                 feed: 'Publicación en feed',
                 feed_description: 'Publicación regular que aparece en tu feed',
@@ -937,8 +1284,12 @@ const messages = {
             status: {
                 draft: 'Borrador',
                 scheduled: 'Programado',
+                publishing: 'Publicando',
                 published: 'Publicado',
                 failed: 'Fallido',
+            },
+            stats: {
+                total_posts: 'Total de Publicaciones',
             },
             created_successfully: '¡Publicación creada exitosamente!',
             view: 'Ver',
@@ -961,10 +1312,59 @@ const messages = {
                 '¿Estás seguro de que quieres eliminar esta publicación?',
             deleted_successfully: '¡Publicación eliminada exitosamente!',
             delete_failed: 'Error al eliminar la publicación.',
+            no_instagram_accounts: 'No hay cuentas de Instagram conectadas',
+            no_instagram_accounts_description:
+                'Necesitas conectar una cuenta de Instagram antes de crear publicaciones.',
+            connect_instagram_account: 'Conectar cuenta de Instagram',
+            assign_account_later:
+                'Puedes asignar una cuenta de Instagram más tarde',
+            create_post_without_account:
+                'Puedes crear una publicación sin conectar una cuenta de Instagram primero',
+            or: 'o',
+            assign_later: 'asignar más tarde',
+        },
+        common: {
+            view: 'Ver',
+            edit: 'Editar',
+            delete: 'Eliminar',
+            save: 'Guardar',
+            cancel: 'Cancelar',
+            back: 'Atrás',
+            next: 'Siguiente',
+            previous: 'Anterior',
+            loading: 'Cargando...',
+            error: 'Error',
+            success: 'Éxito',
+            warning: 'Advertencia',
+            info: 'Información',
+            yes: 'Sí',
+            no: 'No',
+            ok: 'OK',
+            close: 'Cerrar',
+            open: 'Abrir',
+            search: 'Buscar',
+            filter: 'Filtrar',
+            sort: 'Ordenar',
+            refresh: 'Actualizar',
+            export: 'Exportar',
+            import: 'Importar',
+            download: 'Descargar',
+            upload: 'Subir',
+            select: 'Seleccionar',
+            select_all: 'Seleccionar todo',
+            deselect_all: 'Deseleccionar todo',
+            clear: 'Limpiar',
+            reset: 'Restablecer',
+            submit: 'Enviar',
+            confirm: 'Confirmar',
+            optional: 'Opcional',
+            required: 'Requerido',
         },
         menu: {
             dashboard: 'Panel de control',
             posts: 'Publicaciones',
+            company: 'Empresa',
+            create_company: 'Crear Empresa',
             profile: 'Perfil',
             logout: 'Cerrar sesión',
             instagram: 'Instagram',
@@ -1003,6 +1403,87 @@ const messages = {
             token_warning:
                 'Tu token de acceso expirará pronto. Por favor, vuelve a conectar esta cuenta para continuar publicando.',
         },
+        company: {
+            title: 'Información de la Empresa',
+            description: 'Detalles de tu empresa actual y equipo.',
+            no_company: 'Actualmente no estás asociado con ninguna empresa.',
+            member_since: 'Miembro desde',
+            role_admin: 'Administrador',
+            role_user: 'Usuario',
+            role_network: 'Administrador de Empresa',
+            member_singular: 'Miembro del Equipo',
+            member_plural: 'Miembros del Equipo',
+            instagram_account_singular: 'Cuenta de Instagram',
+            instagram_account_plural: 'Cuentas de Instagram',
+            manage_accounts: 'Gestionar Cuentas de Instagram',
+            create: {
+                title: 'Crear Empresa',
+                heading: 'Crea tu Empresa',
+                description:
+                    'Configura tu empresa para comenzar a colaborar con tu equipo.',
+                name_label: 'Nombre de la Empresa',
+                name_placeholder: 'Ingresa el nombre de tu empresa',
+                info_title: '¿Qué sucede después?',
+                info_1: 'Te convertirás en el administrador de la empresa',
+                info_2: 'Puedes invitar miembros del equipo a unirse',
+                info_3: 'Todas las publicaciones estarán asociadas con tu empresa',
+                create_button: 'Crear Empresa',
+                creating: 'Creando...',
+            },
+            settings: {
+                title: 'Configuración de la Empresa',
+                company_info: 'Información de la Empresa',
+                company_name: 'Nombre de la Empresa',
+                created_at: 'Creado el',
+                team_members: 'Miembros del Equipo',
+                invite_member: 'Invitar Miembro',
+                member: 'Miembro',
+                role: 'Rol',
+                joined: 'Se unió',
+                actions: 'Acciones',
+                owner: 'Propietario',
+                role_admin: 'Administrador',
+                role_user: 'Usuario',
+                role_network: 'Administrador de Empresa',
+                edit_role: 'Editar Rol',
+                remove: 'Eliminar',
+                pending_invitations: 'Invitaciones Pendientes',
+                email: 'Correo Electrónico',
+                invited_by: 'Invitado por',
+                expires: 'Expira',
+                resend_invitation: 'Reenviar Invitación',
+                cancel: 'Cancelar',
+                update_role: 'Actualizar Rol',
+                update_role_description: 'Actualizar rol para {name}',
+                update: 'Actualizar',
+                invite_new_member: 'Invitar Nuevo Miembro',
+                invite_description:
+                    'Enviar una invitación para unirse al equipo de tu empresa.',
+                email_placeholder: 'Ingresa dirección de correo electrónico',
+                send_invitation: 'Enviar Invitación',
+                confirm_remove_user:
+                    '¿Estás seguro de que quieres eliminar {name} de la empresa?',
+                confirm_cancel_invitation:
+                    '¿Estás seguro de que quieres cancelar la invitación a {email}?',
+            },
+            invitation: {
+                sent: 'Invitación enviada a {email}',
+                resent: 'Invitación reenviada exitosamente',
+                cancelled: 'Invitación cancelada exitosamente',
+                cannot_resend_accepted:
+                    'No se puede reenviar una invitación aceptada.',
+            },
+            toast: {
+                need_company_first: 'Necesitas crear una empresa primero.',
+                no_permission: 'No tienes permisos para realizar esta acción.',
+                role_updated: 'Rol de usuario actualizado exitosamente',
+                user_removed: 'Usuario eliminado de la empresa exitosamente',
+                login_required:
+                    'Por favor, inicia sesión para aceptar la invitación.',
+                accepted:
+                    '¡Bienvenido a la empresa! Ahora puedes acceder a todas las funciones de la empresa.',
+            },
+        },
         profile: {
             title: 'Perfil',
             information: {
@@ -1037,21 +1518,6 @@ const messages = {
                 save: 'Guardar',
                 saved: 'Guardado.',
             },
-            company: {
-                title: 'Información de la empresa',
-                description: 'Detalles de tu empresa actual y equipo.',
-                no_company:
-                    'Actualmente no estás asociado con ninguna empresa.',
-                member_since: 'Miembro desde',
-                role_admin: 'Administrador',
-                role_user: 'Usuario',
-                role_network: 'Gerente de red',
-                member_singular: 'Miembro del equipo',
-                member_plural: 'Miembros del equipo',
-                instagram_account_singular: 'Cuenta de Instagram',
-                instagram_account_plural: 'Cuentas de Instagram',
-                manage_accounts: 'Gestionar cuentas de Instagram',
-            },
             delete: {
                 title: 'Eliminar Cuenta',
                 description:
@@ -1065,6 +1531,19 @@ const messages = {
                 password_placeholder: 'Contraseña',
                 cancel: 'Cancelar',
                 confirm_button: 'Eliminar Cuenta',
+            },
+            company: {
+                title: 'Información de la Empresa',
+                description: 'Detalles de tu empresa actual y equipo.',
+                member_since: 'Miembro desde',
+                role_admin: 'Administrador',
+                role_user: 'Usuario',
+                role_network: 'Administrador de Empresa',
+                member_singular: 'Miembro del Equipo',
+                member_plural: 'Miembros del Equipo',
+                instagram_account_singular: 'Cuenta de Instagram',
+                instagram_account_plural: 'Cuentas de Instagram',
+                manage_accounts: 'Gestionar Cuentas de Instagram',
             },
         },
         timezone: {
@@ -1180,7 +1659,7 @@ const getInitialLocale = () => {
     if (['en', 'ru', 'es'].includes(urlLocale)) {
         return urlLocale
     }
-    // Default to English
+    // Force English for testing
     return 'en'
 }
 
@@ -1207,6 +1686,18 @@ createInertiaApp({
         // Sync i18n locale with Inertia page props
         if (props.initialPage?.props?.locale) {
             i18n.global.locale.value = props.initialPage.props.locale
+        }
+
+        // Global toast handling
+        if (props.initialPage?.props?.toast) {
+            // Import toast composable dynamically
+            import('./composables/useToast.js').then(({ useToast }) => {
+                const toast = useToast()
+                toast.addToast(
+                    props.initialPage.props.toast.message,
+                    props.initialPage.props.toast.type || 'success'
+                )
+            })
         }
 
         return app.mount(el)

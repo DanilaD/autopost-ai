@@ -18,12 +18,21 @@ const showingNavigationDropdown = ref(false)
 const page = usePage()
 const toast = useToast()
 
-// Show toast from session flash data
+// Show toast from session flash data immediately
+const toastData = page.props.toast
+if (toastData) {
+    toast.addToast(toastData.message, toastData.type || 'success')
+}
+
+// Also check on mount as backup
 onMounted(() => {
-    const toastData = page.props.toast
-    if (toastData) {
-        toast.addToast(toastData.message, toastData.type || 'success')
-    }
+    // Add a small delay to ensure toast data is available
+    setTimeout(() => {
+        const toastData = page.props.toast
+        if (toastData) {
+            toast.addToast(toastData.message, toastData.type || 'success')
+        }
+    }, 100)
 })
 </script>
 
@@ -88,6 +97,33 @@ onMounted(() => {
                                     :active="route().current('posts.*')"
                                 >
                                     {{ t('menu.posts') }}
+                                </NavLink>
+
+                                <!-- Company Management -->
+                                <NavLink
+                                    v-if="
+                                        $page.props.auth.user?.current_company
+                                            ?.is_network
+                                    "
+                                    :href="route('companies.settings')"
+                                    :active="
+                                        route().current('companies.settings')
+                                    "
+                                >
+                                    {{ t('menu.company') }}
+                                </NavLink>
+
+                                <!-- Company Creation -->
+                                <NavLink
+                                    v-else-if="
+                                        !$page.props.auth.user?.current_company
+                                    "
+                                    :href="route('companies.create')"
+                                    :active="
+                                        route().current('companies.create')
+                                    "
+                                >
+                                    {{ t('menu.create_company') }}
                                 </NavLink>
 
                                 <!-- Admin Navigation -->
@@ -155,6 +191,33 @@ onMounted(() => {
                                     </template>
 
                                     <template #content>
+                                        <!-- Company Information -->
+                                        <div
+                                            v-if="
+                                                $page.props.auth.user
+                                                    ?.current_company
+                                            "
+                                            class="px-4 py-3 border-b border-gray-100 dark:border-gray-700"
+                                        >
+                                            <div
+                                                class="text-sm font-medium text-gray-900 dark:text-gray-100"
+                                            >
+                                                {{
+                                                    $page.props.auth.user
+                                                        .current_company.name
+                                                }}
+                                            </div>
+                                            <div
+                                                class="text-xs text-gray-500 dark:text-gray-400 capitalize"
+                                            >
+                                                {{
+                                                    $page.props.auth.user
+                                                        .current_company
+                                                        .user_role
+                                                }}
+                                            </div>
+                                        </div>
+
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
@@ -241,6 +304,27 @@ onMounted(() => {
                             :active="route().current('posts.*')"
                         >
                             {{ t('menu.posts') }}
+                        </ResponsiveNavLink>
+
+                        <!-- Company Management (Mobile) -->
+                        <ResponsiveNavLink
+                            v-if="
+                                $page.props.auth.user?.current_company
+                                    ?.is_network
+                            "
+                            :href="route('companies.settings')"
+                            :active="route().current('companies.settings')"
+                        >
+                            {{ t('menu.company') }}
+                        </ResponsiveNavLink>
+
+                        <!-- Company Creation (Mobile) -->
+                        <ResponsiveNavLink
+                            v-else-if="!$page.props.auth.user?.current_company"
+                            :href="route('companies.create')"
+                            :active="route().current('companies.create')"
+                        >
+                            {{ t('menu.create_company') }}
                         </ResponsiveNavLink>
 
                         <!-- Admin Navigation (Mobile) -->
