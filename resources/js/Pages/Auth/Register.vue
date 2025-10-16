@@ -8,12 +8,18 @@ import { Head, Link, useForm } from '@inertiajs/vue3'
 import { detectBrowserTimezone } from '@/composables/useTimezone.js'
 import { onMounted } from 'vue'
 
+const props = defineProps({
+    email: String,
+    invitationToken: String,
+})
+
 const form = useForm({
     name: '',
-    email: '',
+    email: props.email || '',
     password: '',
     password_confirmation: '',
     timezone: 'UTC',
+    invitation_token: props.invitationToken || '',
 })
 
 // Detect timezone when component mounts
@@ -33,6 +39,14 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
+            <!-- Hidden invitation token -->
+            <input
+                v-if="form.invitation_token"
+                type="hidden"
+                name="invitation_token"
+                :value="form.invitation_token"
+            />
+
             <div>
                 <InputLabel for="name" value="Name" />
 

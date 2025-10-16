@@ -56,6 +56,44 @@ class PostRepository extends BaseRepository
     }
 
     /**
+     * Get posts by user ID (for individual users)
+     */
+    public function getByUser(int $userId, array $filters = []): Collection
+    {
+        $query = $this->model->query()
+            ->where('created_by', $userId)
+            ->whereNull('company_id')
+            ->with(['creator', 'instagramAccount', 'media']);
+
+        // Apply filters
+        if (! empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        if (! empty($filters['type'])) {
+            $query->where('type', $filters['type']);
+        }
+
+        if (! empty($filters['instagram_account_id'])) {
+            $query->where('instagram_account_id', $filters['instagram_account_id']);
+        }
+
+        if (! empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('title', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('caption', 'like', '%'.$filters['search'].'%');
+            });
+        }
+
+        // Apply limit if specified
+        if (! empty($filters['limit'])) {
+            $query->limit($filters['limit']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
      * Paginate posts by company with filters and sorting
      *
      * @param  array{column:string,direction:string}  $sort
@@ -158,11 +196,13 @@ class PostRepository extends BaseRepository
                 COUNT(*) as total,
                 SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as drafts,
                 SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as scheduled,
+                SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as publishing,
                 SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as published,
                 SUM(CASE WHEN status = ? THEN 1 ELSE 0 END) as failed
             ', [
                 PostStatus::DRAFT->value,
                 PostStatus::SCHEDULED->value,
+                PostStatus::PUBLISHING->value,
                 PostStatus::PUBLISHED->value,
                 PostStatus::FAILED->value,
             ])
@@ -172,6 +212,7 @@ class PostRepository extends BaseRepository
             'total' => $stats->total ?? 0,
             'drafts' => $stats->drafts ?? 0,
             'scheduled' => $stats->scheduled ?? 0,
+            'publishing' => $stats->publishing ?? 0,
             'published' => $stats->published ?? 0,
             'failed' => $stats->failed ?? 0,
         ];

@@ -14,6 +14,7 @@ return [
     // Company section
     'company' => 'Empresa',
     'companies' => 'Empresas',
+    'create_company' => 'Crear Empresa',
     'settings' => 'Configuración',
 
     // Admin section

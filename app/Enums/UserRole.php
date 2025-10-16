@@ -28,7 +28,7 @@ enum UserRole: string
         return match ($this) {
             self::ADMIN => 'Full access to company settings and user management',
             self::USER => 'Can create and manage posts',
-            self::NETWORK => 'Can manage Instagram accounts and connections',
+            self::NETWORK => 'Company admin - full access to company management, Instagram accounts, and user invitations',
         };
     }
 
@@ -45,7 +45,7 @@ enum UserRole: string
      */
     public function isAdmin(): bool
     {
-        return $this === self::ADMIN;
+        return in_array($this, [self::ADMIN, self::NETWORK]);
     }
 
     /**
@@ -53,7 +53,7 @@ enum UserRole: string
      */
     public function canManageUsers(): bool
     {
-        return $this === self::ADMIN;
+        return in_array($this, [self::ADMIN, self::NETWORK]);
     }
 
     /**
@@ -61,7 +61,7 @@ enum UserRole: string
      */
     public function canManagePosts(): bool
     {
-        return in_array($this, [self::ADMIN, self::USER]);
+        return in_array($this, [self::ADMIN, self::USER, self::NETWORK]);
     }
 
     /**

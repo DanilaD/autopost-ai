@@ -14,6 +14,7 @@ return [
     // Company section
     'company' => 'Company',
     'companies' => 'Companies',
+    'create_company' => 'Create Company',
     'settings' => 'Settings',
 
     // Admin section

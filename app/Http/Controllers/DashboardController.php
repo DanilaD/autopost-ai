@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Post\PostService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DashboardController extends Controller
 {
+    public function __construct(
+        private PostService $postService
+    ) {}
+
     /**
      * Display the dashboard.
      */
@@ -16,13 +21,18 @@ class DashboardController extends Controller
         $user = $request->user();
         $company = $user->currentCompany;
 
-        // Get Instagram accounts count for current company
-        $instagramAccountsCount = $company
-            ? $company->instagramAccounts()->count()
-            : 0;
+        // Get Instagram accounts count based on user context
+        if ($company) {
+            $instagramAccountsCount = $company->instagramAccounts()->count();
+            $posts = $this->postService->getCompanyPosts($company->id, ['limit' => 5]);
+        } else {
+            // Individual user - get their own data
+            $instagramAccountsCount = $user->instagramAccounts()->count();
+            $posts = $this->postService->getByUser($user->id, ['limit' => 5]);
+        }
 
-        // Get scheduled posts count (future feature)
-        $scheduledPostsCount = 0;
+        // Get scheduled posts count
+        $scheduledPostsCount = $posts->where('status', 'scheduled')->count();
 
         // Get wallet balance (future feature)
         $walletBalance = 0;
@@ -33,6 +43,7 @@ class DashboardController extends Controller
                 'scheduled_posts' => $scheduledPostsCount,
                 'wallet_balance' => $walletBalance,
             ],
+            'recent_posts' => $posts,
         ]);
     }
 }

@@ -6,19 +6,26 @@ import { computed } from 'vue'
 
 const { t } = useI18n()
 
-defineProps({
+const props = defineProps({
     canResetPassword: {
         type: Boolean,
     },
     status: {
         type: String,
     },
+    email: {
+        type: String,
+    },
+    invitationToken: {
+        type: String,
+    },
 })
 
 const form = useForm({
-    email: '',
+    email: props.email || '',
     password: '',
     remember: false,
+    invitation_token: props.invitationToken || '',
 })
 
 const submit = () => {
@@ -142,6 +149,14 @@ const hasThrottleError = computed(() => {
 
             <!-- Login Form -->
             <form class="mt-8 space-y-6" @submit.prevent="submit">
+                <!-- Hidden invitation token -->
+                <input
+                    v-if="form.invitation_token"
+                    type="hidden"
+                    name="invitation_token"
+                    :value="form.invitation_token"
+                />
+
                 <div class="space-y-4">
                     <!-- Email Field -->
                     <div>

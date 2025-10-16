@@ -34,4 +34,6 @@ return [
         'no_posts' => 'Aún no hay publicaciones',
         'get_started' => 'Comienza conectando tu cuenta de Instagram y creando tu primera publicación.',
     ],
+    'recent_posts' => 'Publicaciones Recientes',
+    'view_all_posts' => 'Ver todas las publicaciones',
 ];

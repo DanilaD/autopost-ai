@@ -20,7 +20,14 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        // Get pre-filled email and invitation token from query string
+        $email = request('email');
+        $invitationToken = request('invitation');
+
+        return Inertia::render('Auth/Register', [
+            'email' => $email,
+            'invitationToken' => $invitationToken,
+        ]);
     }
 
     /**
@@ -34,6 +41,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'timezone' => 'nullable|string|timezone',
             'locale' => 'nullable|string|in:en,ru,es',
+            'invitation_token' => 'nullable|string',
         ]);
 
         // Get locale from request or session, default to 'en'
@@ -53,6 +61,26 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Handle invitation acceptance if token is provided
+        if (! empty($validated['invitation_token'])) {
+            try {
+                $invitationService = app(\App\Services\CompanyInvitationService::class);
+                $invitationService->acceptInvitation($validated['invitation_token'], $user);
+
+                return redirect(route('dashboard', absolute: false))->with('toast', [
+                    'message' => __('company.invitation.accepted_successfully'),
+                    'type' => 'success',
+                ]);
+            } catch (\Exception $e) {
+                // If invitation acceptance fails, still redirect to dashboard
+                // The user is registered and logged in, just not added to company
+                return redirect(route('dashboard', absolute: false))->with('toast', [
+                    'message' => __('company.invitation.accepted_successfully').' '.$e->getMessage(),
+                    'type' => 'warning',
+                ]);
+            }
+        }
 
         return redirect(route('dashboard', absolute: false));
     }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
-            $table->foreignId('instagram_account_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('company_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('instagram_account_id')->nullable()->constrained()->cascadeOnDelete();
             $table->enum('type', ['feed', 'reel', 'story', 'carousel']);
             $table->string('title')->nullable();
             $table->text('caption')->nullable();

@@ -18,6 +18,10 @@ const props = defineProps({
             wallet_balance: 0,
         }),
     },
+    recent_posts: {
+        type: Array,
+        default: () => [],
+    },
 })
 
 // Get current time for greeting
@@ -42,6 +46,31 @@ const welcomeMessage = computed(() => {
     // Fallback to first message if something goes wrong
     return "Welcome to Autopost AI. Let's make something amazing today."
 })
+
+// Check if user has posts
+const hasPosts = computed(() => {
+    return props.recent_posts && props.recent_posts.length > 0
+})
+
+// Format date for display
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString()
+}
+
+// Get status class for posts
+const getStatusClass = (status) => {
+    const classes = {
+        draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+        scheduled:
+            'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+        publishing:
+            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+        published:
+            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+        failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+    }
+    return classes[status] || classes.draft
+}
 </script>
 
 <template>
@@ -60,17 +89,25 @@ const welcomeMessage = computed(() => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                 <!-- Welcome Card -->
                 <div
-                    class="overflow-hidden rounded-md shadow-lg bg-indigo-600 dark:bg-indigo-500"
+                    class="overflow-hidden rounded-md shadow-lg bg-white dark:bg-gray-900"
+                    style="
+                        background-image: radial-gradient(
+                            circle at 1px 1px,
+                            rgba(0, 0, 0, 0.15) 1px,
+                            transparent 0
+                        );
+                        background-size: 20px 20px;
+                    "
                 >
-                    <div class="p-8">
+                    <div
+                        class="p-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
+                    >
                         <h3
-                            class="text-2xl font-bold text-white dark:text-white"
+                            class="text-2xl font-bold text-black dark:text-white"
                         >
                             {{ greeting }}, {{ user.name }}! 👋
                         </h3>
-                        <p
-                            class="mt-2 text-indigo-100 opacity-90 dark:text-indigo-200"
-                        >
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">
                             {{ welcomeMessage }}
                         </p>
                     </div>
@@ -322,11 +359,99 @@ const welcomeMessage = computed(() => {
                     </div>
                 </div>
 
-                <!-- Empty State -->
+                <!-- Recent Posts -->
                 <div
                     class="overflow-hidden rounded-lg bg-white shadow transition-shadow hover:shadow-md dark:bg-gray-800"
                 >
-                    <div class="p-12 text-center">
+                    <div
+                        class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                    >
+                        <h3
+                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                        >
+                            {{ t('dashboard.recent_posts') }}
+                        </h3>
+                    </div>
+
+                    <!-- Show posts if they exist -->
+                    <div
+                        v-if="hasPosts"
+                        class="divide-y divide-gray-200 dark:divide-gray-700"
+                    >
+                        <div
+                            v-for="post in recent_posts"
+                            :key="post.id"
+                            class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1 min-w-0">
+                                    <h4
+                                        class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate"
+                                    >
+                                        {{ post.title || t('posts.untitled') }}
+                                    </h4>
+                                    <p
+                                        class="text-sm text-gray-500 dark:text-gray-400 mt-1"
+                                    >
+                                        {{
+                                            post.caption
+                                                ? post.caption.substring(
+                                                      0,
+                                                      100
+                                                  ) +
+                                                  (post.caption.length > 100
+                                                      ? '...'
+                                                      : '')
+                                                : t('posts.no_caption')
+                                        }}
+                                    </p>
+                                    <div
+                                        class="flex items-center mt-2 space-x-4"
+                                    >
+                                        <span
+                                            class="text-xs text-gray-500 dark:text-gray-400"
+                                        >
+                                            {{ formatDate(post.created_at) }}
+                                        </span>
+                                        <span
+                                            :class="getStatusClass(post.status)"
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                        >
+                                            {{
+                                                t(`posts.status.${post.status}`)
+                                            }}
+                                        </span>
+                                        <span
+                                            class="text-xs text-gray-500 dark:text-gray-400"
+                                        >
+                                            {{ t(`posts.type.${post.type}`) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-shrink-0">
+                                    <Link
+                                        :href="route('posts.show', post.id)"
+                                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                                    >
+                                        {{ t('common.view') }}
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- View all posts link -->
+                        <div class="p-6 bg-gray-50 dark:bg-gray-700">
+                            <Link
+                                :href="route('posts.index')"
+                                class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                            >
+                                {{ t('dashboard.view_all_posts') }} →
+                            </Link>
+                        </div>
+                    </div>
+
+                    <!-- Show empty state if no posts -->
+                    <div v-else class="p-12 text-center">
                         <svg
                             class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600"
                             fill="none"
@@ -350,6 +475,14 @@ const welcomeMessage = computed(() => {
                         >
                             {{ t('dashboard.empty_state.get_started') }}
                         </p>
+                        <div class="mt-6">
+                            <Link
+                                :href="route('posts.create')"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                {{ t('posts.create_post') }}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

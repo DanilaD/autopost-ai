@@ -102,6 +102,23 @@ return [
     'media_upload_description' => 'Загрузите изображения или видео для вашей публикации',
     'scheduling_description' => 'Выберите, когда публиковать вашу публикацию',
 
+    // Scheduling Interface
+    'quick_select' => 'Быстрый выбор',
+    'custom_schedule' => 'Настроить расписание',
+    'now' => 'Сейчас',
+    'today_1h' => 'Сегодня (+1 час)',
+    'today_3h' => 'Сегодня (+3 часа)',
+    'today_6h' => 'Сегодня (+6 часов)',
+    'tomorrow_9am' => 'Завтра (9:00)',
+    'tomorrow_6pm' => 'Завтра (18:00)',
+    'next_week' => 'На следующей неделе',
+    'next_month' => 'В следующем месяце',
+    'select_date' => 'Выберите дату',
+    'select_time' => 'Выберите время',
+    'date_placeholder' => 'Выберите дату',
+    'time_placeholder' => 'Выберите время',
+    'scheduled_for' => 'Запланировано на',
+
     // Form Labels
     'post_details' => 'Детали публикации',
     'media_upload' => 'Загрузка медиа',
@@ -127,11 +144,14 @@ return [
     'scheduling_help' => 'Запланируйте публикацию на определенное время.',
 
     // Statistics
-    'total_posts' => 'Всего публикаций',
-    'draft_posts' => 'Черновики',
-    'scheduled_posts' => 'Запланированные',
-    'published_posts' => 'Опубликованные',
-    'failed_posts' => 'С ошибками',
+    'stats' => [
+        'total_posts' => 'Всего Публикаций',
+        'drafts' => 'Черновики',
+        'scheduled' => 'Запланированные',
+        'publishing' => 'Публикуется',
+        'published' => 'Опубликованные',
+        'failed' => 'С Ошибками',
+    ],
 
     // Empty States
     'no_posts' => 'Пока нет публикаций',
@@ -160,5 +180,20 @@ return [
         'too_many_files' => 'Слишком много файлов. Максимум :max файлов разрешено.',
         'file_too_large' => 'Файл :name слишком большой. Максимальный размер :max.',
         'invalid_file_type' => 'Файл :name имеет неверный тип :type.',
+    ],
+    'untitled' => 'Без названия',
+    'no_caption' => 'Без подписи',
+    'create_post' => 'Создать пост',
+    'status' => [
+        'draft' => 'Черновик',
+        'scheduled' => 'Запланирован',
+        'published' => 'Опубликован',
+        'failed' => 'Ошибка',
+    ],
+    'type' => [
+        'feed' => 'Лента',
+        'story' => 'История',
+        'reel' => 'Рилс',
+        'carousel' => 'Карусель',
     ],
 ];

@@ -20,6 +20,7 @@ The Post Management System is a comprehensive content management solution that a
 - **Delete Posts** - Remove posts and associated media
 - **Schedule Posts** - Schedule posts for future publishing
 - **Media Management** - Upload and manage images/videos
+- **Statistics Dashboard** - View post counts by status
 
 ### Post Types
 
@@ -32,6 +33,7 @@ The Post Management System is a comprehensive content management solution that a
 
 - **Draft** - Work in progress, not scheduled
 - **Scheduled** - Scheduled for future publishing
+- **Publishing** - Currently being sent to Instagram API
 - **Published** - Successfully published to Instagram
 - **Failed** - Publishing failed, can be retried
 
@@ -48,7 +50,7 @@ CREATE TABLE posts (
     company_id BIGINT NOT NULL,
     instagram_account_id BIGINT NOT NULL,
     type ENUM('feed', 'reel', 'story', 'carousel') NOT NULL,
-    status ENUM('draft', 'scheduled', 'published', 'failed') NOT NULL,
+    status ENUM('draft', 'scheduled', 'publishing', 'published', 'failed') NOT NULL,
     title VARCHAR(255) NULL,
     caption TEXT NULL,
     scheduled_at TIMESTAMP NULL,
@@ -220,6 +222,7 @@ Main posts listing page with:
 - Status and type filters
 - Pagination
 - Action buttons (edit, delete, duplicate)
+- **Statistics Cards** - Real-time post counts by status
 
 #### Posts/Create.vue
 
@@ -260,6 +263,7 @@ Scheduling component with:
 - `GET /posts/{id}/edit` - Show edit form
 - `PUT /posts/{id}` - Update post
 - `DELETE /posts/{id}` - Delete post
+- `GET /posts/stats/overview` - Get post statistics
 
 ### Media
 
@@ -285,6 +289,15 @@ Scheduling component with:
 'status' => [
     'draft' => 'Draft',
     'scheduled' => 'Scheduled',
+    'publishing' => 'Publishing',
+    'published' => 'Published',
+    'failed' => 'Failed',
+],
+'stats' => [
+    'total_posts' => 'Total Posts',
+    'drafts' => 'Drafts',
+    'scheduled' => 'Scheduled',
+    'publishing' => 'Publishing',
     'published' => 'Published',
     'failed' => 'Failed',
 ],
@@ -295,6 +308,40 @@ Scheduling component with:
     'carousel' => 'Carousel',
 ],
 ```
+
+## 📊 Statistics Dashboard
+
+### Overview
+
+The Post Management system includes a comprehensive statistics dashboard that displays real-time post counts by status. This feature provides users with immediate visibility into their content pipeline.
+
+### Features
+
+- **Real-time Statistics** - Live post counts updated automatically
+- **Status Breakdown** - Counts for all post statuses (Draft, Scheduled, Publishing, Published, Failed)
+- **Responsive Design** - Statistics cards adapt to different screen sizes
+- **Color-coded Status** - Each status has distinct, accessible colors
+- **Multi-language Support** - Statistics labels in English, Spanish, and Russian
+
+### Statistics Display
+
+The statistics are displayed as responsive cards:
+
+```
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│ Total Posts │   Drafts   │ Scheduled  │ Publishing  │ Published  │   Failed    │
+│     12      │     3      │     4      │     1       │     3      │     1       │
+└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+### API Endpoints
+
+- `GET /posts/stats/overview` - Returns JSON statistics for company or individual user
+- Statistics are also included in the main posts index response
+
+### Implementation
+
+The statistics are calculated using optimized SQL queries in the `PostRepository::getStats()` method and displayed using Vue.js components with proper accessibility attributes.
 
 ## 🔒 Security Features
 

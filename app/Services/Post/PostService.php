@@ -39,6 +39,18 @@ class PostService
     }
 
     /**
+     * Get all posts for an individual user
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getByUser(int $userId, array $filters = [])
+    {
+        Log::info('Fetching posts for user', ['user_id' => $userId]);
+
+        return $this->postRepository->getByUser($userId, $filters);
+    }
+
+    /**
      * Create a new post
      *
      * Business rules:
@@ -59,23 +71,27 @@ class PostService
         try {
             // Determine defaults for optional fields
             $accountId = $data['instagram_account_id'] ?? optional(auth()->user()->currentCompany?->instagramAccounts()->first())->id;
-            if (empty($accountId)) {
-                // If there is no available account at all, require selection
-                throw new \InvalidArgumentException(__('posts.instagram_account_required'));
-            }
+            // Allow posts without Instagram accounts - they can be assigned later
             $resolvedType = $data['type'] ?? PostType::FEED;
+
+            // Handle scheduled_at conversion to UTC
+            $scheduledAt = null;
+            if (! empty($data['scheduled_at'])) {
+                // Parse the ISO string and ensure it's treated as UTC
+                $scheduledAt = \Carbon\Carbon::parse($data['scheduled_at'])->utc();
+            }
 
             // Create post
             $post = $this->postRepository->create([
                 'company_id' => $companyId,
                 'created_by' => auth()->id(),
-                'instagram_account_id' => $accountId,
+                'instagram_account_id' => $accountId, // Can be null
                 'type' => $resolvedType,
                 'title' => $data['title'] ?? null,
                 'caption' => $data['caption'] ?? null,
                 'hashtags' => $this->extractHashtags($data['caption'] ?? ''),
                 'mentions' => $this->extractMentions($data['caption'] ?? ''),
-                'scheduled_at' => $data['scheduled_at'] ?? null,
+                'scheduled_at' => $scheduledAt,
                 'status' => ! empty($data['scheduled_at']) ? PostStatus::SCHEDULED : PostStatus::DRAFT,
                 'metadata' => $data['metadata'] ?? [],
             ]);
@@ -119,6 +135,17 @@ class PostService
         DB::beginTransaction();
 
         try {
+            // Handle scheduled_at conversion to UTC
+            $scheduledAt = $post->scheduled_at;
+            if (isset($data['scheduled_at'])) {
+                if (! empty($data['scheduled_at'])) {
+                    // Parse the ISO string and ensure it's treated as UTC
+                    $scheduledAt = \Carbon\Carbon::parse($data['scheduled_at'])->utc();
+                } else {
+                    $scheduledAt = null;
+                }
+            }
+
             // Update post
             $this->postRepository->update($post, [
                 'type' => $data['type'] ?? $post->type,
@@ -126,8 +153,8 @@ class PostService
                 'caption' => $data['caption'] ?? $post->caption,
                 'hashtags' => $this->extractHashtags($data['caption'] ?? $post->caption ?? ''),
                 'mentions' => $this->extractMentions($data['caption'] ?? $post->caption ?? ''),
-                'scheduled_at' => $data['scheduled_at'] ?? $post->scheduled_at,
-                'status' => ! empty($data['scheduled_at']) ? PostStatus::SCHEDULED : PostStatus::DRAFT,
+                'scheduled_at' => $scheduledAt,
+                'status' => ! empty($scheduledAt) ? PostStatus::SCHEDULED : PostStatus::DRAFT,
                 'metadata' => array_merge($post->metadata ?? [], $data['metadata'] ?? []),
             ]);
 
@@ -234,6 +261,31 @@ class PostService
     public function getPostsDueForPublishing()
     {
         return $this->postRepository->getDueForPublishing();
+    }
+
+    /**
+     * Get post statistics for a company
+     */
+    public function getStats(int $companyId): array
+    {
+        return $this->postRepository->getStats($companyId);
+    }
+
+    /**
+     * Get post statistics for an individual user
+     */
+    public function getStatsByUser(int $userId): array
+    {
+        $posts = $this->postRepository->getByUser($userId);
+
+        return [
+            'total' => $posts->count(),
+            'drafts' => $posts->where('status', PostStatus::DRAFT->value)->count(),
+            'scheduled' => $posts->where('status', PostStatus::SCHEDULED->value)->count(),
+            'publishing' => $posts->where('status', PostStatus::PUBLISHING->value)->count(),
+            'published' => $posts->where('status', PostStatus::PUBLISHED->value)->count(),
+            'failed' => $posts->where('status', PostStatus::FAILED->value)->count(),
+        ];
     }
 
     /**

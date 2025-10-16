@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'company_invitation' => [
+        'accept_subject' => 'You’ve been invited to join :company_name on :app_name',
+        'accept_welcome' => 'Welcome to :app_name',
+        'accept_subtitle' => 'You’ve been invited to collaborate with your team.',
+        'accept_greeting' => 'Hi :name,',
+        'accept_intro' => 'You have been invited to join the company workspace on :app_name. Please review the details below and accept the invitation to get started.',
+        'invited_by' => 'Invited by',
+        'your_role' => 'Your role',
+        'role_admin' => 'Administrator',
+        'role_user' => 'User',
+        'role_network' => 'Network Manager',
+        'personal_message' => 'Personal message',
+        'accept_message' => ':inviter_name has invited you to join :company_name. Click the button below to accept the invitation.',
+        'accept_button' => 'Accept Invitation',
+        'expiry_title' => 'Invitation Expiry',
+        'expiry_message' => 'This invitation expires on :expires_at.',
+        'accept_footer' => 'If you weren’t expecting this invitation, you can safely ignore this email.',
+        'footer_text' => 'Sent by :app_name',
+        'footer_copyright' => '© :year :app_name. All rights reserved.',
+        'register_welcome' => 'Welcome to :app_name',
+        'register_subtitle' => 'Create an account to join the team.',
+        'register_greeting' => 'Hello!',
+        'register_intro' => 'You have been invited to join the company workspace. Create an account to get started.',
+        'register_message' => ':inviter_name has invited you to join :company_name. Create an account to accept the invitation.',
+        'register_button' => 'Create Account',
+        'register_footer' => 'If you weren\'t expecting this invitation, you can safely ignore this email.',
+    ],
+];

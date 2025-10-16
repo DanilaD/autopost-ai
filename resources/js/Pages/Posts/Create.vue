@@ -236,58 +236,11 @@
                     <div
                         class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
                     >
-                        <h3
-                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
-                        >
-                            {{ t('posts.scheduling') }}
-                        </h3>
-                        <p
-                            class="mt-1 text-sm text-gray-600 dark:text-gray-400"
-                        >
-                            {{ t('posts.scheduling_description') }}
-                        </p>
-
-                        <div class="mt-4">
-                            <div class="flex items-center">
-                                <input
-                                    id="publish_now"
-                                    v-model="publishMode"
-                                    type="radio"
-                                    value="now"
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                                />
-                                <label
-                                    for="publish_now"
-                                    class="ml-2 text-sm text-gray-700 dark:text-gray-300"
-                                >
-                                    {{ t('posts.publish_immediately') }}
-                                </label>
-                            </div>
-
-                            <div class="mt-2 flex items-center">
-                                <input
-                                    id="schedule"
-                                    v-model="publishMode"
-                                    type="radio"
-                                    value="schedule"
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                                />
-                                <label
-                                    for="schedule"
-                                    class="ml-2 text-sm text-gray-700 dark:text-gray-300"
-                                >
-                                    {{ t('posts.schedule_for_later') }}
-                                </label>
-                            </div>
-
-                            <div v-if="publishMode === 'schedule'" class="mt-4">
-                                <DateTimePicker
-                                    v-model="form.scheduled_at"
-                                    :min-date="minDateTime"
-                                    :timezone="userTimezone"
-                                />
-                            </div>
-                        </div>
+                        <SchedulingInterface
+                            v-model="form.scheduled_at"
+                            :min-date="minDateTime"
+                            :timezone="userTimezone"
+                        />
                     </div>
 
                     <!-- Actions -->
@@ -325,7 +278,7 @@ import { ref, computed, watch } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import MediaUpload from '@/Components/MediaUpload.vue'
-import DateTimePicker from '@/Components/DateTimePicker.vue'
+import SchedulingInterface from '@/Components/SchedulingInterface.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -403,7 +356,6 @@ const initializeForm = () => {
 // Initialize form on component mount
 initializeForm()
 
-const publishMode = ref(props.post?.scheduled_at ? 'schedule' : 'now')
 const isSubmitting = ref(false)
 
 const postTypes = [
@@ -491,7 +443,7 @@ const submitForm = async () => {
         }
 
         // Add scheduling
-        if (publishMode.value === 'schedule' && form.value.scheduled_at) {
+        if (form.value.scheduled_at) {
             const scheduledDate =
                 form.value.scheduled_at instanceof Date
                     ? form.value.scheduled_at

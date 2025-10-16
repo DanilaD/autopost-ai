@@ -102,6 +102,23 @@ return [
     'media_upload_description' => 'Sube imágenes o videos para tu publicación',
     'scheduling_description' => 'Elige cuándo publicar tu publicación',
 
+    // Scheduling Interface
+    'quick_select' => 'Selección rápida',
+    'custom_schedule' => 'Programación personalizada',
+    'now' => 'Ahora',
+    'today_1h' => 'Hoy (+1 hora)',
+    'today_3h' => 'Hoy (+3 horas)',
+    'today_6h' => 'Hoy (+6 horas)',
+    'tomorrow_9am' => 'Mañana (9:00 AM)',
+    'tomorrow_6pm' => 'Mañana (6:00 PM)',
+    'next_week' => 'La próxima semana',
+    'next_month' => 'El próximo mes',
+    'select_date' => 'Seleccionar fecha',
+    'select_time' => 'Seleccionar hora',
+    'date_placeholder' => 'Elige una fecha',
+    'time_placeholder' => 'Elige una hora',
+    'scheduled_for' => 'Programado para',
+
     // Form Labels
     'post_details' => 'Detalles de la publicación',
     'media_upload' => 'Subida de medios',
@@ -127,11 +144,14 @@ return [
     'scheduling_help' => 'Programa tu publicación para ser publicada en un momento específico.',
 
     // Statistics
-    'total_posts' => 'Total de publicaciones',
-    'draft_posts' => 'Borradores',
-    'scheduled_posts' => 'Programadas',
-    'published_posts' => 'Publicadas',
-    'failed_posts' => 'Fallidas',
+    'stats' => [
+        'total_posts' => 'Total de Publicaciones',
+        'drafts' => 'Borradores',
+        'scheduled' => 'Programadas',
+        'publishing' => 'Publicando',
+        'published' => 'Publicadas',
+        'failed' => 'Fallidas',
+    ],
 
     // Empty States
     'no_posts' => 'Aún no hay publicaciones',
@@ -160,5 +180,20 @@ return [
         'too_many_files' => 'Demasiados archivos. Máximo :max archivos permitidos.',
         'file_too_large' => 'El archivo :name es demasiado grande. Tamaño máximo :max.',
         'invalid_file_type' => 'El archivo :name tiene un tipo inválido :type.',
+    ],
+    'untitled' => 'Publicación sin título',
+    'no_caption' => 'Sin descripción',
+    'create_post' => 'Crear publicación',
+    'status' => [
+        'draft' => 'Borrador',
+        'scheduled' => 'Programado',
+        'published' => 'Publicado',
+        'failed' => 'Fallido',
+    ],
+    'type' => [
+        'feed' => 'Feed',
+        'story' => 'Historia',
+        'reel' => 'Reel',
+        'carousel' => 'Carrusel',
     ],
 ];

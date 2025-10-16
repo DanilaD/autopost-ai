@@ -82,7 +82,7 @@ class User extends Authenticatable
      */
     public function ownedCompanies(): BelongsToMany
     {
-        return $this->companies()->wherePivot('role', UserRole::ADMIN->value);
+        return $this->companies()->wherePivotIn('role', [UserRole::ADMIN->value, UserRole::NETWORK->value]);
     }
 
     /**
@@ -101,7 +101,10 @@ class User extends Authenticatable
      */
     public function isAdmin(Company $company): bool
     {
-        return $this->hasRole($company, UserRole::ADMIN);
+        return $this->companies()
+            ->where('company_id', $company->id)
+            ->wherePivotIn('role', [UserRole::ADMIN->value, UserRole::NETWORK->value])
+            ->exists();
     }
 
     /**
@@ -151,6 +154,14 @@ class User extends Authenticatable
     public function ownedInstagramAccounts(): HasMany
     {
         return $this->hasMany(InstagramAccount::class, 'user_id');
+    }
+
+    /**
+     * Alias for ownedInstagramAccounts for backward compatibility.
+     */
+    public function instagramAccounts(): HasMany
+    {
+        return $this->ownedInstagramAccounts();
     }
 
     /**

@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'company_invitation' => [
+        'accept_subject' => 'Has sido invitado a unirte a :company_name en :app_name',
+        'accept_welcome' => 'Bienvenido a :app_name',
+        'accept_subtitle' => 'Has sido invitado a colaborar con tu equipo.',
+        'accept_greeting' => 'Hola :name,',
+        'accept_intro' => 'Has sido invitado a unirte al espacio de trabajo de la empresa en :app_name. Por favor revisa los detalles a continuación y acepta la invitación para comenzar.',
+        'invited_by' => 'Invitado por',
+        'your_role' => 'Tu rol',
+        'role_admin' => 'Administrador',
+        'role_user' => 'Usuario',
+        'role_network' => 'Gestor de Red',
+        'personal_message' => 'Mensaje personal',
+        'accept_message' => ':inviter_name te ha invitado a unirte a :company_name. Haz clic en el botón de abajo para aceptar la invitación.',
+        'accept_button' => 'Aceptar Invitación',
+        'expiry_title' => 'Expiración de Invitación',
+        'expiry_message' => 'Esta invitación expira el :expires_at.',
+        'accept_footer' => 'Si no esperabas esta invitación, puedes ignorar este correo de forma segura.',
+        'footer_text' => 'Enviado por :app_name',
+        'footer_copyright' => '© :year :app_name. Todos los derechos reservados.',
+        'register_welcome' => 'Bienvenido a :app_name',
+        'register_subtitle' => 'Crea una cuenta para unirte al equipo.',
+        'register_greeting' => '¡Hola!',
+        'register_intro' => 'Has sido invitado a unirte al espacio de trabajo de la empresa. Crea una cuenta para comenzar.',
+        'register_message' => ':inviter_name te ha invitado a unirte a :company_name. Crea una cuenta para aceptar la invitación.',
+        'register_button' => 'Crear Cuenta',
+        'register_footer' => 'Si no esperabas esta invitación, puedes ignorar este correo de forma segura.',
+    ],
+];

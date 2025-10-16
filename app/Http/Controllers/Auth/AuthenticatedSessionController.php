@@ -18,9 +18,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        // Get pre-filled email and invitation token from query string
+        $email = request('email');
+        $invitationToken = request('invitation');
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'email' => $email,
+            'invitationToken' => $invitationToken,
         ]);
     }
 
@@ -41,6 +47,28 @@ class AuthenticatedSessionController extends Controller
             $currentLocale = app()->getLocale();
             if (in_array($currentLocale, ['en', 'ru', 'es'])) {
                 $user->update(['locale' => $currentLocale]);
+            }
+        }
+
+        // Handle invitation acceptance if token is provided
+        $invitationToken = $request->input('invitation_token');
+        if (! empty($invitationToken)) {
+            try {
+                $invitationService = app(\App\Services\CompanyInvitationService::class);
+                $invitationService->acceptInvitation($invitationToken, $user);
+
+                return redirect()->intended(route('dashboard', absolute: false))
+                    ->with('toast', [
+                        'type' => 'success',
+                        'message' => __('company.invitation.accepted_successfully'),
+                    ]);
+            } catch (\Exception $e) {
+                // If invitation acceptance fails, still redirect to dashboard
+                return redirect()->intended(route('dashboard', absolute: false))
+                    ->with('toast', [
+                        'type' => 'warning',
+                        'message' => __('auth.login_success').' '.$e->getMessage(),
+                    ]);
             }
         }
 

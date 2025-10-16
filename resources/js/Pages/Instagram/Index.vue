@@ -4,7 +4,7 @@ import { Head, router } from '@inertiajs/vue3'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from 'vue-i18n'
 import { onMounted } from 'vue'
-import Swal from 'sweetalert2'
+import { useSweetAlert } from '@/composables/useSweetAlert'
 
 const { t } = useI18n()
 
@@ -24,6 +24,7 @@ const props = defineProps({
 })
 
 const toast = useToast()
+const swal = useSweetAlert()
 
 // Show configuration error if Instagram is not set up
 onMounted(() => {
@@ -33,26 +34,16 @@ onMounted(() => {
 })
 
 const disconnectAccount = async (account) => {
-    const result = await Swal.fire({
-        title: t('instagram.disconnect_confirm_title'),
-        html: t('instagram.disconnect_confirm_message', {
-            username: `<strong>@${account.username}</strong>`,
+    const result = await swal.confirm(
+        t('instagram.disconnect_confirm_title'),
+        t('instagram.disconnect_confirm_message', {
+            username: `@${account.username}`,
         }),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#ef4444',
-        cancelButtonColor: '#6b7280',
-        confirmButtonText: t('instagram.disconnect_button'),
-        cancelButtonText: t('instagram.disconnect_cancel'),
-        reverseButtons: true,
-        customClass: {
-            popup: 'dark:bg-gray-800',
-            title: 'dark:text-gray-100',
-            htmlContainer: 'dark:text-gray-300',
-            confirmButton: 'px-4 py-2 rounded-md',
-            cancelButton: 'px-4 py-2 rounded-md',
-        },
-    })
+        {
+            confirmButtonText: t('instagram.disconnect_button'),
+            cancelButtonText: t('instagram.disconnect_cancel'),
+        }
+    )
 
     if (result.isConfirmed) {
         router.post(

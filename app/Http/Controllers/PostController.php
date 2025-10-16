@@ -28,15 +28,23 @@ class PostController extends Controller
      */
     public function index(Request $request): Response
     {
-        $companyId = auth()->user()->currentCompany->id;
+        $user = auth()->user();
 
-        $filters = $request->only(['status', 'type', 'instagram_account_id', 'search']);
-
-        $posts = $this->postService->getCompanyPosts($companyId, $filters);
+        // Get posts based on user context
+        if ($user->currentCompany) {
+            $companyId = $user->currentCompany->id;
+            $posts = $this->postService->getCompanyPosts($companyId, $request->only(['status', 'type', 'instagram_account_id', 'search']));
+            $stats = $this->postService->getStats($companyId);
+        } else {
+            // Individual user - get their own posts
+            $posts = $this->postService->getByUser($user->id, $request->only(['status', 'type', 'instagram_account_id', 'search']));
+            $stats = $this->postService->getStatsByUser($user->id);
+        }
 
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
-            'filters' => $filters,
+            'filters' => $request->only(['status', 'type', 'instagram_account_id', 'search']),
+            'stats' => $stats,
         ]);
     }
 
@@ -45,13 +53,29 @@ class PostController extends Controller
      */
     public function create(Request $request): Response
     {
-        $instagramAccounts = auth()->user()->currentCompany->instagramAccounts;
+        $user = auth()->user();
+
+        // Get Instagram accounts based on user context
+        if ($user->currentCompany) {
+            $instagramAccounts = $user->currentCompany->instagramAccounts;
+        } else {
+            // Individual user - get their own Instagram accounts
+            $instagramAccounts = $user->instagramAccounts;
+        }
 
         $prefill = null;
         if ($request->filled('duplicate')) {
-            $original = Post::with(['media', 'instagramAccount'])
-                ->where('company_id', auth()->user()->currentCompany->id)
-                ->find($request->integer('duplicate'));
+            // Find the original post based on user context
+            if ($user->currentCompany) {
+                $original = Post::with(['media', 'instagramAccount'])
+                    ->where('company_id', $user->currentCompany->id)
+                    ->find($request->integer('duplicate'));
+            } else {
+                $original = Post::with(['media', 'instagramAccount'])
+                    ->where('created_by', $user->id)
+                    ->whereNull('company_id')
+                    ->find($request->integer('duplicate'));
+            }
             if ($original) {
                 $prefill = [
                     'type' => $original->type->value ?? 'feed',
@@ -84,13 +108,30 @@ class PostController extends Controller
     public function store(CreatePostRequest $request): RedirectResponse
     {
         try {
-            $companyId = auth()->user()->currentCompany->id;
+            $user = auth()->user();
 
-            // Create the post first (without media) so we have a real post ID
-            $postData = $request->validated();
-            unset($postData['media']);
+            // Handle both company and individual users
+            if ($user->currentCompany) {
+                // Company user - create post for company
+                $companyId = $user->currentCompany->id;
+                $post = $this->postService->createPost($companyId, $request->validated());
+            } else {
+                // Individual user - create post without company
+                $postData = $request->validated();
+                $postData['company_id'] = null; // Ensure no company
+                $postData['created_by'] = $user->id;
 
-            $post = $this->postService->createPost($companyId, $postData);
+                // Handle scheduled_at conversion to UTC
+                if (! empty($postData['scheduled_at'])) {
+                    $postData['scheduled_at'] = \Carbon\Carbon::parse($postData['scheduled_at'])->utc();
+                }
+
+                // Set status based on scheduled_at (same logic as PostService)
+                $postData['status'] = ! empty($postData['scheduled_at']) ? \App\Enums\PostStatus::SCHEDULED : \App\Enums\PostStatus::DRAFT;
+
+                // Create post directly (bypass company validation)
+                $post = Post::create($postData);
+            }
 
             // Handle media files
             $uploadedMediaGroups = $request->file('media', []);
@@ -144,7 +185,15 @@ class PostController extends Controller
      */
     public function edit(Post $post): Response
     {
-        $instagramAccounts = auth()->user()->currentCompany->instagramAccounts;
+        $user = auth()->user();
+
+        // Get Instagram accounts based on user context
+        if ($user->currentCompany) {
+            $instagramAccounts = $user->currentCompany->instagramAccounts;
+        } else {
+            // Individual user - get their own Instagram accounts
+            $instagramAccounts = $user->instagramAccounts;
+        }
 
         // Reuse the Create page for editing by passing the existing post
         return Inertia::render('Posts/Create', [
@@ -257,7 +306,15 @@ class PostController extends Controller
      */
     public function stats(): JsonResponse
     {
-        $companyId = auth()->user()->currentCompany->id;
+        $user = auth()->user();
+
+        if (! $user->currentCompany) {
+            return response()->json([
+                'message' => 'You need to create a company first to view statistics.',
+            ], 403);
+        }
+
+        $companyId = $user->currentCompany->id;
         $stats = $this->postService->getCompanyPosts($companyId);
 
         // Calculate stats from posts

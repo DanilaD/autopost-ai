@@ -19,6 +19,14 @@ Route::post('/auth/email/check', EmailCheckController::class)
     ->middleware('guest')
     ->name('auth.email.check');
 
+// Invitation acceptance routes
+Route::get('/invitations/{token}', [\App\Http\Controllers\InvitationController::class, 'show'])
+    ->middleware('guest')
+    ->name('invitations.show');
+Route::post('/invitations/{token}/accept', [\App\Http\Controllers\InvitationController::class, 'accept'])
+    ->middleware('auth')
+    ->name('invitations.accept');
+
 // Dashboard
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -66,6 +74,30 @@ Route::middleware(['auth', 'verified'])->prefix('posts')->name('posts.')->group(
     Route::post('/{post}/schedule', [\App\Http\Controllers\PostController::class, 'schedule'])->name('schedule');
     Route::get('/stats/overview', [\App\Http\Controllers\PostController::class, 'stats'])->name('stats');
 });
+
+// Company creation routes - available to all authenticated users
+Route::middleware(['auth', 'verified'])->prefix('companies')->name('companies.')->group(function () {
+    Route::get('/create', [\App\Http\Controllers\CompanyController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\CompanyController::class, 'store'])->name('store');
+});
+
+// Company management routes - only network role can access
+Route::middleware(['auth', 'verified', 'network'])->prefix('companies')->name('companies.')->group(function () {
+    Route::get('/settings', [\App\Http\Controllers\CompanyManagementController::class, 'settings'])->name('settings');
+    Route::post('/invite', [\App\Http\Controllers\CompanyManagementController::class, 'invite'])->name('invite');
+    Route::post('/invitations/{invitation}/resend', [\App\Http\Controllers\CompanyManagementController::class, 'resendInvitation'])->name('invitations.resend');
+    Route::delete('/invitations/{invitation}', [\App\Http\Controllers\CompanyManagementController::class, 'cancelInvitation'])->name('invitations.cancel');
+    Route::post('/users/{user}/remove', [\App\Http\Controllers\CompanyManagementController::class, 'removeUser'])->name('users.remove');
+    Route::post('/users/{user}/role', [\App\Http\Controllers\CompanyManagementController::class, 'updateUserRole'])->name('users.role');
+});
+
+// Test route for backend toast
+Route::get('/test-backend-toast', function () {
+    return redirect()->back()->with('toast', [
+        'message' => 'Backend toast is working!',
+        'type' => 'success',
+    ]);
+})->name('test.backend.toast');
 
 // Admin routes - requires admin role in current company
 Route::middleware(['auth', 'verified'])

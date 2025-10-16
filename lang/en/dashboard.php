@@ -35,4 +35,6 @@ return [
         'no_posts' => 'No posts yet',
         'get_started' => 'Get started by connecting your Instagram account and creating your first post.',
     ],
+    'recent_posts' => 'Recent Posts',
+    'view_all_posts' => 'View all posts',
 ];

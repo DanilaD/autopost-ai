@@ -307,9 +307,12 @@ class InstagramAccount extends Model
             return true;
         }
 
-        // Check if user is admin in the company that owns this account
-        if ($this->company_id && $this->company?->getUserRole($user) === 'admin') {
-            return true;
+        // Check if user is admin or network in the company that owns this account
+        if ($this->company_id && $this->company?->hasMember($user)) {
+            $userRole = $this->company->getUserRole($user);
+            if (in_array($userRole, ['admin', 'network'])) {
+                return true;
+            }
         }
 
         // Check shared permissions

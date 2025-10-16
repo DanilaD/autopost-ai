@@ -20,12 +20,22 @@ const emit = defineEmits(['close'])
 
 const show = ref(false)
 
-const bgColor = computed(() => {
+const borderColor = computed(() => {
     const colors = {
-        success: 'bg-green-500',
-        error: 'bg-red-500',
-        warning: 'bg-yellow-500',
-        info: 'bg-blue-500',
+        success: 'border-l-success-500',
+        error: 'border-l-error-500',
+        warning: 'border-l-warning-500',
+        info: 'border-l-primary-500',
+    }
+    return colors[props.type] || colors.success
+})
+
+const iconColor = computed(() => {
+    const colors = {
+        success: 'text-success-500',
+        error: 'text-error-500',
+        warning: 'text-warning-500',
+        info: 'text-primary-500',
     }
     return colors[props.type] || colors.success
 })
@@ -65,35 +75,37 @@ const close = () => {
 <template>
     <div
         :class="[
-            'fixed top-4 right-4 z-50 transform transition-all duration-300 ease-out',
+            'transform transition-all duration-300 ease-out',
             show ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0',
         ]"
     >
         <div
             :class="[
-                bgColor,
-                'rounded-lg shadow-lg px-6 py-4 text-white flex items-center space-x-3 min-w-[300px] max-w-md',
+                borderColor,
+                'bg-white dark:bg-gray-800 border-l-4 rounded-lg shadow-lg px-4 py-3 text-gray-900 dark:text-gray-100 flex items-center space-x-2 min-w-[250px] max-w-sm',
             ]"
         >
             <!-- Icon -->
             <div class="flex-shrink-0">
-                <span class="text-2xl font-bold">{{ icon }}</span>
+                <span :class="[iconColor, 'text-lg font-bold']">{{
+                    icon
+                }}</span>
             </div>
 
             <!-- Message -->
             <div class="flex-1">
-                <p class="font-medium">
+                <p class="text-sm font-medium">
                     {{ message }}
                 </p>
             </div>
 
             <!-- Close Button -->
             <button
-                class="flex-shrink-0 text-white hover:text-gray-200 transition-colors"
+                class="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 @click="close"
             >
                 <svg
-                    class="w-5 h-5"
+                    class="w-4 h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

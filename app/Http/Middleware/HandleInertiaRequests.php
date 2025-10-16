@@ -36,9 +36,16 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $user ? array_merge($user->toArray(), [
                     'is_admin' => $user->isAdminInCurrentCompany(),
+                    'current_company' => $user->currentCompany ? [
+                        'id' => $user->currentCompany->id,
+                        'name' => $user->currentCompany->name,
+                        'user_role' => $user->getRoleIn($user->currentCompany)?->value,
+                        'is_network' => $user->hasRole($user->currentCompany, \App\Enums\UserRole::NETWORK),
+                        'is_admin' => $user->hasRole($user->currentCompany, \App\Enums\UserRole::ADMIN),
+                    ] : null,
                 ]) : null,
             ],
-            'toast' => fn () => $request->session()->get('toast'),
+            'toast' => fn () => $request->session()->pull('toast'),
             'locale' => app()->getLocale(),
             'impersonating' => fn () => $request->session()->get('impersonate') ? [
                 'admin_id' => $request->session()->get('impersonate.admin_id'),

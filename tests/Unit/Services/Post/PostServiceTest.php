@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Repositories\Post\PostMediaRepository;
 use App\Repositories\Post\PostRepository;
 use App\Services\Post\PostService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +69,60 @@ class PostServiceTest extends TestCase
         $result = $this->postService->getCompanyPosts($companyId, $filters);
 
         $this->assertEquals($expectedPosts, $result);
+    }
+
+    /** @test */
+    public function it_can_get_stats_for_company()
+    {
+        $companyId = 1;
+        $expectedStats = [
+            'total' => 5,
+            'drafts' => 2,
+            'scheduled' => 1,
+            'publishing' => 1,
+            'published' => 1,
+            'failed' => 0,
+        ];
+
+        $this->postRepository
+            ->shouldReceive('getStats')
+            ->with($companyId)
+            ->once()
+            ->andReturn($expectedStats);
+
+        $result = $this->postService->getStats($companyId);
+
+        $this->assertEquals($expectedStats, $result);
+    }
+
+    /** @test */
+    public function it_can_get_stats_for_individual_user()
+    {
+        $userId = 1;
+        $posts = new Collection([
+            (object) ['status' => 'draft'],
+            (object) ['status' => 'draft'],
+            (object) ['status' => 'scheduled'],
+            (object) ['status' => 'publishing'],
+            (object) ['status' => 'published'],
+        ]);
+
+        $this->postRepository
+            ->shouldReceive('getByUser')
+            ->with($userId)
+            ->once()
+            ->andReturn($posts);
+
+        $result = $this->postService->getStatsByUser($userId);
+
+        $this->assertEquals([
+            'total' => 5,
+            'drafts' => 2,
+            'scheduled' => 1,
+            'publishing' => 1,
+            'published' => 1,
+            'failed' => 0,
+        ], $result);
     }
 
     /** @test */

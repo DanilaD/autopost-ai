@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register route middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+            'network' => \App\Http\Middleware\EnsureUserIsNetwork::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

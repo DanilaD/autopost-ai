@@ -102,6 +102,23 @@ return [
     'media_upload_description' => 'Upload images or videos for your post',
     'scheduling_description' => 'Choose when to publish your post',
 
+    // Scheduling Interface
+    'quick_select' => 'Quick Select',
+    'custom_schedule' => 'Custom Schedule',
+    'now' => 'Now',
+    'today_1h' => 'Today (+1 hour)',
+    'today_3h' => 'Today (+3 hours)',
+    'today_6h' => 'Today (+6 hours)',
+    'tomorrow_9am' => 'Tomorrow (9:00 AM)',
+    'tomorrow_6pm' => 'Tomorrow (6:00 PM)',
+    'next_week' => 'Next Week',
+    'next_month' => 'Next Month',
+    'select_date' => 'Select Date',
+    'select_time' => 'Select Time',
+    'date_placeholder' => 'Choose a date',
+    'time_placeholder' => 'Choose a time',
+    'scheduled_for' => 'Scheduled for',
+
     // Form Labels
     'post_details' => 'Post Details',
     'media_upload' => 'Media Upload',
@@ -127,11 +144,14 @@ return [
     'scheduling_help' => 'Schedule your post to be published at a specific time.',
 
     // Statistics
-    'total_posts' => 'Total Posts',
-    'draft_posts' => 'Draft Posts',
-    'scheduled_posts' => 'Scheduled Posts',
-    'published_posts' => 'Published Posts',
-    'failed_posts' => 'Failed Posts',
+    'stats' => [
+        'total_posts' => 'Total Posts',
+        'drafts' => 'Drafts',
+        'scheduled' => 'Scheduled',
+        'publishing' => 'Publishing',
+        'published' => 'Published',
+        'failed' => 'Failed',
+    ],
 
     // Empty States
     'no_posts' => 'No posts yet',
@@ -160,5 +180,20 @@ return [
         'too_many_files' => 'Too many files. Maximum :max files allowed.',
         'file_too_large' => 'File :name is too large. Maximum size is :max.',
         'invalid_file_type' => 'File :name has invalid type :type.',
+    ],
+    'untitled' => 'Untitled Post',
+    'no_caption' => 'No caption',
+    'create_post' => 'Create Post',
+    'status' => [
+        'draft' => 'Draft',
+        'scheduled' => 'Scheduled',
+        'published' => 'Published',
+        'failed' => 'Failed',
+    ],
+    'type' => [
+        'feed' => 'Feed',
+        'story' => 'Story',
+        'reel' => 'Reel',
+        'carousel' => 'Carousel',
     ],
 ];

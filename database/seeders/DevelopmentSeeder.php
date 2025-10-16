@@ -42,6 +42,7 @@ class DevelopmentSeeder extends Seeder
         // Attach admin to company
         $company->users()->attach($admin->id, [
             'role' => UserRole::ADMIN->value,
+            'accepted_at' => now(),
         ]);
         $admin->update(['current_company_id' => $company->id]);
         $this->command->info('✅ Admin attached to company');
@@ -57,6 +58,7 @@ class DevelopmentSeeder extends Seeder
         ]);
         $company->users()->attach($user->id, [
             'role' => UserRole::USER->value,
+            'accepted_at' => now(),
         ]);
         $this->command->info("✅ User created: {$user->email}");
 
@@ -71,6 +73,7 @@ class DevelopmentSeeder extends Seeder
         ]);
         $company->users()->attach($network->id, [
             'role' => UserRole::NETWORK->value,
+            'accepted_at' => now(),
         ]);
         $this->command->info("✅ Network manager created: {$network->email}");
 

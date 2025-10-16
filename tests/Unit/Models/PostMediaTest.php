@@ -339,6 +339,9 @@ class PostMediaTest extends TestCase
         $media2 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 2]);
         $media3 = PostMedia::factory()->create(['post_id' => $this->post->id, 'order' => 3]);
 
+        // Refresh the post model to get updated media relationships
+        $this->post->refresh();
+
         $this->assertCount(4, $this->post->media); // Including the one from setUp
         $this->assertEquals($media1->id, $this->post->media->first()->id);
         $this->assertEquals($media3->id, $this->post->media->last()->id);

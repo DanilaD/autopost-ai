@@ -19,6 +19,109 @@
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <!-- Statistics Cards -->
+                <div class="mb-6">
+                    <div
+                        class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6"
+                    >
+                        <!-- Total Posts -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.stats.total_posts') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100 md:text-2xl"
+                            >
+                                {{ stats.total || 0 }}
+                            </div>
+                        </div>
+
+                        <!-- Drafts -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.status.draft') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-gray-600 dark:text-gray-400 md:text-2xl"
+                            >
+                                {{ stats.drafts || 0 }}
+                            </div>
+                        </div>
+
+                        <!-- Scheduled -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.status.scheduled') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400 md:text-2xl"
+                            >
+                                {{ stats.scheduled || 0 }}
+                            </div>
+                        </div>
+
+                        <!-- Publishing -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.status.publishing') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-yellow-600 dark:text-yellow-400 md:text-2xl"
+                            >
+                                {{ stats.publishing || 0 }}
+                            </div>
+                        </div>
+
+                        <!-- Published -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.status.published') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-green-600 dark:text-green-400 md:text-2xl"
+                            >
+                                {{ stats.published || 0 }}
+                            </div>
+                        </div>
+
+                        <!-- Failed -->
+                        <div
+                            class="flex-1 rounded-md bg-white p-3 shadow dark:bg-gray-800 md:p-4"
+                        >
+                            <div
+                                class="text-xs font-medium text-gray-500 dark:text-gray-400 md:text-sm"
+                            >
+                                {{ t('posts.status.failed') }}
+                            </div>
+                            <div
+                                class="mt-1 text-xl font-bold text-red-600 dark:text-red-400 md:text-2xl"
+                            >
+                                {{ stats.failed || 0 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Filters -->
                 <div class="mb-6">
                     <div class="flex flex-wrap gap-4">
@@ -35,6 +138,9 @@
                             </option>
                             <option value="scheduled">
                                 {{ t('posts.status.scheduled') }}
+                            </option>
+                            <option value="publishing">
+                                {{ t('posts.status.publishing') }}
                             </option>
                             <option value="published">
                                 {{ t('posts.status.published') }}
@@ -353,7 +459,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
+import { useSweetAlert } from '@/composables/useSweetAlert'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composables/useToast'
@@ -361,6 +467,7 @@ import { debounce } from 'lodash-es'
 
 const { t } = useI18n()
 const toast = useToast()
+const swal = useSweetAlert()
 
 const props = defineProps({
     posts: {
@@ -368,6 +475,10 @@ const props = defineProps({
         required: true,
     },
     filters: {
+        type: Object,
+        default: () => ({}),
+    },
+    stats: {
         type: Object,
         default: () => ({}),
     },
@@ -395,6 +506,8 @@ const getStatusClass = (status) => {
         draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
         scheduled:
             'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+        publishing:
+            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
         published:
             'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
         failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
@@ -416,15 +529,9 @@ const getMediaTypeCount = (media, type) => {
 }
 
 const deletePost = async (postId) => {
-    const result = await Swal.fire({
-        title: t('posts.confirm_delete'),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#ef4444',
-        cancelButtonColor: '#6b7280',
+    const result = await swal.confirm(t('posts.confirm_delete'), '', {
         confirmButtonText: t('admin.users.confirm'),
         cancelButtonText: t('admin.users.cancel'),
-        reverseButtons: true,
     })
 
     if (!result.isConfirmed) return

@@ -69,6 +69,19 @@ class PostControllerTest extends TestCase
             ->once()
             ->andReturn($posts);
 
+        $this->postService
+            ->shouldReceive('getStats')
+            ->with($this->company->id)
+            ->once()
+            ->andReturn([
+                'total' => 2,
+                'drafts' => 1,
+                'scheduled' => 0,
+                'publishing' => 0,
+                'published' => 1,
+                'failed' => 0,
+            ]);
+
         // Act
         $response = $this->actingAs($this->user)->get(route('posts.index'));
 
@@ -77,6 +90,7 @@ class PostControllerTest extends TestCase
         $response->assertInertia(fn ($page) => $page->component('Posts/Index')
             ->has('posts')
             ->has('filters')
+            ->has('stats')
         );
     }
 
@@ -93,6 +107,19 @@ class PostControllerTest extends TestCase
             ->once()
             ->andReturn($posts);
 
+        $this->postService
+            ->shouldReceive('getStats')
+            ->with($this->company->id)
+            ->once()
+            ->andReturn([
+                'total' => 1,
+                'drafts' => 1,
+                'scheduled' => 0,
+                'publishing' => 0,
+                'published' => 0,
+                'failed' => 0,
+            ]);
+
         // Act
         $response = $this->actingAs($this->user)->get(route('posts.index', $filters));
 
@@ -101,6 +128,7 @@ class PostControllerTest extends TestCase
         $response->assertInertia(fn ($page) => $page->component('Posts/Index')
             ->where('filters.status', 'draft')
             ->where('filters.type', 'feed')
+            ->has('stats')
         );
     }
 
@@ -189,7 +217,7 @@ class PostControllerTest extends TestCase
             'title' => 'Test Post',
             'caption' => 'Test caption',
             'media' => [
-                ['file' => $file],
+                ['file' => $file, 'type' => 'image'],
             ],
         ];
 
@@ -480,7 +508,9 @@ class PostControllerTest extends TestCase
         $posts = collect([
             Post::factory()->create(['company_id' => $this->company->id, 'status' => PostStatus::DRAFT]),
             Post::factory()->create(['company_id' => $this->company->id, 'status' => PostStatus::SCHEDULED]),
+            Post::factory()->create(['company_id' => $this->company->id, 'status' => PostStatus::PUBLISHING]),
             Post::factory()->create(['company_id' => $this->company->id, 'status' => PostStatus::PUBLISHED]),
+            Post::factory()->create(['company_id' => $this->company->id, 'status' => PostStatus::FAILED]),
         ]);
 
         $this->postService
@@ -495,11 +525,12 @@ class PostControllerTest extends TestCase
         // Assert
         $response->assertStatus(200);
         $response->assertJson([
-            'total' => 3,
+            'total' => 5,
             'drafts' => 1,
             'scheduled' => 1,
+            'publishing' => 1,
             'published' => 1,
-            'failed' => 0,
+            'failed' => 1,
         ]);
     }
 

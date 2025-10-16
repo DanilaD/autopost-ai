@@ -866,7 +866,7 @@ CREATE TABLE posts (
     company_id BIGINT UNSIGNED NOT NULL,
     instagram_account_id BIGINT UNSIGNED NOT NULL,
     type ENUM('feed', 'reel', 'story', 'carousel') NOT NULL,
-    status ENUM('draft', 'scheduled', 'published', 'failed') NOT NULL DEFAULT 'draft',
+    status ENUM('draft', 'scheduled', 'publishing', 'published', 'failed') NOT NULL DEFAULT 'draft',
     title VARCHAR(255) NULL,
     caption TEXT NULL,
     scheduled_at TIMESTAMP NULL,
@@ -908,6 +908,7 @@ CREATE TABLE posts (
 
 - `draft` - Work in progress, not scheduled
 - `scheduled` - Scheduled for future publishing
+- `publishing` - Currently being sent to Instagram API
 - `published` - Successfully published to Instagram
 - `failed` - Publishing failed, can be retried
 

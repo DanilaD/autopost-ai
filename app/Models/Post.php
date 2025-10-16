@@ -58,6 +58,23 @@ class Post extends Model
     ];
 
     /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Cascade soft delete to media when post is deleted
+        static::deleting(function ($post) {
+            // Only cascade delete if the post is actually being soft deleted
+            // and not just being refreshed or updated
+            if ($post->isDirty('deleted_at') && $post->deleted_at !== null) {
+                $post->media()->delete();
+            }
+        });
+    }
+
+    /**
      * The attributes that should be cast.
      */
     protected $casts = [
@@ -69,6 +86,14 @@ class Post extends Model
         'status' => PostStatus::class,
         'type' => PostType::class,
     ];
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     */
+    protected function serializeDate(\DateTimeInterface $date): string
+    {
+        return $date->toISOString();
+    }
 
     /**
      * Get the company that owns the post

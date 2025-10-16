@@ -51,11 +51,11 @@ class Company extends Model
     }
 
     /**
-     * Get admin users
+     * Get admin users (including network managers)
      */
     public function admins(): BelongsToMany
     {
-        return $this->users()->wherePivot('role', 'admin');
+        return $this->users()->wherePivotIn('role', ['admin', 'network']);
     }
 
     /**
@@ -82,6 +82,14 @@ class Company extends Model
     public function instagramAccounts(): HasMany
     {
         return $this->hasMany(InstagramAccount::class);
+    }
+
+    /**
+     * Get all invitations for this company
+     */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(CompanyInvitation::class);
     }
 
     /**

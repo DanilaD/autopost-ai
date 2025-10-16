@@ -20,7 +20,7 @@ class EnsureUserIsAdmin
     {
         // Check if user is authenticated
         if (! $request->user()) {
-            abort(403, 'Authentication required.');
+            return redirect()->route('home');
         }
 
         // Check if user has admin role in current company
