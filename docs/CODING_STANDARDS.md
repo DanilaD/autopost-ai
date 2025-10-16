@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.3  
-**Date:** October 15, 2025  
+**Version:** 1.4  
+**Date:** October 16, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Replaced MD3 with Tailwind dark-mode standard; added enforceable UI rules
+**Recent Update:** Added mandatory AI validation for documentation and tests
 
 ---
 
@@ -15,9 +15,10 @@
 4. [Code Structure](#code-structure)
 5. [Best Practices](#best-practices)
 6. [Documentation Rules](#documentation-rules)
-7. [Material Design 3 Standards](#material-design-3-standards)
-8. [Testing Requirements](#testing-requirements)
-9. [Code Examples](#code-examples)
+7. [AI Validation for Documentation & Tests](#ai-validation-for-documentation--tests-🤖-mandatory)
+8. [Material Design 3 Standards](#material-design-3-standards)
+9. [Testing Requirements](#testing-requirements)
+10. [Code Examples](#code-examples)
 
 ---
 
@@ -1470,7 +1471,68 @@ test(wallet): add transaction ledger reconciliation tests
 3. ✅ **Update INDEX.md** - If you created/renamed docs
 4. ✅ **Update DATABASE_SCHEMA.md** - If you modified database tables
 5. ✅ **Update version/date** - In updated documentation files
-6. ✅ **Then commit** - Include doc updates in the same commit
+6. ✅ **Validate with AI** - Use AI to check documentation completeness and accuracy
+7. ✅ **Then commit** - Include doc updates in the same commit
+
+### 6. AI Validation for Documentation & Tests 🤖 **MANDATORY**
+
+**ALWAYS validate documentation and tests with AI before committing:**
+
+**For Documentation Updates:**
+
+- ✅ **Ask AI to review** - "Check if my documentation updates are complete and accurate"
+- ✅ **Verify completeness** - Ensure all changed code is documented
+- ✅ **Check accuracy** - Confirm technical details are correct
+- ✅ **Validate format** - Ensure proper Markdown formatting and structure
+- ✅ **Review examples** - Verify code examples are up-to-date and working
+
+**For Test Updates:**
+
+- ✅ **Ask AI to review** - "Check if my test updates cover all the changes I made"
+- ✅ **Verify test coverage** - Ensure new functionality is tested
+- ✅ **Check test accuracy** - Confirm tests match actual behavior
+- ✅ **Validate test structure** - Ensure proper test organization and naming
+- ✅ **Review assertions** - Verify test assertions are correct and comprehensive
+
+**AI Validation Commands:**
+
+```bash
+# For documentation validation
+"Please review my documentation updates for completeness and accuracy.
+I changed [describe changes]. Are there any missing pieces or inaccuracies?"
+
+# For test validation
+"Please review my test updates. I modified [describe changes].
+Do my tests adequately cover the changes and are they accurate?"
+
+# For comprehensive validation
+"Please validate both my code changes and documentation updates.
+I modified [describe changes]. Are the docs complete and tests comprehensive?"
+```
+
+**Validation Checklist:**
+
+```
+Before committing, ask AI to verify:
+
+□ Documentation completeness - All changes documented?
+□ Documentation accuracy - Technical details correct?
+□ Test coverage - New functionality tested?
+□ Test accuracy - Tests match actual behavior?
+□ Format compliance - Proper Markdown/test structure?
+□ Examples updated - Code examples current?
+□ Breaking changes documented - If any?
+□ Version numbers updated - In relevant docs?
+```
+
+**Why AI Validation Matters:**
+
+- 🎯 **Catch missing pieces** - AI spots gaps in documentation
+- 🔍 **Verify accuracy** - AI checks technical correctness
+- 📊 **Ensure completeness** - AI validates comprehensive coverage
+- ⚡ **Save time** - Catch issues before code review
+- 🛡️ **Prevent regressions** - AI validates test coverage
+- 📚 **Maintain quality** - Consistent documentation standards
 
 **Examples:**
 
@@ -2008,6 +2070,7 @@ it('creates post with valid data', function () {
 8. **Always** - Document your code
 9. **Always** - Write tests
 10. **Always** - Update docs when you change code
+11. **Always** - Validate docs and tests with AI before committing
 
 ### File Checklist
 
