@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.4  
+**Version:** 1.5  
 **Date:** October 16, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Added mandatory AI validation for documentation and tests
+**Recent Update:** Added PHPUnit best practices and PHP 8 attributes guidelines
 
 ---
 
@@ -1882,7 +1882,54 @@ $mockRepository->shouldReceive('create')->once()->andReturn($post);
 - Use factories instead of seeders
 - Run tests in parallel when possible
 
-### 10. Continuous Integration
+### 10. PHPUnit Best Practices
+
+**Use modern PHPUnit syntax:**
+
+```php
+// ✅ GOOD: Use PHP 8 attributes
+#[\\PHPUnit\\Framework\\Attributes\\Test]
+public function it_creates_post_with_valid_data()
+{
+    // test implementation
+}
+
+// ❌ BAD: Deprecated doc-comment syntax
+/** @test */
+public function it_creates_post_with_valid_data()
+{
+    // test implementation
+}
+```
+
+**PHPUnit Attribute Guidelines:**
+
+- ✅ **Always use attributes** - `#[\PHPUnit\Framework\Attributes\Test]` instead of `/** @test */`
+- ✅ **Future-proof** - Attributes are PHPUnit 12 compatible
+- ✅ **Clean output** - No deprecation warnings
+- ✅ **Modern syntax** - Follows PHP 8+ standards
+
+**Test Method Naming:**
+
+```php
+// ✅ GOOD: Descriptive, behavior-focused names
+#[\\PHPUnit\\Framework\\Attributes\\Test]
+public function it_creates_post_with_media_and_schedules_for_future()
+
+#[\\PHPUnit\\Framework\\Attributes\\Test]
+public function it_throws_exception_when_caption_is_too_long()
+
+// ❌ BAD: Vague, implementation-focused names
+#[\\PHPUnit\\Framework\\Attributes\\Test]
+public function test_create_post()
+
+#[\\PHPUnit\\Framework\\Attributes\\Test]
+public function test_validation()
+```
+
+**Remember: Use PHP 8 attributes for all test methods to ensure PHPUnit 12 compatibility!**
+
+### 11. Continuous Integration
 
 **Automated test validation:**
 

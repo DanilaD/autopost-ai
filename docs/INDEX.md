@@ -2,7 +2,7 @@
 
 **Project:** {{APP_NAME}} - AI-Powered Instagram Content Platform  
 **Last Updated:** October 16, 2025
-**Version:** 2.3
+**Version:** 2.4
 
 ---
 
@@ -1162,7 +1162,56 @@ All documentation should include:
 
 ## 📢 Recent Updates
 
-### October 16, 2025 - Mandatory AI Validation Rule for Documentation & Tests 🤖 **LATEST**
+### October 16, 2025 - PHPUnit Deprecation Warnings Fixed 🧪 **LATEST**
+
+**Status:** ✅ Complete & Deployed
+
+**What's New:**
+
+- ✅ **PHPUnit 12 Compatibility** - Converted all test files to use PHP 8 attributes instead of deprecated doc-comments
+- ✅ **Clean Test Output** - Eliminated all deprecation warnings from test runs
+- ✅ **Modern Test Syntax** - Updated 125 test method annotations across 7 test files
+- ✅ **Future-Proof Testing** - Ready for PHPUnit 12 when it's released
+- ✅ **Zero Breaking Changes** - All 306 tests still passing with clean output
+
+**Files Updated:**
+
+- ✅ **PostMediaTest.php** - 26 test methods converted to attributes
+- ✅ **PostTest.php** - 33 test methods converted to attributes
+- ✅ **PostServiceTest.php** - 21 test methods converted to attributes
+- ✅ **PostMediaServiceTest.php** - 20 test methods converted to attributes
+- ✅ **PostControllerTest.php** - 20 test methods converted to attributes
+- ✅ **IndividualUserPostTest.php** - 3 test methods converted to attributes
+- ✅ **IndividualUserInstagramTest.php** - 2 test methods converted to attributes
+
+**Technical Changes:**
+
+- ✅ **Replaced:** `/** @test */` doc-comment annotations
+- ✅ **With:** `#[\PHPUnit\Framework\Attributes\Test]` PHP 8 attributes
+- ✅ **Total:** 125 test method annotations modernized
+- ✅ **Result:** Clean test output with no deprecation warnings
+
+**Test Results:**
+
+- ✅ **306 tests passing** (3825 assertions)
+- ✅ **0 deprecation warnings**
+- ✅ **PHPUnit 12 ready**
+- ✅ **Clean test output**
+
+**Benefits:**
+
+- 🎯 **Future-proof** - Ready for PHPUnit 12
+- 🔍 **Clean output** - No more deprecation warnings
+- ⚡ **Modern syntax** - Using PHP 8+ attributes
+- 🛡️ **Maintainable** - Consistent attribute-based test marking
+
+**Files Updated:** 7 test files  
+**No Breaking Changes**  
+**Documentation:** Updated INDEX.md to v2.4
+
+---
+
+### October 16, 2025 - Mandatory AI Validation Rule for Documentation & Tests 🤖
 
 **Status:** ✅ Complete & Deployed
 
