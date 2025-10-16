@@ -448,7 +448,20 @@ const submitForm = async () => {
                 form.value.scheduled_at instanceof Date
                     ? form.value.scheduled_at
                     : new Date(form.value.scheduled_at)
-            formData.append('scheduled_at', scheduledDate.toISOString())
+
+            // Convert local time to UTC for backend storage
+            // Create UTC date from local time components
+            const utcDate = new Date(
+                Date.UTC(
+                    scheduledDate.getFullYear(),
+                    scheduledDate.getMonth(),
+                    scheduledDate.getDate(),
+                    scheduledDate.getHours(),
+                    scheduledDate.getMinutes(),
+                    scheduledDate.getSeconds()
+                )
+            )
+            formData.append('scheduled_at', utcDate.toISOString())
         }
 
         // Add media files (only new files, not existing ones)
