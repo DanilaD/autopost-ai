@@ -68,7 +68,8 @@ print_info() {
 echo "🎉 AUTOPOST AI - FINAL PROJECT CHECK"
 echo "====================================="
 echo "Date: $(date)"
-echo "Version: 1.5"
+echo "Version: 1.6"
+echo "PHPUnit: Modernized with PHP 8 attributes"
 echo ""
 
 ###############################################################################
@@ -78,8 +79,12 @@ echo ""
 print_header "1. Running Complete Test Suite"
 
 print_info "Running PHPUnit tests..."
-if php artisan test --stop-on-failure; then
-    print_success "All tests passed!"
+if php artisan test --stop-on-failure 2>&1 | grep -q "WARN.*Metadata found in doc-comment"; then
+    print_error "PHPUnit deprecation warnings found! Tests need to be updated to use PHP 8 attributes."
+    print_info "Run: Convert all /** @test */ annotations to #[\\PHPUnit\\Framework\\Attributes\\Test]"
+    exit 1
+elif php artisan test --stop-on-failure; then
+    print_success "All tests passed with no deprecation warnings!"
 else
     print_error "Tests failed!"
     exit 1
@@ -134,17 +139,17 @@ print_info "Total test files: $TOTAL_TEST_FILES"
 
 # Count test methods in new files
 if [ -f "tests/Unit/Services/Post/PostServiceTest.php" ]; then
-    POST_SERVICE_TESTS=$(grep -c "public function test_" tests/Unit/Services/Post/PostServiceTest.php || echo "0")
+    POST_SERVICE_TESTS=$(grep -c "#\[\\PHPUnit\\Framework\\Attributes\\Test\]" tests/Unit/Services/Post/PostServiceTest.php || echo "0")
     print_info "PostService test methods: $POST_SERVICE_TESTS"
 fi
 
 if [ -f "tests/Unit/Services/Post/PostMediaServiceTest.php" ]; then
-    POST_MEDIA_SERVICE_TESTS=$(grep -c "public function test_" tests/Unit/Services/Post/PostMediaServiceTest.php || echo "0")
+    POST_MEDIA_SERVICE_TESTS=$(grep -c "#\[\\PHPUnit\\Framework\\Attributes\\Test\]" tests/Unit/Services/Post/PostMediaServiceTest.php || echo "0")
     print_info "PostMediaService test methods: $POST_MEDIA_SERVICE_TESTS"
 fi
 
 if [ -f "tests/Feature/PostControllerTest.php" ]; then
-    POST_CONTROLLER_TESTS=$(grep -c "public function test_" tests/Feature/PostControllerTest.php || echo "0")
+    POST_CONTROLLER_TESTS=$(grep -c "#\[\\PHPUnit\\Framework\\Attributes\\Test\]" tests/Feature/PostControllerTest.php || echo "0")
     print_info "PostController test methods: $POST_CONTROLLER_TESTS"
 fi
 
@@ -630,8 +635,9 @@ fi
 
 echo ""
 echo "Last Updated: $(date)"
-echo "Version: 1.5"
+echo "Version: 1.6"
 echo "Status: ✅ PRODUCTION READY"
+echo "PHPUnit: ✅ Modernized with PHP 8 attributes"
 echo ""
 echo "=============================================="
 echo "🎉 FINAL CHECK COMPLETE! 🎉"

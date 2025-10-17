@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.5  
+**Version:** 1.6  
 **Date:** October 16, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Added PHPUnit best practices and PHP 8 attributes guidelines
+**Recent Update:** Enhanced AI validation rules with PHPUnit modernization and architecture compliance checks
 
 ---
 
@@ -1508,6 +1508,15 @@ Do my tests adequately cover the changes and are they accurate?"
 # For comprehensive validation
 "Please validate both my code changes and documentation updates.
 I modified [describe changes]. Are the docs complete and tests comprehensive?"
+
+# For PHPUnit modernization validation
+"Please check if my test files use modern PHPUnit syntax.
+I converted /** @test */ annotations to PHP 8 attributes.
+Are all test methods properly updated and PHPUnit 12 compatible?"
+
+# For code quality validation
+"Please review my code changes for architecture compliance.
+I modified [describe changes]. Does the code follow the Controller → Service → Repository pattern?"
 ```
 
 **Validation Checklist:**
@@ -1523,6 +1532,9 @@ Before committing, ask AI to verify:
 □ Examples updated - Code examples current?
 □ Breaking changes documented - If any?
 □ Version numbers updated - In relevant docs?
+□ PHPUnit modernization - Tests use PHP 8 attributes?
+□ Architecture compliance - Controller → Service → Repository pattern?
+□ No deprecation warnings - Clean test output?
 ```
 
 **Why AI Validation Matters:**
