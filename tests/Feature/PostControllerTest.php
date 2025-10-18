@@ -546,9 +546,9 @@ class PostControllerTest extends TestCase
     public function it_requires_authentication()
     {
         // Act & Assert
-        $this->get(route('posts.index'))->assertRedirect('/500');
-        $this->get(route('posts.create'))->assertRedirect('/500');
-        $this->post(route('posts.store'), [])->assertRedirect('/500');
+        $this->get(route('posts.index'))->assertRedirect('/login');
+        $this->get(route('posts.create'))->assertRedirect('/login');
+        $this->post(route('posts.store'), [])->assertRedirect('/login');
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
