@@ -3,7 +3,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from 'vue-i18n'
-import { onMounted } from 'vue'
 import { useSweetAlert } from '@/composables/useSweetAlert'
 
 const { t } = useI18n()
@@ -26,12 +25,8 @@ const props = defineProps({
 const toast = useToast()
 const swal = useSweetAlert()
 
-// Show configuration error if Instagram is not set up
-onMounted(() => {
-    if (props.configError) {
-        toast.addToast(props.configError, 'error', 10000) // Show for 10 seconds
-    }
-})
+// Note: configError is only used for persistent warning display in template
+// Toast messages are handled by AuthenticatedLayout from backend flash messages
 
 const disconnectAccount = async (account) => {
     const result = await swal.confirm(
@@ -117,6 +112,33 @@ const getStatusText = (account) => {
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
+                <!-- Configuration Error Warning -->
+                <div
+                    v-if="configError"
+                    class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-500 p-4"
+                >
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg
+                                class="h-5 w-5 text-red-400 dark:text-red-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700 dark:text-red-400">
+                                {{ configError }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- No Company Warning -->
                 <div
                     v-if="!hasCompany"
