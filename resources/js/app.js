@@ -1986,20 +1986,21 @@ createInertiaApp({
 
         // Listen for Inertia page updates to sync locale
         // This ensures locale updates when page props change
-        const updateLocale = () => {
-            const currentPage = plugin.page
-            if (currentPage?.props?.locale) {
-                i18n.global.locale.value = currentPage.props.locale
+        const updateLocale = (page) => {
+            if (page?.props?.locale) {
+                i18n.global.locale.value = page.props.locale
             }
         }
 
         // Update locale on initial load
-        updateLocale()
+        updateLocale(props.initialPage)
 
-        // Watch for page updates (Inertia uses custom events)
+        // Watch for Inertia navigation events
         if (typeof window !== 'undefined') {
-            window.addEventListener('inertia:success', updateLocale)
-            window.addEventListener('inertia:finish', updateLocale)
+            // Inertia v3 uses custom events
+            window.addEventListener('inertia:success', (event) => {
+                updateLocale(event.detail.page)
+            })
         }
 
         // Note: Toast handling is done in AuthenticatedLayout.vue to avoid duplicates
