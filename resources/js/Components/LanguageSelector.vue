@@ -25,33 +25,16 @@ const changeLanguage = (locale) => {
         window.localStorage.setItem('preferred_locale', locale)
     }
 
-    // Use form submission instead of AJAX to avoid CORS issues
-    const form = document.createElement('form')
-    form.method = 'POST'
-    form.action = route('locale.change')
-
-    // Add CSRF token
-    const csrfToken = document
-        .querySelector('meta[name="csrf-token"]')
-        ?.getAttribute('content')
-    if (csrfToken) {
-        const csrfInput = document.createElement('input')
-        csrfInput.type = 'hidden'
-        csrfInput.name = '_token'
-        csrfInput.value = csrfToken
-        form.appendChild(csrfInput)
-    }
-
-    // Add locale input
-    const localeInput = document.createElement('input')
-    localeInput.type = 'hidden'
-    localeInput.name = 'locale'
-    localeInput.value = locale
-    form.appendChild(localeInput)
-
-    // Submit form
-    document.body.appendChild(form)
-    form.submit()
+    // Use Inertia router which automatically handles CSRF tokens
+    router.post(
+        route('locale.change'),
+        { locale },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            only: [],
+        }
+    )
 }
 
 const toggleDropdown = () => {
