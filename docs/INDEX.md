@@ -148,8 +148,11 @@ This directory contains comprehensive documentation for the {{APP_NAME}} project
 - SEO considerations (hreflang tags)
 - Date and number formatting
 - Testing strategy
+- Recent fixes (CSRF handling, immediate language updates, missing translations)
 
 **Status:** ✅ Complete & Implemented  
+**Last Updated:** November 7, 2025  
+**Version:** 2.1  
 **Estimated Reading Time:** 20-30 minutes
 
 ---

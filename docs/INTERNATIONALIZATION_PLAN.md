@@ -1,7 +1,7 @@
 # Internationalization (i18n) Implementation Plan
 
-**Version:** 2.0  
-**Date:** October 10, 2025  
+**Version:** 2.1  
+**Date:** November 7, 2025  
 **Status:** ✅ Complete & Implemented
 
 ---
@@ -1115,6 +1115,28 @@ Generate separate sitemaps for each language:
 
 ---
 
+## Recent Updates (November 7, 2025)
+
+### Fixes and Improvements
+
+✅ **Fixed CSRF token issue** - Language selector now uses Inertia router for automatic CSRF handling  
+✅ **Immediate language updates** - Language changes now reflect immediately without manual page reload  
+✅ **Fixed duplicate auth translations** - Merged duplicate auth sections in messages object  
+✅ **Added missing translations** - Added all missing auth translations (enter_email, continue, forgot_password_title, etc.)  
+✅ **Fixed password reset flow** - Auto-login after password reset with redirect to dashboard  
+✅ **Improved ResetPassword page** - Matches Login page design with glass card styling  
+✅ **Event listeners** - Added Inertia event listeners to sync locale on all page navigations
+
+### Technical Changes
+
+- **LanguageSelector.vue**: Now uses `router.post()` with immediate i18n locale update
+- **app.js**: Added `inertia:success` event listener to sync locale on page updates
+- **NewPasswordController**: Auto-login after password reset, redirect to dashboard
+- **ResetPassword.vue**: Updated to match Login/ForgotPassword page styling
+- **Translation files**: Added missing auth translations to JSON files (en.json, ru.json, es.json)
+
+---
+
 ## Summary
 
 ### What This Achieves
@@ -1126,7 +1148,9 @@ Generate separate sitemaps for each language:
 ✅ **Shared translations** - Laravel and Vue use same files  
 ✅ **Beautiful language switcher** - With flags and names  
 ✅ **Fallback system** - Missing translations fall back to English  
-✅ **Easy to extend** - Add new languages by creating new files
+✅ **Easy to extend** - Add new languages by creating new files  
+✅ **Immediate updates** - Language changes reflect instantly without page reload  
+✅ **CSRF protection** - Automatic CSRF token handling via Inertia router
 
 ### Files to Create/Modify
 
