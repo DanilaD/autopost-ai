@@ -329,5 +329,13 @@
     "ai.tokens": "Tokens",
     "ai.free": "Gratis",
     "ai.analytics": "Analíticas",
-    "Language changed successfully!": "¡Idioma cambiado exitosamente!"
+    "Language changed successfully!": "¡Idioma cambiado exitosamente!",
+    "auth.enter_email": "Ingrese su correo electrónico",
+    "auth.continue": "Continuar",
+    "auth.forgot_password_title": "Olvidé mi contraseña",
+    "auth.forgot_password_description": "¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.",
+    "auth.remember_password": "¿Recuerdas tu contraseña?",
+    "auth.back_to_login": "Volver al inicio de sesión",
+    "auth.reset": "Restablecer",
+    "auth.reset_password": "Restablecer contraseña"
 }

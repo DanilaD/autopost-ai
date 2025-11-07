@@ -71,5 +71,13 @@
     "ai.tokens": "Tokens",
     "ai.free": "Free",
     "ai.analytics": "Analytics",
-    "Language changed successfully!": "Language changed successfully!"
+    "Language changed successfully!": "Language changed successfully!",
+    "auth.enter_email": "Enter your email",
+    "auth.continue": "Continue",
+    "auth.forgot_password_title": "Forgot Password",
+    "auth.forgot_password_description": "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
+    "auth.remember_password": "Remember your password?",
+    "auth.back_to_login": "Back to Login",
+    "auth.reset": "Reset",
+    "auth.reset_password": "Reset Password"
 }

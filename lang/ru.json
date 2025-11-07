@@ -330,5 +330,13 @@
     "ai.tokens": "Токены",
     "ai.free": "Бесплатно",
     "ai.analytics": "Аналитика",
-    "Language changed successfully!": "Язык успешно изменён!"
+    "Language changed successfully!": "Язык успешно изменён!",
+    "auth.enter_email": "Введите вашу электронную почту",
+    "auth.continue": "Продолжить",
+    "auth.forgot_password_title": "Забыли пароль",
+    "auth.forgot_password_description": "Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.",
+    "auth.remember_password": "Помните пароль?",
+    "auth.back_to_login": "Вернуться к входу",
+    "auth.reset": "Сбросить",
+    "auth.reset_password": "Сбросить пароль"
 }
