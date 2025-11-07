@@ -20,6 +20,54 @@
         <div class="py-12">
             <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">
                 <form class="space-y-8" @submit.prevent="submitForm">
+                    <!-- Instagram Account Selection -->
+                    <div
+                        class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
+                    >
+                        <h3
+                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                        >
+                            {{ t('posts.select_instagram_account') }}
+                        </h3>
+                        <p
+                            class="mt-1 text-sm text-gray-600 dark:text-gray-400"
+                        >
+                            {{
+                                t('posts.select_instagram_account_description')
+                            }}
+                        </p>
+
+                        <div class="mt-4">
+                            <label for="instagram_account_id" class="sr-only">
+                                {{ t('posts.select_instagram_account') }}
+                            </label>
+                            <select
+                                id="instagram_account_id"
+                                v-model="form.instagram_account_id"
+                                class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
+                            >
+                                <option value="">
+                                    {{ t('posts.select_account') }}
+                                </option>
+                                <option
+                                    v-for="account in instagramAccounts"
+                                    :key="account.id"
+                                    :value="account.id"
+                                >
+                                    {{ account.username }} ({{
+                                        account.display_name
+                                    }})
+                                </option>
+                            </select>
+                            <div
+                                v-if="errors?.instagram_account_id"
+                                class="mt-2 text-sm text-red-600 dark:text-red-400"
+                            >
+                                {{ errors.instagram_account_id }}
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Post Type Selection -->
                     <div
                         class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
@@ -86,50 +134,6 @@
                         </div>
                     </div>
 
-                    <!-- Instagram Account Selection -->
-                    <div
-                        class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
-                    >
-                        <h3
-                            class="text-lg font-medium text-gray-900 dark:text-gray-100"
-                        >
-                            {{ t('posts.select_instagram_account') }}
-                        </h3>
-                        <p
-                            class="mt-1 text-sm text-gray-600 dark:text-gray-400"
-                        >
-                            {{
-                                t('posts.select_instagram_account_description')
-                            }}
-                        </p>
-
-                        <div class="mt-4">
-                            <select
-                                v-model="form.instagram_account_id"
-                                class="w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-                            >
-                                <option value="">
-                                    {{ t('posts.select_account') }}
-                                </option>
-                                <option
-                                    v-for="account in instagramAccounts"
-                                    :key="account.id"
-                                    :value="account.id"
-                                >
-                                    {{ account.username }} ({{
-                                        account.display_name
-                                    }})
-                                </option>
-                            </select>
-                            <p
-                                v-if="errors?.instagram_account_id"
-                                class="mt-2 text-sm text-red-600"
-                            >
-                                {{ errors.instagram_account_id }}
-                            </p>
-                        </div>
-                    </div>
-
                     <!-- Post Details -->
                     <div
                         class="rounded-md bg-white p-6 shadow dark:bg-gray-800"
@@ -145,11 +149,11 @@
                             <div>
                                 <label
                                     for="title"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                                 >
                                     {{ t('posts.title') }}
                                     <span
-                                        class="text-gray-500 dark:text-gray-400"
+                                        class="text-gray-500 dark:text-gray-400 font-normal"
                                         >({{ t('posts.optional') }})</span
                                     >
                                 </label>
@@ -158,15 +162,21 @@
                                     v-model="form.title"
                                     type="text"
                                     :placeholder="t('posts.title_placeholder')"
-                                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                                    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
                                 />
+                                <div
+                                    v-if="errors?.title"
+                                    class="mt-2 text-sm text-red-600 dark:text-red-400"
+                                >
+                                    {{ errors.title }}
+                                </div>
                             </div>
 
                             <!-- Caption -->
                             <div>
                                 <label
                                     for="caption"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                                 >
                                     {{ t('posts.caption') }}
                                 </label>
@@ -177,7 +187,7 @@
                                     :placeholder="
                                         t('posts.caption_placeholder')
                                     "
-                                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                                    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md resize-y"
                                 />
                                 <p
                                     class="mt-1 text-sm text-gray-500 dark:text-gray-400"
@@ -185,12 +195,12 @@
                                     {{ form.caption.length }}/2200
                                     {{ t('posts.characters') }}
                                 </p>
-                                <p
+                                <div
                                     v-if="errors?.caption"
-                                    class="mt-2 text-sm text-red-600"
+                                    class="mt-2 text-sm text-red-600 dark:text-red-400"
                                 >
                                     {{ errors.caption }}
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -217,18 +227,18 @@
                                 :allowed-types="allowedMediaTypes"
                                 @update:model-value="updateMedia"
                             />
-                            <p
+                            <div
                                 v-if="errors?.media"
-                                class="mt-2 text-sm text-red-600"
+                                class="mt-2 text-sm text-red-600 dark:text-red-400"
                             >
                                 {{ errors.media }}
-                            </p>
-                            <p
+                            </div>
+                            <div
                                 v-if="errors?.['media.0.file']"
-                                class="mt-2 text-sm text-red-600"
+                                class="mt-2 text-sm text-red-600 dark:text-red-400"
                             >
                                 {{ errors['media.0.file'] }}
-                            </p>
+                            </div>
                         </div>
                     </div>
 

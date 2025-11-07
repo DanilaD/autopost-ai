@@ -112,7 +112,7 @@
                             ref="customDateInput"
                             type="date"
                             :placeholder="t('posts.date_placeholder')"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
                             :min="minDateString"
                             @change="onCustomDateChange"
                             @input="onCustomDateChange"
@@ -132,7 +132,7 @@
                             ref="customTimeInput"
                             type="time"
                             :placeholder="t('posts.time_placeholder')"
-                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-gray-100"
+                            class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
                             @change="onCustomTimeChange"
                             @input="onCustomTimeChange"
                         />
