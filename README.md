@@ -1,4 +1,4 @@
-# {{APP_NAME}} - AI-Powered Instagram Content Platform
+# AI-Powered Instagram Content Platform
 
 A modern SaaS application built with Laravel 12, Inertia.js, and Vue 3 for automated social media posting powered by AI.
 
