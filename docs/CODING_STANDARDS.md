@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.6  
-**Date:** October 16, 2025  
+**Version:** 1.7  
+**Date:** November 7, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Enhanced AI validation rules with PHPUnit modernization and architecture compliance checks
+**Recent Update:** Added mandatory form input styling pattern to match authentication pages
 
 ---
 
@@ -16,9 +16,11 @@
 5. [Best Practices](#best-practices)
 6. [Documentation Rules](#documentation-rules)
 7. [AI Validation for Documentation & Tests](#ai-validation-for-documentation--tests-🤖-mandatory)
-8. [Material Design 3 Standards](#material-design-3-standards)
-9. [Testing Requirements](#testing-requirements)
-10. [Code Examples](#code-examples)
+8. [UI & Theming Rules (Tailwind)](#ui--theming-rules-tailwind--active)
+    - [Form Input Styling (Mandatory Pattern)](#3-form-input-styling-mandatory-pattern)
+9. [Material Design 3 Standards](#material-design-3-standards)
+10. [Testing Requirements](#testing-requirements)
+11. [Code Examples](#code-examples)
 
 ---
 
@@ -1196,7 +1198,7 @@ public function processPost(Post $post): void
 
 ## UI & Theming Rules (Tailwind) — Active
 
-Note: This section supersedes the older “Material Design 3 Standards” below. We use Tailwind’s neutral palette with explicit `dark:` variants for consistent light/dark behavior.
+Note: This section supersedes the older "Material Design 3 Standards" below. We use Tailwind's neutral palette with explicit `dark:` variants for consistent light/dark behavior.
 
 ### 1) Core Principles
 
@@ -1218,10 +1220,152 @@ Note: This section supersedes the older “Material Design 3 Standards” below.
     - Dark: `dark:text-gray-400`
 - Buttons (primary):
     - `bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`
-    - Dark is compatible as-is; keep contrast sufficient
-- Inputs:
-    - `border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500`
-    - Dark: `dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100`
+
+### 3) Form Input Styling (Mandatory Pattern)
+
+**All form inputs (text, email, password, textarea, select, date, time) MUST use this consistent styling pattern to match authentication pages:**
+
+#### Standard Input Pattern
+
+```vue
+<input
+    id="field_name"
+    v-model="form.field_name"
+    type="text"
+    required
+    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
+    :placeholder="t('field.placeholder')"
+/>
+```
+
+#### Textarea Pattern
+
+```vue
+<textarea
+    id="field_name"
+    v-model="form.field_name"
+    rows="4"
+    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md resize-y"
+    :placeholder="t('field.placeholder')"
+/>
+```
+
+#### Select Dropdown Pattern
+
+```vue
+<label for="field_name" class="sr-only">
+    {{ t('field.label') }}
+</label>
+<select
+    id="field_name"
+    v-model="form.field_name"
+    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
+>
+    <option value="">{{ t('field.select_option') }}</option>
+    <!-- options -->
+</select>
+```
+
+#### Date/Time Input Pattern
+
+```vue
+<input
+    id="field_name"
+    type="date"
+    class="appearance-none relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 rounded-md"
+/>
+```
+
+#### Label Pattern
+
+- **For visible labels** (recommended for forms):
+
+    ```vue
+    <label
+        for="field_name"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+    >
+        {{ t('field.label') }}
+    </label>
+    ```
+
+- **For screen-reader-only labels** (when label text is in placeholder):
+    ```vue
+    <label for="field_name" class="sr-only">
+        {{ t('field.label') }}
+    </label>
+    ```
+
+#### Error Message Pattern
+
+```vue
+<div
+    v-if="errors?.field_name"
+    class="mt-2 text-sm text-red-600 dark:text-red-400"
+>
+    {{ errors.field_name }}
+</div>
+```
+
+#### Required Classes Breakdown
+
+**Base Classes (All Inputs):**
+
+- `appearance-none` - Remove browser default styling
+- `relative block w-full` - Full width block element
+- `px-4 py-3` - Consistent padding (16px horizontal, 12px vertical)
+
+**Border & Background:**
+
+- `border border-gray-300 dark:border-gray-600` - Border with dark mode
+- `bg-white dark:bg-gray-800` - Background with dark mode
+
+**Text & Placeholder:**
+
+- `text-gray-900 dark:text-gray-100` - Text color with dark mode
+- `placeholder-gray-500 dark:placeholder-gray-400` - Placeholder color with dark mode
+
+**Focus States:**
+
+- `focus:outline-none` - Remove default outline
+- `focus:ring-2 focus:ring-indigo-500` - Indigo focus ring
+- `focus:border-transparent` - Hide border on focus (ring replaces it)
+- `transition-all duration-200` - Smooth transitions
+
+**Additional:**
+
+- `rounded-md` - Slight border radius (matches auth pages)
+- `resize-y` - For textareas (vertical resize only)
+
+#### When to Use This Pattern
+
+✅ **MUST use for:**
+
+- All text inputs (text, email, password, search, tel, url)
+- All textareas
+- All select dropdowns
+- All date/time inputs
+- All number inputs
+
+✅ **Use on:**
+
+- Authentication pages (Login, Register, Reset Password, Forgot Password)
+- Form pages (Create Post, Edit Post, Profile, Settings)
+- Any page with user input fields
+
+#### Examples in Codebase
+
+- **Authentication Pages:** `resources/js/Pages/Auth/Login.vue`, `ResetPassword.vue`, `ForgotPassword.vue`
+- **Form Pages:** `resources/js/Pages/Posts/Create.vue`
+- **Components:** `resources/js/Components/SchedulingInterface.vue`
+
+#### Consistency Benefits
+
+- ✅ **Visual Consistency** - All inputs look the same across the app
+- ✅ **User Experience** - Users recognize input fields immediately
+- ✅ **Dark Mode** - Proper dark mode support everywhere
+- ✅ **Accessibility** - Consistent focus states and labels
+- ✅ **Maintainability** - Easy to update styling globally
 
 ### 3) Dark Mode Requirements
 

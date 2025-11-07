@@ -157,7 +157,35 @@ This directory contains comprehensive documentation for the {{APP_NAME}} project
 
 ---
 
-### 6. [CODING_STANDARDS.md](./CODING_STANDARDS.md)
+### 6. [CODING_STANDARDS.md](./CODING_STANDARDS.md) ⚠️ **MANDATORY**
+
+**Complete coding standards and architecture guidelines.**
+
+**Contains:**
+
+- Clean architecture pattern (Controller → Service → Repository → Model)
+- Layer responsibilities and rules
+- Naming conventions (PascalCase, camelCase, kebab-case)
+- Code structure and organization
+- Best practices (SOLID principles, dependency injection)
+- Documentation rules (pre-commit checks)
+- AI validation rules for documentation and tests
+- **UI & Theming Rules (Tailwind)** - Including mandatory form input styling pattern
+- Material Design 3 standards (deprecated)
+- Testing requirements (90%+ coverage)
+- Code examples (DO vs DON'T)
+
+**Key Sections:**
+
+- ✅ **Form Input Styling** - Mandatory pattern matching authentication pages
+- ✅ **Dark Mode Requirements** - Complete dark mode parity rules
+- ✅ **Accessibility & Contrast** - WCAG AA compliance
+- ✅ **Architecture Flow** - Never skip layers rule
+
+**Status:** ✅ Active - All developers must follow  
+**Last Updated:** November 7, 2025  
+**Version:** 1.7  
+**Estimated Reading Time:** 45-60 minutes
 
 **Architecture guidelines and coding rules - MANDATORY for all developers.**
 
