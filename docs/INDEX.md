@@ -1141,8 +1141,8 @@ All documentation should include:
 
 ---
 
-**Last Updated:** October 16, 2025  
-**Version:** 2.1  
+**Last Updated:** November 7, 2025  
+**Version:** 2.6  
 **Maintained By:** Development Team
 
 ---
