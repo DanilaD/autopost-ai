@@ -43,9 +43,12 @@ const messages = {
                 "Forgot your password? No problem.\nEnter your email below, and we'll send you a link to reset it securely.",
             email_password_reset_link: 'Email Password Reset Link',
             reset: 'Reset',
+            reset_password: 'Reset Password',
             back: 'Back',
             back_to_login: 'Back to Login',
             remember_password: 'Remember your password?',
+            login_required: 'Please log in to access AI features.',
+            confirm_password: 'Confirm Password',
         },
         errors: {
             page_not_found: 'Page Not Found',
@@ -266,18 +269,6 @@ const messages = {
             optional: 'Optional',
             required: 'Required',
             prompt: 'Prompt',
-        },
-        auth: {
-            login_required: 'Please log in to access AI features.',
-            login: 'Login',
-            welcome_back: 'Welcome back!',
-            email: 'Email',
-            password: 'Password',
-            remember_me: 'Remember me',
-            back: 'Back',
-            new_here: 'New here?',
-            secure_auth: 'Secure authentication',
-            forgot_password: 'Forgot your password?',
         },
         ai: {
             // Page titles and descriptions
@@ -739,9 +730,13 @@ const messages = {
                 'Забыли пароль? Не проблема.\nВведите ваш email ниже, и мы отправим вам ссылку для безопасного сброса пароля.',
             email_password_reset_link: 'Отправить ссылку для сброса пароля',
             reset: 'Сбросить',
+            reset_password: 'Сбросить пароль',
             back: 'Назад',
             back_to_login: 'Вернуться к входу',
             remember_password: 'Помните пароль?',
+            login_required:
+                'Пожалуйста, войдите в систему для доступа к функциям ИИ.',
+            confirm_password: 'Подтвердите пароль',
         },
         errors: {
             page_not_found: 'Страница не найдена',
@@ -967,19 +962,6 @@ const messages = {
             optional: 'Необязательно',
             required: 'Обязательно',
             prompt: 'Запрос',
-        },
-        auth: {
-            login_required:
-                'Пожалуйста, войдите в систему для доступа к функциям ИИ.',
-            login: 'Вход',
-            welcome_back: 'Добро пожаловать!',
-            email: 'Электронная почта',
-            password: 'Пароль',
-            remember_me: 'Запомнить меня',
-            back: 'Назад',
-            new_here: 'Новый пользователь?',
-            secure_auth: 'Безопасная аутентификация',
-            forgot_password: 'Забыли пароль?',
         },
         menu: {
             dashboard: 'Панель управления',
@@ -1363,9 +1345,13 @@ const messages = {
                 '¿Olvidaste tu contraseña? No hay problema.\nIngresa tu email a continuación, y te enviaremos un enlace para restablecerla de forma segura.',
             email_password_reset_link: 'Enviar enlace de restablecimiento',
             reset: 'Restablecer',
+            reset_password: 'Restablecer contraseña',
             back: 'Atrás',
             back_to_login: 'Volver al inicio de sesión',
             remember_password: '¿Recuerdas tu contraseña?',
+            login_required:
+                'Por favor, inicia sesión para acceder a las funciones de IA.',
+            confirm_password: 'Confirmar Contraseña',
         },
         errors: {
             page_not_found: 'Página no encontrada',
@@ -1594,19 +1580,6 @@ const messages = {
             optional: 'Opcional',
             required: 'Requerido',
             prompt: 'Prompt',
-        },
-        auth: {
-            login_required:
-                'Por favor, inicia sesión para acceder a las funciones de IA.',
-            login: 'Iniciar sesión',
-            welcome_back: '¡Bienvenido de vuelta!',
-            email: 'Correo electrónico',
-            password: 'Contraseña',
-            remember_me: 'Recordarme',
-            back: 'Atrás',
-            new_here: '¿Nuevo aquí?',
-            secure_auth: 'Autenticación segura',
-            forgot_password: '¿Olvidaste tu contraseña?',
         },
         menu: {
             dashboard: 'Panel de control',
