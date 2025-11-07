@@ -220,12 +220,17 @@ class TimezoneServiceTest extends TestCase
 
     /**
      * Test that common timezones have formatted labels.
+     * Only tests the common timezones returned by getCommonTimezones(), not all timezones.
      */
     public function test_common_timezones_have_labels(): void
     {
-        $result = $this->service->getCommonTimezones();
+        $commonTimezones = $this->service->getCommonTimezones();
 
-        foreach ($result as $identifier => $label) {
+        // Only test the common timezones returned, not all timezones
+        $this->assertIsArray($commonTimezones);
+        $this->assertNotEmpty($commonTimezones);
+
+        foreach ($commonTimezones as $identifier => $label) {
             $this->assertIsString($identifier);
             $this->assertIsString($label);
             $this->assertNotEmpty($label);

@@ -443,24 +443,38 @@ This directory contains comprehensive documentation for the {{APP_NAME}} project
 
 **Comprehensive review and action plan for Instagram integration setup.**
 
+---
+
+### 16. [INSTAGRAM_API_SETUP_COMPLETE_GUIDE.md](./INSTAGRAM_API_SETUP_COMPLETE_GUIDE.md) 📱 **NEW**
+
+**Complete step-by-step guide to set up Instagram API integration.**
+
 **Contains:**
 
-- Current state assessment (what's built vs what's missing)
-- Why you're seeing configuration errors
-- 3 setup options with pros/cons:
-    - Full Instagram integration (production)
-    - Development mode with dummy credentials
-    - Feature flag / disable integration
-- Immediate solution (fix error in 5 minutes)
-- Long-term production setup (4 phases)
-- Architecture explanation and flow diagram
-- Security features overview
-- Troubleshooting common issues
-- Feature comparison matrix
-- Step-by-step action plans
+- Step-by-step Facebook Developer App setup
+- Instagram Basic Display product configuration
+- Environment variable configuration
+- Test user setup for development mode
+- Testing checklist and verification steps
+- Common issues and troubleshooting
+- Production deployment guide
+- Security best practices
+- API rate limits information
+- Quick reference commands
 
-**Status:** ✅ Complete  
-**Estimated Reading Time:** 25-30 minutes
+**Key Sections:**
+
+- ✅ **What's Already Built** - Infrastructure overview
+- ✅ **Step-by-Step Setup** - 7 detailed steps
+- ✅ **Configuration Files** - `.env` and `config/services.php`
+- ✅ **Testing Checklist** - Verification steps
+- ✅ **Common Issues** - Troubleshooting guide
+- ✅ **Production Setup** - Going live checklist
+
+**Status:** ✅ Complete Setup Guide  
+**Last Updated:** November 7, 2025  
+**Version:** 2.0  
+**Estimated Reading Time:** 20-30 minutes
 
 ---
 
