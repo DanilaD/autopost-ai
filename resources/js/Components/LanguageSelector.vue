@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 
 const page = usePage()
+const { locale: i18nLocale } = useI18n()
 const currentLocale = computed(() => page.props.locale || 'en')
 const showDropdown = ref(false)
 
@@ -25,14 +27,22 @@ const changeLanguage = (locale) => {
         window.localStorage.setItem('preferred_locale', locale)
     }
 
+    // Update i18n locale immediately (before server response)
+    i18nLocale.value = locale
+
     // Use Inertia router which automatically handles CSRF tokens
+    // Don't preserve state so page reloads with new locale prop
     router.post(
         route('locale.change'),
         { locale },
         {
-            preserveState: true,
             preserveScroll: true,
-            only: [],
+            onSuccess: () => {
+                // Ensure locale is synced after page reload
+                if (page.props.locale) {
+                    i18nLocale.value = page.props.locale
+                }
+            },
         }
     )
 }
