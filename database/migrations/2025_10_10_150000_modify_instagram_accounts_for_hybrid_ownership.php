@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -58,13 +59,33 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('instagram_accounts', function (Blueprint $table) {
-            // Remove indexes
-            $table->dropIndex(['instagram_accounts_user_id_index']);
-            $table->dropIndex(['instagram_accounts_user_id_status_index']);
-            $table->dropIndex(['instagram_accounts_company_id_status_index']);
-            $table->dropIndex(['instagram_accounts_ownership_type_index']);
+            // Remove indexes - use try-catch to handle cases where indexes might not exist
+            // The single user_id index might not exist if foreign key created it differently
+            // or if it was never created separately from the composite index
 
-            // Remove columns
+            try {
+                $table->dropIndex(['user_id', 'status']);
+            } catch (\Exception $e) {
+                // Index might not exist, continue
+            }
+
+            try {
+                $table->dropIndex(['company_id', 'status']);
+            } catch (\Exception $e) {
+                // Index might not exist, continue
+            }
+
+            try {
+                $table->dropIndex(['ownership_type']);
+            } catch (\Exception $e) {
+                // Index might not exist, continue
+            }
+
+            // Skip dropping single user_id index - it might not exist separately
+            // The foreign key will be dropped which handles any index on user_id
+            // If a separate index exists, it will be dropped when we drop the column
+
+            // Remove foreign key and columns
             $table->dropForeign(['user_id']);
             $table->dropColumn(['user_id', 'is_shared', 'ownership_type']);
 
