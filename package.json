@@ -46,6 +46,7 @@
         "vue-eslint-parser": "^10.2.0"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.2.0",
         "flatpickr": "^4.6.13",
         "sweetalert2": "^11.26.1",
         "vue-flatpickr-component": "^12.0.0",
