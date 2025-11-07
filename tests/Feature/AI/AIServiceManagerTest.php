@@ -32,9 +32,7 @@ class AIServiceManagerTest extends TestCase
     {
         parent::setUp();
 
-        // Run migrations first
-        $this->artisan('migrate');
-
+        // RefreshDatabase trait handles migrations automatically
         // Seed AI models for testing
         $this->seed(\Database\Seeders\AiModelSeeder::class);
 
