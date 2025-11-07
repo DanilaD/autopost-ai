@@ -3,7 +3,7 @@ import './bootstrap'
 
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-// Cache bust: Company translations loaded - 2025-10-16 16:45:00
+// Cache bust: AI translations loaded - 2025-10-17 06:10:00
 import { createApp, h } from 'vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import { createI18n } from 'vue-i18n'
@@ -265,6 +265,81 @@ const messages = {
             confirm: 'Confirm',
             optional: 'Optional',
             required: 'Required',
+            prompt: 'Prompt',
+        },
+        auth: {
+            login_required: 'Please log in to access AI features.',
+            login: 'Login',
+            welcome_back: 'Welcome back!',
+            email: 'Email',
+            password: 'Password',
+            remember_me: 'Remember me',
+            back: 'Back',
+            new_here: 'New here?',
+            secure_auth: 'Secure authentication',
+            forgot_password: 'Forgot your password?',
+        },
+        ai: {
+            // Page titles and descriptions
+            text_generation: 'Text Generation',
+            text_generation_desc:
+                'Generate captions, hashtags, and content plans',
+            image_generation: 'Image Generation',
+            image_generation_desc:
+                'Create images, edit photos, and generate variations',
+            ai_chat: 'AI Chat',
+            ai_chat_desc: 'Chat with AI assistants for content help',
+
+            // Form elements
+            input_title: 'Generate Content',
+            prompt: 'Prompt',
+            enter_prompt: 'Enter your prompt here...',
+            generation_type: 'Generation Type',
+            caption: 'Caption',
+            hashtags: 'Hashtags',
+            content_plan: 'Content Plan',
+            general_text: 'General Text',
+            provider: 'AI Provider',
+            auto_select: 'Auto Select (Recommended)',
+            temperature: 'Temperature',
+            max_tokens: 'Max Tokens',
+            advanced_options: 'Advanced Options',
+
+            // Actions
+            generate: 'Generate',
+            generating: 'Generating...',
+            regenerate: 'Regenerate',
+            copy: 'Copy',
+            clear: 'Clear',
+            test_providers: 'Test Providers',
+            testing: 'Testing...',
+
+            // Results
+            result: 'Result',
+            no_result: 'No result yet',
+            generate_content_first: 'Generate some content to see results here',
+
+            // Status
+            available: 'Available',
+            unavailable: 'Unavailable',
+            error_title: 'Error',
+            success_title: 'Success',
+            success_message: 'Operation completed successfully',
+
+            // History
+            recent_generations: 'Recent Generations',
+            no_recent_generations: 'No recent generations',
+            generate_content_to_see_history:
+                'Generate some content to see your history here',
+
+            // Cost and metadata
+            cost: 'Cost',
+            model: 'Model',
+            tokens: 'Tokens',
+            free: 'Free',
+
+            // Analytics
+            analytics: 'Analytics',
         },
         menu: {
             dashboard: 'Dashboard',
@@ -278,6 +353,7 @@ const messages = {
             admin: 'Administration',
             inquiries: 'Inquiries',
             users: 'Users',
+            ai: 'AI Assistant',
         },
         theme: {
             switchToDark: 'Switch to dark mode',
@@ -464,6 +540,8 @@ const messages = {
             company: {
                 title: 'Company Information',
                 description: 'Your current company and team details.',
+                no_company:
+                    'You are not currently associated with any company.',
                 member_since: 'Member since',
                 role_admin: 'Administrator',
                 role_user: 'User',
@@ -573,6 +651,74 @@ const messages = {
             impersonating: 'You are impersonating',
             stop_impersonation: 'Stop Impersonation',
             loading: 'Loading...',
+        },
+        ai: {
+            title: 'AI Assistant',
+            subtitle: 'Powered by multiple AI providers',
+            available_providers: 'Available Providers',
+            total_usage: 'Total Usage',
+            total_cost: 'Total Cost',
+            active_models: 'Active Models',
+            text_generation: 'Text Generation',
+            text_generation_desc:
+                'Generate captions, hashtags, and content plans',
+            image_generation: 'Image Generation',
+            image_generation_desc:
+                'Create images, edit photos, and generate variations',
+            ai_chat: 'AI Chat',
+            ai_chat_desc: 'Chat with AI assistants for content help',
+            provider_status: 'Provider Status',
+            models: 'models',
+            available: 'Available',
+            unavailable: 'Unavailable',
+            recent_activity: 'Recent Activity',
+            no_recent_activity: 'No recent activity',
+            quick_actions: 'Quick Actions',
+            start: 'Start',
+            test_providers: 'Test Providers',
+            test_text: 'Test Text',
+            test_image: 'Test Image',
+            analytics: 'Analytics',
+            view_all: 'View All',
+            prompt: 'Prompt',
+            enter_prompt: 'Enter your prompt here...',
+            generation_type: 'Generation Type',
+            caption: 'Caption',
+            hashtags: 'Hashtags',
+            content_plan: 'Content Plan',
+            general_text: 'General Text',
+            provider: 'AI Provider',
+            auto_select: 'Auto Select (Recommended)',
+            generating: 'Generating...',
+            generate: 'Generate',
+            result: 'Result',
+            copy: 'Copy',
+            clear: 'Clear',
+            describe_image: 'Describe the image you want to generate...',
+            image_size: 'Image Size',
+            quality: 'Quality',
+            standard: 'Standard',
+            hd: 'HD',
+            generated_image: 'Generated Image',
+            cost: 'Cost',
+            size: 'Size',
+            download: 'Download',
+            start_conversation: 'Start a conversation with AI...',
+            you: 'You',
+            assistant: 'AI Assistant',
+            thinking: 'AI is thinking...',
+            type_message: 'Type your message...',
+            clear_chat: 'Clear Chat',
+            total_generations: 'Total Generations',
+            total_tokens: 'Total Tokens',
+            avg_cost: 'Avg Cost/Gen',
+            usage_by_provider: 'Usage by Provider',
+            generations: 'generations',
+            tokens: 'tokens',
+            usage_by_type: 'Usage by Type',
+            no_usage_data: 'No usage data available',
+            recent_generations: 'Recent Generations',
+            no_recent_generations: 'No recent generations',
         },
     },
     ru: {
@@ -820,6 +966,20 @@ const messages = {
             confirm: 'Подтвердить',
             optional: 'Необязательно',
             required: 'Обязательно',
+            prompt: 'Запрос',
+        },
+        auth: {
+            login_required:
+                'Пожалуйста, войдите в систему для доступа к функциям ИИ.',
+            login: 'Вход',
+            welcome_back: 'Добро пожаловать!',
+            email: 'Электронная почта',
+            password: 'Пароль',
+            remember_me: 'Запомнить меня',
+            back: 'Назад',
+            new_here: 'Новый пользователь?',
+            secure_auth: 'Безопасная аутентификация',
+            forgot_password: 'Забыли пароль?',
         },
         menu: {
             dashboard: 'Панель управления',
@@ -833,6 +993,7 @@ const messages = {
             admin: 'Администрирование',
             inquiries: 'Запросы',
             users: 'Пользователи',
+            ai: 'ИИ Помощник',
         },
         theme: {
             switchToDark: 'Переключить на темную тему',
@@ -996,6 +1157,8 @@ const messages = {
             company: {
                 title: 'Информация о компании',
                 description: 'Детали вашей текущей компании и команды.',
+                no_company:
+                    'Вы в настоящее время не связаны ни с одной компанией.',
                 member_since: 'Участник с',
                 role_admin: 'Администратор',
                 role_user: 'Пользователь',
@@ -1109,6 +1272,77 @@ const messages = {
             impersonating: 'Вы вошли как',
             stop_impersonation: 'Остановить Вход',
             loading: 'Загрузка...',
+        },
+        ai: {
+            title: 'ИИ Помощник',
+            subtitle: 'Работает на нескольких ИИ провайдерах',
+            available_providers: 'Доступные Провайдеры',
+            total_usage: 'Общее Использование',
+            total_cost: 'Общая Стоимость',
+            active_models: 'Активные Модели',
+            text_generation: 'Генерация Текста',
+            text_generation_desc:
+                'Генерируйте подписи, хештеги и планы контента',
+            image_generation: 'Генерация Изображений',
+            image_generation_desc:
+                'Создавайте изображения, редактируйте фото и генерируйте вариации',
+            ai_chat: 'ИИ Чат',
+            ai_chat_desc: 'Общайтесь с ИИ помощниками для помощи с контентом',
+            provider_status: 'Статус Провайдера',
+            models: 'модели',
+            available: 'Доступно',
+            unavailable: 'Недоступно',
+            error_title: 'Ошибка',
+            success_title: 'Успех',
+            success_message: 'Операция выполнена успешно',
+            recent_activity: 'Недавняя Активность',
+            no_recent_activity: 'Нет недавней активности',
+            quick_actions: 'Быстрые Действия',
+            start: 'Начать',
+            test_providers: 'Тестировать Провайдеры',
+            test_text: 'Тестовый Текст',
+            test_image: 'Тестовое Изображение',
+            analytics: 'Аналитика',
+            view_all: 'Посмотреть Все',
+            prompt: 'Запрос',
+            enter_prompt: 'Введите ваш запрос здесь...',
+            generation_type: 'Тип Генерации',
+            caption: 'Подпись',
+            hashtags: 'Хештеги',
+            content_plan: 'План Контента',
+            general_text: 'Общий Текст',
+            provider: 'ИИ Провайдер',
+            auto_select: 'Авто Выбор (Рекомендуется)',
+            generating: 'Генерация...',
+            generate: 'Генерировать',
+            result: 'Результат',
+            copy: 'Копировать',
+            clear: 'Очистить',
+            describe_image: 'Опишите изображение, которое хотите создать...',
+            image_size: 'Размер Изображения',
+            quality: 'Качество',
+            standard: 'Стандарт',
+            hd: 'HD',
+            generated_image: 'Сгенерированное Изображение',
+            cost: 'Стоимость',
+            size: 'Размер',
+            download: 'Скачать',
+            start_conversation: 'Начните разговор с ИИ...',
+            you: 'Вы',
+            assistant: 'ИИ Помощник',
+            thinking: 'ИИ думает...',
+            type_message: 'Введите ваше сообщение...',
+            clear_chat: 'Очистить Чат',
+            total_generations: 'Всего Генераций',
+            total_tokens: 'Всего Токенов',
+            avg_cost: 'Средняя Стоимость/Ген',
+            usage_by_provider: 'Использование по Провайдерам',
+            generations: 'генераций',
+            tokens: 'токенов',
+            usage_by_type: 'Использование по Типам',
+            no_usage_data: 'Нет данных об использовании',
+            recent_generations: 'Недавние Генерации',
+            no_recent_generations: 'Нет недавних генераций',
         },
     },
     es: {
@@ -1359,6 +1593,20 @@ const messages = {
             confirm: 'Confirmar',
             optional: 'Opcional',
             required: 'Requerido',
+            prompt: 'Prompt',
+        },
+        auth: {
+            login_required:
+                'Por favor, inicia sesión para acceder a las funciones de IA.',
+            login: 'Iniciar sesión',
+            welcome_back: '¡Bienvenido de vuelta!',
+            email: 'Correo electrónico',
+            password: 'Contraseña',
+            remember_me: 'Recordarme',
+            back: 'Atrás',
+            new_here: '¿Nuevo aquí?',
+            secure_auth: 'Autenticación segura',
+            forgot_password: '¿Olvidaste tu contraseña?',
         },
         menu: {
             dashboard: 'Panel de control',
@@ -1372,6 +1620,7 @@ const messages = {
             admin: 'Administración',
             inquiries: 'Consultas',
             users: 'Usuarios',
+            ai: 'Asistente IA',
         },
         theme: {
             switchToDark: 'Cambiar a modo oscuro',
@@ -1535,6 +1784,8 @@ const messages = {
             company: {
                 title: 'Información de la Empresa',
                 description: 'Detalles de tu empresa actual y equipo.',
+                no_company:
+                    'Actualmente no estás asociado con ninguna empresa.',
                 member_since: 'Miembro desde',
                 role_admin: 'Administrador',
                 role_user: 'Usuario',
@@ -1648,6 +1899,78 @@ const messages = {
             stop_impersonation: 'Detener Suplantación',
             loading: 'Cargando...',
         },
+        ai: {
+            title: 'Asistente IA',
+            subtitle: 'Impulsado por múltiples proveedores de IA',
+            available_providers: 'Proveedores Disponibles',
+            total_usage: 'Uso Total',
+            total_cost: 'Costo Total',
+            active_models: 'Modelos Activos',
+            text_generation: 'Generación de Texto',
+            text_generation_desc:
+                'Genera subtítulos, hashtags y planes de contenido',
+            image_generation: 'Generación de Imágenes',
+            image_generation_desc:
+                'Crea imágenes, edita fotos y genera variaciones',
+            ai_chat: 'Chat IA',
+            ai_chat_desc:
+                'Chatea con asistentes de IA para ayuda con contenido',
+            provider_status: 'Estado del Proveedor',
+            models: 'modelos',
+            available: 'Disponible',
+            unavailable: 'No Disponible',
+            error_title: 'Error',
+            success_title: 'Éxito',
+            success_message: 'Operación completada exitosamente',
+            recent_activity: 'Actividad Reciente',
+            no_recent_activity: 'Sin actividad reciente',
+            quick_actions: 'Acciones Rápidas',
+            start: 'Comenzar',
+            test_providers: 'Probar Proveedores',
+            test_text: 'Texto de Prueba',
+            test_image: 'Imagen de Prueba',
+            analytics: 'Analíticas',
+            view_all: 'Ver Todo',
+            prompt: 'Prompt',
+            enter_prompt: 'Ingresa tu prompt aquí...',
+            generation_type: 'Tipo de Generación',
+            caption: 'Subtítulo',
+            hashtags: 'Hashtags',
+            content_plan: 'Plan de Contenido',
+            general_text: 'Texto General',
+            provider: 'Proveedor IA',
+            auto_select: 'Selección Automática (Recomendado)',
+            generating: 'Generando...',
+            generate: 'Generar',
+            result: 'Resultado',
+            copy: 'Copiar',
+            clear: 'Limpiar',
+            describe_image: 'Describe la imagen que quieres generar...',
+            image_size: 'Tamaño de Imagen',
+            quality: 'Calidad',
+            standard: 'Estándar',
+            hd: 'HD',
+            generated_image: 'Imagen Generada',
+            cost: 'Costo',
+            size: 'Tamaño',
+            download: 'Descargar',
+            start_conversation: 'Inicia una conversación con IA...',
+            you: 'Tú',
+            assistant: 'Asistente IA',
+            thinking: 'IA está pensando...',
+            type_message: 'Escribe tu mensaje...',
+            clear_chat: 'Limpiar Chat',
+            total_generations: 'Total de Generaciones',
+            total_tokens: 'Total de Tokens',
+            avg_cost: 'Costo Promedio/Gen',
+            usage_by_provider: 'Uso por Proveedor',
+            generations: 'generaciones',
+            tokens: 'tokens',
+            usage_by_type: 'Uso por Tipo',
+            no_usage_data: 'No hay datos de uso disponibles',
+            recent_generations: 'Generaciones Recientes',
+            no_recent_generations: 'No hay generaciones recientes',
+        },
     },
 }
 
@@ -1688,17 +2011,8 @@ createInertiaApp({
             i18n.global.locale.value = props.initialPage.props.locale
         }
 
-        // Global toast handling
-        if (props.initialPage?.props?.toast) {
-            // Import toast composable dynamically
-            import('./composables/useToast.js').then(({ useToast }) => {
-                const toast = useToast()
-                toast.addToast(
-                    props.initialPage.props.toast.message,
-                    props.initialPage.props.toast.type || 'success'
-                )
-            })
-        }
+        // Note: Toast handling is done in AuthenticatedLayout.vue to avoid duplicates
+        // Toast messages from backend are handled there on component mount
 
         return app.mount(el)
     },

@@ -4,6 +4,7 @@ return [
     // Main navigation
     'dashboard' => 'Dashboard',
     'posts' => 'Posts',
+    'ai' => 'AI Assistant',
     'profile' => 'Profile',
     'logout' => 'Log Out',
 

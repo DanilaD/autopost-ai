@@ -4,6 +4,7 @@ return [
     // Main navigation
     'dashboard' => 'Panel de control',
     'posts' => 'Publicaciones',
+    'ai' => 'Asistente IA',
     'profile' => 'Perfil',
     'logout' => 'Cerrar sesión',
 

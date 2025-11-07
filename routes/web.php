@@ -164,4 +164,26 @@ Route::get('/test-403', function () {
     abort(403);
 })->name('test.403');
 
+// AI Interface routes (main user interface)
+Route::middleware(['auth', 'verified'])->prefix('ai')->name('ai.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\AI\AIInterfaceController::class, 'index'])->name('index');
+    Route::get('/text', [\App\Http\Controllers\AI\AIInterfaceController::class, 'textGeneration'])->name('text');
+    Route::get('/image', [\App\Http\Controllers\AI\AIInterfaceController::class, 'imageGeneration'])->name('image');
+    Route::get('/chat', [\App\Http\Controllers\AI\AIInterfaceController::class, 'chat'])->name('chat');
+    Route::get('/analytics', [\App\Http\Controllers\AI\AIInterfaceController::class, 'analytics'])->name('analytics');
+});
+
+// AI Test routes (for development and testing)
+Route::middleware(['auth', 'verified'])->prefix('ai/test')->name('ai.test.')->group(function () {
+    Route::get('/providers', [\App\Http\Controllers\AI\TestController::class, 'testProviders'])->name('providers');
+    Route::post('/text-generate', [\App\Http\Controllers\AI\TestController::class, 'testTextGeneration'])->name('text-generate');
+    Route::post('/text', [\App\Http\Controllers\AI\TestController::class, 'testTextGeneration'])->name('text');
+    Route::post('/caption', [\App\Http\Controllers\AI\TestController::class, 'testCaptionGeneration'])->name('caption');
+    Route::post('/hashtags', [\App\Http\Controllers\AI\TestController::class, 'testHashtagGeneration'])->name('hashtags');
+    Route::post('/plan', [\App\Http\Controllers\AI\TestController::class, 'testContentPlanGeneration'])->name('plan');
+    Route::post('/image', [\App\Http\Controllers\AI\TestController::class, 'testImageGeneration'])->name('image');
+    Route::post('/moderate', [\App\Http\Controllers\AI\TestController::class, 'testContentModeration'])->name('moderate');
+    Route::post('/chat', [\App\Http\Controllers\AI\TestController::class, 'testChat'])->name('chat');
+});
+
 require __DIR__.'/auth.php';

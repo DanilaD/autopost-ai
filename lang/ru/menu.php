@@ -4,6 +4,7 @@ return [
     // Main navigation
     'dashboard' => 'Панель управления',
     'posts' => 'Публикации',
+    'ai' => 'ИИ Помощник',
     'profile' => 'Профиль',
     'logout' => 'Выйти',
 

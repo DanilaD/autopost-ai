@@ -90,6 +90,13 @@ onMounted(() => {
                                     {{ t('menu.posts') }}
                                 </NavLink>
 
+                                <NavLink
+                                    :href="route('ai.index')"
+                                    :active="route().current('ai.*')"
+                                >
+                                    {{ t('menu.ai') || 'AI Assistant' }}
+                                </NavLink>
+
                                 <!-- Company Management -->
                                 <NavLink
                                     v-if="
@@ -295,6 +302,13 @@ onMounted(() => {
                             :active="route().current('posts.*')"
                         >
                             {{ t('menu.posts') }}
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('ai.index')"
+                            :active="route().current('ai.*')"
+                        >
+                            {{ t('menu.ai') || 'AI Assistant' }}
                         </ResponsiveNavLink>
 
                         <!-- Company Management (Mobile) -->
