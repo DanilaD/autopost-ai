@@ -1,9 +1,9 @@
 # Coding Standards & Architecture Guidelines
 
-**Version:** 1.7  
+**Version:** 1.8  
 **Date:** November 7, 2025  
 **Status:** Active - All developers must follow  
-**Recent Update:** Added mandatory form input styling pattern to match authentication pages
+**Recent Update:** Added mandatory rule to check and update tests & documentation when making changes
 
 ---
 
@@ -15,6 +15,7 @@
 4. [Code Structure](#code-structure)
 5. [Best Practices](#best-practices)
 6. [Documentation Rules](#documentation-rules)
+    - [MANDATORY: Check Tests & Documentation When Making Changes](#6-mandatory-check-tests--documentation-when-making-changes-⚠️-critical)
 7. [AI Validation for Documentation & Tests](#ai-validation-for-documentation--tests-🤖-mandatory)
 8. [UI & Theming Rules (Tailwind)](#ui--theming-rules-tailwind--active)
     - [Form Input Styling (Mandatory Pattern)](#3-form-input-styling-mandatory-pattern)
@@ -1618,7 +1619,138 @@ test(wallet): add transaction ledger reconciliation tests
 6. ✅ **Validate with AI** - Use AI to check documentation completeness and accuracy
 7. ✅ **Then commit** - Include doc updates in the same commit
 
-### 6. AI Validation for Documentation & Tests 🤖 **MANDATORY**
+### 6. MANDATORY: Check Tests & Documentation When Making Changes ⚠️ **CRITICAL**
+
+**ALWAYS when you make code changes, you MUST:**
+
+1. ✅ **Check existing tests** - Review if tests need updates
+2. ✅ **Update tests if needed** - Modify or add tests for your changes
+3. ✅ **Run tests** - Ensure all tests pass before committing
+4. ✅ **Check documentation** - Review if documentation needs updates
+5. ✅ **Update documentation** - Modify relevant documentation files
+6. ✅ **Update INDEX.md** - If documentation structure changed
+7. ✅ **Update version/date** - In modified documentation files
+
+#### When to Check & Update Tests:
+
+- ✅ **Added new feature** → Add new tests
+- ✅ **Modified existing feature** → Update existing tests
+- ✅ **Changed validation rules** → Update validation tests
+- ✅ **Modified business logic** → Update service tests
+- ✅ **Changed API endpoints** → Update feature/controller tests
+- ✅ **Modified database schema** → Update model/factory tests
+- ✅ **Changed relationships** → Update relationship tests
+- ✅ **Added new service method** → Add test for the method
+- ✅ **Modified controller behavior** → Update feature tests
+
+#### When to Check & Update Documentation:
+
+- ✅ **Added new feature** → Document in relevant docs
+- ✅ **Modified existing feature** → Update existing documentation
+- ✅ **Changed API behavior** → Update API documentation
+- ✅ **Modified database schema** → Update DATABASE_SCHEMA.md
+- ✅ **Changed architecture** → Update CODING_STANDARDS.md
+- ✅ **Added new service** → Document in relevant docs
+- ✅ **Modified workflow** → Update workflow documentation
+- ✅ **Changed configuration** → Update configuration docs
+
+#### Pre-Commit Checklist (Tests & Docs):
+
+```
+Before committing ANY code changes:
+
+□ Did I check if existing tests need updates?
+□ Did I add/update tests for my changes?
+□ Did I run all tests and ensure they pass?
+□ Did I check if documentation needs updates?
+□ Did I update relevant documentation files?
+□ Did I update INDEX.md if needed?
+□ Did I update version/date in modified docs?
+□ Did I validate with AI (tests + docs)?
+□ Are all tests passing?
+□ Is documentation complete and accurate?
+```
+
+#### Workflow Example:
+
+```bash
+# 1. Make code changes
+# Edit app/Services/Post/PostService.php
+
+# 2. Check existing tests
+# Review tests/Unit/Services/Post/PostServiceTest.php
+
+# 3. Update tests if needed
+# Add/modify test cases for your changes
+
+# 4. Run tests
+php artisan test
+
+# 5. Check documentation
+# Review docs/ for related documentation
+
+# 6. Update documentation
+# Edit relevant documentation files
+
+# 7. Update INDEX.md if needed
+# If you modified documentation structure
+
+# 8. Validate with AI
+# Ask AI to review tests and documentation
+
+# 9. Commit everything together
+git add app/Services/Post/PostService.php
+git add tests/Unit/Services/Post/PostServiceTest.php
+git add docs/
+git commit -m "feat(posts): add new feature
+
+- Added new method to PostService
+- Updated PostServiceTest with new test cases
+- Updated documentation in docs/POST_SERVICE.md
+- All tests passing"
+```
+
+#### Why This Matters:
+
+- 🛡️ **Prevent regressions** - Tests catch breaking changes
+- 📚 **Keep docs current** - Documentation stays accurate
+- 🔍 **Easier code reviews** - Reviewers see complete changes
+- ⚡ **Faster debugging** - Tests help identify issues early
+- 📝 **Better maintenance** - Future developers have accurate docs
+- ✅ **Quality assurance** - Tests + docs = better code quality
+
+#### Common Mistakes to Avoid:
+
+**❌ DON'T:**
+
+```bash
+# Committing code without checking tests
+git commit -m "feat: add new feature"
+
+# Committing code without updating docs
+git commit -m "feat: modify existing feature"
+
+# Committing tests without running them
+git commit -m "test: add new tests"  # But tests fail!
+```
+
+**✅ DO:**
+
+```bash
+# Check tests, update if needed, run tests, update docs, then commit
+php artisan test
+# Update tests if needed
+php artisan test  # Ensure passing
+# Update documentation
+git add .
+git commit -m "feat: add new feature
+
+- Added new functionality
+- Updated tests (all passing)
+- Updated documentation"
+```
+
+### 7. AI Validation for Documentation & Tests 🤖 **MANDATORY**
 
 **ALWAYS validate documentation and tests with AI before committing:**
 
